@@ -200,7 +200,7 @@ export function SettingsScreen() {
                   </select>
                   <span className="hint">{t('{n} / {m} ETF suivis (« Mes ETF » et ETF détenus).', { n: followed, m: MAX_ETFS[s.priceFreq === 1 ? 1 : 2] })}</span>
                 </label>
-                <p className="t-caption c-neutral">{t('Le robot des cours (gratuit, API EODHD) suit les ETF de « Mes ETF » de chaque compte connecté : il récupère 5 ans d’historique dans l’heure qui suit l’ajout d’un ETF, puis le cours chaque jour ouvré. Un ETF retiré n’est plus suivi. Son quota de 18 appels par jour est partagé entre les comptes ; les plus anciens sont servis en premier.')}</p>
+                <p className="t-caption c-neutral">{t('Le robot des cours (gratuit, API EODHD) suit les ETF de « Mes ETF » de chaque compte connecté : il récupère un an d’historique (limite de l’offre gratuite) dans l’heure qui suit l’ajout d’un ETF, puis le cours chaque jour ouvré. Un ETF retiré n’est plus suivi. Son quota de 18 appels par jour est partagé entre les comptes ; les plus anciens sont servis en premier.')}</p>
                 {sync.configured && !sync.user && <p className="t-caption-strong" style={{ color: 'var(--warning-text)' }}>{t('Connectez-vous avec Google pour que le robot connaisse vos ETF.')}</p>}
               </>
             ) : (

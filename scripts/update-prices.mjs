@@ -14,7 +14,8 @@ const FILE = 'public/prices.json';
 const KEY = process.env.EODHD_API_KEY;
 const MODE = process.env.MODE || 'close';
 export const BUDGET = 18; // appels par jour (2 de marge sur les 20 de l'offre gratuite)
-const HISTORY_START = '2021-10-01'; // 5 ans d'historique à l'ajout d'un ETF
+// historique à l'ajout d'un ETF : l'offre gratuite d'EODHD renvoie au plus un an de cours quotidiens
+const HISTORY_START = new Date(Date.now() - 366 * 864e5).toISOString().slice(0, 10);
 const PRUNE_DAYS = 60; // un ETF plus suivi par personne est effacé du fichier après ce délai
 const fbSrc = readFileSync('src/data/firebase-config.ts', 'utf8');
 const FIREBASE = { projectId: /projectId:\s*'([^']+)'/.exec(fbSrc)[1], apiKey: /apiKey:\s*'([^']+)'/.exec(fbSrc)[1] };

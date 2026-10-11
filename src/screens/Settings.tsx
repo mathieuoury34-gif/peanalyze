@@ -76,9 +76,9 @@ export function SettingsScreen() {
   const doExportXlsx = async () => {
     setBusy('xlsx');
     try {
-      const { exportXlsx } = await import('../data/excel');
-      const blob = await exportXlsx(getData());
-      download('Suivi des investissements ' + new Date().toISOString().slice(0, 10) + '.xlsx', blob);
+      const [{ exportPeanalyzeXlsx }, { CATALOG_DATE }] = await Promise.all([import('../data/excel-peanalyze'), import('../data/seed')]);
+      const blob = await exportPeanalyzeXlsx(getData(), CATALOG_DATE);
+      download('PEAnalyze ' + new Date().toISOString().slice(0, 10) + '.xlsx', blob);
       showToast('Fichier Excel exporté');
     } catch (e) {
       showToast('Export impossible : ' + (e as Error).message, { error: true });
@@ -188,8 +188,8 @@ export function SettingsScreen() {
 
         <Section id="t001-data" title="Données">
           <ul className="tile-list divided" style={{ padding: '0 var(--space-16)' }}>
-            <Row icon="upload" title="Importer un fichier Excel" sub={busy === 'import' ? 'Lecture en cours…' : 'Suivi des investissements.xlsx (6 feuilles)'} onClick={() => xlsxInput.current?.click()} />
-            <Row icon="sheet" title="Exporter en Excel (.xlsx)" sub={busy === 'xlsx' ? 'Préparation du fichier…' : 'Même format que le fichier d’origine'} onClick={doExportXlsx} />
+            <Row icon="upload" title="Importer un fichier Excel" sub={busy === 'import' ? 'Lecture en cours…' : 'Classeur PEAnalyze ou fichier d’origine (Suivi des investissements)'} onClick={() => xlsxInput.current?.click()} />
+            <Row icon="sheet" title="Exporter en Excel (.xlsx)" sub={busy === 'xlsx' ? 'Préparation du fichier…' : 'Classeur PEAnalyze : 9 onglets, formules et graphiques'} onClick={doExportXlsx} />
             <Row icon="download" title="Exporter en JSON" sub="Sauvegarde complète des données" onClick={() => download('peanalyze-sauvegarde-' + new Date().toISOString().slice(0, 10) + '.json', new Blob([JSON.stringify(getData(), null, 1)], { type: 'application/json' }))} />
             <Row icon="upload" title="Restaurer une sauvegarde JSON" sub="Remplace les données de l’app" onClick={() => jsonInput.current?.click()} />
           </ul>

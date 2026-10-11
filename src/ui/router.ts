@@ -18,6 +18,12 @@ function parse(): Route {
   return { path, parts: path.split('/').filter(Boolean), query: new URLSearchParams(q), key: h };
 }
 
+// À l'ouverture de l'application (nouveau lancement, pas un simple rechargement), on arrive toujours sur le Portefeuille.
+try {
+  const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+  if ((!nav || nav.type === 'navigate') && location.hash.replace(/^#/, '').split('?')[0] !== HOME) history.replaceState(null, '', '#' + HOME);
+} catch { /* navigateur ancien : on garde l'adresse demandée */ }
+
 let current = parse();
 const listeners = new Set<() => void>();
 const depth = () => ((history.state as { pea?: number } | null)?.pea ?? 0);
@@ -71,3 +77,14 @@ export function tabOf(path: string): Tab {
   if (p === 'marches' || p === 'historique' || p === 'portefeuille' || p === 'simulateur') return p;
   return 'none';
 }
+
+// Retour dans l'application après plus de 15 minutes en arrière-plan : comme une nouvelle ouverture, on revient au Portefeuille.
+let hiddenAt = 0;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { hiddenAt = Date.now(); return; }
+  if (hiddenAt && Date.now() - hiddenAt > 15 * 60 * 1000 && current.path !== HOME) {
+    history.replaceState({ pea: 0 }, '', '#' + HOME);
+    emit(true);
+  }
+  hiddenAt = 0;
+});

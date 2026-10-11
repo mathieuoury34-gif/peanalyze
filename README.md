@@ -6,16 +6,16 @@ Application personnelle de suivi de PEA en ETF (Portefeuille, Historique, March�
 | Dossier | Contenu |
 |---|---|
 | `src/domain/` | Règles de calcul (positions, PRU, TRI, expositions, assistant, simulateur) et formatage français |
-| `src/data/` | Données (stockage local, `seed-data.json` : ETF, cours et catalogue publics), cours, synchronisation Firebase, export/import Excel |
+| `src/data/` | Données (stockage local, `seed-data.json` et `catalog.json` : ETF, cours et catalogue publics), cours, synchronisation Firebase, export Excel (`excel-peanalyze.ts` + générateur `xlsx.ts`) et import (`excel.ts`) |
 | `src/ui/` | Composants de la planche Système, graphiques SVG, navigation |
 | `src/screens/` | Écrans T0 à T4 de la maquette |
 | `src/styles/` | `tokens.css` (design tokens v2) et `app.css` |
-| `public/` | Icônes, manifeste PWA, `prices.json` (cours mis à jour par GitHub Actions), `template.xlsx` (modèle d'export, vidé de tout montant) |
-| `tests/` | Tests des calculs (valeurs attendues de HANDOFF.md §6) et aller-retour Excel |
+| `public/` | Icônes, manifeste PWA, `prices.json` (cours mis à jour par GitHub Actions) |
+| `tests/` | Tests des calculs (valeurs attendues de HANDOFF.md §6) et aller-retour export / import Excel |
 | `private/` | **Non publié** (ignoré par git) : opérations personnelles et fichier Excel d'origine, utilisés par les tests en local |
 
 ## Données personnelles
-Le dépôt et le site publiés ne contiennent **aucune opération personnelle** (virements, achats, montants). Au premier lancement, l'app propose de se connecter avec Google (données retrouvées depuis le cloud) ou d'importer `Suivi des investissements.xlsx` ; elles restent ensuite sur l'appareil et dans Firestore, accessibles uniquement par le compte Google propriétaire. `scripts/sanitize-template.mts` fabrique le modèle d'export à partir du fichier d'origine.
+Le dépôt et le site publiés ne contiennent **aucune opération personnelle** (virements, achats, montants). Au premier lancement, l'app propose de se connecter avec Google (données retrouvées depuis le cloud) ou d'importer un classeur PEAnalyze (ou le fichier d'origine `Suivi des investissements.xlsx`) ; elles restent ensuite sur l'appareil et dans Firestore, accessibles uniquement par le compte Google propriétaire.
 
 ## Commandes
 - `npm install` puis `npm test` : tests des calculs
@@ -30,3 +30,6 @@ Le dépôt et le site publiés ne contiennent **aucune opération personnelle** 
 ## Installation sur le téléphone
 - Android : ouvrir l'adresse dans Chrome › menu ⋮ › *Ajouter à l'écran d'accueil* (ou *Installer l'application*).
 - iPhone : Safari › Partager › *Sur l'écran d'accueil*.
+
+## Export Excel
+Paramètres › Exporter en Excel produit le classeur officiel PEAnalyze (9 onglets : Tableau de bord, Portefeuille, Historique, Évolution, Mes ETF, Cours, Compositions, Catalogue, Simulateur). Les saisies (cellules en bleu) sont des valeurs, tout le reste est en formules et graphiques, recalculés à l'ouverture. Le même fichier peut être réimporté dans l'app.

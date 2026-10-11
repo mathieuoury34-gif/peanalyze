@@ -28,8 +28,5 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(fetch(req).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(SHELL).then((c) => c.put('./', copy)); } return r; }).catch(() => caches.match('./')));
     return;
   }
-  e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((r) => {
-    if (r.ok && url.pathname.endsWith('template.xlsx')) { const copy = r.clone(); caches.open(RUNTIME).then((c) => c.put(req, copy)); }
-    return r;
-  })));
+  e.respondWith(caches.match(req).then((hit) => hit || fetch(req)));
 });

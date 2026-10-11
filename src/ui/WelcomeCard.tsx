@@ -32,7 +32,7 @@ export function WelcomeCard({ className = '' }: { className?: string }) {
         Votre portefeuille est vide sur cet appareil.{' '}
         {sync.configured && !sync.user
           ? 'Connectez-vous avec Google pour retrouver vos données, ou importez votre fichier Excel.'
-          : 'Importez votre fichier « Suivi des investissements.xlsx » pour retrouver tout votre historique.'}
+          : 'Importez votre classeur PEAnalyze ou votre fichier « Suivi des investissements.xlsx » pour retrouver tout votre historique.'}
       </p>
       {sync.configured && !sync.user && (
         <button type="button" className="btn btn-primary block" onClick={() => signIn().catch((e) => showToast('Connexion impossible : ' + (e as Error).message, { error: true }))}>

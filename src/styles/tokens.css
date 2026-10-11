@@ -55,6 +55,8 @@
   --brand-accent: #004652;
   --brand-tertiary: #0A94A8;
   --brand-light-green: #A0D7A2;
+  --primary-fg: var(--brand-primary);              /* texte et icônes couleur marque */
+  --primary-fg-hover: var(--brand-primary-hover);
 
   /* ---------- Fonds ---------- */
   --bg-page: #FFFFFF;
@@ -179,4 +181,96 @@
   --sparkline-height: 40px;                /* v2 */
   --donut-ring: 24px;                      /* v2 */
   --allocation-bar-height: 8px;            /* v2 */
+}
+
+/* ==========================================================================
+   Thème sombre (Paramètres › Apparence) : mêmes rôles, valeurs adaptées.
+   Les fonds de marque restent assez foncés pour le texte blanc (≥ 4,5:1) ;
+   le texte couleur marque passe à une teinte claire (--primary-fg).
+   ========================================================================== */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --brand-primary: #00806A;
+  --brand-primary-hover: #00957C;
+  --brand-primary-pressed: #006B59;
+  --brand-secondary: #3FA493;
+  --brand-accent: #0B4954;
+  --brand-tertiary: #2BB5C9;
+  --brand-light-green: #8FCB92;
+  --primary-fg: #4CC3A8;
+  --primary-fg-hover: #74D6BF;
+
+  --bg-page: #0F1519;
+  --bg-surface: #182128;
+  --bg-surface-minimal: #1F2A32;
+  --bg-brand-minimal: #13261F;
+  --bg-brand-moderate: #1E3D33;
+  --bg-brand-neutral: #1C2724;
+  --bg-blue-minimal: #12303A;
+  --bg-grey-minimal: #24303A;
+  --bg-contrast: #E6EAF0;
+  --bg-hover: #9CB79C26;
+  --bg-pressed: #9CB79C40;
+  --bg-highlight: #4CC3A81F;
+  --bg-overlay: #000000A6;
+  --bg-reverse-subtle: #FFFFFF1F;
+  --bg-disabled: #24303A;
+
+  --text: #E3E8EF;
+  --text-strong: #FFFFFF;
+  --text-neutral: #B3BCCB;
+  --text-moderate: #8F99AF;
+  --text-primary: #4CC3A8;
+  --text-accent: #8FD3C7;
+  --text-blue: #6CC6D6;
+  --text-reverse: #FFFFFF;
+  --text-reverse-muted: #BFE3C9;
+  --text-disabled: #6B7489;
+
+  --border: #8F99AF;
+  --border-minimal: #2C3843;
+  --border-moderate: #46525F;
+  --border-primary: #4CC3A8;
+  --divider: #46525F;
+  --divider-minimal: #25313B;
+  --divider-reverse: #FFFFFF2E;
+  --focus-indicator: #3CC4D8;
+
+  --success: #1F9D50;  --success-text: #63D08D; --success-bg: #12301F;
+  --critical: #C93A33; --critical-text: #FF8F86; --critical-bg: #3A1B1B;
+  --warning: #B8580F;  --warning-text: #F5A766; --warning-bg: #3A2516;
+  --info: #2B8FC0;     --info-text: #7CC6EA;    --info-bg: #13293A;
+  --notification: #F0475A;
+
+  --chart-1: #12A286;
+  --chart-2: #2BB5C9;
+  --chart-3: #F2CC1C;
+  --chart-4: #8AAFC0;
+  --chart-5: #A0D7A2;
+  --chart-6: #8389F2;
+  --chart-7: #1BCB99;
+  --chart-8: #BAE3EC;
+  --chart-other: #5B6577;
+  --chart-grid: #27323C;
+  --chart-axis: #8F99AF;
+  --chart-deposited: #6B7489;
+  --chart-deposited-line: #A3ABBE;
+  --chart-value: #12A286;
+  --chart-value-area: #12A2862E;
+  --chart-gain-area: #8FCB9240;
+  --chart-pru: #F08A3C;
+
+  --shadow-xs: 0 1px 3px 0 #00000066;
+  --shadow-s: 0 4px 16px 0 #00000059;
+  --shadow-m: 0 10px 60px 0 #00000080;
+  --shadow-l: 0 20px 80px 0 #00000099;
+  --shadow-sticky: 0 -2px 12px 0 #00000066;
+  --shadow-fab: 0 6px 20px 0 #00000080;
+
+  --input-border: 1px solid #8F99AF;
+  --input-border-focus: 2px solid #3CC4D8;
+  --input-border-error: 2px solid #FF8F86;
+  --toast-bg: #17803F;
+  --tooltip-bg: #0B4954;
 }

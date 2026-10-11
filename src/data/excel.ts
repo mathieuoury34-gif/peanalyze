@@ -111,7 +111,7 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
     if (!c) throw new Error(t('ETF « {t} » inconnu', { t: tk }));
     next.etfs.push({ id: tk, index: c.index, name: c.name, isin: c.isin, ticker: tk, exchange: c.exchange, category: c.category, peaEligible: c.peaEligible,
       lastPrice: c.unitPrice ?? 0, ter: c.ter, aumMEur: c.aumMEur ?? 0, replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant',
-      inStrategy: false, sectors: [], countries: [], priceHistory: [] });
+      inStrategy: false, sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []), priceHistory: [] });
     if (!next.myEtfIds.includes(tk)) next.myEtfIds.push(tk);
   }
   next.deposits = deposits;

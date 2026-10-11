@@ -1,0 +1,289 @@
+# Compositions des indices (pays et secteurs), relevées sur justETF (fiche de chaque ETF, données au 31/08/2026).
+# Format : ISIN puis C: pays=poids ; S: secteurs=poids (5 premiers + Other). Les ETF synthétiques y affichent l'indice suivi.
+# Utilisé par scripts/build-catalog.py (fonction add_compositions).
+
+ISIN: IE00B0M62Y33
+C: Netherlands=58.21%; United Kingdom=35.10%; Luxembourg=3.17%; Switzerland=1.96%; Other=1.56%
+S: Technology=25.85%; Consumer Non-Cyclicals=23.09%; Finance=20.89%; Energy=16.77%; Other=13.40%
+ISIN: DE000A0D8Q23
+C: Austria=97.42%; Other=2.58%
+S: Finance=50.26%; Industrials=14.76%; Energy=12.63%; Non-Energy Materials=9.07%; Other=13.28%
+ISIN: LU2491210618
+C: Australia=54.52%; Hong Kong=21.28%; Singapore=20.42%; New Zealand=2.86%; Other=0.92%
+S: Finance=61.24%; Consumer Non-Cyclicals=8.70%; Industrials=8.39%; Healthcare=5.89%; Other=15.78%
+ISIN: LU3047998896
+C: France=24.47%; Germany=21.64%; United Kingdom=18.48%; Netherlands=12.65%; Other=22.76%
+S: Industrials=95.43%; Technology=4.34%; Business Services=0.23%
+ISIN: LU1655103486
+C: United Kingdom=44.56%; Switzerland=34.12%; Sweden=9.98%; Denmark=7.99%; Other=3.35%
+S: Healthcare=28.97%; Finance=21.83%; Industrials=13.02%; Consumer Non-Cyclicals=12.42%; Other=23.76%
+ISIN: LU1847674733
+C: France=25.01%; Germany=23.42%; Netherlands=17.05%; Spain=14.21%; Other=20.31%
+S: Finance=23.01%; Technology=21.03%; Industrials=14.80%; Consumer Cyclicals=12.86%; Other=28.30%
+ISIN: LU1655103643
+C: Japan=99.00%; Other=1.00%
+S: Technology=32.77%; Finance=23.83%; Healthcare=18.47%; Consumer Cyclicals=7.91%; Other=17.02%
+ISIN: FR0007052782
+C: France=89.06%; Netherlands=7.61%; Luxembourg=1.88%; Switzerland=1.44%
+S: Industrials=28.75%; Finance=15.31%; Consumer Cyclicals=14.39%; Non-Energy Materials=9.03%; Other=32.52%
+ISIN: LU1681046931
+C: France=89.47%; Netherlands=7.67%; Switzerland=1.65%; Luxembourg=1.20%
+S: Industrials=30.51%; Finance=16.07%; Consumer Cyclicals=15.62%; Consumer Non-Cyclicals=9.31%; Other=28.49%
+ISIN: FR0010655704
+C: France=87.25%; Netherlands=10.48%; Switzerland=2.12%; Other=0.15%
+S: Industrials=36.82%; Consumer Cyclicals=20.41%; Consumer Non-Cyclicals=12.78%; Healthcare=7.96%; Other=22.03%
+ISIN: DE0005933956
+C: Germany=30.10%; France=29.06%; Netherlands=17.27%; Spain=11.58%; Other=11.99%
+S: Finance=28.63%; Industrials=20.28%; Technology=15.00%; Consumer Cyclicals=9.48%; Other=26.61%
+ISIN: FR0011550185
+C: United States=97.65%; Ireland=1.16%; Other=1.19%
+S: Technology=45.20%; Finance=13.69%; Healthcare=9.12%; Consumer Non-Cyclicals=8.98%; Other=23.01%
+ISIN: DE0005933931
+C: Germany=92.01%; Netherlands=6.90%; Other=1.09%
+S: Industrials=34.67%; Finance=22.58%; Technology=15.20%; Consumer Cyclicals=5.79%; Other=21.76%
+ISIN: LU0838782315
+C: Germany=97.77%; Other=2.23%
+S: Finance=30.44%; Industrials=19.41%; Technology=19.19%; Consumer Cyclicals=8.74%; Other=22.22%
+ISIN: DE0002635273
+C: Germany=99.91%; Other=0.09%
+S: Finance=25.59%; Industrials=21.30%; Consumer Cyclicals=20.89%; Utilities=18.71%; Other=13.51%
+ISIN: DE000A0F5UG3
+C: France=30.31%; Germany=22.93%; Spain=20.69%; Italy=11.05%; Other=15.02%
+S: Finance=31.62%; Industrials=26.07%; Utilities=8.87%; Consumer Cyclicals=7.85%; Other=25.59%
+ISIN: LU2572256662
+C: United States=99.83%; Other=0.17%
+S: Finance=27.41%; Technology=22.16%; Healthcare=13.75%; Industrials=13.59%; Other=23.09%
+ISIN: DE000A0D8Q07
+C: France=25.73%; Germany=24.53%; Netherlands=17.37%; Spain=10.91%; Other=21.46%
+S: Finance=27.83%; Industrials=19.68%; Technology=14.53%; Consumer Cyclicals=7.31%; Other=30.65%
+ISIN: LU1971906802
+C: Germany=31.50%; France=27.82%; Netherlands=15.04%; Spain=13.79%; Other=11.85%
+S: Finance=32.01%; Industrials=18.67%; Technology=16.22%; Consumer Cyclicals=10.19%; Other=22.91%
+ISIN: LU1829219390
+C: Spain=30.97%; Italy=24.26%; France=14.22%; Netherlands=8.76%; Other=21.79%
+S: Finance=100.00%
+ISIN: DE0006289309
+C: Spain=31.01%; Italy=24.02%; France=13.84%; Netherlands=8.82%; Other=22.31%
+S: Finance=99.51%; Other=0.49%
+ISIN: IE00BZ4BMM98
+C: Germany=14.61%; France=14.55%; Spain=14.46%; Italy=13.55%; Other=42.83%
+S: Finance=56.68%; Utilities=8.72%; Non-Energy Materials=7.68%; Telecommunication=7.59%; Other=19.33%
+ISIN: IE00BFTWP510
+C: France=24.33%; Italy=15.28%; Germany=13.01%; Netherlands=12.39%; Other=34.99%
+S: Finance=37.66%; Utilities=14.17%; Industrials=11.33%; Energy=8.17%; Other=28.67%
+ISIN: LU0292095535
+C: France=30.36%; Italy=17.30%; Germany=16.59%; Netherlands=14.87%; Other=20.88%
+S: Finance=41.27%; Utilities=12.11%; Industrials=9.14%; Consumer Non-Cyclicals=8.37%; Other=29.11%
+ISIN: DE0002635281
+C: Netherlands=29.18%; France=19.69%; Germany=15.86%; Italy=9.17%; Other=26.10%
+S: Finance=53.16%; Business Services=9.44%; Consumer Cyclicals=7.80%; Energy=7.45%; Other=22.15%
+ISIN: IE00B0M62V02
+C: Netherlands=28.97%; France=27.48%; Germany=26.38%; Spain=7.29%; Other=9.88%
+S: Industrials=32.38%; Technology=31.10%; Consumer Cyclicals=11.99%; Finance=6.31%; Other=18.22%
+ISIN: IE00B0M62S72
+C: Netherlands=29.22%; France=19.72%; Germany=15.88%; Italy=9.19%; Other=25.99%
+S: Finance=53.23%; Business Services=9.45%; Consumer Cyclicals=7.81%; Energy=7.46%; Other=22.05%
+ISIN: LU0599612842
+C: France=25.69%; Netherlands=12.67%; United Kingdom=9.08%; Spain=8.99%; Other=43.57%
+S: Finance=23.16%; Utilities=16.10%; Telecommunication=12.51%; Industrials=12.21%; Other=36.02%
+ISIN: LU3180074463
+C: France=27.07%; Germany=20.24%; Netherlands=17.10%; Denmark=9.01%; Other=26.58%
+S: Industrials=31.87%; Technology=23.40%; Finance=11.32%; Healthcare=8.07%; Other=25.34%
+ISIN: IE00069H3LK0
+C: United Kingdom=22.97%; Sweden=10.24%; Switzerland=9.45%; France=8.79%; Other=48.55%
+S: Finance=25.27%; Industrials=21.02%; Non-Energy Materials=9.39%; Technology=7.99%; Other=36.33%
+ISIN: IE00BKX55S42
+C: Switzerland=18.62%; Germany=17.36%; France=17.11%; Netherlands=12.28%; Other=34.63%
+S: Finance=26.99%; Industrials=18.25%; Healthcare=11.71%; Technology=11.05%; Other=32.00%
+ISIN: FR0011869304
+C: United Kingdom=31.27%; France=15.68%; Sweden=13.46%; Switzerland=12.93%; Other=26.66%
+S: Finance=99.84%; Consumer Services=0.16%
+ISIN: IE000VH3JSL8
+C: Germany=24.00%; France=23.68%; Netherlands=16.98%; Spain=10.96%; Other=24.38%
+S: Finance=27.93%; Industrials=18.07%; Technology=14.23%; Consumer Cyclicals=7.00%; Other=32.77%
+ISIN: IE00BG143G97
+C: Germany=96.92%; Other=3.08%
+S: Industrials=29.44%; Finance=22.95%; Technology=15.65%; Non-Energy Materials=6.48%; Other=25.48%
+ISIN: FR0010010827
+C: Italy=94.06%; Switzerland=3.63%; Netherlands=1.32%; Other=0.99%
+S: Finance=52.36%; Utilities=13.03%; Energy=9.10%; Consumer Cyclicals=8.76%; Other=16.75%
+ISIN: IE00B23D8X81
+C: United Kingdom=25.45%; France=15.12%; Germany=15.05%; Switzerland=12.39%; Other=31.99%
+S: Finance=24.02%; Energy=14.90%; Healthcare=10.75%; Industrials=10.49%; Other=39.84%
+ISIN: FR0010655746
+C: Spain=92.81%; Netherlands=3.84%; United Kingdom=2.31%; Luxembourg=1.04%
+S: Finance=44.47%; Utilities=17.73%; Industrials=16.33%; Consumer Cyclicals=10.90%; Other=10.57%
+ISIN: DE0005933923
+C: Germany=98.28%; Luxembourg=1.65%; Other=0.07%
+S: Industrials=35.46%; Consumer Cyclicals=13.08%; Finance=12.88%; Non-Energy Materials=11.86%; Other=26.72%
+ISIN: LU2611731667
+C: Germany=97.81%; Luxembourg=2.19%
+S: Industrials=28.13%; Finance=16.27%; Non-Energy Materials=14.77%; Technology=12.19%; Other=28.64%
+ISIN: LU1681037518
+C: Italy=92.51%; Switzerland=4.65%; Netherlands=1.56%; Luxembourg=1.28%
+S: Finance=49.95%; Utilities=14.35%; Industrials=11.07%; Consumer Cyclicals=11.06%; Other=13.57%
+ISIN: FR0014017NX3
+C: United States=62.02%; Japan=5.12%; Taiwan=3.25%; United Kingdom=3.19%; Other=26.42%
+S: Technology=36.77%; Finance=18.38%; Industrials=9.11%; Healthcare=8.20%; Other=27.54%
+ISIN: IE00B53QG562
+C: Germany=25.00%; France=24.85%; Netherlands=18.59%; Spain=11.16%; Other=20.40%
+S: Finance=27.97%; Industrials=18.86%; Technology=15.56%; Consumer Cyclicals=7.37%; Other=30.24%
+ISIN: IE00004PGEY9
+C: France=27.66%; Germany=27.66%; Netherlands=18.79%; Spain=10.04%; Other=15.85%
+S: Finance=28.23%; Industrials=19.94%; Technology=15.21%; Consumer Cyclicals=7.08%; Other=29.54%
+ISIN: IE00BHZPJ015
+C: France=26.13%; Germany=24.25%; Netherlands=16.20%; Spain=10.47%; Other=22.95%
+S: Finance=31.17%; Industrials=18.97%; Technology=15.66%; Consumer Cyclicals=6.46%; Other=27.74%
+ISIN: IE00BL6K8D99
+C: France=24.14%; Germany=23.16%; Netherlands=16.88%; Italy=10.41%; Other=25.41%
+S: Finance=32.88%; Industrials=19.61%; Technology=17.13%; Utilities=6.53%; Other=23.85%
+ISIN: LU1602144575
+C: France=38.96%; Netherlands=18.06%; Germany=12.86%; Spain=9.07%; Other=21.05%
+S: Finance=30.06%; Technology=18.14%; Industrials=15.13%; Consumer Cyclicals=9.08%; Other=27.59%
+ISIN: LU3086268227
+C: Germany=25.77%; France=23.56%; Netherlands=17.60%; Spain=14.27%; Other=18.80%
+S: Finance=30.73%; Industrials=18.22%; Technology=17.93%; Utilities=7.98%; Other=25.14%
+ISIN: FR0010717090
+C: France=33.59%; Germany=24.46%; Italy=12.76%; Spain=9.41%; Other=19.78%
+S: Finance=36.08%; Industrials=17.36%; Consumer Cyclicals=10.06%; Energy=8.97%; Other=27.53%
+ISIN: LU1291098827
+C: France=24.36%; Germany=24.33%; Netherlands=18.95%; Spain=11.62%; Other=20.74%
+S: Finance=30.43%; Industrials=18.35%; Technology=16.28%; Consumer Cyclicals=6.62%; Other=28.32%
+ISIN: LU0629460675
+C: France=29.32%; Netherlands=25.78%; Germany=15.88%; Spain=7.39%; Other=21.63%
+S: Finance=31.19%; Industrials=20.16%; Technology=18.69%; Consumer Non-Cyclicals=8.51%; Other=21.45%
+ISIN: IE00BFNM3B99
+C: France=24.64%; Germany=23.76%; Netherlands=18.46%; Spain=10.71%; Other=22.43%
+S: Finance=30.65%; Technology=17.03%; Industrials=14.72%; Consumer Cyclicals=6.98%; Other=30.62%
+ISIN: LU1598689153
+C: France=20.88%; Germany=20.12%; Italy=15.69%; Spain=9.13%; Other=34.18%
+S: Industrials=26.88%; Finance=23.79%; Technology=8.90%; Consumer Cyclicals=7.60%; Other=32.83%
+ISIN: LU1598690169
+C: France=27.05%; Germany=23.82%; Spain=15.14%; Italy=13.59%; Other=20.40%
+S: Finance=47.53%; Utilities=10.29%; Industrials=7.54%; Non-Energy Materials=6.79%; Other=27.85%
+ISIN: FR0013412038
+C: United Kingdom=21.32%; Switzerland=15.21%; Germany=13.74%; France=13.35%; Other=36.38%
+S: Finance=26.17%; Industrials=16.57%; Healthcare=12.05%; Technology=10.52%; Other=34.69%
+ISIN: IE00BMW42413
+C: Netherlands=43.03%; Germany=29.65%; Finland=6.23%; Sweden=5.91%; Other=15.18%
+S: Technology=97.39%; Industrials=2.23%; Other=0.38%
+ISIN: IE00BP3QZJ36
+C: France=89.63%; Netherlands=6.96%; Luxembourg=1.89%; Switzerland=1.46%; Other=0.06%
+S: Industrials=29.48%; Finance=14.96%; Consumer Cyclicals=13.86%; Non-Energy Materials=8.99%; Other=32.71%
+ISIN: FR0010405431
+C: Greece=82.03%; Switzerland=15.06%; Belgium=2.91%
+S: Finance=53.35%; Consumer Non-Cyclicals=16.13%; Utilities=12.44%; Energy=5.71%; Other=12.37%
+ISIN: FR0011869320
+C: India=99.78%; Other=0.22%
+S: Finance=31.30%; Industrials=11.15%; Consumer Cyclicals=9.78%; Non-Energy Materials=9.17%; Other=38.60%
+ISIN: LU1681042864
+C: United States=95.34%; Ireland=1.86%; Singapore=1.09%; Other=1.71%
+S: Technology=43.17%; Finance=13.36%; Healthcare=9.62%; Industrials=7.43%; Other=26.42%
+ISIN: LU1681043599
+C: United States=70.00%; Japan=5.76%; United Kingdom=3.65%; Canada=3.37%; Other=17.22%
+S: Technology=35.54%; Finance=17.90%; Industrials=9.51%; Healthcare=8.96%; Other=28.09%
+ISIN: IE00B8X9NY41
+C: Germany=21.22%; France=20.02%; Italy=14.27%; Netherlands=9.25%; Other=35.24%
+S: Industrials=21.35%; Finance=17.08%; Non-Energy Materials=11.24%; Energy=11.13%; Other=39.20%
+ISIN: IE00BWTNM966
+C: Germany=97.08%; Other=2.92%
+S: Industrials=27.49%; Non-Energy Materials=17.16%; Consumer Cyclicals=16.17%; Finance=10.06%; Other=29.12%
+ISIN: IE00B8X9NZ57
+C: United Kingdom=88.80%; Switzerland=3.08%; Bermuda=2.07%; Ireland=1.69%; Other=4.36%
+S: Finance=30.02%; Industrials=15.96%; Consumer Non-Cyclicals=13.47%; Energy=7.85%; Other=32.70%
+ISIN: LU1681038672
+C: United States=95.11%; Bermuda=1.66%; Other=3.23%
+S: Finance=26.35%; Healthcare=20.72%; Technology=11.75%; Industrials=10.38%; Other=30.80%
+ISIN: FR0013412285
+C: United States=96.34%; Ireland=1.87%; Other=1.79%
+S: Technology=46.57%; Finance=15.18%; Healthcare=11.93%; Industrials=8.12%; Other=18.20%
+ISIN: IE00B5M1WJ87
+C: Germany=21.22%; Italy=19.57%; Finland=17.40%; France=11.89%; Other=29.92%
+S: Finance=31.01%; Utilities=13.72%; Industrials=13.33%; Non-Energy Materials=12.73%; Other=29.21%
+ISIN: LU2195226068
+C: France=26.15%; Germany=23.02%; Netherlands=17.28%; Italy=11.46%; Other=22.09%
+S: Finance=34.90%; Technology=18.28%; Industrials=13.87%; Consumer Cyclicals=9.46%; Other=23.49%
+ISIN: FR0011550193
+C: United Kingdom=21.59%; Switzerland=14.67%; France=13.82%; Germany=13.24%; Other=36.68%
+S: Finance=26.97%; Industrials=17.08%; Healthcare=11.56%; Technology=9.65%; Other=34.74%
+ISIN: LU1834987973
+C: Germany=32.02%; Switzerland=23.00%; France=10.02%; United Kingdom=9.10%; Other=25.86%
+S: Finance=99.55%; Other=0.45%
+ISIN: DE000A0Q4R28
+C: Germany=45.18%; Italy=27.15%; France=19.51%; Netherlands=5.64%; Belgium=2.31%; Other=0.21%
+S: Consumer Cyclicals=95.29%; Industrials=4.50%; Other=0.21%
+ISIN: LU1834983477
+C: United Kingdom=27.36%; Spain=19.05%; Italy=14.76%; France=8.50%; Other=30.33%
+S: Finance=99.27%; Other=0.73%
+ISIN: LU0599613147
+C: United Kingdom=20.69%; France=11.65%; Germany=11.56%; Switzerland=9.93%; Other=46.17%
+S: Finance=28.32%; Industrials=17.81%; Non-Energy Materials=10.65%; Consumer Non-Cyclicals=7.59%; Other=35.63%
+ISIN: LU1834983550
+C: United Kingdom=47.80%; Switzerland=14.63%; Sweden=10.07%; Luxembourg=7.75%; Other=19.75%
+S: Non-Energy Materials=84.04%; Energy=14.63%; Other=1.34%
+ISIN: LU1834986900
+C: Switzerland=40.76%; United Kingdom=21.76%; Denmark=11.11%; France=9.54%; Other=16.83%
+S: Healthcare=93.13%; Consumer Cyclicals=3.03%; Non-Energy Materials=1.30%; Other=2.54%
+ISIN: LU1834988864
+C: Spain=26.80%; United Kingdom=23.77%; Italy=16.61%; Germany=12.95%; Other=19.87%
+S: Utilities=95.98%; Business Services=3.64%; Other=0.39%
+ISIN: DE000A0H08Q4
+C: Netherlands=41.79%; Germany=26.80%; United Kingdom=9.77%; Switzerland=5.94%; Other=15.70%
+S: Technology=89.63%; Consumer Non-Cyclicals=6.10%; Industrials=3.59%; Finance=0.51%; Other=0.18%
+ISIN: LU1834988609
+C: Germany=28.10%; Finland=13.52%; United Kingdom=13.26%; Sweden=11.79%; Other=33.33%
+S: Telecommunication=79.88%; Technology=19.83%; Other=0.30%
+ISIN: LU1812092168
+C: United Kingdom=28.51%; France=23.98%; Netherlands=21.47%; Germany=7.07%; Other=18.97%
+S: Finance=62.39%; Energy=9.87%; Consumer Cyclicals=9.05%; Business Services=5.35%; Other=13.34%
+ISIN: LU2089238112
+C: Germany=25.51%; France=24.22%; Netherlands=17.89%; Spain=10.80%; Other=21.58%
+S: Finance=27.68%; Industrials=19.24%; Technology=15.85%; Consumer Cyclicals=7.51%; Other=29.72%
+ISIN: FR0013411980
+C: Japan=100.00%
+S: Technology=20.92%; Finance=20.12%; Industrials=19.69%; Consumer Cyclicals=9.17%; Other=30.10%
+ISIN: DE0005933972
+C: Germany=93.42%; Netherlands=5.80%; Other=0.78%
+S: Technology=46.30%; Healthcare=24.47%; Telecommunication=18.59%; Industrials=9.91%; Other=0.73%
+ISIN: IE000DN0XQM1
+C: France=49.17%; Germany=22.20%; Netherlands=13.78%; Spain=6.14%; Other=8.71%
+S: Finance=27.71%; Business Services=10.16%; Healthcare=9.90%; Consumer Non-Cyclicals=9.88%; Other=42.35%
+ISIN: IE00BZ56TQ67
+C: Germany=21.63%; France=19.04%; Spain=14.55%; Netherlands=13.11%; Other=31.67%
+S: Industrials=24.29%; Finance=18.94%; Consumer Cyclicals=18.78%; Technology=8.35%; Other=29.64%
+ISIN: LU3121015138
+C: France=24.41%; Germany=23.37%; Netherlands=16.16%; Spain=11.22%; Other=24.84%
+S: Finance=31.90%; Industrials=15.38%; Technology=14.85%; Healthcare=7.27%; Other=30.60%
+ISIN: FR0011871110
+C: United States=94.43%; United Kingdom=1.67%; Netherlands=1.40%; Canada=1.01%; Other=1.49%
+S: Technology=66.56%; Consumer Non-Cyclicals=11.95%; Healthcare=4.10%; Consumer Cyclicals=3.29%; Other=14.10%
+ISIN: IE00BJ5JPG56
+C: China=89.89%; Hong Kong=5.75%; Ireland=1.70%; Singapore=1.13%; Other=1.53%
+S: Technology=28.10%; Finance=21.75%; Consumer Non-Cyclicals=15.12%; Consumer Cyclicals=7.00%; Other=28.03%
+ISIN: IE00B5L8K969
+C: Taiwan=33.19%; South Korea=24.92%; China=22.20%; India=13.69%; Other=6.00%
+S: Technology=53.92%; Finance=16.24%; Industrials=6.23%; Consumer Non-Cyclicals=5.11%; Other=18.50%
+ISIN: IE00B27YCK28
+C: Brazil=57.94%; Mexico=24.91%; Chile=6.74%; Peru=3.67%; Other=6.74%
+S: Finance=35.35%; Non-Energy Materials=21.07%; Consumer Non-Cyclicals=10.89%; Energy=10.74%; Other=21.95%
+ISIN: IE00B52SFT06
+C: United States=97.21%; Ireland=1.14%; Other=1.65%
+S: Technology=44.87%; Finance=13.48%; Healthcare=9.22%; Consumer Non-Cyclicals=8.91%; Other=23.52%
+ISIN: IE00BD1F4M44
+C: United States=96.83%; Ireland=1.88%; Other=1.29%
+S: Technology=38.94%; Finance=13.63%; Industrials=8.19%; Consumer Cyclicals=8.06%; Other=31.18%
+ISIN: IE00B4L5YC18
+C: Taiwan=27.48%; South Korea=20.64%; China=18.42%; India=11.34%; Other=22.12%
+S: Technology=44.77%; Finance=21.07%; Non-Energy Materials=7.14%; Industrials=5.93%; Other=21.09%
+ISIN: FR0010527275
+C: United States=61.92%; United Kingdom=15.20%; Sweden=4.13%; Germany=4.10%; Other=14.65%
+S: Industrials=61.72%; Utilities=23.54%; Business Services=10.04%; Non-Energy Materials=4.69%
+ISIN: DE000A0H08H3
+C: Switzerland=37.79%; Belgium=15.23%; United Kingdom=12.28%; France=12.10%; Other=22.60%
+S: Consumer Non-Cyclicals=91.97%; Non-Energy Materials=7.42%; Other=0.61%
+ISIN: DE000A0H08J9
+C: France=19.68%; Germany=19.01%; United Kingdom=17.46%; Sweden=10.74%; Other=33.11%
+S: Industrials=87.49%; Business Services=6.23%; Finance=2.47%; Technology=1.62%; Other=2.19%
+ISIN: DE000A0H08E0
+C: Germany=34.73%; France=30.68%; Switzerland=15.46%; Netherlands=7.64%; Other=11.49%
+S: Non-Energy Materials=91.58%; Industrials=6.07%; Other=2.35%

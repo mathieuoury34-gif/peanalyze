@@ -50,6 +50,8 @@ export interface CatalogEtf {
   distribution: Distribution | null;
   unitPrice: number | null; // cours indicatif (date : CATALOG_DATE)
   note?: string;
+  sectors?: WeightItem[]; // principaux secteurs de l'indice (justETF, date : COMPOSITION_DATE)
+  countries?: WeightItem[];
 }
 
 export interface Deposit {

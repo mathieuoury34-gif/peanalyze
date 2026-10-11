@@ -8,8 +8,29 @@ export const DATA_VERSION = 1;
 /** Catalogue des ETF éligibles au PEA : donnée de référence intégrée à l'app (jamais synchronisée). */
 export const CATALOG_SOURCE: string = catalogJson.source;
 export const CATALOG_DATE: string = catalogJson.updated;
+export const COMPOSITION_DATE: string = (catalogJson as { compositionDate?: string }).compositionDate ?? '';
 export function builtinCatalog(): CatalogEtf[] {
   return catalogJson.etfs as CatalogEtf[];
+}
+/** Composition d'un ETF ajouté depuis le catalogue (secteurs et pays de son indice). */
+export function catalogComposition(e: Pick<Etf, 'isin' | 'ticker'>): { sectors: Etf['sectors']; countries: Etf['countries'] } | null {
+  const c = builtinCatalog().find((x) => x.isin === e.isin) || (e.ticker ? builtinCatalog().find((x) => x.ticker === e.ticker) : undefined);
+  if (!c || (!c.sectors?.length && !c.countries?.length)) return null;
+  return { sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []) };
+}
+/** Complète les ETF sans composition (ajoutés depuis le catalogue) ; ne touche pas aux compositions saisies. */
+export function fillCompositions(d: AppData): AppData {
+  for (const e of d.etfs) {
+    if (e.sectors?.length || e.countries?.length) continue;
+    const c = catalogComposition(e);
+    if (c) { e.sectors = c.sectors; e.countries = c.countries; }
+  }
+  return d;
+}
+/** Vrai si la composition affichée vient du catalogue (principaux secteurs et pays seulement). */
+export function isCatalogComposition(e: Etf): boolean {
+  const c = catalogComposition(e);
+  return !!c && JSON.stringify(c.sectors) === JSON.stringify(e.sectors) && JSON.stringify(c.countries) === JSON.stringify(e.countries);
 }
 /** Clé unique d'une ligne du catalogue (mnémonique Paris, sinon ISIN). */
 export function catKey(c: CatalogEtf): string {

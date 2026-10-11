@@ -414,4 +414,11 @@ export const EN: Record<string, string> = {
   "Mois précédent": "Previous month",
   "Mois suivant": "Next month",
   "L,M,M,J,V,S,D": "M,T,W,T,F,S,S",
+  "Principaux secteurs et pays de l’indice suivi (source justETF, au {d}).": "Main sectors and countries of the tracked index (source justETF, as of {d}).",
+  "Thème": "Theme",
+  "Thème de l’application": "App theme",
+  "Clair": "Light",
+  "Sombre": "Dark",
+  "Système": "System",
+  "« Système » suit le réglage clair ou sombre du téléphone ou de l’ordinateur.": "“System” follows the light or dark setting of your phone or computer.",
 };

@@ -11,7 +11,7 @@ import { getData, replaceData, update } from '../data/store';
 import { MAX_ETFS, refreshPrices, usePriceStatus } from '../data/prices';
 import { t, tl } from '../i18n';
 import type { CatalogEtf, Etf } from '../domain/types';
-import { catKey, CATALOG_DATE } from '../data/seed';
+import { catKey, CATALOG_DATE, COMPOSITION_DATE, isCatalogComposition } from '../data/seed';
 
 const NAV = [{ to: '/marches', label: t('Mes ETF') }, { to: '/marches/catalogue', label: t('Catalogue') }];
 const color = (id: string) => `var(--etf-${id}, var(--chart-other))`;
@@ -183,6 +183,9 @@ export function EtfDetailScreen({ id }: { id: string }) {
             {e.countries.length > 8 && <p className="t-caption c-moderate">{t('Top 8 pays + « Autres ».')}</p>}
           </section>
         )}
+        {(sectors.length > 0 || countries.length > 0) && isCatalogComposition(e) && (
+          <p className="t-caption c-moderate dspan-12">{t('Principaux secteurs et pays de l’indice suivi (source justETF, au {d}).', { d: dateFr(COMPOSITION_DATE) })}</p>
+        )}
         {!sectors.length && !countries.length && (
           <section className="card"><p className="c-neutral t-caption">{t('Composition non renseignée pour cet ETF.')}</p></section>
         )}
@@ -202,7 +205,7 @@ export function addCatalogEtf(c: CatalogEtf): void {
       d.etfs.push({
         id: c.ticker, index: c.index, name: c.name, isin: c.isin, ticker: c.ticker, exchange: c.exchange || 'Euronext Paris',
         category: c.category, peaEligible: c.peaEligible, lastPrice: c.unitPrice ?? 0, ter: c.ter, aumMEur: c.aumMEur ?? 0,
-        replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant', inStrategy: false, sectors: [], countries: [], priceHistory: [],
+        replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant', inStrategy: false, sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []), priceHistory: [],
       });
     }
     if (!d.myEtfIds.includes(c.ticker)) d.myEtfIds.push(c.ticker);
@@ -278,7 +281,7 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
           <label className="row c-primary t-chip" style={{ gap: 'var(--space-6)', height: 'var(--touch-min)' }}>
             <Icon name="sort" size={20} />
             <span>{t('Trier :')}</span>
-            <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} style={{ border: 0, background: 'transparent', color: 'var(--brand-primary)', font: 'var(--type-chip)', cursor: 'pointer' }} data-component="Select">
+            <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} style={{ border: 0, background: 'transparent', color: 'var(--primary-fg)', font: 'var(--type-chip)', cursor: 'pointer' }} data-component="Select">
               <option value="ter">{t('Frais')}</option>
               <option value="aum">{t('Encours')}</option>
               <option value="year">{t('Année de création')}</option>

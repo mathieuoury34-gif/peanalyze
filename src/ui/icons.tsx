@@ -76,7 +76,7 @@ export function Logo({ size = 18 }: { size?: number }) {
       <span className="logo-mark" style={{ width: size * 1.45, height: size * 1.45 }}>
         <Icon name="trend" size={size} style={{ color: 'var(--text-reverse)' }} />
       </span>
-      <span><span style={{ color: 'var(--brand-primary)' }}>PEA</span><span style={{ color: 'var(--brand-accent)' }}>nalyze</span></span>
+      <span><span style={{ color: 'var(--primary-fg)' }}>PEA</span><span style={{ color: 'var(--text-accent)' }}>nalyze</span></span>
     </span>
   );
 }

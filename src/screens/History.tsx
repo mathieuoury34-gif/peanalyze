@@ -255,7 +255,7 @@ export function AddSheet() {
           </span>
         </button>
         <button type="button" className="tile" style={{ background: 'var(--bg-brand-minimal)' }} onClick={() => navigate('/historique/achat', { replace: true })} data-component="Tile">
-          <span className="tile-icon" style={{ color: 'var(--brand-primary)' }}><Icon name="cart" /></span>
+          <span className="tile-icon" style={{ color: 'var(--primary-fg)' }}><Icon name="cart" /></span>
           <span className="stack" style={{ gap: 'var(--space-2)' }}>
             <span className="t-amount-m">{t("Achat d'ETF")}</span>
             <span className="t-caption c-neutral">{t('Parts achetées en bourse')}</span>
@@ -323,7 +323,7 @@ export function PurchaseScreen() {
                     <button type="button" role="option" aria-selected={e.id === etfId} onClick={() => { setEtfId(e.id); setEtfOpen(false); if (!editing) setPrice(toInput(e.lastPrice)); }}>
                       <EtfDot id={e.id} />
                       <span>{tl(e.index)} <span className="c-moderate">· {e.id}</span></span>
-                      {e.id === etfId && <Icon name="check" size={18} strokeWidth={2.4} style={{ color: 'var(--brand-primary)' }} />}
+                      {e.id === etfId && <Icon name="check" size={18} strokeWidth={2.4} style={{ color: 'var(--primary-fg)' }} />}
                     </button>
                   </li>
                 ))}
@@ -334,7 +334,7 @@ export function PurchaseScreen() {
             <span id="t204-date" className="lbl">{t('Date')}</span>
             <button type="button" className="select-btn" style={{ gridTemplateColumns: '1fr 20px' }} aria-labelledby="t204-date" aria-expanded={calOpen} onClick={() => setCalOpen(!calOpen)} data-component="DatePicker.field">
               <span>{dateFr(date)}</span>
-              <Icon name="calendar" size={20} style={{ color: 'var(--brand-primary)' }} />
+              <Icon name="calendar" size={20} style={{ color: 'var(--primary-fg)' }} />
             </button>
             {calOpen && <DatePicker value={date} label={t("Date de l'achat")} onChange={(d) => { setDate(d); setCalOpen(false); }} />}
           </div>

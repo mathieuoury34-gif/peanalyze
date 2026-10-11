@@ -1,6 +1,7 @@
 {
 "source": "justETF via quentinarioli.fr (05/10/2026) — frais, encours et cours au 30/09/2026",
 "updated": "2026-10-05",
+"compositionDate": "2026-08-31",
 "etfs": [
 {
 "index": "EURO STOXX 50",
@@ -17,7 +18,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 63.38
+"unitPrice": 63.38,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "DAX",
@@ -34,7 +79,43 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 208.0
+"unitPrice": 208.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -52,7 +133,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 246.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "DAX",
@@ -70,7 +195,43 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 236.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "MSCI World",
@@ -87,7 +248,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 702.0
+"unitPrice": 702.0,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3554
+},
+{
+"label": "Finance",
+"weight": 0.179
+},
+{
+"label": "Industrie",
+"weight": 0.0951
+},
+{
+"label": "Santé",
+"weight": 0.0896
+},
+{
+"label": "Autres",
+"weight": 0.2809
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7
+},
+{
+"label": "Japon",
+"weight": 0.0576
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0365
+},
+{
+"label": "Canada",
+"weight": 0.0337
+},
+{
+"label": "Autres",
+"weight": 0.1722
+}
+]
 },
 {
 "index": "EURO STOXX Banks",
@@ -104,7 +309,35 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 394.0
+"unitPrice": 394.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.3097
+},
+{
+"label": "Italie",
+"weight": 0.2426
+},
+{
+"label": "France",
+"weight": 0.1422
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0876
+},
+{
+"label": "Autres",
+"weight": 0.2179
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -121,7 +354,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 112.0
+"unitPrice": 112.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -139,7 +416,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 244.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -156,7 +477,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 65.4
+"unitPrice": 65.4,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -174,7 +539,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 64.12,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -191,7 +600,51 @@
 "esg": false,
 "replication": "Physique",
 "distribution": "Capitalisant",
-"unitPrice": 71.68
+"unitPrice": 71.68,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -208,7 +661,51 @@
 "esg": false,
 "replication": "Physique",
 "distribution": "Capitalisant",
-"unitPrice": 169.0
+"unitPrice": 169.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "EURO STOXX 50 ESG",
@@ -226,7 +723,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 22.9,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3201
+},
+{
+"label": "Industrie",
+"weight": 0.1867
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1622
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1019
+},
+{
+"label": "Autres",
+"weight": 0.2291
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.315
+},
+{
+"label": "France",
+"weight": 0.2782
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1504
+},
+{
+"label": "Espagne",
+"weight": 0.1379
+},
+{
+"label": "Autres",
+"weight": 0.1185
+}
+]
 },
 {
 "index": "S&P 500 (part USD)",
@@ -243,7 +784,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 27.52
+"unitPrice": 27.52,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.452
+},
+{
+"label": "Finance",
+"weight": 0.1369
+},
+{
+"label": "Santé",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0898
+},
+{
+"label": "Autres",
+"weight": 0.2301
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9765
+},
+{
+"label": "Irlande",
+"weight": 0.0116
+},
+{
+"label": "Autres",
+"weight": 0.0119
+}
+]
 },
 {
 "index": "MSCI EMU CTB Enhanced ESG",
@@ -261,7 +838,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 10.38,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3117
+},
+{
+"label": "Industrie",
+"weight": 0.1897
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1566
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0646
+},
+{
+"label": "Autres",
+"weight": 0.2774
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2613
+},
+{
+"label": "Allemagne",
+"weight": 0.2425
+},
+{
+"label": "Pays-Bas",
+"weight": 0.162
+},
+{
+"label": "Espagne",
+"weight": 0.1047
+},
+{
+"label": "Autres",
+"weight": 0.2295
+}
+]
 },
 {
 "index": "S&P 500",
@@ -278,7 +899,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 34.41
+"unitPrice": 34.41,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.452
+},
+{
+"label": "Finance",
+"weight": 0.1369
+},
+{
+"label": "Santé",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0898
+},
+{
+"label": "Autres",
+"weight": 0.2301
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9765
+},
+{
+"label": "Irlande",
+"weight": 0.0116
+},
+{
+"label": "Autres",
+"weight": 0.0119
+}
+]
 },
 {
 "index": "STOXX Europe 600 Banques",
@@ -295,7 +952,39 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 73.64
+"unitPrice": 73.64,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.9927
+},
+{
+"label": "Autres",
+"weight": 0.0073
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2736
+},
+{
+"label": "Espagne",
+"weight": 0.1905
+},
+{
+"label": "Italie",
+"weight": 0.1476
+},
+{
+"label": "France",
+"weight": 0.085
+},
+{
+"label": "Autres",
+"weight": 0.3033
+}
+]
 },
 {
 "index": "FTSE Developed Europe ex UK",
@@ -313,7 +1002,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 49.23,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2699
+},
+{
+"label": "Industrie",
+"weight": 0.1825
+},
+{
+"label": "Santé",
+"weight": 0.1171
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1105
+},
+{
+"label": "Autres",
+"weight": 0.32
+}
+],
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.1862
+},
+{
+"label": "Allemagne",
+"weight": 0.1736
+},
+{
+"label": "France",
+"weight": 0.1711
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1228
+},
+{
+"label": "Autres",
+"weight": 0.3463
+}
+]
 },
 {
 "index": "CAC 40",
@@ -330,7 +1063,47 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 80.9
+"unitPrice": 80.9,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "EURO STOXX",
@@ -347,7 +1120,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 66.25
+"unitPrice": 66.25,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2783
+},
+{
+"label": "Industrie",
+"weight": 0.1968
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1453
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0731
+},
+{
+"label": "Autres",
+"weight": 0.3065
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2573
+},
+{
+"label": "Allemagne",
+"weight": 0.2453
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1737
+},
+{
+"label": "Espagne",
+"weight": 0.1091
+},
+{
+"label": "Autres",
+"weight": 0.2146
+}
+]
 },
 {
 "index": "S&P Eurozone Climate Paris Aligned",
@@ -364,7 +1181,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 42.44
+"unitPrice": 42.44,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1828
+},
+{
+"label": "Industrie",
+"weight": 0.1387
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0946
+},
+{
+"label": "Autres",
+"weight": 0.2349
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2615
+},
+{
+"label": "Allemagne",
+"weight": 0.2302
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1728
+},
+{
+"label": "Italie",
+"weight": 0.1146
+},
+{
+"label": "Autres",
+"weight": 0.2209
+}
+]
 },
 {
 "index": "EURO STOXX Banks 30-15",
@@ -382,7 +1243,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 30.39,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.9951
+},
+{
+"label": "Autres",
+"weight": 0.0049
+}
+],
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.3101
+},
+{
+"label": "Italie",
+"weight": 0.2402
+},
+{
+"label": "France",
+"weight": 0.1384
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0882
+},
+{
+"label": "Autres",
+"weight": 0.2231
+}
+]
 },
 {
 "index": "MSCI World",
@@ -399,7 +1292,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 7.08
+"unitPrice": 7.08,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3554
+},
+{
+"label": "Finance",
+"weight": 0.179
+},
+{
+"label": "Industrie",
+"weight": 0.0951
+},
+{
+"label": "Santé",
+"weight": 0.0896
+},
+{
+"label": "Autres",
+"weight": 0.2809
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7
+},
+{
+"label": "Japon",
+"weight": 0.0576
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0365
+},
+{
+"label": "Canada",
+"weight": 0.0337
+},
+{
+"label": "Autres",
+"weight": 0.1722
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -417,7 +1354,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 67.83,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "S&P Euro Dividend Aristocrats",
@@ -434,7 +1415,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 29.62
+"unitPrice": 29.62,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3101
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1372
+},
+{
+"label": "Industrie",
+"weight": 0.1333
+},
+{
+"label": "Matériaux",
+"weight": 0.1273
+},
+{
+"label": "Autres",
+"weight": 0.2921
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2122
+},
+{
+"label": "Italie",
+"weight": 0.1957
+},
+{
+"label": "Finlande",
+"weight": 0.174
+},
+{
+"label": "France",
+"weight": 0.1189
+},
+{
+"label": "Autres",
+"weight": 0.2992
+}
+]
 },
 {
 "index": "FTSE Developed Europe ex UK",
@@ -452,7 +1477,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 59.83,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2699
+},
+{
+"label": "Industrie",
+"weight": 0.1825
+},
+{
+"label": "Santé",
+"weight": 0.1171
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1105
+},
+{
+"label": "Autres",
+"weight": 0.32
+}
+],
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.1862
+},
+{
+"label": "Allemagne",
+"weight": 0.1736
+},
+{
+"label": "France",
+"weight": 0.1711
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1228
+},
+{
+"label": "Autres",
+"weight": 0.3463
+}
+]
 },
 {
 "index": "MSCI EMU Climate Paris Aligned",
@@ -470,7 +1539,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 7.29,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3288
+},
+{
+"label": "Industrie",
+"weight": 0.1961
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1713
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0653
+},
+{
+"label": "Autres",
+"weight": 0.2385
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2414
+},
+{
+"label": "Allemagne",
+"weight": 0.2316
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1688
+},
+{
+"label": "Italie",
+"weight": 0.1041
+},
+{
+"label": "Autres",
+"weight": 0.2541
+}
+]
 },
 {
 "index": "MSCI World",
@@ -487,7 +1600,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 6.27
+"unitPrice": 6.27,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3554
+},
+{
+"label": "Finance",
+"weight": 0.179
+},
+{
+"label": "Industrie",
+"weight": 0.0951
+},
+{
+"label": "Santé",
+"weight": 0.0896
+},
+{
+"label": "Autres",
+"weight": 0.2809
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7
+},
+{
+"label": "Japon",
+"weight": 0.0576
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0365
+},
+{
+"label": "Canada",
+"weight": 0.0337
+},
+{
+"label": "Autres",
+"weight": 0.1722
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -504,7 +1661,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 66.19
+"unitPrice": 66.19,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI EMU Screened",
@@ -522,7 +1723,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 11.2,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3065
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1703
+},
+{
+"label": "Industrie",
+"weight": 0.1472
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0698
+},
+{
+"label": "Autres",
+"weight": 0.3062
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2464
+},
+{
+"label": "Allemagne",
+"weight": 0.2376
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1846
+},
+{
+"label": "Espagne",
+"weight": 0.1071
+},
+{
+"label": "Autres",
+"weight": 0.2243
+}
+]
 },
 {
 "index": "S&P 500 (couvert EUR)",
@@ -539,7 +1784,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 24.58
+"unitPrice": 24.58,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.452
+},
+{
+"label": "Finance",
+"weight": 0.1369
+},
+{
+"label": "Santé",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0898
+},
+{
+"label": "Autres",
+"weight": 0.2301
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9765
+},
+{
+"label": "Irlande",
+"weight": 0.0116
+},
+{
+"label": "Autres",
+"weight": 0.0119
+}
+]
 },
 {
 "index": "MDAX",
@@ -557,7 +1838,43 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 250.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3546
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1308
+},
+{
+"label": "Finance",
+"weight": 0.1288
+},
+{
+"label": "Matériaux",
+"weight": 0.1186
+},
+{
+"label": "Autres",
+"weight": 0.2672
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9828
+},
+{
+"label": "Luxembourg",
+"weight": 0.0165
+},
+{
+"label": "Autres",
+"weight": 0.0007
+}
+]
 },
 {
 "index": "DAX",
@@ -574,7 +1891,43 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 447.0
+"unitPrice": 447.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "MSCI EMU ESG",
@@ -591,7 +1944,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 415.0
+"unitPrice": 415.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3006
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1814
+},
+{
+"label": "Industrie",
+"weight": 0.1513
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0908
+},
+{
+"label": "Autres",
+"weight": 0.2759
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3896
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1806
+},
+{
+"label": "Allemagne",
+"weight": 0.1286
+},
+{
+"label": "Espagne",
+"weight": 0.0907
+},
+{
+"label": "Autres",
+"weight": 0.2105
+}
+]
 },
 {
 "index": "Nasdaq-100 Levier x2",
@@ -608,7 +2005,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 10.38
+"unitPrice": 10.38,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.6656
+},
+{
+"label": "Consommation de base",
+"weight": 0.1195
+},
+{
+"label": "Santé",
+"weight": 0.041
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0329
+},
+{
+"label": "Autres",
+"weight": 0.141
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9443
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0167
+},
+{
+"label": "Pays-Bas",
+"weight": 0.014
+},
+{
+"label": "Canada",
+"weight": 0.0101
+},
+{
+"label": "Autres",
+"weight": 0.0149
+}
+]
 },
 {
 "index": "Nasdaq-100",
@@ -625,7 +2066,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 108.0
+"unitPrice": 108.0,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.6656
+},
+{
+"label": "Consommation de base",
+"weight": 0.1195
+},
+{
+"label": "Santé",
+"weight": 0.041
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0329
+},
+{
+"label": "Autres",
+"weight": 0.141
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9443
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0167
+},
+{
+"label": "Pays-Bas",
+"weight": 0.014
+},
+{
+"label": "Canada",
+"weight": 0.0101
+},
+{
+"label": "Autres",
+"weight": 0.0149
+}
+]
 },
 {
 "index": "MSCI EMU Min TE",
@@ -642,7 +2127,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 20.5
+"unitPrice": 20.5,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3043
+},
+{
+"label": "Industrie",
+"weight": 0.1835
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1628
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0662
+},
+{
+"label": "Autres",
+"weight": 0.2832
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2436
+},
+{
+"label": "Allemagne",
+"weight": 0.2433
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1895
+},
+{
+"label": "Espagne",
+"weight": 0.1162
+},
+{
+"label": "Autres",
+"weight": 0.2074
+}
+]
 },
 {
 "index": "DAX",
@@ -659,7 +2188,43 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 230.0
+"unitPrice": 230.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "MSCI EMU ESG",
@@ -676,7 +2241,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 367.0
+"unitPrice": 367.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3006
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1814
+},
+{
+"label": "Industrie",
+"weight": 0.1513
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0908
+},
+{
+"label": "Autres",
+"weight": 0.2759
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3896
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1806
+},
+{
+"label": "Allemagne",
+"weight": 0.1286
+},
+{
+"label": "Espagne",
+"weight": 0.0907
+},
+{
+"label": "Autres",
+"weight": 0.2105
+}
+]
 },
 {
 "index": "S&P 500",
@@ -693,7 +2302,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 59.75
+"unitPrice": 59.75,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.452
+},
+{
+"label": "Finance",
+"weight": 0.1369
+},
+{
+"label": "Santé",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0898
+},
+{
+"label": "Autres",
+"weight": 0.2301
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9765
+},
+{
+"label": "Irlande",
+"weight": 0.0116
+},
+{
+"label": "Autres",
+"weight": 0.0119
+}
+]
 },
 {
 "index": "MSCI USA Levier x2",
@@ -710,7 +2355,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 32.83
+"unitPrice": 32.83,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4487
+},
+{
+"label": "Finance",
+"weight": 0.1348
+},
+{
+"label": "Santé",
+"weight": 0.0922
+},
+{
+"label": "Consommation de base",
+"weight": 0.0891
+},
+{
+"label": "Autres",
+"weight": 0.2352
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9721
+},
+{
+"label": "Irlande",
+"weight": 0.0114
+},
+{
+"label": "Autres",
+"weight": 0.0165
+}
+]
 },
 {
 "index": "STOXX Europe 600",
@@ -727,7 +2408,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 21.0
+"unitPrice": 21.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2697
+},
+{
+"label": "Industrie",
+"weight": 0.1708
+},
+{
+"label": "Santé",
+"weight": 0.1156
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0965
+},
+{
+"label": "Autres",
+"weight": 0.3474
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2159
+},
+{
+"label": "Suisse",
+"weight": 0.1467
+},
+{
+"label": "France",
+"weight": 0.1382
+},
+{
+"label": "Allemagne",
+"weight": 0.1324
+},
+{
+"label": "Autres",
+"weight": 0.3668
+}
+]
 },
 {
 "index": "CAC 40",
@@ -744,7 +2469,47 @@
 "esg": false,
 "replication": "Physique",
 "distribution": "Capitalisant",
-"unitPrice": 40.65
+"unitPrice": 40.65,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "S&P 500 Screened",
@@ -761,7 +2526,43 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 56.41
+"unitPrice": 56.41,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4657
+},
+{
+"label": "Finance",
+"weight": 0.1518
+},
+{
+"label": "Santé",
+"weight": 0.1193
+},
+{
+"label": "Industrie",
+"weight": 0.0812
+},
+{
+"label": "Autres",
+"weight": 0.182
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9634
+},
+{
+"label": "Irlande",
+"weight": 0.0187
+},
+{
+"label": "Autres",
+"weight": 0.0179
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -778,7 +2579,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 15.58
+"unitPrice": 15.58,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -795,7 +2640,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 102.0
+"unitPrice": 102.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI Emerging Markets",
@@ -812,7 +2701,51 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 36.67
+"unitPrice": 36.67,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4477
+},
+{
+"label": "Finance",
+"weight": 0.2107
+},
+{
+"label": "Matériaux",
+"weight": 0.0714
+},
+{
+"label": "Industrie",
+"weight": 0.0593
+},
+{
+"label": "Autres",
+"weight": 0.2109
+}
+],
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.2748
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2064
+},
+{
+"label": "Chine",
+"weight": 0.1842
+},
+{
+"label": "Inde",
+"weight": 0.1134
+},
+{
+"label": "Autres",
+"weight": 0.2212
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -829,7 +2762,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 20.75
+"unitPrice": 20.75,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI EMU (couvert USD)",
@@ -847,7 +2824,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 11.07,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "STOXX Europe 600 Santé",
@@ -864,7 +2885,47 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 148.0
+"unitPrice": 148.0,
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.9313
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0303
+},
+{
+"label": "Matériaux",
+"weight": 0.013
+},
+{
+"label": "Autres",
+"weight": 0.0254
+}
+],
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.4076
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2176
+},
+{
+"label": "Danemark",
+"weight": 0.1111
+},
+{
+"label": "France",
+"weight": 0.0954
+},
+{
+"label": "Autres",
+"weight": 0.1683
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -882,7 +2943,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 63.36,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -899,7 +3004,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 83.02
+"unitPrice": 83.02,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "EURO STOXX Quality Dividend",
@@ -916,7 +3065,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 29.62
+"unitPrice": 29.62,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4127
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1211
+},
+{
+"label": "Industrie",
+"weight": 0.0914
+},
+{
+"label": "Consommation de base",
+"weight": 0.0837
+},
+{
+"label": "Autres",
+"weight": 0.2911
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3036
+},
+{
+"label": "Italie",
+"weight": 0.173
+},
+{
+"label": "Allemagne",
+"weight": 0.1659
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1487
+},
+{
+"label": "Autres",
+"weight": 0.2088
+}
+]
 },
 {
 "index": "MSCI EM Asia",
@@ -933,7 +3126,51 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 40.27
+"unitPrice": 40.27,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5392
+},
+{
+"label": "Finance",
+"weight": 0.1624
+},
+{
+"label": "Industrie",
+"weight": 0.0623
+},
+{
+"label": "Consommation de base",
+"weight": 0.0511
+},
+{
+"label": "Autres",
+"weight": 0.185
+}
+],
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.3319
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2492
+},
+{
+"label": "Chine",
+"weight": 0.222
+},
+{
+"label": "Inde",
+"weight": 0.1369
+},
+{
+"label": "Autres",
+"weight": 0.06
+}
+]
 },
 {
 "index": "MSCI EMU SRI",
@@ -951,7 +3188,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 142.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "FTSE MIB",
@@ -968,7 +3249,47 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 52.66
+"unitPrice": 52.66,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5236
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1303
+},
+{
+"label": "Énergie",
+"weight": 0.091
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0876
+},
+{
+"label": "Autres",
+"weight": 0.1675
+}
+],
+"countries": [
+{
+"label": "Italie",
+"weight": 0.9406
+},
+{
+"label": "Suisse",
+"weight": 0.0363
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0132
+},
+{
+"label": "Autres",
+"weight": 0.0099
+}
+]
 },
 {
 "index": "Russell 2000",
@@ -985,7 +3306,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 372.0
+"unitPrice": 372.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2635
+},
+{
+"label": "Santé",
+"weight": 0.2072
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1175
+},
+{
+"label": "Industrie",
+"weight": 0.1038
+},
+{
+"label": "Autres",
+"weight": 0.308
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9511
+},
+{
+"label": "Bermudes",
+"weight": 0.0166
+},
+{
+"label": "Autres",
+"weight": 0.0323
+}
+]
 },
 {
 "index": "MSCI EMU Climate Paris Aligned",
@@ -1003,7 +3360,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 6.45,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3288
+},
+{
+"label": "Industrie",
+"weight": 0.1961
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1713
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0653
+},
+{
+"label": "Autres",
+"weight": 0.2385
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2414
+},
+{
+"label": "Allemagne",
+"weight": 0.2316
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1688
+},
+{
+"label": "Italie",
+"weight": 0.1041
+},
+{
+"label": "Autres",
+"weight": 0.2541
+}
+]
 },
 {
 "index": "CAC 40 ESG",
@@ -1020,7 +3421,47 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 140.0
+"unitPrice": 140.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3051
+},
+{
+"label": "Finance",
+"weight": 0.1607
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1562
+},
+{
+"label": "Consommation de base",
+"weight": 0.0931
+},
+{
+"label": "Autres",
+"weight": 0.2849
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8947
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0767
+},
+{
+"label": "Suisse",
+"weight": 0.0165
+},
+{
+"label": "Luxembourg",
+"weight": 0.012
+}
+]
 },
 {
 "index": "MSCI EMU Screened",
@@ -1038,7 +3479,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 9.14,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3065
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1703
+},
+{
+"label": "Industrie",
+"weight": 0.1472
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0698
+},
+{
+"label": "Autres",
+"weight": 0.3062
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2464
+},
+{
+"label": "Allemagne",
+"weight": 0.2376
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1846
+},
+{
+"label": "Espagne",
+"weight": 0.1071
+},
+{
+"label": "Autres",
+"weight": 0.2243
+}
+]
 },
 {
 "index": "TecDAX",
@@ -1056,7 +3541,43 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 34.97,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.463
+},
+{
+"label": "Santé",
+"weight": 0.2447
+},
+{
+"label": "Services de communication",
+"weight": 0.1859
+},
+{
+"label": "Industrie",
+"weight": 0.0991
+},
+{
+"label": "Autres",
+"weight": 0.0073
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9342
+},
+{
+"label": "Pays-Bas",
+"weight": 0.058
+},
+{
+"label": "Autres",
+"weight": 0.0078
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -1073,7 +3594,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 18.98
+"unitPrice": 18.98,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "STOXX Europe Select Dividend 30",
@@ -1090,7 +3655,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 24.64
+"unitPrice": 24.64,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.6239
+},
+{
+"label": "Énergie",
+"weight": 0.0987
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0905
+},
+{
+"label": "Industrie",
+"weight": 0.0535
+},
+{
+"label": "Autres",
+"weight": 0.1334
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2851
+},
+{
+"label": "France",
+"weight": 0.2398
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2147
+},
+{
+"label": "Allemagne",
+"weight": 0.0707
+},
+{
+"label": "Autres",
+"weight": 0.1897
+}
+]
 },
 {
 "index": "EURO STOXX Select Dividend 30",
@@ -1108,7 +3717,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 23.62,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5316
+},
+{
+"label": "Industrie",
+"weight": 0.0944
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.078
+},
+{
+"label": "Énergie",
+"weight": 0.0745
+},
+{
+"label": "Autres",
+"weight": 0.2215
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.2918
+},
+{
+"label": "France",
+"weight": 0.1969
+},
+{
+"label": "Allemagne",
+"weight": 0.1586
+},
+{
+"label": "Italie",
+"weight": 0.0917
+},
+{
+"label": "Autres",
+"weight": 0.261
+}
+]
 },
 {
 "index": "MSCI EMU Small Cap",
@@ -1125,7 +3778,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 434.0
+"unitPrice": 434.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2688
+},
+{
+"label": "Finance",
+"weight": 0.2379
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.089
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.076
+},
+{
+"label": "Autres",
+"weight": 0.3283
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2088
+},
+{
+"label": "Allemagne",
+"weight": 0.2012
+},
+{
+"label": "Italie",
+"weight": 0.1569
+},
+{
+"label": "Espagne",
+"weight": 0.0913
+},
+{
+"label": "Autres",
+"weight": 0.3418
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -1142,7 +3839,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 79.82
+"unitPrice": 79.82,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI USA ESG",
@@ -1159,7 +3900,47 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 848.0
+"unitPrice": 848.0,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4317
+},
+{
+"label": "Finance",
+"weight": 0.1336
+},
+{
+"label": "Santé",
+"weight": 0.0962
+},
+{
+"label": "Industrie",
+"weight": 0.0743
+},
+{
+"label": "Autres",
+"weight": 0.2642
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9534
+},
+{
+"label": "Irlande",
+"weight": 0.0186
+},
+{
+"label": "Singapour",
+"weight": 0.0109
+},
+{
+"label": "Autres",
+"weight": 0.0171
+}
+]
 },
 {
 "index": "Europe Infrastructure Development",
@@ -1195,7 +3976,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 45.28,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2823
+},
+{
+"label": "Industrie",
+"weight": 0.1994
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1521
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0708
+},
+{
+"label": "Autres",
+"weight": 0.2954
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2766
+},
+{
+"label": "Allemagne",
+"weight": 0.2766
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1879
+},
+{
+"label": "Espagne",
+"weight": 0.1004
+},
+{
+"label": "Autres",
+"weight": 0.1585
+}
+]
 },
 {
 "index": "DivDAX",
@@ -1213,7 +4038,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 22.34,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2559
+},
+{
+"label": "Industrie",
+"weight": 0.213
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.2089
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1871
+},
+{
+"label": "Autres",
+"weight": 0.1351
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9991
+},
+{
+"label": "Autres",
+"weight": 0.0009
+}
+]
 },
 {
 "index": "DAX ESG",
@@ -1231,7 +4088,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 158.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3044
+},
+{
+"label": "Industrie",
+"weight": 0.1941
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1919
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0874
+},
+{
+"label": "Autres",
+"weight": 0.2222
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9777
+},
+{
+"label": "Autres",
+"weight": 0.0223
+}
+]
 },
 {
 "index": "STOXX Europe 600 Ressources de base",
@@ -1248,7 +4137,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 137.0
+"unitPrice": 137.0,
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 0.8404
+},
+{
+"label": "Énergie",
+"weight": 0.1463
+},
+{
+"label": "Autres",
+"weight": 0.0134
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.478
+},
+{
+"label": "Suisse",
+"weight": 0.1463
+},
+{
+"label": "Suède",
+"weight": 0.1007
+},
+{
+"label": "Luxembourg",
+"weight": 0.0775
+},
+{
+"label": "Autres",
+"weight": 0.1975
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -1266,7 +4191,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 8.63,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "Bloomberg Europe Defense",
@@ -1283,7 +4252,39 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 11.01
+"unitPrice": 11.01,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.9566
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0434
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2447
+},
+{
+"label": "Allemagne",
+"weight": 0.2164
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1848
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1265
+},
+{
+"label": "Autres",
+"weight": 0.2276
+}
+]
 },
 {
 "index": "IBEX 35",
@@ -1300,7 +4301,47 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 504.0
+"unitPrice": 504.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4447
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1773
+},
+{
+"label": "Industrie",
+"weight": 0.1633
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.109
+},
+{
+"label": "Autres",
+"weight": 0.1057
+}
+],
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.9281
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0384
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0231
+},
+{
+"label": "Luxembourg",
+"weight": 0.0104
+}
+]
 },
 {
 "index": "US Tech 100 Screened",
@@ -1317,7 +4358,51 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 85.79
+"unitPrice": 85.79,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.6656
+},
+{
+"label": "Consommation de base",
+"weight": 0.1195
+},
+{
+"label": "Santé",
+"weight": 0.041
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0329
+},
+{
+"label": "Autres",
+"weight": 0.141
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9443
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0167
+},
+{
+"label": "Pays-Bas",
+"weight": 0.014
+},
+{
+"label": "Canada",
+"weight": 0.0101
+},
+{
+"label": "Autres",
+"weight": 0.0149
+}
+]
 },
 {
 "index": "MSCI Greece",
@@ -1334,7 +4419,43 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 3.09
+"unitPrice": 3.09,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5335
+},
+{
+"label": "Consommation de base",
+"weight": 0.1613
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1244
+},
+{
+"label": "Énergie",
+"weight": 0.0571
+},
+{
+"label": "Autres",
+"weight": 0.1237
+}
+],
+"countries": [
+{
+"label": "Grèce",
+"weight": 0.8203
+},
+{
+"label": "Suisse",
+"weight": 0.1506
+},
+{
+"label": "Belgique",
+"weight": 0.0291
+}
+]
 },
 {
 "index": "S&P Eurozone Climate Paris Aligned",
@@ -1352,7 +4473,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 27.33,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1828
+},
+{
+"label": "Industrie",
+"weight": 0.1387
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0946
+},
+{
+"label": "Autres",
+"weight": 0.2349
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2615
+},
+{
+"label": "Allemagne",
+"weight": 0.2302
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1728
+},
+{
+"label": "Italie",
+"weight": 0.1146
+},
+{
+"label": "Autres",
+"weight": 0.2209
+}
+]
 },
 {
 "index": "EURO STOXX 50 ESG",
@@ -1370,7 +4535,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 20.41,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3201
+},
+{
+"label": "Industrie",
+"weight": 0.1867
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1622
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1019
+},
+{
+"label": "Autres",
+"weight": 0.2291
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.315
+},
+{
+"label": "France",
+"weight": 0.2782
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1504
+},
+{
+"label": "Espagne",
+"weight": 0.1379
+},
+{
+"label": "Autres",
+"weight": 0.1185
+}
+]
 },
 {
 "index": "MSCI World",
@@ -1387,7 +4596,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Distribuant",
-"unitPrice": 41.58
+"unitPrice": 41.58,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3554
+},
+{
+"label": "Finance",
+"weight": 0.179
+},
+{
+"label": "Industrie",
+"weight": 0.0951
+},
+{
+"label": "Santé",
+"weight": 0.0896
+},
+{
+"label": "Autres",
+"weight": 0.2809
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7
+},
+{
+"label": "Japon",
+"weight": 0.0576
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0365
+},
+{
+"label": "Canada",
+"weight": 0.0337
+},
+{
+"label": "Autres",
+"weight": 0.1722
+}
+]
 },
 {
 "index": "MSCI EMU CTB Enhanced ESG",
@@ -1405,7 +4658,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 8.98,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3117
+},
+{
+"label": "Industrie",
+"weight": 0.1897
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1566
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0646
+},
+{
+"label": "Autres",
+"weight": 0.2774
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2613
+},
+{
+"label": "Allemagne",
+"weight": 0.2425
+},
+{
+"label": "Pays-Bas",
+"weight": 0.162
+},
+{
+"label": "Espagne",
+"weight": 0.1047
+},
+{
+"label": "Autres",
+"weight": 0.2295
+}
+]
 },
 {
 "index": "STOXX Europe 600 Industrie",
@@ -1422,7 +4719,35 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 150.0
+"unitPrice": 150.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.1968
+},
+{
+"label": "Allemagne",
+"weight": 0.1901
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1746
+},
+{
+"label": "Suède",
+"weight": 0.1074
+},
+{
+"label": "Autres",
+"weight": 0.3311
+}
+]
 },
 {
 "index": "MSCI EMU SRI",
@@ -1440,7 +4765,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 34.52,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "MSCI EMU High Dividend",
@@ -1457,7 +4826,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 210.0
+"unitPrice": 210.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3608
+},
+{
+"label": "Industrie",
+"weight": 0.1736
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1006
+},
+{
+"label": "Énergie",
+"weight": 0.0897
+},
+{
+"label": "Autres",
+"weight": 0.2753
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3359
+},
+{
+"label": "Allemagne",
+"weight": 0.2446
+},
+{
+"label": "Italie",
+"weight": 0.1276
+},
+{
+"label": "Espagne",
+"weight": 0.0941
+},
+{
+"label": "Autres",
+"weight": 0.1978
+}
+]
 },
 {
 "index": "MSCI Europe",
@@ -1474,7 +4887,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 39.3
+"unitPrice": 39.3,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2617
+},
+{
+"label": "Industrie",
+"weight": 0.1657
+},
+{
+"label": "Santé",
+"weight": 0.1205
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1052
+},
+{
+"label": "Autres",
+"weight": 0.3469
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2132
+},
+{
+"label": "Suisse",
+"weight": 0.1521
+},
+{
+"label": "Allemagne",
+"weight": 0.1374
+},
+{
+"label": "France",
+"weight": 0.1335
+},
+{
+"label": "Autres",
+"weight": 0.3638
+}
+]
 },
 {
 "index": "Bloomberg Commodity (matières premières)",
@@ -1508,7 +4965,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 104.0
+"unitPrice": 104.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "MSCI EMU ESG",
@@ -1525,7 +5026,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 84.27
+"unitPrice": 84.27,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3006
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1814
+},
+{
+"label": "Industrie",
+"weight": 0.1513
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0908
+},
+{
+"label": "Autres",
+"weight": 0.2759
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3896
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1806
+},
+{
+"label": "Allemagne",
+"weight": 0.1286
+},
+{
+"label": "Espagne",
+"weight": 0.0907
+},
+{
+"label": "Autres",
+"weight": 0.2105
+}
+]
 },
 {
 "index": "STOXX Europe 600",
@@ -1542,7 +5087,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 18.36
+"unitPrice": 18.36,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2697
+},
+{
+"label": "Industrie",
+"weight": 0.1708
+},
+{
+"label": "Santé",
+"weight": 0.1156
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0965
+},
+{
+"label": "Autres",
+"weight": 0.3474
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2159
+},
+{
+"label": "Suisse",
+"weight": 0.1467
+},
+{
+"label": "France",
+"weight": 0.1382
+},
+{
+"label": "Allemagne",
+"weight": 0.1324
+},
+{
+"label": "Autres",
+"weight": 0.3668
+}
+]
 },
 {
 "index": "MSCI EMU Climate Paris Aligned",
@@ -1559,7 +5148,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 93.52
+"unitPrice": 93.52,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3288
+},
+{
+"label": "Industrie",
+"weight": 0.1961
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1713
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0653
+},
+{
+"label": "Autres",
+"weight": 0.2385
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2414
+},
+{
+"label": "Allemagne",
+"weight": 0.2316
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1688
+},
+{
+"label": "Italie",
+"weight": 0.1041
+},
+{
+"label": "Autres",
+"weight": 0.2541
+}
+]
 },
 {
 "index": "MSCI Europe IT",
@@ -1577,7 +5210,43 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 12.17,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.9739
+},
+{
+"label": "Industrie",
+"weight": 0.0223
+},
+{
+"label": "Autres",
+"weight": 0.0038
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.4303
+},
+{
+"label": "Allemagne",
+"weight": 0.2965
+},
+{
+"label": "Finlande",
+"weight": 0.0623
+},
+{
+"label": "Suède",
+"weight": 0.0591
+},
+{
+"label": "Autres",
+"weight": 0.1518
+}
+]
 },
 {
 "index": "S&P 500 (couvert EUR)",
@@ -1594,7 +5263,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 26.91
+"unitPrice": 26.91,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.452
+},
+{
+"label": "Finance",
+"weight": 0.1369
+},
+{
+"label": "Santé",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0898
+},
+{
+"label": "Autres",
+"weight": 0.2301
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9765
+},
+{
+"label": "Irlande",
+"weight": 0.0116
+},
+{
+"label": "Autres",
+"weight": 0.0119
+}
+]
 },
 {
 "index": "MSCI EMU Value",
@@ -1611,7 +5316,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 191.0
+"unitPrice": 191.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4753
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1029
+},
+{
+"label": "Industrie",
+"weight": 0.0754
+},
+{
+"label": "Matériaux",
+"weight": 0.0679
+},
+{
+"label": "Autres",
+"weight": 0.2785
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2705
+},
+{
+"label": "Allemagne",
+"weight": 0.2382
+},
+{
+"label": "Espagne",
+"weight": 0.1514
+},
+{
+"label": "Italie",
+"weight": 0.1359
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "EURO STOXX Banks 30-15",
@@ -1629,7 +5378,39 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 20.83,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.9951
+},
+{
+"label": "Autres",
+"weight": 0.0049
+}
+],
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.3101
+},
+{
+"label": "Italie",
+"weight": 0.2402
+},
+{
+"label": "France",
+"weight": 0.1384
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0882
+},
+{
+"label": "Autres",
+"weight": 0.2231
+}
+]
 },
 {
 "index": "S&P 500 Screened (couvert EUR)",
@@ -1646,7 +5427,43 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 48.68
+"unitPrice": 48.68,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4657
+},
+{
+"label": "Finance",
+"weight": 0.1518
+},
+{
+"label": "Santé",
+"weight": 0.1193
+},
+{
+"label": "Industrie",
+"weight": 0.0812
+},
+{
+"label": "Autres",
+"weight": 0.182
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9634
+},
+{
+"label": "Irlande",
+"weight": 0.0187
+},
+{
+"label": "Autres",
+"weight": 0.0179
+}
+]
 },
 {
 "index": "FTSE Germany All Cap",
@@ -1664,7 +5481,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 35.13,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2944
+},
+{
+"label": "Finance",
+"weight": 0.2295
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1565
+},
+{
+"label": "Matériaux",
+"weight": 0.0648
+},
+{
+"label": "Autres",
+"weight": 0.2548
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9692
+},
+{
+"label": "Autres",
+"weight": 0.0308
+}
+]
 },
 {
 "index": "MSCI World Levier x2",
@@ -1681,7 +5530,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 5.53
+"unitPrice": 5.53,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3554
+},
+{
+"label": "Finance",
+"weight": 0.179
+},
+{
+"label": "Industrie",
+"weight": 0.0951
+},
+{
+"label": "Santé",
+"weight": 0.0896
+},
+{
+"label": "Autres",
+"weight": 0.2809
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7
+},
+{
+"label": "Japon",
+"weight": 0.0576
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0365
+},
+{
+"label": "Canada",
+"weight": 0.0337
+},
+{
+"label": "Autres",
+"weight": 0.1722
+}
+]
 },
 {
 "index": "Russell 2000 (part USD)",
@@ -1698,7 +5591,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 373.0
+"unitPrice": 373.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2635
+},
+{
+"label": "Santé",
+"weight": 0.2072
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1175
+},
+{
+"label": "Industrie",
+"weight": 0.1038
+},
+{
+"label": "Autres",
+"weight": 0.308
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9511
+},
+{
+"label": "Bermudes",
+"weight": 0.0166
+},
+{
+"label": "Autres",
+"weight": 0.0323
+}
+]
 },
 {
 "index": "STOXX Europe 600 Technologie",
@@ -1716,7 +5645,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 99.58,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.8963
+},
+{
+"label": "Consommation de base",
+"weight": 0.061
+},
+{
+"label": "Industrie",
+"weight": 0.0359
+},
+{
+"label": "Finance",
+"weight": 0.0051
+},
+{
+"label": "Autres",
+"weight": 0.0018
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.4179
+},
+{
+"label": "Allemagne",
+"weight": 0.268
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0977
+},
+{
+"label": "Suisse",
+"weight": 0.0594
+},
+{
+"label": "Autres",
+"weight": 0.157
+}
+]
 },
 {
 "index": "CAC 40 Levier x2",
@@ -1733,7 +5706,47 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 42.17
+"unitPrice": 42.17,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "Bloomberg Eurozone PAB",
@@ -1750,7 +5763,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 185.0
+"unitPrice": 185.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2301
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.2103
+},
+{
+"label": "Industrie",
+"weight": 0.148
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1286
+},
+{
+"label": "Autres",
+"weight": 0.283
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2501
+},
+{
+"label": "Allemagne",
+"weight": 0.2342
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1705
+},
+{
+"label": "Espagne",
+"weight": 0.1421
+},
+{
+"label": "Autres",
+"weight": 0.2031
+}
+]
 },
 {
 "index": "EURO STOXX 50 Levier x2",
@@ -1767,7 +5824,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 84.7
+"unitPrice": 84.7,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "Dow Jones Eurozone Sustainability",
@@ -1784,7 +5885,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 22.83
+"unitPrice": 22.83,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3162
+},
+{
+"label": "Industrie",
+"weight": 0.2607
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0887
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0785
+},
+{
+"label": "Autres",
+"weight": 0.2559
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3031
+},
+{
+"label": "Allemagne",
+"weight": 0.2293
+},
+{
+"label": "Espagne",
+"weight": 0.2069
+},
+{
+"label": "Italie",
+"weight": 0.1105
+},
+{
+"label": "Autres",
+"weight": 0.1502
+}
+]
 },
 {
 "index": "Bloomberg Europe ex Eurozone PAB",
@@ -1802,7 +5947,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 191.0,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier",
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.2897
+},
+{
+"label": "Finance",
+"weight": 0.2183
+},
+{
+"label": "Industrie",
+"weight": 0.1302
+},
+{
+"label": "Consommation de base",
+"weight": 0.1242
+},
+{
+"label": "Autres",
+"weight": 0.2376
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.4456
+},
+{
+"label": "Suisse",
+"weight": 0.3412
+},
+{
+"label": "Suède",
+"weight": 0.0998
+},
+{
+"label": "Danemark",
+"weight": 0.0799
+},
+{
+"label": "Autres",
+"weight": 0.0335
+}
+]
 },
 {
 "index": "Monétaire euro (€STR)",
@@ -1836,7 +6025,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 27.66
+"unitPrice": 27.66,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3535
+},
+{
+"label": "Matériaux",
+"weight": 0.2107
+},
+{
+"label": "Consommation de base",
+"weight": 0.1089
+},
+{
+"label": "Énergie",
+"weight": 0.1074
+},
+{
+"label": "Autres",
+"weight": 0.2195
+}
+],
+"countries": [
+{
+"label": "Brésil",
+"weight": 0.5794
+},
+{
+"label": "Mexique",
+"weight": 0.2491
+},
+{
+"label": "Chili",
+"weight": 0.0674
+},
+{
+"label": "Pérou",
+"weight": 0.0367
+},
+{
+"label": "Autres",
+"weight": 0.0674
+}
+]
 },
 {
 "index": "STOXX Europe 600 ESG Equal Weight",
@@ -1854,7 +6087,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 156.0,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2832
+},
+{
+"label": "Industrie",
+"weight": 0.1781
+},
+{
+"label": "Matériaux",
+"weight": 0.1065
+},
+{
+"label": "Consommation de base",
+"weight": 0.0759
+},
+{
+"label": "Autres",
+"weight": 0.3563
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2069
+},
+{
+"label": "France",
+"weight": 0.1165
+},
+{
+"label": "Allemagne",
+"weight": 0.1156
+},
+{
+"label": "Suisse",
+"weight": 0.0993
+},
+{
+"label": "Autres",
+"weight": 0.4617
+}
+]
 },
 {
 "index": "CAC 40 ESG",
@@ -1871,7 +6148,47 @@
 "esg": true,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 12.85
+"unitPrice": 12.85,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3051
+},
+{
+"label": "Finance",
+"weight": 0.1607
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1562
+},
+{
+"label": "Consommation de base",
+"weight": 0.0931
+},
+{
+"label": "Autres",
+"weight": 0.2849
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8947
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0767
+},
+{
+"label": "Suisse",
+"weight": 0.0165
+},
+{
+"label": "Luxembourg",
+"weight": 0.012
+}
+]
 },
 {
 "index": "STOXX Europe 600 Technologie",
@@ -1888,7 +6205,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 120.0
+"unitPrice": 120.0,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.8963
+},
+{
+"label": "Consommation de base",
+"weight": 0.061
+},
+{
+"label": "Industrie",
+"weight": 0.0359
+},
+{
+"label": "Finance",
+"weight": 0.0051
+},
+{
+"label": "Autres",
+"weight": 0.0018
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.4179
+},
+{
+"label": "Allemagne",
+"weight": 0.268
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0977
+},
+{
+"label": "Suisse",
+"weight": 0.0594
+},
+{
+"label": "Autres",
+"weight": 0.157
+}
+]
 },
 {
 "index": "MSCI France",
@@ -1906,7 +6267,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 63.01,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2948
+},
+{
+"label": "Finance",
+"weight": 0.1496
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1386
+},
+{
+"label": "Matériaux",
+"weight": 0.0899
+},
+{
+"label": "Autres",
+"weight": 0.3271
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8963
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0696
+},
+{
+"label": "Luxembourg",
+"weight": 0.0189
+},
+{
+"label": "Suisse",
+"weight": 0.0146
+},
+{
+"label": "Autres",
+"weight": 0.0006
+}
+]
 },
 {
 "index": "STOXX Europe 600 Services aux collectivités",
@@ -1923,7 +6328,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 100.0
+"unitPrice": 100.0,
+"sectors": [
+{
+"label": "Services aux collectivités",
+"weight": 0.9598
+},
+{
+"label": "Industrie",
+"weight": 0.0364
+},
+{
+"label": "Autres",
+"weight": 0.0039
+}
+],
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.268
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2377
+},
+{
+"label": "Italie",
+"weight": 0.1661
+},
+{
+"label": "Allemagne",
+"weight": 0.1295
+},
+{
+"label": "Autres",
+"weight": 0.1987
+}
+]
 },
 {
 "index": "MSCI AC Asia Pacific ex Japan",
@@ -1957,7 +6398,47 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 126.0
+"unitPrice": 126.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4995
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1435
+},
+{
+"label": "Industrie",
+"weight": 0.1107
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1106
+},
+{
+"label": "Autres",
+"weight": 0.1357
+}
+],
+"countries": [
+{
+"label": "Italie",
+"weight": 0.9251
+},
+{
+"label": "Suisse",
+"weight": 0.0465
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0156
+},
+{
+"label": "Luxembourg",
+"weight": 0.0128
+}
+]
 },
 {
 "index": "Bloomberg Asia Pacific ex Japan PAB",
@@ -1975,7 +6456,51 @@
 "replication": "Synthétique",
 "distribution": "Capitalisant",
 "unitPrice": 136.0,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.6124
+},
+{
+"label": "Consommation de base",
+"weight": 0.087
+},
+{
+"label": "Industrie",
+"weight": 0.0839
+},
+{
+"label": "Santé",
+"weight": 0.0589
+},
+{
+"label": "Autres",
+"weight": 0.1578
+}
+],
+"countries": [
+{
+"label": "Australie",
+"weight": 0.5452
+},
+{
+"label": "Hong Kong",
+"weight": 0.2128
+},
+{
+"label": "Singapour",
+"weight": 0.2042
+},
+{
+"label": "Nouvelle-Zélande",
+"weight": 0.0286
+},
+{
+"label": "Autres",
+"weight": 0.0092
+}
+]
 },
 {
 "index": "MDAX ESG",
@@ -1993,7 +6518,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 25.6,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2813
+},
+{
+"label": "Finance",
+"weight": 0.1627
+},
+{
+"label": "Matériaux",
+"weight": 0.1477
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1219
+},
+{
+"label": "Autres",
+"weight": 0.2864
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9781
+},
+{
+"label": "Luxembourg",
+"weight": 0.0219
+}
+]
 },
 {
 "index": "DAX Levier x2",
@@ -2010,7 +6567,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 259.0
+"unitPrice": 259.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "ATX (Autriche)",
@@ -2028,7 +6621,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 73.55,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5026
+},
+{
+"label": "Industrie",
+"weight": 0.1476
+},
+{
+"label": "Énergie",
+"weight": 0.1263
+},
+{
+"label": "Matériaux",
+"weight": 0.0907
+},
+{
+"label": "Autres",
+"weight": 0.1328
+}
+],
+"countries": [
+{
+"label": "Autriche",
+"weight": 0.9742
+},
+{
+"label": "Autres",
+"weight": 0.0258
+}
+]
 },
 {
 "index": "Solactive Eurozone",
@@ -2046,7 +6671,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 38.56,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2768
+},
+{
+"label": "Industrie",
+"weight": 0.1924
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1585
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0751
+},
+{
+"label": "Autres",
+"weight": 0.2972
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2551
+},
+{
+"label": "France",
+"weight": 0.2422
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1789
+},
+{
+"label": "Espagne",
+"weight": 0.108
+},
+{
+"label": "Autres",
+"weight": 0.2158
+}
+]
 },
 {
 "index": "S&P 500",
@@ -2063,7 +6732,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Distribuant",
-"unitPrice": 24.65
+"unitPrice": 24.65,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.452
+},
+{
+"label": "Finance",
+"weight": 0.1369
+},
+{
+"label": "Santé",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0898
+},
+{
+"label": "Autres",
+"weight": 0.2301
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9765
+},
+{
+"label": "Irlande",
+"weight": 0.0116
+},
+{
+"label": "Autres",
+"weight": 0.0119
+}
+]
 },
 {
 "index": "MSCI EMU ESG",
@@ -2080,7 +6785,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 251.0
+"unitPrice": 251.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3006
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1814
+},
+{
+"label": "Industrie",
+"weight": 0.1513
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0908
+},
+{
+"label": "Autres",
+"weight": 0.2759
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3896
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1806
+},
+{
+"label": "Allemagne",
+"weight": 0.1286
+},
+{
+"label": "Espagne",
+"weight": 0.0907
+},
+{
+"label": "Autres",
+"weight": 0.2105
+}
+]
 },
 {
 "index": "MSCI Europe",
@@ -2097,7 +6846,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 121.0
+"unitPrice": 121.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2617
+},
+{
+"label": "Industrie",
+"weight": 0.1657
+},
+{
+"label": "Santé",
+"weight": 0.1205
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1052
+},
+{
+"label": "Autres",
+"weight": 0.3469
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2132
+},
+{
+"label": "Suisse",
+"weight": 0.1521
+},
+{
+"label": "Allemagne",
+"weight": 0.1374
+},
+{
+"label": "France",
+"weight": 0.1335
+},
+{
+"label": "Autres",
+"weight": 0.3638
+}
+]
 },
 {
 "index": "CAC 40 Inverse x2",
@@ -2114,7 +6907,47 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 0.66
+"unitPrice": 0.66,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "MDAX",
@@ -2131,7 +6964,43 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 145.0
+"unitPrice": 145.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3546
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1308
+},
+{
+"label": "Finance",
+"weight": 0.1288
+},
+{
+"label": "Matériaux",
+"weight": 0.1186
+},
+{
+"label": "Autres",
+"weight": 0.2672
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9828
+},
+{
+"label": "Luxembourg",
+"weight": 0.0165
+},
+{
+"label": "Autres",
+"weight": 0.0007
+}
+]
 },
 {
 "index": "STOXX Europe 600 Automobile",
@@ -2149,7 +7018,47 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 38.53,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.9529
+},
+{
+"label": "Industrie",
+"weight": 0.045
+},
+{
+"label": "Autres",
+"weight": 0.0021
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.4518
+},
+{
+"label": "Italie",
+"weight": 0.2715
+},
+{
+"label": "France",
+"weight": 0.1951
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0564
+},
+{
+"label": "Belgique",
+"weight": 0.0231
+},
+{
+"label": "Autres",
+"weight": 0.0021
+}
+]
 },
 {
 "index": "MSCI USA ESG (part USD)",
@@ -2166,7 +7075,47 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 850.0
+"unitPrice": 850.0,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4317
+},
+{
+"label": "Finance",
+"weight": 0.1336
+},
+{
+"label": "Santé",
+"weight": 0.0962
+},
+{
+"label": "Industrie",
+"weight": 0.0743
+},
+{
+"label": "Autres",
+"weight": 0.2642
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9534
+},
+{
+"label": "Irlande",
+"weight": 0.0186
+},
+{
+"label": "Singapour",
+"weight": 0.0109
+},
+{
+"label": "Autres",
+"weight": 0.0171
+}
+]
 },
 {
 "index": "MSCI India",
@@ -2183,7 +7132,39 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 21.65
+"unitPrice": 21.65,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.313
+},
+{
+"label": "Industrie",
+"weight": 0.1115
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0978
+},
+{
+"label": "Matériaux",
+"weight": 0.0917
+},
+{
+"label": "Autres",
+"weight": 0.386
+}
+],
+"countries": [
+{
+"label": "Inde",
+"weight": 0.9978
+},
+{
+"label": "Autres",
+"weight": 0.0022
+}
+]
 },
 {
 "index": "DAX",
@@ -2201,7 +7182,43 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 10.94,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "STOXX Europe 600 Assurance",
@@ -2218,7 +7235,39 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 93.51
+"unitPrice": 93.51,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.9955
+},
+{
+"label": "Autres",
+"weight": 0.0045
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.3202
+},
+{
+"label": "Suisse",
+"weight": 0.23
+},
+{
+"label": "France",
+"weight": 0.1002
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.091
+},
+{
+"label": "Autres",
+"weight": 0.2586
+}
+]
 },
 {
 "index": "TOPIX",
@@ -2235,7 +7284,35 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 40.52
+"unitPrice": 40.52,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.2092
+},
+{
+"label": "Finance",
+"weight": 0.2012
+},
+{
+"label": "Industrie",
+"weight": 0.1969
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0917
+},
+{
+"label": "Autres",
+"weight": 0.301
+}
+],
+"countries": [
+{
+"label": "Japon",
+"weight": 1.0
+}
+]
 },
 {
 "index": "MSCI EMU SRI",
@@ -2252,7 +7329,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 18.87
+"unitPrice": 18.87,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "EURO STOXX 50 (couvert USD)",
@@ -2270,7 +7391,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 314.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "CAC 40",
@@ -2287,7 +7452,47 @@
 "esg": false,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 81.31
+"unitPrice": 81.31,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "MSCI EMU SRI",
@@ -2304,7 +7509,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 109.0
+"unitPrice": 109.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "Shiller Barclays CAPE Europe Value",
@@ -2339,7 +7588,39 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 533.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2741
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.2216
+},
+{
+"label": "Santé",
+"weight": 0.1375
+},
+{
+"label": "Industrie",
+"weight": 0.1359
+},
+{
+"label": "Autres",
+"weight": 0.2309
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9983
+},
+{
+"label": "Autres",
+"weight": 0.0017
+}
+]
 },
 {
 "index": "STOXX Europe 600 Banques",
@@ -2357,7 +7638,39 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 99.24,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.9927
+},
+{
+"label": "Autres",
+"weight": 0.0073
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2736
+},
+{
+"label": "Espagne",
+"weight": 0.1905
+},
+{
+"label": "Italie",
+"weight": 0.1476
+},
+{
+"label": "France",
+"weight": 0.085
+},
+{
+"label": "Autres",
+"weight": 0.3033
+}
+]
 },
 {
 "index": "NASDAQ AlphaDEX Eurozone",
@@ -2375,7 +7688,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 64.19,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2135
+},
+{
+"label": "Finance",
+"weight": 0.1708
+},
+{
+"label": "Matériaux",
+"weight": 0.1124
+},
+{
+"label": "Énergie",
+"weight": 0.1113
+},
+{
+"label": "Autres",
+"weight": 0.392
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2122
+},
+{
+"label": "France",
+"weight": 0.2002
+},
+{
+"label": "Italie",
+"weight": 0.1427
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0925
+},
+{
+"label": "Autres",
+"weight": 0.3524
+}
+]
 },
 {
 "index": "EURO STOXX 50 (couvert CHF)",
@@ -2393,7 +7750,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 223.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI Water",
@@ -2410,7 +7811,43 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 31.24
+"unitPrice": 31.24,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.7176
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.2354
+},
+{
+"label": "Matériaux",
+"weight": 0.0469
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.6192
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.152
+},
+{
+"label": "Suède",
+"weight": 0.0413
+},
+{
+"label": "Allemagne",
+"weight": 0.041
+},
+{
+"label": "Autres",
+"weight": 0.1465
+}
+]
 },
 {
 "index": "EURO STOXX Select Dividend 30",
@@ -2428,7 +7865,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 8.27,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5316
+},
+{
+"label": "Industrie",
+"weight": 0.0944
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.078
+},
+{
+"label": "Énergie",
+"weight": 0.0745
+},
+{
+"label": "Autres",
+"weight": 0.2215
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.2918
+},
+{
+"label": "France",
+"weight": 0.1969
+},
+{
+"label": "Allemagne",
+"weight": 0.1586
+},
+{
+"label": "Italie",
+"weight": 0.0917
+},
+{
+"label": "Autres",
+"weight": 0.261
+}
+]
 },
 {
 "index": "FTSE MIB",
@@ -2446,7 +7927,47 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 26.37,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5236
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1303
+},
+{
+"label": "Énergie",
+"weight": 0.091
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0876
+},
+{
+"label": "Autres",
+"weight": 0.1675
+}
+],
+"countries": [
+{
+"label": "Italie",
+"weight": 0.9406
+},
+{
+"label": "Suisse",
+"weight": 0.0363
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0132
+},
+{
+"label": "Autres",
+"weight": 0.0099
+}
+]
 },
 {
 "index": "S&P US Industrials",
@@ -2463,7 +7984,19 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 46.12
+"unitPrice": 46.12,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+]
 },
 {
 "index": "Solactive Eurozone",
@@ -2481,7 +8014,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 39.8,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2768
+},
+{
+"label": "Industrie",
+"weight": 0.1924
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1585
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0751
+},
+{
+"label": "Autres",
+"weight": 0.2972
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2551
+},
+{
+"label": "France",
+"weight": 0.2422
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1789
+},
+{
+"label": "Espagne",
+"weight": 0.108
+},
+{
+"label": "Autres",
+"weight": 0.2158
+}
+]
 },
 {
 "index": "DAX",
@@ -2499,7 +8076,43 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 92.6,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "CAC 40 Inverse x1",
@@ -2516,7 +8129,47 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 9.83
+"unitPrice": 9.83,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "STOXX Europe 600 Consommation discrétionnaire",
@@ -2551,7 +8204,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 22.67,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2813
+},
+{
+"label": "Finance",
+"weight": 0.1627
+},
+{
+"label": "Matériaux",
+"weight": 0.1477
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1219
+},
+{
+"label": "Autres",
+"weight": 0.2864
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9781
+},
+{
+"label": "Luxembourg",
+"weight": 0.0219
+}
+]
 },
 {
 "index": "MSCI World (part USD)",
@@ -2568,7 +8253,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 702.0
+"unitPrice": 702.0,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3554
+},
+{
+"label": "Finance",
+"weight": 0.179
+},
+{
+"label": "Industrie",
+"weight": 0.0951
+},
+{
+"label": "Santé",
+"weight": 0.0896
+},
+{
+"label": "Autres",
+"weight": 0.2809
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7
+},
+{
+"label": "Japon",
+"weight": 0.0576
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0365
+},
+{
+"label": "Canada",
+"weight": 0.0337
+},
+{
+"label": "Autres",
+"weight": 0.1722
+}
+]
 },
 {
 "index": "FTSE Developed Europe Small Cap",
@@ -2586,7 +8315,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 5.21,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2527
+},
+{
+"label": "Industrie",
+"weight": 0.2102
+},
+{
+"label": "Matériaux",
+"weight": 0.0939
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0799
+},
+{
+"label": "Autres",
+"weight": 0.3633
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2297
+},
+{
+"label": "Suède",
+"weight": 0.1024
+},
+{
+"label": "Suisse",
+"weight": 0.0945
+},
+{
+"label": "France",
+"weight": 0.0879
+},
+{
+"label": "Autres",
+"weight": 0.4855
+}
+]
 },
 {
 "index": "MSCI China",
@@ -2603,7 +8376,51 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 9.59
+"unitPrice": 9.59,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.281
+},
+{
+"label": "Finance",
+"weight": 0.2175
+},
+{
+"label": "Consommation de base",
+"weight": 0.1512
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.07
+},
+{
+"label": "Autres",
+"weight": 0.2803
+}
+],
+"countries": [
+{
+"label": "Chine",
+"weight": 0.8989
+},
+{
+"label": "Hong Kong",
+"weight": 0.0575
+},
+{
+"label": "Irlande",
+"weight": 0.017
+},
+{
+"label": "Singapour",
+"weight": 0.0113
+},
+{
+"label": "Autres",
+"weight": 0.0153
+}
+]
 },
 {
 "index": "STOXX Europe 600 Santé",
@@ -2621,7 +8438,47 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 188.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.9313
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0303
+},
+{
+"label": "Matériaux",
+"weight": 0.013
+},
+{
+"label": "Autres",
+"weight": 0.0254
+}
+],
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.4076
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2176
+},
+{
+"label": "Danemark",
+"weight": 0.1111
+},
+{
+"label": "France",
+"weight": 0.0954
+},
+{
+"label": "Autres",
+"weight": 0.1683
+}
+]
 },
 {
 "index": "MSCI ACWI",
@@ -2638,7 +8495,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 5.1
+"unitPrice": 5.1,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3677
+},
+{
+"label": "Finance",
+"weight": 0.1838
+},
+{
+"label": "Industrie",
+"weight": 0.0911
+},
+{
+"label": "Santé",
+"weight": 0.082
+},
+{
+"label": "Autres",
+"weight": 0.2754
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.6202
+},
+{
+"label": "Japon",
+"weight": 0.0512
+},
+{
+"label": "Taïwan",
+"weight": 0.0325
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0319
+},
+{
+"label": "Autres",
+"weight": 0.2642
+}
+]
 },
 {
 "index": "TOPIX (couvert EUR)",
@@ -2655,7 +8556,35 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 59.6
+"unitPrice": 59.6,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.2092
+},
+{
+"label": "Finance",
+"weight": 0.2012
+},
+{
+"label": "Industrie",
+"weight": 0.1969
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0917
+},
+{
+"label": "Autres",
+"weight": 0.301
+}
+],
+"countries": [
+{
+"label": "Japon",
+"weight": 1.0
+}
+]
 },
 {
 "index": "Europe Low Volatility",
@@ -2724,7 +8653,43 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 166.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 0.8404
+},
+{
+"label": "Énergie",
+"weight": 0.1463
+},
+{
+"label": "Autres",
+"weight": 0.0134
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.478
+},
+{
+"label": "Suisse",
+"weight": 0.1463
+},
+{
+"label": "Suède",
+"weight": 0.1007
+},
+{
+"label": "Luxembourg",
+"weight": 0.0775
+},
+{
+"label": "Autres",
+"weight": 0.1975
+}
+]
 },
 {
 "index": "STOXX Europe 600 Consommation de base",
@@ -2741,7 +8706,35 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 91.33
+"unitPrice": 91.33,
+"sectors": [
+{
+"label": "Consommation de base",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.3779
+},
+{
+"label": "Belgique",
+"weight": 0.1523
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1228
+},
+{
+"label": "France",
+"weight": 0.121
+},
+{
+"label": "Autres",
+"weight": 0.226
+}
+]
 },
 {
 "index": "S&P 500",
@@ -2758,7 +8751,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 6.6
+"unitPrice": 6.6,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.452
+},
+{
+"label": "Finance",
+"weight": 0.1369
+},
+{
+"label": "Santé",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0898
+},
+{
+"label": "Autres",
+"weight": 0.2301
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9765
+},
+{
+"label": "Irlande",
+"weight": 0.0116
+},
+{
+"label": "Autres",
+"weight": 0.0119
+}
+]
 },
 {
 "index": "EURO STOXX 50 (part USD)",
@@ -2775,7 +8804,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 169.0
+"unitPrice": 169.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -2792,7 +8865,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 10.74
+"unitPrice": 10.74,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "Europe Value",
@@ -2826,7 +8943,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 4.61
+"unitPrice": 4.61,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.6656
+},
+{
+"label": "Consommation de base",
+"weight": 0.1195
+},
+{
+"label": "Santé",
+"weight": 0.041
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0329
+},
+{
+"label": "Autres",
+"weight": 0.141
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9443
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0167
+},
+{
+"label": "Pays-Bas",
+"weight": 0.014
+},
+{
+"label": "Canada",
+"weight": 0.0101
+},
+{
+"label": "Autres",
+"weight": 0.0149
+}
+]
 },
 {
 "index": "MSCI EMU SRI (couvert CHF)",
@@ -2844,7 +9005,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 31.21,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "WisdomTree Eurozone Quality Dividend Growth",
@@ -2861,7 +9066,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 28.74
+"unitPrice": 28.74,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2429
+},
+{
+"label": "Finance",
+"weight": 0.1894
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1878
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0835
+},
+{
+"label": "Autres",
+"weight": 0.2964
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2163
+},
+{
+"label": "France",
+"weight": 0.1904
+},
+{
+"label": "Espagne",
+"weight": 0.1455
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1311
+},
+{
+"label": "Autres",
+"weight": 0.3167
+}
+]
 },
 {
 "index": "CAC 40 ESG",
@@ -2878,7 +9127,47 @@
 "esg": true,
 "replication": null,
 "distribution": "Distribuant",
-"unitPrice": 81.19
+"unitPrice": 81.19,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3051
+},
+{
+"label": "Finance",
+"weight": 0.1607
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1562
+},
+{
+"label": "Consommation de base",
+"weight": 0.0931
+},
+{
+"label": "Autres",
+"weight": 0.2849
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8947
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0767
+},
+{
+"label": "Suisse",
+"weight": 0.0165
+},
+{
+"label": "Luxembourg",
+"weight": 0.012
+}
+]
 },
 {
 "index": "MSCI EMU SRI",
@@ -2896,7 +9185,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 9.3,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "STOXX Europe 600 Technologie",
@@ -2914,7 +9247,51 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 152.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.8963
+},
+{
+"label": "Consommation de base",
+"weight": 0.061
+},
+{
+"label": "Industrie",
+"weight": 0.0359
+},
+{
+"label": "Finance",
+"weight": 0.0051
+},
+{
+"label": "Autres",
+"weight": 0.0018
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.4179
+},
+{
+"label": "Allemagne",
+"weight": 0.268
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0977
+},
+{
+"label": "Suisse",
+"weight": 0.0594
+},
+{
+"label": "Autres",
+"weight": 0.157
+}
+]
 },
 {
 "index": "Europe Quality",
@@ -2948,7 +9325,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 6.7
+"unitPrice": 6.7,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "STOXX Europe 600 Consommation de base",
@@ -2966,7 +9387,35 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 128.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Consommation de base",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.3779
+},
+{
+"label": "Belgique",
+"weight": 0.1523
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1228
+},
+{
+"label": "France",
+"weight": 0.121
+},
+{
+"label": "Autres",
+"weight": 0.226
+}
+]
 },
 {
 "index": "STOXX Europe 600 Assurance",
@@ -2984,7 +9433,39 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 108.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.9955
+},
+{
+"label": "Autres",
+"weight": 0.0045
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.3202
+},
+{
+"label": "Suisse",
+"weight": 0.23
+},
+{
+"label": "France",
+"weight": 0.1002
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.091
+},
+{
+"label": "Autres",
+"weight": 0.2586
+}
+]
 },
 {
 "index": "FTSE RAFI Europe",
@@ -3002,7 +9483,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 15.93,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2402
+},
+{
+"label": "Énergie",
+"weight": 0.149
+},
+{
+"label": "Santé",
+"weight": 0.1075
+},
+{
+"label": "Industrie",
+"weight": 0.1049
+},
+{
+"label": "Autres",
+"weight": 0.3984
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2545
+},
+{
+"label": "France",
+"weight": 0.1512
+},
+{
+"label": "Allemagne",
+"weight": 0.1505
+},
+{
+"label": "Suisse",
+"weight": 0.1239
+},
+{
+"label": "Autres",
+"weight": 0.3199
+}
+]
 },
 {
 "index": "STOXX Europe 600 Industrie",
@@ -3020,7 +9545,35 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 202.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.1968
+},
+{
+"label": "Allemagne",
+"weight": 0.1901
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1746
+},
+{
+"label": "Suède",
+"weight": 0.1074
+},
+{
+"label": "Autres",
+"weight": 0.3311
+}
+]
 },
 {
 "index": "EURO STOXX Low Volatility",
@@ -3037,7 +9590,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 61.91
+"unitPrice": 61.91,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3766
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1417
+},
+{
+"label": "Industrie",
+"weight": 0.1133
+},
+{
+"label": "Énergie",
+"weight": 0.0817
+},
+{
+"label": "Autres",
+"weight": 0.2867
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2433
+},
+{
+"label": "Italie",
+"weight": 0.1528
+},
+{
+"label": "Allemagne",
+"weight": 0.1301
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1239
+},
+{
+"label": "Autres",
+"weight": 0.3499
+}
+]
 },
 {
 "index": "EURO STOXX 50 (couvert GBP)",
@@ -3055,7 +9652,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 337.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "STOXX Europe 600 Télécommunications",
@@ -3072,7 +9713,43 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 50.07
+"unitPrice": 50.07,
+"sectors": [
+{
+"label": "Services de communication",
+"weight": 0.7988
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1983
+},
+{
+"label": "Autres",
+"weight": 0.003
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.281
+},
+{
+"label": "Finlande",
+"weight": 0.1352
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1326
+},
+{
+"label": "Suède",
+"weight": 0.1179
+},
+{
+"label": "Autres",
+"weight": 0.3333
+}
+]
 },
 {
 "index": "MSCI EMU SRI (couvert GBP)",
@@ -3090,7 +9767,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 25.47,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "MSCI EMU SRI (couvert CHF)",
@@ -3108,7 +9829,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 24.15,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "Europe Infrastructure",
@@ -3144,7 +9909,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 7.94,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.8963
+},
+{
+"label": "Consommation de base",
+"weight": 0.061
+},
+{
+"label": "Industrie",
+"weight": 0.0359
+},
+{
+"label": "Finance",
+"weight": 0.0051
+},
+{
+"label": "Autres",
+"weight": 0.0018
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.4179
+},
+{
+"label": "Allemagne",
+"weight": 0.268
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0977
+},
+{
+"label": "Suisse",
+"weight": 0.0594
+},
+{
+"label": "Autres",
+"weight": 0.157
+}
+]
 },
 {
 "index": "European Strategic Autonomy",
@@ -3161,7 +9970,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 5.79
+"unitPrice": 5.79,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3187
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.234
+},
+{
+"label": "Finance",
+"weight": 0.1132
+},
+{
+"label": "Santé",
+"weight": 0.0807
+},
+{
+"label": "Autres",
+"weight": 0.2534
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2707
+},
+{
+"label": "Allemagne",
+"weight": 0.2024
+},
+{
+"label": "Pays-Bas",
+"weight": 0.171
+},
+{
+"label": "Danemark",
+"weight": 0.0901
+},
+{
+"label": "Autres",
+"weight": 0.2658
+}
+]
 },
 {
 "index": "FTSE EPRA/NAREIT Europe",
@@ -3178,7 +10031,35 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 11.9
+"unitPrice": 11.9,
+"sectors": [
+{
+"label": "Immobilier",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.3127
+},
+{
+"label": "France",
+"weight": 0.1568
+},
+{
+"label": "Suède",
+"weight": 0.1346
+},
+{
+"label": "Suisse",
+"weight": 0.1293
+},
+{
+"label": "Autres",
+"weight": 0.2666
+}
+]
 },
 {
 "index": "STOXX Europe 600 Matériaux",
@@ -3195,7 +10076,35 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 205.0
+"unitPrice": 205.0,
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.3473
+},
+{
+"label": "France",
+"weight": 0.3068
+},
+{
+"label": "Suisse",
+"weight": 0.1546
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0764
+},
+{
+"label": "Autres",
+"weight": 0.1149
+}
+]
 },
 {
 "index": "Nasdaq-100 (part S)",
@@ -3212,7 +10121,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 7.11
+"unitPrice": 7.11,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.6656
+},
+{
+"label": "Consommation de base",
+"weight": 0.1195
+},
+{
+"label": "Santé",
+"weight": 0.041
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0329
+},
+{
+"label": "Autres",
+"weight": 0.141
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9443
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0167
+},
+{
+"label": "Pays-Bas",
+"weight": 0.014
+},
+{
+"label": "Canada",
+"weight": 0.0101
+},
+{
+"label": "Autres",
+"weight": 0.0149
+}
+]
 },
 {
 "index": "MSCI Emerging Markets (part S)",
@@ -3229,7 +10182,51 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 7.63
+"unitPrice": 7.63,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4477
+},
+{
+"label": "Finance",
+"weight": 0.2107
+},
+{
+"label": "Matériaux",
+"weight": 0.0714
+},
+{
+"label": "Industrie",
+"weight": 0.0593
+},
+{
+"label": "Autres",
+"weight": 0.2109
+}
+],
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.2748
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2064
+},
+{
+"label": "Chine",
+"weight": 0.1842
+},
+{
+"label": "Inde",
+"weight": 0.1134
+},
+{
+"label": "Autres",
+"weight": 0.2212
+}
+]
 },
 {
 "index": "S&P US Consumer Staples",
@@ -3246,7 +10243,19 @@
 "esg": true,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 11.05
+"unitPrice": 11.05,
+"sectors": [
+{
+"label": "Consommation de base",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+]
 },
 {
 "index": "STOXX Europe 600 Services aux collectivités",
@@ -3264,7 +10273,43 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 150.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Services aux collectivités",
+"weight": 0.9598
+},
+{
+"label": "Industrie",
+"weight": 0.0364
+},
+{
+"label": "Autres",
+"weight": 0.0039
+}
+],
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.268
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2377
+},
+{
+"label": "Italie",
+"weight": 0.1661
+},
+{
+"label": "Allemagne",
+"weight": 0.1295
+},
+{
+"label": "Autres",
+"weight": 0.1987
+}
+]
 },
 {
 "index": "Europe Growth",
@@ -3299,7 +10344,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 55.85,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2135
+},
+{
+"label": "Finance",
+"weight": 0.1708
+},
+{
+"label": "Matériaux",
+"weight": 0.1124
+},
+{
+"label": "Énergie",
+"weight": 0.1113
+},
+{
+"label": "Autres",
+"weight": 0.392
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2122
+},
+{
+"label": "France",
+"weight": 0.2002
+},
+{
+"label": "Italie",
+"weight": 0.1427
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0925
+},
+{
+"label": "Autres",
+"weight": 0.3524
+}
+]
 },
 {
 "index": "Europe ESG Machine Learning",
@@ -3316,7 +10405,51 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 302.0
+"unitPrice": 302.0,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2316
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.161
+},
+{
+"label": "Services de communication",
+"weight": 0.1251
+},
+{
+"label": "Industrie",
+"weight": 0.1221
+},
+{
+"label": "Autres",
+"weight": 0.3602
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2569
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1267
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0908
+},
+{
+"label": "Espagne",
+"weight": 0.0899
+},
+{
+"label": "Autres",
+"weight": 0.4357
+}
+]
 },
 {
 "index": "DAX Levier x2",
@@ -3334,7 +10467,43 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 20.21,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "DAX ESG (couvert CHF)",
@@ -3352,7 +10521,39 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 28.04,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3044
+},
+{
+"label": "Industrie",
+"weight": 0.1941
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1919
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0874
+},
+{
+"label": "Autres",
+"weight": 0.2222
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9777
+},
+{
+"label": "Autres",
+"weight": 0.0223
+}
+]
 },
 {
 "index": "MSCI World (couvert EUR)",
@@ -3369,7 +10570,51 @@
 "esg": false,
 "replication": "Synthétique",
 "distribution": "Capitalisant",
-"unitPrice": 5.79
+"unitPrice": 5.79,
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3554
+},
+{
+"label": "Finance",
+"weight": 0.179
+},
+{
+"label": "Industrie",
+"weight": 0.0951
+},
+{
+"label": "Santé",
+"weight": 0.0896
+},
+{
+"label": "Autres",
+"weight": 0.2809
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7
+},
+{
+"label": "Japon",
+"weight": 0.0576
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0365
+},
+{
+"label": "Canada",
+"weight": 0.0337
+},
+{
+"label": "Autres",
+"weight": 0.1722
+}
+]
 },
 {
 "index": "STOXX Europe 600 Automobile",
@@ -3387,7 +10632,47 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 4.52,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.9529
+},
+{
+"label": "Industrie",
+"weight": 0.045
+},
+{
+"label": "Autres",
+"weight": 0.0021
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.4518
+},
+{
+"label": "Italie",
+"weight": 0.2715
+},
+{
+"label": "France",
+"weight": 0.1951
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0564
+},
+{
+"label": "Belgique",
+"weight": 0.0231
+},
+{
+"label": "Autres",
+"weight": 0.0021
+}
+]
 },
 {
 "index": "STOXX Europe 600 Matériaux",
@@ -3405,7 +10690,35 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 297.0,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 1.0
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.3473
+},
+{
+"label": "France",
+"weight": 0.3068
+},
+{
+"label": "Suisse",
+"weight": 0.1546
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0764
+},
+{
+"label": "Autres",
+"weight": 0.1149
+}
+]
 },
 {
 "index": "DAX ESG (couvert USD)",
@@ -3423,7 +10736,39 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 38.43,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3044
+},
+{
+"label": "Industrie",
+"weight": 0.1941
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1919
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0874
+},
+{
+"label": "Autres",
+"weight": 0.2222
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9777
+},
+{
+"label": "Autres",
+"weight": 0.0223
+}
+]
 },
 {
 "index": "STOXX Europe 600 Consommation discrétionnaire",
@@ -3459,7 +10804,43 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 5.4,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.463
+},
+{
+"label": "Santé",
+"weight": 0.2447
+},
+{
+"label": "Services de communication",
+"weight": 0.1859
+},
+{
+"label": "Industrie",
+"weight": 0.0991
+},
+{
+"label": "Autres",
+"weight": 0.0073
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9342
+},
+{
+"label": "Pays-Bas",
+"weight": 0.058
+},
+{
+"label": "Autres",
+"weight": 0.0078
+}
+]
 },
 {
 "index": "CAC Transition Climat",
@@ -3476,7 +10857,47 @@
 "esg": true,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 406.0
+"unitPrice": 406.0,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3682
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.2041
+},
+{
+"label": "Consommation de base",
+"weight": 0.1278
+},
+{
+"label": "Santé",
+"weight": 0.0796
+},
+{
+"label": "Autres",
+"weight": 0.2203
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8725
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1048
+},
+{
+"label": "Suisse",
+"weight": 0.0212
+},
+{
+"label": "Autres",
+"weight": 0.0015
+}
+]
 },
 {
 "index": "Bloomberg Europe Defense",
@@ -3494,7 +10915,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 11.02,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.9566
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0434
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2447
+},
+{
+"label": "Allemagne",
+"weight": 0.2164
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1848
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1265
+},
+{
+"label": "Autres",
+"weight": 0.2276
+}
+]
 },
 {
 "index": "NASDAQ AlphaDEX United Kingdom",
@@ -3512,7 +10965,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 52.58,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3002
+},
+{
+"label": "Industrie",
+"weight": 0.1596
+},
+{
+"label": "Consommation de base",
+"weight": 0.1347
+},
+{
+"label": "Énergie",
+"weight": 0.0785
+},
+{
+"label": "Autres",
+"weight": 0.327
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.888
+},
+{
+"label": "Suisse",
+"weight": 0.0308
+},
+{
+"label": "Bermudes",
+"weight": 0.0207
+},
+{
+"label": "Irlande",
+"weight": 0.0169
+},
+{
+"label": "Autres",
+"weight": 0.0436
+}
+]
 },
 {
 "index": "NASDAQ AlphaDEX Germany",
@@ -3530,7 +11027,39 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 34.56,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2749
+},
+{
+"label": "Matériaux",
+"weight": 0.1716
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1617
+},
+{
+"label": "Finance",
+"weight": 0.1006
+},
+{
+"label": "Autres",
+"weight": 0.2912
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9708
+},
+{
+"label": "Autres",
+"weight": 0.0292
+}
+]
 },
 {
 "index": "Eurozone Efficient Core (actions + futures)",
@@ -3565,7 +11094,43 @@
 "replication": "Synthétique",
 "distribution": "Distribuant",
 "unitPrice": 67.28,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Services de communication",
+"weight": 0.7988
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1983
+},
+{
+"label": "Autres",
+"weight": 0.003
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.281
+},
+{
+"label": "Finlande",
+"weight": 0.1352
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1326
+},
+{
+"label": "Suède",
+"weight": 0.1179
+},
+{
+"label": "Autres",
+"weight": 0.3333
+}
+]
 },
 {
 "index": "CAC 40 (part S)",
@@ -3582,7 +11147,47 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 5.33
+"unitPrice": 5.33,
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "MSCI EMU SRI (couvert USD)",
@@ -3600,7 +11205,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 30.26,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3119
+},
+{
+"label": "Industrie",
+"weight": 0.2016
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1869
+},
+{
+"label": "Consommation de base",
+"weight": 0.0851
+},
+{
+"label": "Autres",
+"weight": 0.2145
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2932
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2578
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Espagne",
+"weight": 0.0739
+},
+{
+"label": "Autres",
+"weight": 0.2163
+}
+]
 },
 {
 "index": "FTSE Eurozone",
@@ -3618,7 +11267,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 5.31,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2793
+},
+{
+"label": "Industrie",
+"weight": 0.1807
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1423
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.07
+},
+{
+"label": "Autres",
+"weight": 0.3277
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.24
+},
+{
+"label": "France",
+"weight": 0.2368
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1698
+},
+{
+"label": "Espagne",
+"weight": 0.1096
+},
+{
+"label": "Autres",
+"weight": 0.2438
+}
+]
 },
 {
 "index": "MDAX",
@@ -3636,7 +11329,43 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": 5.44,
-"note": "Non coté sur Euronext Paris (autre place européenne)"
+"note": "Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3546
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1308
+},
+{
+"label": "Finance",
+"weight": 0.1288
+},
+{
+"label": "Matériaux",
+"weight": 0.1186
+},
+{
+"label": "Autres",
+"weight": 0.2672
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9828
+},
+{
+"label": "Luxembourg",
+"weight": 0.0165
+},
+{
+"label": "Autres",
+"weight": 0.0007
+}
+]
 },
 {
 "index": "Europe Quality",
@@ -3704,7 +11433,51 @@
 "esg": false,
 "replication": null,
 "distribution": "Capitalisant",
-"unitPrice": 7.37
+"unitPrice": 7.37,
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2771
+},
+{
+"label": "Industrie",
+"weight": 0.1016
+},
+{
+"label": "Santé",
+"weight": 0.099
+},
+{
+"label": "Consommation de base",
+"weight": 0.0988
+},
+{
+"label": "Autres",
+"weight": 0.4235
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.4917
+},
+{
+"label": "Allemagne",
+"weight": 0.222
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1378
+},
+{
+"label": "Espagne",
+"weight": 0.0614
+},
+{
+"label": "Autres",
+"weight": 0.0871
+}
+]
 },
 {
 "index": "Bloomberg Japan PAB",
@@ -3722,7 +11495,39 @@
 "replication": "Synthétique",
 "distribution": "Capitalisant",
 "unitPrice": 195.0,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3277
+},
+{
+"label": "Finance",
+"weight": 0.2383
+},
+{
+"label": "Santé",
+"weight": 0.1847
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0791
+},
+{
+"label": "Autres",
+"weight": 0.1702
+}
+],
+"countries": [
+{
+"label": "Japon",
+"weight": 0.99
+},
+{
+"label": "Autres",
+"weight": 0.01
+}
+]
 },
 {
 "index": "Bloomberg Japan PAB (couvert EUR)",
@@ -3740,7 +11545,39 @@
 "replication": "Synthétique",
 "distribution": "Capitalisant",
 "unitPrice": 268.0,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3277
+},
+{
+"label": "Finance",
+"weight": 0.2383
+},
+{
+"label": "Santé",
+"weight": 0.1847
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0791
+},
+{
+"label": "Autres",
+"weight": 0.1702
+}
+],
+"countries": [
+{
+"label": "Japon",
+"weight": 0.99
+},
+{
+"label": "Autres",
+"weight": 0.01
+}
+]
 },
 {
 "index": "FTSE Developed Europe Small Cap",
@@ -3758,7 +11595,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": 5.16,
-"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)"
+"note": "Éligibilité au PEA à confirmer auprès de votre courtier · Non coté sur Euronext Paris (autre place européenne)",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2527
+},
+{
+"label": "Industrie",
+"weight": 0.2102
+},
+{
+"label": "Matériaux",
+"weight": 0.0939
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0799
+},
+{
+"label": "Autres",
+"weight": 0.3633
+}
+],
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2297
+},
+{
+"label": "Suède",
+"weight": 0.1024
+},
+{
+"label": "Suisse",
+"weight": 0.0945
+},
+{
+"label": "France",
+"weight": 0.0879
+},
+{
+"label": "Autres",
+"weight": 0.4855
+}
+]
 },
 {
 "index": "EURO STOXX 50 (part S)",
@@ -3776,7 +11657,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "EURO STOXX",
@@ -3794,7 +11719,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2783
+},
+{
+"label": "Industrie",
+"weight": 0.1968
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1453
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0731
+},
+{
+"label": "Autres",
+"weight": 0.3065
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2573
+},
+{
+"label": "Allemagne",
+"weight": 0.2453
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1737
+},
+{
+"label": "Espagne",
+"weight": 0.1091
+},
+{
+"label": "Autres",
+"weight": 0.2146
+}
+]
 },
 {
 "index": "IBEX 35",
@@ -3812,7 +11781,47 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4447
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1773
+},
+{
+"label": "Industrie",
+"weight": 0.1633
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.109
+},
+{
+"label": "Autres",
+"weight": 0.1057
+}
+],
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.9281
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0384
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0231
+},
+{
+"label": "Luxembourg",
+"weight": 0.0104
+}
+]
 },
 {
 "index": "MSCI EMU High Dividend",
@@ -3830,7 +11839,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3608
+},
+{
+"label": "Industrie",
+"weight": 0.1736
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1006
+},
+{
+"label": "Énergie",
+"weight": 0.0897
+},
+{
+"label": "Autres",
+"weight": 0.2753
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3359
+},
+{
+"label": "Allemagne",
+"weight": 0.2446
+},
+{
+"label": "Italie",
+"weight": 0.1276
+},
+{
+"label": "Espagne",
+"weight": 0.0941
+},
+{
+"label": "Autres",
+"weight": 0.1978
+}
+]
 },
 {
 "index": "MSCI EMU Screened",
@@ -3848,7 +11901,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3065
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1703
+},
+{
+"label": "Industrie",
+"weight": 0.1472
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0698
+},
+{
+"label": "Autres",
+"weight": 0.3062
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2464
+},
+{
+"label": "Allemagne",
+"weight": 0.2376
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1846
+},
+{
+"label": "Espagne",
+"weight": 0.1071
+},
+{
+"label": "Autres",
+"weight": 0.2243
+}
+]
 },
 {
 "index": "Luxe Monde",
@@ -3884,7 +11981,43 @@
 "replication": "Synthétique",
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3894
+},
+{
+"label": "Finance",
+"weight": 0.1363
+},
+{
+"label": "Industrie",
+"weight": 0.0819
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0806
+},
+{
+"label": "Autres",
+"weight": 0.3118
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9683
+},
+{
+"label": "Irlande",
+"weight": 0.0188
+},
+{
+"label": "Autres",
+"weight": 0.0129
+}
+]
 },
 {
 "index": "S&P 500 Screened (part S)",
@@ -3902,7 +12035,43 @@
 "replication": "Synthétique",
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4657
+},
+{
+"label": "Finance",
+"weight": 0.1518
+},
+{
+"label": "Santé",
+"weight": 0.1193
+},
+{
+"label": "Industrie",
+"weight": 0.0812
+},
+{
+"label": "Autres",
+"weight": 0.182
+}
+],
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9634
+},
+{
+"label": "Irlande",
+"weight": 0.0187
+},
+{
+"label": "Autres",
+"weight": 0.0179
+}
+]
 },
 {
 "index": "MSCI EMU ESG Enhanced",
@@ -3920,7 +12089,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3073
+},
+{
+"label": "Industrie",
+"weight": 0.1822
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1793
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0798
+},
+{
+"label": "Autres",
+"weight": 0.2514
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2577
+},
+{
+"label": "France",
+"weight": 0.2356
+},
+{
+"label": "Pays-Bas",
+"weight": 0.176
+},
+{
+"label": "Espagne",
+"weight": 0.1427
+},
+{
+"label": "Autres",
+"weight": 0.188
+}
+]
 },
 {
 "index": "Monétaire euro (€STR)",
@@ -3956,7 +12169,51 @@
 "replication": null,
 "distribution": null,
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "France Small & Mid (gestion active)",
@@ -3992,7 +12249,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5668
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0872
+},
+{
+"label": "Matériaux",
+"weight": 0.0768
+},
+{
+"label": "Services de communication",
+"weight": 0.0759
+},
+{
+"label": "Autres",
+"weight": 0.1933
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.1461
+},
+{
+"label": "France",
+"weight": 0.1455
+},
+{
+"label": "Espagne",
+"weight": 0.1446
+},
+{
+"label": "Italie",
+"weight": 0.1355
+},
+{
+"label": "Autres",
+"weight": 0.4283
+}
+]
 },
 {
 "index": "Zone euro (gestion active)",
@@ -4028,7 +12329,47 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2875
+},
+{
+"label": "Finance",
+"weight": 0.1531
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1439
+},
+{
+"label": "Matériaux",
+"weight": 0.0903
+},
+{
+"label": "Autres",
+"weight": 0.3252
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.8906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0761
+},
+{
+"label": "Luxembourg",
+"weight": 0.0188
+},
+{
+"label": "Suisse",
+"weight": 0.0144
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -4046,7 +12387,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "Zone euro Screened (gestion active)",
@@ -4064,7 +12449,51 @@
 "replication": null,
 "distribution": null,
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.319
+},
+{
+"label": "Industrie",
+"weight": 0.1538
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1485
+},
+{
+"label": "Santé",
+"weight": 0.0727
+},
+{
+"label": "Autres",
+"weight": 0.306
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.2441
+},
+{
+"label": "Allemagne",
+"weight": 0.2337
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1616
+},
+{
+"label": "Espagne",
+"weight": 0.1122
+},
+{
+"label": "Autres",
+"weight": 0.2484
+}
+]
 },
 {
 "index": "EURO STOXX 50",
@@ -4082,7 +12511,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2863
+},
+{
+"label": "Industrie",
+"weight": 0.2028
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.15
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0948
+},
+{
+"label": "Autres",
+"weight": 0.2661
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.301
+},
+{
+"label": "France",
+"weight": 0.2906
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1727
+},
+{
+"label": "Espagne",
+"weight": 0.1158
+},
+{
+"label": "Autres",
+"weight": 0.1199
+}
+]
 },
 {
 "index": "FTSE Eurozone",
@@ -4100,7 +12573,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2793
+},
+{
+"label": "Industrie",
+"weight": 0.1807
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1423
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.07
+},
+{
+"label": "Autres",
+"weight": 0.3277
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.24
+},
+{
+"label": "France",
+"weight": 0.2368
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1698
+},
+{
+"label": "Espagne",
+"weight": 0.1096
+},
+{
+"label": "Autres",
+"weight": 0.2438
+}
+]
 },
 {
 "index": "WisdomTree Eurozone Quality Dividend Growth",
@@ -4118,7 +12635,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2429
+},
+{
+"label": "Finance",
+"weight": 0.1894
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1878
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0835
+},
+{
+"label": "Autres",
+"weight": 0.2964
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2163
+},
+{
+"label": "France",
+"weight": 0.1904
+},
+{
+"label": "Espagne",
+"weight": 0.1455
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1311
+},
+{
+"label": "Autres",
+"weight": 0.3167
+}
+]
 },
 {
 "index": "MSCI EMU (couvert USD)",
@@ -4136,7 +12697,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "MSCI EMU (couvert GBP)",
@@ -4154,7 +12759,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "MSCI EMU (couvert CHF)",
@@ -4172,7 +12821,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "MSCI EMU",
@@ -4190,7 +12883,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2797
+},
+{
+"label": "Industrie",
+"weight": 0.1886
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1556
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0737
+},
+{
+"label": "Autres",
+"weight": 0.3024
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.25
+},
+{
+"label": "France",
+"weight": 0.2485
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1859
+},
+{
+"label": "Espagne",
+"weight": 0.1116
+},
+{
+"label": "Autres",
+"weight": 0.204
+}
+]
 },
 {
 "index": "MSCI EMU ESG",
@@ -4208,7 +12945,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3006
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1814
+},
+{
+"label": "Industrie",
+"weight": 0.1513
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0908
+},
+{
+"label": "Autres",
+"weight": 0.2759
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3896
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1806
+},
+{
+"label": "Allemagne",
+"weight": 0.1286
+},
+{
+"label": "Espagne",
+"weight": 0.0907
+},
+{
+"label": "Autres",
+"weight": 0.2105
+}
+]
 },
 {
 "index": "MSCI EMU High Dividend",
@@ -4226,7 +13007,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3608
+},
+{
+"label": "Industrie",
+"weight": 0.1736
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1006
+},
+{
+"label": "Énergie",
+"weight": 0.0897
+},
+{
+"label": "Autres",
+"weight": 0.2753
+}
+],
+"countries": [
+{
+"label": "France",
+"weight": 0.3359
+},
+{
+"label": "Allemagne",
+"weight": 0.2446
+},
+{
+"label": "Italie",
+"weight": 0.1276
+},
+{
+"label": "Espagne",
+"weight": 0.0941
+},
+{
+"label": "Autres",
+"weight": 0.1978
+}
+]
 },
 {
 "index": "AEX (Pays-Bas)",
@@ -4244,7 +13069,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.2585
+},
+{
+"label": "Consommation de base",
+"weight": 0.2309
+},
+{
+"label": "Finance",
+"weight": 0.2089
+},
+{
+"label": "Énergie",
+"weight": 0.1677
+},
+{
+"label": "Autres",
+"weight": 0.134
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.5821
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.351
+},
+{
+"label": "Luxembourg",
+"weight": 0.0317
+},
+{
+"label": "Suisse",
+"weight": 0.0196
+},
+{
+"label": "Autres",
+"weight": 0.0156
+}
+]
 },
 {
 "index": "AEX (Pays-Bas)",
@@ -4262,7 +13131,51 @@
 "replication": null,
 "distribution": "Capitalisant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.2585
+},
+{
+"label": "Consommation de base",
+"weight": 0.2309
+},
+{
+"label": "Finance",
+"weight": 0.2089
+},
+{
+"label": "Énergie",
+"weight": 0.1677
+},
+{
+"label": "Autres",
+"weight": 0.134
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.5821
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.351
+},
+{
+"label": "Luxembourg",
+"weight": 0.0317
+},
+{
+"label": "Suisse",
+"weight": 0.0196
+},
+{
+"label": "Autres",
+"weight": 0.0156
+}
+]
 },
 {
 "index": "DAX",
@@ -4280,7 +13193,43 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3467
+},
+{
+"label": "Finance",
+"weight": 0.2258
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.152
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0579
+},
+{
+"label": "Autres",
+"weight": 0.2176
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9201
+},
+{
+"label": "Pays-Bas",
+"weight": 0.069
+},
+{
+"label": "Autres",
+"weight": 0.0109
+}
+]
 },
 {
 "index": "Euro Dividend",
@@ -4298,7 +13247,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5323
+},
+{
+"label": "Industrie",
+"weight": 0.0945
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0781
+},
+{
+"label": "Énergie",
+"weight": 0.0746
+},
+{
+"label": "Autres",
+"weight": 0.2205
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.2922
+},
+{
+"label": "France",
+"weight": 0.1972
+},
+{
+"label": "Allemagne",
+"weight": 0.1588
+},
+{
+"label": "Italie",
+"weight": 0.0919
+},
+{
+"label": "Autres",
+"weight": 0.2599
+}
+]
 },
 {
 "index": "EURO STOXX Total Market Growth Large",
@@ -4316,7 +13309,51 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3238
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.311
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1199
+},
+{
+"label": "Finance",
+"weight": 0.0631
+},
+{
+"label": "Autres",
+"weight": 0.1822
+}
+],
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.2897
+},
+{
+"label": "France",
+"weight": 0.2748
+},
+{
+"label": "Allemagne",
+"weight": 0.2638
+},
+{
+"label": "Espagne",
+"weight": 0.0729
+},
+{
+"label": "Autres",
+"weight": 0.0988
+}
+]
 },
 {
 "index": "MDAX",
@@ -4334,7 +13371,43 @@
 "replication": null,
 "distribution": "Distribuant",
 "unitPrice": null,
-"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé"
+"note": "Données partielles (frais seulement) ; mnémonique de cotation non relevé",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3546
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1308
+},
+{
+"label": "Finance",
+"weight": 0.1288
+},
+{
+"label": "Matériaux",
+"weight": 0.1186
+},
+{
+"label": "Autres",
+"weight": 0.2672
+}
+],
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.9828
+},
+{
+"label": "Luxembourg",
+"weight": 0.0165
+},
+{
+"label": "Autres",
+"weight": 0.0007
+}
+]
 }
 ]
 }

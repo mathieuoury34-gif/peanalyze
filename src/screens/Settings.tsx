@@ -12,6 +12,7 @@ import { buildSeed } from '../data/seed';
 import type { AppData, PriceRefresh } from '../domain/types';
 import { MAX_ETFS } from '../data/prices';
 import { lang, setLang, t } from '../i18n';
+import { setThemePref, themePref, type ThemePref } from '../theme';
 
 const PEA_CEILING = 150000;
 
@@ -27,7 +28,7 @@ function Row({ icon, title, sub, onClick, right }: { icon: string; title: string
   return (
     <li>
       <button type="button" onClick={onClick} style={{ width: '100%', display: 'grid', gridTemplateColumns: '24px 1fr 20px', gap: 'var(--space-12)', alignItems: 'center', minHeight: 64, padding: 0, border: 0, background: 'transparent', color: 'var(--text)', textAlign: 'left', cursor: 'pointer' }}>
-        <Icon name={icon} style={{ color: 'var(--brand-primary)' }} />
+        <Icon name={icon} style={{ color: 'var(--primary-fg)' }} />
         <span className="stack"><span className="t-strong">{title}</span><span className="t-caption c-moderate">{sub}</span></span>
         {right ?? <Icon name="next" size={20} style={{ color: 'var(--text-moderate)' }} />}
       </button>
@@ -55,6 +56,7 @@ export function SettingsScreen() {
   const [fee, setFee] = useState(toInput(s.feePerOrder));
   const [busy, setBusy] = useState('');
   const [reset, setReset] = useState(false);
+  const [theme, setTheme] = useState<ThemePref>(themePref());
   const xlsxInput = useRef<HTMLInputElement>(null);
   const jsonInput = useRef<HTMLInputElement>(null);
   const firstDeposit = data.deposits.reduce((m, d) => (!m || d.date < m ? d.date : m), '');
@@ -139,7 +141,7 @@ export function SettingsScreen() {
                 <div className="row" style={{ gap: 'var(--space-12)' }}>
                   {sync.user.photo
                     ? <img src={sync.user.photo} alt="" width={40} height={40} style={{ borderRadius: 'var(--radius-full)' }} referrerPolicy="no-referrer" />
-                    : <span className="op-icon" style={{ background: 'var(--bg-brand-minimal)', color: 'var(--brand-primary)' }}>{(sync.user.name || sync.user.email).charAt(0).toUpperCase()}</span>}
+                    : <span className="op-icon" style={{ background: 'var(--bg-brand-minimal)', color: 'var(--primary-fg)' }}>{(sync.user.name || sync.user.email).charAt(0).toUpperCase()}</span>}
                   <span className="stack grow">
                     <span className="t-strong ellipsis">{sync.user.name || t('Compte Google')}</span>
                     <span className="t-caption c-moderate ellipsis">{sync.user.email}</span>
@@ -170,6 +172,17 @@ export function SettingsScreen() {
               <button type="button" aria-pressed={lang === 'en'} onClick={() => lang !== 'en' && setLang('en')}>English</button>
             </div>
             <span className="t-caption c-moderate">{t('Langue de cet appareil. Le classeur Excel exporté reste en français.')}</span>
+          </div>
+        </Section>
+
+        <Section id="t001-theme" title={t('Thème')}>
+          <div className="card g8" style={{ borderRadius: 'var(--radius-12)' }}>
+            <div className="seg" role="group" aria-label={t('Thème de l’application')}>
+              {([['light', t('Clair')], ['dark', t('Sombre')], ['system', t('Système')]] as [ThemePref, string][]).map(([v, l]) => (
+                <button key={v} type="button" aria-pressed={theme === v} onClick={() => { setThemePref(v); setTheme(v); }}>{l}</button>
+              ))}
+            </div>
+            <span className="t-caption c-moderate">{t('« Système » suit le réglage clair ou sombre du téléphone ou de l’ordinateur.')}</span>
           </div>
         </Section>
 

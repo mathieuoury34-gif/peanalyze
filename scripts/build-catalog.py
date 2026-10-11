@@ -80,6 +80,102 @@ SECTOR_FR = {'Banks': 'Banques', 'Healthcare': 'Santé', 'Basic Resources': 'Res
              'Insurance': 'Assurance', 'Consumer Discretionary': 'Consommation discrétionnaire', 'Consumer Staples': 'Consommation de base',
              'Telecommunications': 'Télécommunications', 'Basic Materials': 'Matériaux'}
 
+# ------------------------------------------------------------------ compositions (pays et secteurs)
+COMPO = ROOT / 'data-src' / 'compositions-justetf.txt'
+COMPO_DATE = '2026-08-31'
+SECTOR_MAP = {  # classification justETF -> secteurs utilisés dans l'app (GICS, en français)
+    'Technology': 'Technologies de l’information', 'Finance': 'Finance', 'Healthcare': 'Santé', 'Industrials': 'Industrie',
+    'Consumer Cyclicals': 'Consommation discrétionnaire', 'Consumer Non-Cyclicals': 'Consommation de base', 'Energy': 'Énergie',
+    'Utilities': 'Services aux collectivités', 'Non-Energy Materials': 'Matériaux', 'Telecommunication': 'Services de communication',
+    'Business Services': 'Industrie', 'Consumer Services': 'Consommation discrétionnaire', 'Real Estate': 'Immobilier', 'Other': 'Autres',
+}
+COUNTRY_MAP = {
+    'United States': 'États-Unis', 'United Kingdom': 'Royaume-Uni', 'Germany': 'Allemagne', 'Switzerland': 'Suisse', 'Netherlands': 'Pays-Bas',
+    'Japan': 'Japon', 'China': 'Chine', 'Taiwan': 'Taïwan', 'India': 'Inde', 'South Korea': 'Corée du Sud', 'Ireland': 'Irlande', 'Italy': 'Italie',
+    'Spain': 'Espagne', 'Sweden': 'Suède', 'Denmark': 'Danemark', 'Finland': 'Finlande', 'Norway': 'Norvège', 'Belgium': 'Belgique',
+    'Australia': 'Australie', 'Brazil': 'Brésil', 'South Africa': 'Afrique du Sud', 'Saudi Arabia': 'Arabie Saoudite', 'Mexico': 'Mexique',
+    'Poland': 'Pologne', 'Hong Kong': 'Hong Kong', 'Singapore': 'Singapour', 'New Zealand': 'Nouvelle-Zélande', 'Greece': 'Grèce',
+    'Austria': 'Autriche', 'Luxembourg': 'Luxembourg', 'Bermuda': 'Bermudes', 'Canada': 'Canada', 'France': 'France', 'Portugal': 'Portugal',
+    'Chile': 'Chili', 'Indonesia': 'Indonésie', 'Malaysia': 'Malaisie', 'Thailand': 'Thaïlande', 'Turkey': 'Turquie', 'Qatar': 'Qatar',
+    'United Arab Emirates': 'Émirats arabes unis', 'Kuwait': 'Koweït', 'Peru': 'Pérou', 'Colombia': 'Colombie', 'Philippines': 'Philippines',
+    'Cayman Islands': 'Îles Caïmans', 'Israel': 'Israël', 'Hungary': 'Hongrie', 'Czech Republic': 'République tchèque', 'Egypt': 'Égypte',
+    'Jersey': 'Jersey', 'Other': 'Autres',
+}
+# indices dont la fiche justETF ne donne pas la composition : ETF physique (hors PEA) qui suit le même indice
+PROXY = {
+    'MSCI China': 'IE00BJ5JPG56', 'MSCI EM Asia': 'IE00B5L8K969', 'MSCI EM Latin America': 'IE00B27YCK28',
+    'MSCI Emerging Markets': 'IE00B4L5YC18', 'MSCI USA': 'IE00B52SFT06', 'MSCI USA Value': 'IE00BD1F4M44',
+    'US Tech 100 Screened': 'FR0011871110', 'Nasdaq-100': 'FR0011871110', 'MSCI Water': 'FR0010527275',
+    # secteurs ICB voisins (iShares STOXX Europe 600, physiques) : pays approchés
+    'STOXX Europe 600 Industrie': 'DE000A0H08J9', 'STOXX Europe 600 Consommation de base': 'DE000A0H08H3',
+    'STOXX Europe 600 Matériaux': 'DE000A0H08E0',
+}
+# indices sectoriels américains : un seul secteur, sociétés américaines
+MANUAL = {
+    'S&P US Consumer Staples': {'sectors': [('Consommation de base', 1.0)], 'countries': [('États-Unis', 1.0)]},
+    'S&P US Industrials': {'sectors': [('Industrie', 1.0)], 'countries': [('États-Unis', 1.0)]},
+}
+# secteur unique connu (la classification justETF range l'immobilier coté dans la finance)
+SECTOR_OVERRIDE = {'FTSE EPRA/NAREIT Europe': [('Immobilier', 1.0)], 'STOXX Europe 600 Consommation de base': [('Consommation de base', 1.0)],
+                   'STOXX Europe 600 Matériaux': [('Matériaux', 1.0)], 'STOXX Europe 600 Industrie': [('Industrie', 1.0)]}
+
+def base_index(idx: str) -> str:
+    idx = re.sub(r' \((couvert|part) \w+\)', '', idx)
+    return re.sub(r' (Levier|Inverse) x\d', '', idx)
+
+def read_compositions():
+    out, cur = {}, None
+    if not COMPO.exists():
+        return out
+    for line in COMPO.read_text(encoding='utf-8').splitlines():
+        if line.startswith('ISIN:'):
+            cur = out.setdefault(line[5:].strip(), {})
+        elif cur is not None and line[:2] in ('C:', 'S:') and 'NONE' not in line:
+            mapping = COUNTRY_MAP if line[0] == 'C' else SECTOR_MAP
+            items = {}
+            for part in line[2:].split(';'):
+                if '=' not in part:
+                    continue
+                k, v = part.rsplit('=', 1)
+                k = k.strip()
+                w = float(v.strip().rstrip('%')) / 100
+                if w < 0.0005:
+                    continue
+                label = mapping.get(k)
+                if label is None:
+                    raise SystemExit('libellé inconnu : ' + k)
+                items[label] = items.get(label, 0) + w
+            others = items.pop('Autres', 0)
+            rows = sorted(items.items(), key=lambda x: -x[1])
+            if others >= 0.0005:
+                rows.append(('Autres', others))
+            cur['countries' if line[0] == 'C' else 'sectors'] = rows
+    return out
+
+def add_compositions(etfs):
+    data = read_compositions()
+    groups = {}
+    for e in etfs:
+        groups.setdefault(base_index(e['index']), []).append(e)
+    found = 0
+    for base, members in groups.items():
+        src = None
+        cands = ([PROXY[base]] if base in PROXY else []) + [m['isin'] for m in members]
+        for isin in cands:
+            if data.get(isin, {}).get('sectors') or data.get(isin, {}).get('countries'):
+                src = data[isin]
+                break
+        if not src:
+            src = MANUAL.get(base)
+        if not src:
+            continue
+        sectors = SECTOR_OVERRIDE.get(base, src.get('sectors', []))
+        for m in members:
+            m['sectors'] = [{'label': k, 'weight': round(w, 4)} for k, w in sectors]
+            m['countries'] = [{'label': k, 'weight': round(w, 4)} for k, w in src.get('countries', [])]
+            found += 1
+    return found
+
 def index_of(name: str) -> str:
     for pat, idx in SPECIAL:
         m = re.search(pat, name)
@@ -152,8 +248,10 @@ def main():
             e['note'] = ' · '.join(notes)
         out.append(e)
     out.sort(key=lambda c: (-(c['aumMEur'] or 0), c['name']))
-    OUT.write_text(json.dumps({'source': "justETF via quentinarioli.fr (05/10/2026) — frais, encours et cours au 30/09/2026", 'updated': '2026-10-05', 'etfs': out}, ensure_ascii=False, indent=0))
-    print(len(out), 'ETF ;', sum(1 for c in out if c['ticker']), 'cotés à Paris ->', OUT.relative_to(ROOT))
+    n_compo = add_compositions(out)
+    OUT.write_text(json.dumps({'source': "justETF via quentinarioli.fr (05/10/2026) — frais, encours et cours au 30/09/2026", 'updated': '2026-10-05',
+                               'compositionDate': COMPO_DATE, 'etfs': out}, ensure_ascii=False, indent=0))
+    print(len(out), 'ETF ;', sum(1 for c in out if c['ticker']), 'cotés à Paris ;', n_compo, 'avec composition ->', OUT.relative_to(ROOT))
 
 if __name__ == '__main__':
     main()

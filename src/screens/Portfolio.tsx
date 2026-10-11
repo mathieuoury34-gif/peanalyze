@@ -80,7 +80,7 @@ export function PortfolioScreen() {
             <span className="t-amount-s">{t('Assistant du mois')}</span>
             <span className="t-caption c-neutral">{t('Combien de parts acheter avec mon versement ?')}</span>
           </span>
-          <Icon name="next" size={20} style={{ color: 'var(--brand-primary)' }} />
+          <Icon name="next" size={20} style={{ color: 'var(--primary-fg)' }} />
         </a>
 
         <section aria-labelledby="t301-pos" className="stack-12">
@@ -101,7 +101,7 @@ export function PortfolioScreen() {
                   <span className="t-amount-m">{t('Hors stratégie')} <span className="badge outline" style={{ marginLeft: 6 }}>{off.length} ETF</span></span>
                   <span className="t-caption c-moderate">{t('Détenus mais plus achetés · {v} · {p} du portefeuille', { v: eur(off.reduce((s, p) => s + p.marketValue, 0)), p: pct(off.reduce((s, p) => s + p.weightActual, 0)) })}</span>
                 </span>
-                <Icon name="down" size={20} style={{ color: 'var(--brand-primary)', transform: `rotate(${showOff ? 180 : 0}deg)`, transition: 'transform .2s' }} />
+                <Icon name="down" size={20} style={{ color: 'var(--primary-fg)', transform: `rotate(${showOff ? 180 : 0}deg)`, transition: 'transform .2s' }} />
               </button>
               {showOff && (
                 <div className="stack-12 dcols-2">
@@ -140,7 +140,7 @@ function PositionCard({ p, name, open, onToggle }: { p: Position; name: string; 
           <span className="t-amount-m nowrap">{eur(p.marketValue)}</span>
           <span className={'var-chip' + (down ? ' down' : '')} style={{ padding: '0 var(--space-8)' }}>{down ? '▼' : '▲'} {eurSigned(p.unrealizedPnl)} · {pctSigned(p.unrealizedPnlPct)}</span>
         </span>
-        <Icon name="down" size={20} style={{ color: 'var(--brand-primary)', transition: 'transform .2s', transform: `rotate(${open ? 180 : 0}deg)` }} />
+        <Icon name="down" size={20} style={{ color: 'var(--primary-fg)', transition: 'transform .2s', transform: `rotate(${open ? 180 : 0}deg)` }} />
       </button>
       {p.inStrategy ? (
         <>

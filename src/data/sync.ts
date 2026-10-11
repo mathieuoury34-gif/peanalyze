@@ -4,6 +4,8 @@ import { useSyncExternalStore } from 'react';
 import { FIREBASE_CONFIG } from './firebase-config';
 import { getData, getPrefs, onDataChange, replaceData, setPrefs } from './store';
 import type { AppData } from '../domain/types';
+import { t } from '../i18n';
+import { refreshPrices } from './prices';
 
 const SDK = 'https://www.gstatic.com/firebasejs/10.14.1/';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,7 +44,7 @@ async function init(): Promise<boolean> {
     db = f.initializeFirestore(fbApp, { localCache: f.persistentLocalCache() });
     return true;
   } catch (e) {
-    set({ ready: true, state: 'error', error: 'Service de synchronisation injoignable' });
+    set({ ready: true, state: 'error', error: t('Service de synchronisation injoignable') });
     console.warn('[sync] init', e);
     return false;
   }
@@ -56,11 +58,13 @@ async function push(uid: string) {
   const d = getData();
   set({ state: 'syncing' });
   try {
-    await fs.setDoc(docRef(uid), { data: JSON.stringify({ ...d, catalog: [] }), updatedAt: d.updatedAt, device: navigator.userAgent.slice(0, 120) });
+    // catalogue et historiques de cours : données publiques rechargées par chaque appareil, inutile de les stocker
+    const slim = { ...d, catalog: [], etfs: d.etfs.map((e) => ({ ...e, priceHistory: [] })) };
+    await fs.setDoc(docRef(uid), { data: JSON.stringify(slim), updatedAt: d.updatedAt, device: navigator.userAgent.slice(0, 120) });
     lastSynced = d.updatedAt;
     set({ state: 'ok', lastSync: new Date().toISOString(), error: '' });
   } catch (e) {
-    set({ state: 'error', error: 'Envoi impossible : ' + ((e as Error).message || 'erreur') });
+    set({ state: 'error', error: t('Envoi impossible : {e}', { e: (e as Error).message || t('erreur') }) });
   }
 }
 
@@ -78,7 +82,15 @@ function watch(uid: string) {
       try {
         const remote = JSON.parse(v.data) as AppData;
         lastSynced = remote.updatedAt;
+        let missing = false;
+        for (const e of remote.etfs) {
+          if (e.priceHistory?.length) continue;
+          const mine = local.etfs.find((x) => x.id === e.id);
+          if (mine?.priceHistory.length) e.priceHistory = mine.priceHistory;
+          else missing = true;
+        }
         replaceData(remote, 'remote');
+        if (missing) refreshPrices({ silent: true });
       } catch { /* document illisible */ }
     } else if (local.updatedAt > v.updatedAt) {
       push(uid);
@@ -95,12 +107,14 @@ export async function startSync(): Promise<void> {
       set({ ready: true, user: { name: u.displayName || '', email: u.email || '', photo: u.photoURL || '' }, state: 'syncing' });
       setPrefs({ skipLogin: false });
       watch(u.uid);
+      scheduleWatchList();
     } else {
       unsubDoc?.(); unsubDoc = null;
       set({ ready: true, user: null, state: 'off' });
     }
   });
   onDataChange((d, origin) => {
+    scheduleWatchList();
     if (origin !== 'local' || !auth?.currentUser) return;
     if (d.updatedAt <= lastSynced) return; // simple mise à jour des cours : chaque appareil les récupère lui-même
     clearTimeout(pushTimer);
@@ -108,8 +122,44 @@ export async function startSync(): Promise<void> {
   });
 }
 
+// ------------------------------------------------------------------ liste de suivi du robot des cours
+// watch/{uid} = { tickers, freq, createdAt } : lisible par le robot (GitHub Actions), modifiable par son seul propriétaire.
+let watchKey = '';
+let watchTimer: ReturnType<typeof setTimeout> | undefined;
+let watchCreated = false;
+export function watchedTickers(d: AppData = getData()): string[] {
+  const ids = [...d.myEtfIds];
+  for (const tx of d.transactions) if (!ids.includes(tx.etfId)) ids.push(tx.etfId);
+  return ids.filter((id) => d.etfs.some((e) => e.id === id && e.ticker)).slice(0, 20);
+}
+function scheduleWatchList() {
+  clearTimeout(watchTimer);
+  watchTimer = setTimeout(pushWatchList, 1500);
+}
+async function pushWatchList() {
+  const u = auth?.currentUser;
+  if (!u) return;
+  const d = getData();
+  const body = { tickers: watchedTickers(d), freq: d.settings.priceFreq === 1 ? 1 : 2 };
+  const key = u.uid + JSON.stringify(body);
+  if (key === watchKey) return;
+  try {
+    const ref = fs.doc(db, 'watch', u.uid);
+    if (!watchCreated) {
+      const snap = await fs.getDoc(ref);
+      watchCreated = snap.exists();
+      if (!watchCreated) Object.assign(body, { createdAt: new Date().toISOString() });
+    }
+    await fs.setDoc(ref, { ...body, updatedAt: new Date().toISOString() }, { merge: true });
+    watchCreated = true;
+    watchKey = key;
+  } catch (e) {
+    console.warn('[sync] liste de suivi', e);
+  }
+}
+
 export async function signIn(): Promise<void> {
-  if (!(await init())) throw new Error('Synchronisation non configurée');
+  if (!(await init())) throw new Error(t('Synchronisation non configurée'));
   const provider = new fa.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
   try {

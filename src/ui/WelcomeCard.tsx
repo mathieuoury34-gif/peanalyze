@@ -6,6 +6,7 @@ import { useSync, signIn } from '../data/sync';
 import { navigate } from './router';
 import { showToast } from './kit';
 import { Icon } from './icons';
+import { t } from '../i18n';
 
 export function WelcomeCard({ className = '' }: { className?: string }) {
   const input = useRef<HTMLInputElement>(null);
@@ -19,30 +20,30 @@ export function WelcomeCard({ className = '' }: { className?: string }) {
       const { importXlsx } = await import('../data/excel');
       const next = await importXlsx(f, prev);
       replaceData({ ...next, updatedAt: new Date().toISOString() });
-      showToast(`Import : ${next.deposits.length} virements, ${next.transactions.length} achats`, { undo: () => replaceData(prev) });
+      showToast(t('Import : {d} virements, {a} achats', { d: next.deposits.length, a: next.transactions.length }), { undo: () => replaceData(prev) });
     } catch (e) {
-      showToast('Import impossible : ' + (e as Error).message, { error: true });
+      showToast(t('Import impossible : {e}', { e: (e as Error).message }), { error: true });
     } finally { setBusy(false); }
   };
 
   return (
     <section className={'card g16 ' + className} aria-labelledby="welcome-title" data-component="WelcomeCard">
-      <h2 id="welcome-title" style={{ margin: 0 }}>Bienvenue sur PEAnalyze</h2>
+      <h2 id="welcome-title" style={{ margin: 0 }}>{t('Bienvenue sur PEAnalyze')}</h2>
       <p className="c-neutral" style={{ margin: 0 }}>
-        Votre portefeuille est vide sur cet appareil.{' '}
+        {t('Votre portefeuille est vide sur cet appareil.')}{' '}
         {sync.configured && !sync.user
-          ? 'Connectez-vous avec Google pour retrouver vos données, ou importez votre fichier Excel.'
-          : 'Importez votre classeur PEAnalyze ou votre fichier « Suivi des investissements.xlsx » pour retrouver tout votre historique.'}
+          ? t('Connectez-vous avec Google pour retrouver vos données, ou importez votre fichier Excel.')
+          : t('Importez votre classeur PEAnalyze ou votre fichier « Suivi des investissements.xlsx » pour retrouver tout votre historique.')}
       </p>
       {sync.configured && !sync.user && (
-        <button type="button" className="btn btn-primary block" onClick={() => signIn().catch((e) => showToast('Connexion impossible : ' + (e as Error).message, { error: true }))}>
-          Se connecter avec Google
+        <button type="button" className="btn btn-primary block" onClick={() => signIn().catch((e) => showToast(t('Connexion impossible : {e}', { e: (e as Error).message }), { error: true }))}>
+          {t('Se connecter avec Google')}
         </button>
       )}
       <button type="button" className={'btn block ' + (sync.configured && !sync.user ? 'btn-secondary' : 'btn-primary')} disabled={busy} onClick={() => input.current?.click()}>
-        <Icon name="upload" size={20} /> {busy ? 'Lecture en cours…' : 'Importer mon fichier Excel'}
+        <Icon name="upload" size={20} /> {busy ? t('Lecture en cours…') : t('Importer mon fichier Excel')}
       </button>
-      <button type="button" className="btn btn-tertiary" onClick={() => navigate('/historique/virement')}>Ou commencer en saisissant un virement</button>
+      <button type="button" className="btn btn-tertiary" onClick={() => navigate('/historique/virement')}>{t('Ou commencer en saisissant un virement')}</button>
       <input ref={input} type="file" accept=".xlsx" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = ''; }} />
     </section>
   );

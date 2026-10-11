@@ -1,12 +1,21 @@
-# PEAnalyze : cours mis à jour 2 fois par jour ouvré + publication sur GitHub Pages (gratuit)
+# PEAnalyze : robot des cours + publication sur GitHub Pages (gratuit)
+#  - 13 h (heure de Paris) : cours des ETF suivis 2 fois par jour
+#  - après la clôture d'Euronext : cours de tous les ETF suivis
+#  - toutes les heures : historique des ETF qui viennent d'être ajoutés à « Mes ETF »
+# Le site n'est republié que si le code ou les cours ont changé.
 name: Publier PEAnalyze
 on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 11 * * 1-5'   # vers 13 h (heure de Paris en été, 12 h en hiver)
-    - cron: '50 16 * * 1-5'  # après la clôture d'Euronext (17 h 30)
+    - cron: '0 11 * * 1-5'   # midi (13 h en été, 12 h en hiver)
+    - cron: '50 16 * * 1-5'  # clôture (17 h 30 à Paris)
+    - cron: '17 * * * *'     # passage horaire : nouveaux ETF
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'midday, close ou sync'
+        default: 'close'
 permissions:
   contents: write
   pages: write
@@ -18,28 +27,31 @@ jobs:
   prices:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.robot.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Mettre à jour les cours (EODHD)
+        id: robot
         env:
           EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '0 11 * * 1-5' && 'midday' || (github.event.schedule == '50 16 * * 1-5' && 'close' || 'sync')) }}
         run: node scripts/update-prices.mjs
       - name: Enregistrer prices.json
+        if: steps.robot.outputs.changed == 'true'
         run: |
-          if ! git diff --quiet public/prices.json; then
-            git config user.name "peanalyze-bot"
-            git config user.email "peanalyze-bot@users.noreply.github.com"
-            git add public/prices.json
-            git commit -m "Cours du $(date -u +%d/%m/%Y\ %H:%M) UTC"
-            git push
-          fi
+          git config user.name "peanalyze-bot"
+          git config user.email "peanalyze-bot@users.noreply.github.com"
+          git add public/prices.json
+          git commit -m "Cours du $(date -u +%d/%m/%Y\ %H:%M) UTC"
+          git push
   build:
     needs: prices
-    # s'exécute aussi quand « prices » est ignoré (envoi de code) ou échoue (on publie avec les derniers cours connus)
-    if: ${{ !cancelled() }}
+    # code envoyé (prices ignoré) ou cours modifiés ; si le robot échoue, rien n'est republié
+    if: ${{ !cancelled() && (github.event_name == 'push' || needs.prices.outputs.changed == 'true') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

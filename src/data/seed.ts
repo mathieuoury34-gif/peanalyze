@@ -22,6 +22,7 @@ export function defaultSettings(): AppData['settings'] {
     priceProvider: 'server',
     csvUrl: '',
     priceRefresh: 'open',
+    priceFreq: 2,
     peaOpeningDate: '',
     lastPriceUpdate: '',
     cashBalance: null,

@@ -2,9 +2,8 @@
 import { useState, type ReactNode } from 'react';
 import { useWidth } from './kit';
 import { niceStep } from '../domain/calc';
-import { dateFr, num, NBSP, monthShort, eur } from '../domain/format';
-
-const MONTHS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+import { dateFr, num, NBSP, monthShort, eur, MONTHS_ABBR as MONTHS } from '../domain/format';
+import { lang, t } from '../i18n';
 const AXIS = 36; // largeur réservée aux graduations à droite
 
 function hoverFromEvent(ev: React.PointerEvent<HTMLDivElement>, n: number): number {
@@ -14,6 +13,7 @@ function hoverFromEvent(ev: React.PointerEvent<HTMLDivElement>, n: number): numb
 }
 
 function kEur(v: number): string {
+  if (lang === 'en') return '€' + (v >= 1000 ? (v / 1000).toLocaleString('en-GB', { maximumFractionDigits: 1 }) + 'k' : String(Math.round(v)));
   return (v >= 1000 ? (v / 1000).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + NBSP + 'k' : String(Math.round(v))) + NBSP + '€';
 }
 
@@ -39,13 +39,13 @@ export function Sparkline({ values, color }: { values: number[]; color: string }
 // ------------------------------------------------------------------ PriceChart (T1-02)
 export interface Buy { date: string; quantity: number; unitPrice: number }
 
-export function PriceChart({ history, start, buys, pru, color, label }: { history: [string, number][]; start: number; buys: Buy[]; pru?: number; color: string; label: string }) {
+export function PriceChart({ history, start, buys, pru, color, label, emptyText }: { history: [string, number][]; start: number; buys: Buy[]; pru?: number; color: string; label: string; emptyText?: string }) {
   const [ref, cw] = useWidth<HTMLDivElement>();
   const [hover, setHover] = useState<number | null>(null);
   const s = Math.min(start, Math.max(history.length - 2, 0));
   const e = history.length - 1;
   if (history.length < 2) {
-    return <div ref={ref} className="chart c-moderate t-caption" style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Historique indisponible</div>;
+    return <div ref={ref} className="chart c-moderate t-caption" style={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 var(--space-16)' }}>{emptyText || t('Historique indisponible')}</div>;
   }
   const W = cw - AXIS, H = 180, T = 8, B = T + H;
   let lo = Infinity, hi = -Infinity;
@@ -62,7 +62,7 @@ export function PriceChart({ history, start, buys, pru, color, label }: { histor
   for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) {
     const y = Y(v);
     grid += 'M0,' + y.toFixed(1) + ' H' + W + ' ';
-    yTicks.push(<span key={v} className="tick" style={{ left: W + 6, top: y - 9 }}>{num(v, step < 1 ? 1 : 0)}{NBSP}€</span>);
+    yTicks.push(<span key={v} className="tick" style={{ left: W + 6, top: y - 9 }}>{eur(v, step < 1 ? 1 : 0)}</span>);
   }
   const days = (Date.parse(history[e][0]) - Date.parse(history[s][0])) / 864e5;
   const xTicks = [0, 1, 2, 3].map((k) => {
@@ -98,7 +98,7 @@ export function PriceChart({ history, start, buys, pru, color, label }: { histor
       {showPru && (
         <>
           <div style={{ position: 'absolute', left: 0, width: W, height: 0, borderTop: '2px dashed var(--chart-pru)', pointerEvents: 'none', top: Y(pru!) }} />
-          <span className="badge" style={{ position: 'absolute', left: 4, top: Y(pru!) + 4, color: 'var(--warning-text)', background: 'var(--warning-bg)', padding: '0 var(--space-6)', pointerEvents: 'none' }}>PRU {num(pru!)}{NBSP}€</span>
+          <span className="badge" style={{ position: 'absolute', left: 4, top: Y(pru!) + 4, color: 'var(--warning-text)', background: 'var(--warning-bg)', padding: '0 var(--space-6)', pointerEvents: 'none' }}>{t('PRU')} {eur(pru!)}</span>
         </>
       )}
       <div className="cross" style={{ top: T, height: H, left: hx }} />
@@ -108,8 +108,8 @@ export function PriceChart({ history, start, buys, pru, color, label }: { histor
       <div className="hit" style={{ width: W, height: B }} onPointerMove={(ev) => setHover(s + hoverFromEvent(ev, e - s + 1))} onPointerDown={(ev) => setHover(s + hoverFromEvent(ev, e - s + 1))} />
       <div role="status" className="tip" data-component="ChartTooltip" style={{ minWidth: 120, left: tipLeft, top: tipTop }}>
         <span className="t-caption c-reverse-muted">{dateFr(history[h][0])}</span>
-        <span className="t-amount-s" style={{ color: 'var(--text-reverse)' }}>{num(history[h][1])}{NBSP}€</span>
-        {hb.map((x, k) => <span key={k} className="t-caption-strong" style={{ color: 'var(--brand-light-green)' }}>Achat : {x.b.quantity} × {num(x.b.unitPrice, 2, 4)}{NBSP}€</span>)}
+        <span className="t-amount-s" style={{ color: 'var(--text-reverse)' }}>{eur(history[h][1], 2, 4)}</span>
+        {hb.map((x, k) => <span key={k} className="t-caption-strong" style={{ color: 'var(--brand-light-green)' }}>{t('Achat : {q} × {p}', { q: x.b.quantity, p: eur(x.b.unitPrice, 2, 4) })}</span>)}
       </div>
     </div>
   );
@@ -123,7 +123,7 @@ export function AreaComparisonChart({ points }: { points: { month: string; depos
   if (n < 2) {
     return (
       <div ref={ref} className="stack-4 t-caption c-neutral">
-        {points.map((p) => <span key={p.month}>{monthShort(p.month)} : épargné {eur(p.deposited)}, valeur {eur(p.value)}</span>)}
+        {points.map((p) => <span key={p.month}>{t('{m} : épargné {d}, valeur {v}', { m: monthShort(p.month), d: eur(p.deposited), v: eur(p.value) })}</span>)}
       </div>
     );
   }
@@ -153,7 +153,7 @@ export function AreaComparisonChart({ points }: { points: { month: string; depos
   const tipLeft = Math.min(Math.max(hx - 64, 0), W - 128);
   return (
     <div ref={ref} className="chart" data-component="AreaComparisonChart" style={{ height: 186 }}>
-      <svg viewBox={`0 0 ${cw} 186`} width={cw} height="186" role="img" aria-label={`Montant épargné et valeur réelle de ${monthShort(points[0].month)} à ${monthShort(points[n - 1].month)} : ${eur(points[n - 1].deposited)} épargnés, valeur ${eur(points[n - 1].value)}`}>
+      <svg viewBox={`0 0 ${cw} 186`} width={cw} height="186" role="img" aria-label={t('Montant épargné et valeur réelle de {a} à {b} : {d} épargnés, valeur {v}', { a: monthShort(points[0].month), b: monthShort(points[n - 1].month), d: eur(points[n - 1].deposited), v: eur(points[n - 1].value) })}>
         <path d={grid} fill="none" strokeWidth="1" style={{ stroke: 'var(--chart-grid)' }} />
         <path d={valLine + ` L${W},${B} L0,${B} Z`} style={{ fill: 'var(--chart-value-area)' }} />
         <path d={gap} style={{ fill: 'var(--chart-gain-area)' }} />
@@ -168,8 +168,8 @@ export function AreaComparisonChart({ points }: { points: { month: string; depos
       <div className="hit" style={{ width: W, height: B }} onPointerMove={(ev) => setHover(hoverFromEvent(ev, n))} onPointerDown={(ev) => setHover(hoverFromEvent(ev, n))} />
       <div role="status" className="tip" data-component="ChartTooltip" style={{ minWidth: 128, left: tipLeft, top: Y(points[h].value) > 80 ? 8 : 90 }}>
         <span className="t-caption-strong" style={{ color: 'var(--text-reverse)' }}>{monthShort(points[h].month)}</span>
-        <span className="t-caption c-reverse-muted">Épargné {eur(points[h].deposited)}</span>
-        <span className="t-caption" style={{ color: 'var(--text-reverse)' }}>Valeur {eur(points[h].value)}</span>
+        <span className="t-caption c-reverse-muted">{t('Épargné {v}', { v: eur(points[h].deposited) })}</span>
+        <span className="t-caption" style={{ color: 'var(--text-reverse)' }}>{t('Valeur {v}', { v: eur(points[h].value) })}</span>
       </div>
     </div>
   );
@@ -255,13 +255,13 @@ export function StackedAreaChart({ years, real, label }: { years: { year: number
         <line x1="0" x2={W} y1={B} y2={B} strokeWidth="1" style={{ stroke: 'var(--border-moderate)' }} />
       </svg>
       {yTicks}
-      {xTicks.map(([y, st]) => <span key={'x' + y} className="tick" style={{ top: 186, ...st }}>an {y}</span>)}
+      {xTicks.map(([y, st]) => <span key={'x' + y} className="tick" style={{ top: 186, ...st }}>{t('an {y}', { y })}</span>)}
       <div className="cross" style={{ top: T, height: H, left: hx, borderLeftColor: 'var(--text)' }} />
       <div className="hit" style={{ width: W, height: B }} onPointerMove={(ev) => setHover(hoverFromEvent(ev, n))} onPointerDown={(ev) => setHover(hoverFromEvent(ev, n))} />
       <div role="status" className="tip" data-component="ChartTooltip" style={{ minWidth: 140, top: 12, left: tipLeft }}>
-        <span className="t-caption-strong" style={{ color: 'var(--text-reverse)' }}>Année {hp.year}</span>
-        <span className="t-caption c-reverse-muted">Versements {eur(hp.deposited, 0)}</span>
-        <span className="t-caption" style={{ color: 'var(--brand-light-green)' }}>Intérêts +{eur(hp.value - hp.deposited, 0)}</span>
+        <span className="t-caption-strong" style={{ color: 'var(--text-reverse)' }}>{t('Année {y}', { y: hp.year })}</span>
+        <span className="t-caption c-reverse-muted">{t('Versements {v}', { v: eur(hp.deposited, 0) })}</span>
+        <span className="t-caption" style={{ color: 'var(--brand-light-green)' }}>{t('Intérêts +{v}', { v: eur(hp.value - hp.deposited, 0) })}</span>
         <span className="t-amount-s" style={{ color: 'var(--text-reverse)' }}>{eur(hp.value, 0)}</span>
       </div>
     </div>

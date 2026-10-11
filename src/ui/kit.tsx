@@ -5,7 +5,8 @@ import { back, closeSheet, navigate, tabOf, useRoute, type Tab } from './router'
 import { useData } from '../data/store';
 import { refreshPrices, usePriceStatus } from '../data/prices';
 import { valuationDate } from '../domain/calc';
-import { dateFr, dateShort, dateTimeFr, arrow, pctSigned } from '../domain/format';
+import { dateFr, dateLong, dateShort, dateTimeFr, arrow, pctSigned, MONTHS_TITLE } from '../domain/format';
+import { t, t as tr } from '../i18n';
 
 // ------------------------------------------------------------------ mesure
 export function useWidth<T extends HTMLElement>(fallback = 326): [React.RefObject<T | null>, number] {
@@ -40,7 +41,7 @@ export function useScrolled(threshold = 20): boolean {
 export function useUpdatedText(): string {
   const data = useData();
   const s = data.settings.lastPriceUpdate;
-  return s ? 'Cours mis à jour le ' + dateTimeFr(s) : 'Cours du ' + dateFr(valuationDate(data));
+  return s ? t('Cours mis à jour le {d}', { d: dateTimeFr(s) }) : t('Cours du {d}', { d: dateFr(valuationDate(data)) });
 }
 
 export function AppHeader({ title }: { title: string }) {
@@ -55,10 +56,10 @@ export function AppHeader({ title }: { title: string }) {
           <span className="updated">{updated}</span>
         </div>
         <div className="actions">
-          <button type="button" className={'icon-btn' + (ps.loading ? ' spin' : '')} aria-label="Actualiser les cours" onClick={() => refreshPrices({ force: true })} disabled={ps.loading}>
+          <button type="button" className={'icon-btn' + (ps.loading ? ' spin' : '')} aria-label={t('Actualiser les cours')} onClick={() => refreshPrices({ force: true })} disabled={ps.loading}>
             <Icon name="refresh" />
           </button>
-          <a href="#/parametres" className="icon-btn" aria-label="Paramètres" onClick={(e) => { e.preventDefault(); navigate('/parametres'); }}>
+          <a href="#/parametres" className="icon-btn" aria-label={t('Paramètres')} onClick={(e) => { e.preventDefault(); navigate('/parametres'); }}>
             <Icon name="settings" />
           </a>
         </div>
@@ -71,7 +72,7 @@ export function SubHeader({ title, fallback, close, bordered, right }: { title: 
   return (
     <header className={'sub-header' + (bordered ? ' bordered' : '')}>
       <div className="bar">
-        <button type="button" className={'icon-btn' + (close ? ' neutral' : '')} aria-label={close ? 'Fermer sans enregistrer' : 'Retour'} onClick={() => back(fallback)}>
+        <button type="button" className={'icon-btn' + (close ? ' neutral' : '')} aria-label={close ? t('Fermer sans enregistrer') : t('Retour')} onClick={() => back(fallback)}>
           <Icon name={close ? 'close' : 'back'} />
         </button>
         <h1>{title}</h1>
@@ -89,10 +90,10 @@ export function PriceErrorBanner() {
   return (
     <div role="alert" className="banner-error">
       <Icon name="alert" size={20} />
-      <span>{ps.error.startsWith('Ajoutez') ? ps.error : 'Cours indisponibles – dernières valeurs du ' + dateShort(valuationDate(data)) + ' (' + ps.error + ')'}</span>
-      {ps.error.startsWith('Ajoutez')
-        ? <button type="button" onClick={() => navigate('/parametres')}>Paramètres</button>
-        : <button type="button" onClick={() => refreshPrices({ force: true })}>Réessayer</button>}
+      <span>{ps.noSource ? ps.error : t('Cours indisponibles – dernières valeurs du {d} ({e})', { d: dateShort(valuationDate(data)), e: ps.error })}</span>
+      {ps.noSource
+        ? <button type="button" onClick={() => navigate('/parametres')}>{t('Paramètres')}</button>
+        : <button type="button" onClick={() => refreshPrices({ force: true })}>{t('Réessayer')}</button>}
     </div>
   );
 }
@@ -149,24 +150,24 @@ export function TabBar() {
   const go = (to: string) => (e: React.MouseEvent) => { e.preventDefault(); if (route.path !== to) navigate(to); };
   return (
     <>
-      <nav aria-label="Navigation principale" className="tabbar" data-component="TabBar">
+      <nav aria-label={tr('Navigation principale')} className="tabbar" data-component="TabBar">
         {TABS.map((t) => (
           <a key={t.id} href={'#' + t.to} aria-current={active === t.id ? 'page' : undefined} onClick={go(t.to)}>
             <span className="pill"><Icon name={t.id} /></span>
-            {t.label}
+            {tr(t.label)}
           </a>
         ))}
       </nav>
-      <aside className="sidenav" aria-label="Navigation principale">
+      <aside className="sidenav" aria-label={tr('Navigation principale')}>
         <Logo size={20} />
         <nav>
           {TABS.map((t) => (
             <a key={t.id} href={'#' + t.to} aria-current={active === t.id ? 'page' : undefined} onClick={go(t.to)}>
-              <Icon name={t.id} />{t.label}
+              <Icon name={t.id} />{tr(t.label)}
             </a>
           ))}
           <a href="#/parametres" aria-current={route.path.startsWith('/parametres') ? 'page' : undefined} onClick={go('/parametres')}>
-            <Icon name="settings" />Paramètres
+            <Icon name="settings" />{tr('Paramètres')}
           </a>
         </nav>
         <SyncFoot />
@@ -180,7 +181,7 @@ function SyncFoot() {
   return <div className="foot">{updated}</div>;
 }
 
-export function Fab({ onClick, label = 'Ajouter un virement ou un achat' }: { onClick: () => void; label?: string }) {
+export function Fab({ onClick, label = t('Ajouter un virement ou un achat') }: { onClick: () => void; label?: string }) {
   return (
     <button type="button" className="fab" aria-label={label} onClick={onClick} data-component="Button.fab">
       <Icon name="plus" />
@@ -207,7 +208,7 @@ export function Sheet({ title, children, footer, full, onClose = closeSheet, hea
         <div className="sheet-head" style={full ? { borderBottom: '1px solid var(--divider-minimal)' } : undefined}>
           <div className="between">
             <h2 className="t-h2">{title}</h2>
-            <button type="button" className="icon-btn neutral" aria-label="Fermer" onClick={onClose} style={{ marginRight: 'calc(-1 * var(--space-10))' }}>
+            <button type="button" className="icon-btn neutral" aria-label={t('Fermer')} onClick={onClose} style={{ marginRight: 'calc(-1 * var(--space-10))' }}>
               <Icon name="close" />
             </button>
           </div>
@@ -238,7 +239,7 @@ export function ToastHost() {
     <div role="status" className={'toast' + (t.error ? ' error' : '')} key={t.id} data-component="Toast">
       <Icon name={t.error ? 'alert' : 'success'} />
       <span className="t-strong">{t.text}</span>
-      {t.undo ? <button type="button" onClick={() => { t.undo!(); toast = null; toastListeners.forEach((l) => l()); }}>Annuler</button> : <span />}
+      {t.undo ? <button type="button" onClick={() => { t.undo!(); toast = null; toastListeners.forEach((l) => l()); }}>{tr('Annuler')}</button> : <span />}
     </div>
   );
 }
@@ -269,20 +270,17 @@ export function Empty({ icon = 'inbox', title, text, action }: { icon?: string; 
 }
 
 /** Calendrier (DatePicker) : mois navigable, en-tête vert. */
-export function DatePicker({ value, onChange, label = 'Date' }: { value: string; onChange: (iso: string) => void; label?: string }) {
+export function DatePicker({ value, onChange, label = t('Date') }: { value: string; onChange: (iso: string) => void; label?: string }) {
   const [view, setView] = useState(value.slice(0, 7));
   const y = +view.slice(0, 4), m = +view.slice(5, 7);
   const first = new Date(Date.UTC(y, m - 1, 1));
   const offset = (first.getUTCDay() + 6) % 7;
   const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
-  const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+  const MONTHS = MONTHS_TITLE;
   const shift = (k: number) => { let mm = m + k, yy = y; if (mm < 1) { mm = 12; yy--; } if (mm > 12) { mm = 1; yy++; } setView(yy + '-' + String(mm).padStart(2, '0')); };
   const today = new Date().toISOString().slice(0, 10);
   const long = (() => {
-    const d = new Date(value + 'T12:00:00');
-    const wd = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'][d.getDay()];
-    const ms = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'][d.getMonth()];
-    return wd.charAt(0).toUpperCase() + wd.slice(1) + ' ' + d.getDate() + ' ' + ms;
+    return dateLong(value);
   })();
   return (
     <div className="datepicker" data-component="DatePicker">
@@ -292,12 +290,12 @@ export function DatePicker({ value, onChange, label = 'Date' }: { value: string;
       </div>
       <div className="body">
         <div className="month">
-          <button type="button" className="icon-btn" aria-label="Mois précédent" onClick={() => shift(-1)}><Icon name="back" size={20} /></button>
+          <button type="button" className="icon-btn" aria-label={t('Mois précédent')} onClick={() => shift(-1)}><Icon name="back" size={20} /></button>
           <span>{MONTHS[m - 1]} {y}</span>
-          <button type="button" className="icon-btn" aria-label="Mois suivant" onClick={() => shift(1)}><Icon name="next" size={20} /></button>
+          <button type="button" className="icon-btn" aria-label={t('Mois suivant')} onClick={() => shift(1)}><Icon name="next" size={20} /></button>
         </div>
         <div className="grid">
-          {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((d, i) => <span key={i}>{d}</span>)}
+          {t('L,M,M,J,V,S,D').split(',').map((d, i) => <span key={i}>{d}</span>)}
           {Array.from({ length: offset }, (_, i) => <button key={'b' + i} type="button" disabled tabIndex={-1} />)}
           {Array.from({ length: days }, (_, i) => {
             const iso = view + '-' + String(i + 1).padStart(2, '0');

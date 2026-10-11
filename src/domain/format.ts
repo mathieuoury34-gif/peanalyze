@@ -1,4 +1,6 @@
-// Formatage français (HANDOFF §4)
+// Formatage selon la langue : français (HANDOFF §4) ou anglais
+import { lang } from '../i18n';
+const EN = lang === 'en';
 export const NBSP = ' '; // entre nombre et unité
 export const MINUS = '−';
 
@@ -7,7 +9,7 @@ function nf(min: number, max: number): Intl.NumberFormat {
   const k = min + ':' + max;
   let f = cache.get(k);
   if (!f) {
-    f = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: min, maximumFractionDigits: max });
+    f = new Intl.NumberFormat(EN ? 'en-GB' : 'fr-FR', { minimumFractionDigits: min, maximumFractionDigits: max });
     cache.set(k, f);
   }
   return f;
@@ -20,6 +22,7 @@ export function num(v: number, min = 2, max = min): string {
 }
 
 export function eur(v: number, decimals = 2, maxDecimals = decimals): string {
+  if (EN) { const s = num(v, decimals, maxDecimals); return s.startsWith(MINUS) ? MINUS + '€' + s.slice(1) : '€' + s; }
   return num(v, decimals, maxDecimals) + NBSP + '€';
 }
 
@@ -30,7 +33,7 @@ export function eurSigned(v: number, decimals = 2): string {
 }
 
 export function pct(ratio: number, decimals = 1): string {
-  return num(ratio * 100, decimals) + NBSP + '%';
+  return num(ratio * 100, decimals) + (EN ? '' : NBSP) + '%';
 }
 
 export function pctSigned(ratio: number, decimals = 1): string {
@@ -46,6 +49,7 @@ export function pts(v: number, decimals = 1): string {
 
 export function aum(v: number | null): string {
   if (v === null || v === undefined) return '—';
+  if (EN) return v < 1 ? '< €1M' : '€' + num(v, 0) + 'M';
   if (v < 1) return '< 1' + NBSP + 'M€';
   return num(v, 0) + NBSP + 'M€';
 }
@@ -54,9 +58,11 @@ export function arrow(v: number): string {
   return v >= 0 ? '▲' : '▼';
 }
 
-const MONTHS_SHORT = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
-const MONTHS_LONG = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-const WEEKDAYS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const MONTHS_SHORT = EN ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] : ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const MONTHS_LONG = EN ? ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] : ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const WEEKDAYS = EN ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] : ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+export const MONTHS_TITLE = MONTHS_LONG.map((m) => m.charAt(0).toUpperCase() + m.slice(1));
+export const MONTHS_ABBR = MONTHS_SHORT;
 
 /** 'YYYY-MM-DD' → 'jj/mm/aaaa' */
 export function dateFr(iso: string): string {
@@ -83,6 +89,7 @@ export function weekday(iso: string): string {
 }
 export function dateLong(iso: string): string {
   const d = weekday(iso);
+  if (EN) return d + ' ' + +iso.slice(8, 10) + ' ' + MONTHS_SHORT[+iso.slice(5, 7) - 1];
   return d.charAt(0).toUpperCase() + d.slice(1) + ' ' + +iso.slice(8, 10) + ' ' + MONTHS_SHORT[+iso.slice(5, 7) - 1];
 }
 
@@ -98,7 +105,7 @@ export function parseDateFr(s: string): string {
 
 /** Saisie française « 1 234,56 » → nombre (NaN si vide/invalide) */
 export function parseNum(s: string): number {
-  const t = String(s).replace(/[\s  €%]/g, '').replace(',', '.');
+  const t = EN ? String(s).replace(/[\s\u00a0\u202f€%,]/g, '') : String(s).replace(/[\s  €%]/g, '').replace(',', '.');
   if (t === '' || t === '-' || t === '.') return NaN;
   const v = Number(t);
   return isFinite(v) ? v : NaN;
@@ -107,7 +114,7 @@ export function parseNum(s: string): number {
 /** Nombre → texte de champ « 34,28 » (sans séparateur de milliers) */
 export function toInput(v: number, decimals = 2): string {
   if (!isFinite(v)) return '';
-  return v.toFixed(decimals).replace('.', ',');
+  return EN ? v.toFixed(decimals) : v.toFixed(decimals).replace('.', ',');
 }
 
 export function todayIso(): string {
@@ -119,5 +126,5 @@ export function dateTimeFr(isoDateTime: string): string {
   if (!isoDateTime) return '';
   const d = new Date(isoDateTime);
   const p = (n: number) => String(n).padStart(2, '0');
-  return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear() + ' à ' + p(d.getHours()) + ':' + p(d.getMinutes());
+  return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear() + (EN ? ' at ' : ' à ') + p(d.getHours()) + ':' + p(d.getMinutes());
 }

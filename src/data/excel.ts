@@ -2,6 +2,7 @@
 // « Suivi des investissements.xlsx » (6 feuilles). L'export est dans excel-peanalyze.ts.
 import JSZip from 'jszip';
 import type { AppData, Deposit, Etf, Transaction } from '../domain/types';
+import { t } from '../i18n';
 
 // libellés « Indice » utilisés dans l'Excel d'origine pour les ETF suivis
 const EXCEL_LABEL: Record<string, string> = {
@@ -74,7 +75,7 @@ async function loader(buf: ArrayBuffer | Uint8Array) {
   const sheet = async (name: string, fallback?: string) => {
     const p = paths.get(name) || fallback;
     const f = p ? zip.file(p) : null;
-    if (!f) throw new Error('feuille « ' + name + ' » manquante');
+    if (!f) throw new Error(t('feuille « {n} » manquante', { n: name }));
     return readCells(await f.async('string'), sst);
   };
   return { zip, paths, sheet };
@@ -103,11 +104,11 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
         fees: Math.round((gross - unit * qty) * 1e4) / 1e4, feeRefund: isFinite(refund) ? refund : 0 });
     }
   }
-  if (!deposits.length && !transactions.length) throw new Error('aucune opération trouvée');
+  if (!deposits.length && !transactions.length) throw new Error(t('aucune opération trouvée'));
   // ETF inconnus de l'app : repris du catalogue (cours indicatif), sinon l'import est refusé
   for (const tk of unknown) {
     const c = next.catalog.find((x) => x.ticker === tk);
-    if (!c) throw new Error('ETF « ' + tk + ' » inconnu');
+    if (!c) throw new Error(t('ETF « {t} » inconnu', { t: tk }));
     next.etfs.push({ id: tk, index: c.index, name: c.name, isin: c.isin, ticker: tk, exchange: c.exchange, category: c.category, peaEligible: c.peaEligible,
       lastPrice: c.unitPrice ?? 0, ter: c.ter, aumMEur: c.aumMEur ?? 0, replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant',
       inStrategy: false, sectors: [], countries: [], priceHistory: [] });
@@ -162,7 +163,7 @@ async function parseOriginal(L: Awaited<ReturnType<typeof loader>>, current: App
   const hist = await L.sheet('Historique des achats', 'xl/worksheets/sheet3.xml');
   let header = 0;
   for (let r = 2; r < 400; r++) if (hist.get('A' + r) === 'DATE') { header = r; break; }
-  if (!header) throw new Error('tableau des achats introuvable');
+  if (!header) throw new Error(t('tableau des achats introuvable'));
   const deposits: Deposit[] = [];
   for (let r = 2; r < header; r++) {
     const a = hist.get('A' + r), b = hist.get('B' + r);
@@ -179,7 +180,7 @@ async function parseOriginal(L: Awaited<ReturnType<typeof loader>>, current: App
     if (!tk || !isFinite(unit) || !isFinite(qty) || !isFinite(gross)) continue;
     transactions.push({ id: 'b-' + serialToIso(a) + '-' + tk + '-' + r, date: serialToIso(a), etfId: tk, unitPrice: unit, quantity: qty, grossAmount: gross, fees: Math.round((gross - unit * qty) * 1e4) / 1e4, feeRefund: refund });
   }
-  if (!deposits.length && !transactions.length) throw new Error('aucune opération trouvée');
+  if (!deposits.length && !transactions.length) throw new Error(t('aucune opération trouvée'));
 
   const next: AppData = structuredClone(current);
   next.deposits = deposits;

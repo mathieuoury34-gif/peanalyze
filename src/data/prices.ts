@@ -5,10 +5,15 @@
 import { useSyncExternalStore } from 'react';
 import type { AppData, Etf } from '../domain/types';
 import { getData, update } from './store';
-import { todayIso } from '../domain/format';
+import { eur, todayIso } from '../domain/format';
+import { t } from '../i18n';
 
-export interface PriceStatus { loading: boolean; error: string; errorAt: string }
-let status: PriceStatus = { loading: false, error: '', errorAt: '' };
+/** Nombre maximum d'ETF suivis selon la fréquence (budget du robot : 18 appels EODHD par jour). */
+export const MAX_ETFS: Record<1 | 2, number> = { 2: 9, 1: 18 };
+
+export interface RobotInfo { loaded: boolean; tracked: string[]; skipped: string[]; updatedAt: string }
+export interface PriceStatus { loading: boolean; error: string; errorAt: string; noSource?: boolean; robot: RobotInfo }
+let status: PriceStatus = { loading: false, error: '', errorAt: '', robot: { loaded: false, tracked: [], skipped: [], updatedAt: '' } };
 const listeners = new Set<() => void>();
 function setStatus(s: Partial<PriceStatus>) { status = { ...status, ...s }; listeners.forEach((l) => l()); }
 export function usePriceStatus(): PriceStatus {
@@ -16,21 +21,22 @@ export function usePriceStatus(): PriceStatus {
 }
 
 interface Quote { id: string; price: number; date: string; history?: [string, number][] }
-interface PricesFile { updatedAt: string; quotes: Record<string, { price: number; date: string; history?: [string, number][] }> }
+interface PricesFile { updatedAt: string; tickers?: string[]; skipped?: string[]; quotes: Record<string, { price: number; date: string; history?: [string, number][] }> }
 
 async function fromServer(etfs: Etf[]): Promise<Quote[]> {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 15000);
   try {
     const r = await fetch(new URL('prices.json', document.baseURI).href + '?t=' + Date.now(), { cache: 'no-store', signal: ctrl.signal });
-    if (!r.ok) throw new Error('Fichier des cours introuvable (' + r.status + ')');
+    if (!r.ok) throw new Error(t('Fichier des cours introuvable ({s})', { s: r.status }));
     const f = (await r.json()) as PricesFile;
+    setStatus({ robot: { loaded: true, tracked: f.tickers || Object.keys(f.quotes || {}), skipped: f.skipped || [], updatedAt: f.updatedAt } });
     const out: Quote[] = [];
     for (const e of etfs) {
       const q = f.quotes?.[e.ticker];
       if (q && isFinite(q.price) && q.price > 0 && q.date) out.push({ id: e.id, price: q.price, date: q.date, history: q.history });
     }
-    if (!out.length) throw new Error('Aucun cours disponible pour vos ETF');
+    if (!out.length) throw new Error(t('Aucun cours disponible pour vos ETF'));
     return out;
   } finally { clearTimeout(t); }
 }
@@ -58,9 +64,9 @@ export function parseCsvQuotes(text: string, etfs: Etf[]): Quote[] {
 
 async function fromCsv(etfs: Etf[], url: string): Promise<Quote[]> {
   const r = await fetch(url, { cache: 'no-store' });
-  if (!r.ok) throw new Error('Feuille Google inaccessible (' + r.status + ')');
+  if (!r.ok) throw new Error(t('Feuille Google inaccessible ({s})', { s: r.status }));
   const quotes = parseCsvQuotes(await r.text(), etfs);
-  if (!quotes.length) throw new Error('Aucun cours reconnu dans la feuille');
+  if (!quotes.length) throw new Error(t('Aucun cours reconnu dans la feuille'));
   return quotes;
 }
 
@@ -97,7 +103,7 @@ export async function refreshPrices(opts: { force?: boolean; silent?: boolean } 
   const d = getData();
   if (status.loading) return false;
   if (!hasPriceSource(d)) {
-    if (!opts.silent) setStatus({ error: 'Ajoutez une source de cours dans les paramètres', errorAt: new Date().toISOString() });
+    if (!opts.silent) setStatus({ error: t('Ajoutez une source de cours dans les paramètres'), noSource: true, errorAt: new Date().toISOString() });
     return false;
   }
   const held = new Set(d.transactions.map((t) => t.etfId));
@@ -106,11 +112,11 @@ export async function refreshPrices(opts: { force?: boolean; silent?: boolean } 
   try {
     const quotes = d.settings.priceProvider === 'csv' ? await fromCsv(etfs, d.settings.csvUrl) : await fromServer(etfs);
     update((x) => applyQuotes(x, quotes), { touch: false });
-    setStatus({ loading: false, error: '', errorAt: '' });
+    setStatus({ loading: false, error: '', errorAt: '', noSource: false });
     return true;
   } catch (err) {
-    const msg = err instanceof Error ? (err.name === 'AbortError' ? 'Délai dépassé' : err.message) : 'Erreur inconnue';
-    setStatus({ loading: false, error: msg === 'Failed to fetch' ? 'Pas de connexion' : msg, errorAt: new Date().toISOString() });
+    const msg = err instanceof Error ? (err.name === 'AbortError' ? t('Délai dépassé') : err.message) : t('Erreur inconnue');
+    setStatus({ loading: false, error: msg === 'Failed to fetch' ? t('Pas de connexion') : msg, noSource: false, errorAt: new Date().toISOString() });
     return false;
   }
 }
@@ -119,7 +125,7 @@ export async function refreshPrices(opts: { force?: boolean; silent?: boolean } 
 export async function testSource(provider: 'server' | 'csv', value: string): Promise<string> {
   const etfs = getData().etfs;
   const q = provider === 'csv' ? await fromCsv(etfs, value) : await fromServer(etfs);
-  return q.length + ' cours lus (ex. ' + q[0].id + ' : ' + q[0].price.toString().replace('.', ',') + ' € au ' + q[0].date.split('-').reverse().join('/') + ')';
+  return t('{n} cours lus (ex. {id} : {p} au {d})', { n: q.length, id: q[0].id, p: eur(q[0].price, 2, 4), d: q[0].date.split('-').reverse().join('/') });
 }
 
 /** Actualisation automatique selon le réglage (ouverture de l'app / toutes les heures). */

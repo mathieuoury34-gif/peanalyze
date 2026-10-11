@@ -88,6 +88,7 @@ export interface Settings {
   priceProvider: 'server' | 'csv';
   csvUrl: string;
   priceRefresh: PriceRefresh;
+  priceFreq: 1 | 2; // actualisations par jour ouvré demandées au robot des cours
   peaOpeningDate: string; // ISO ou ''
   lastPriceUpdate: string; // ISO date-heure ou ''
   cashBalance: number | null; // null = calculé

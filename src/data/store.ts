@@ -1,7 +1,7 @@
 // État de l'application : données persistées localement (+ synchronisation cloud optionnelle)
 import { useSyncExternalStore } from 'react';
 import type { AppData } from '../domain/types';
-import { buildSeed, DATA_VERSION, defaultSettings } from './seed';
+import { buildSeed, builtinCatalog, DATA_VERSION, defaultSettings } from './seed';
 
 const KEY = 'peanalyze:data';
 type Listener = () => void;
@@ -14,6 +14,8 @@ function load(): AppData {
       if (d && d.version === DATA_VERSION && Array.isArray(d.etfs)) {
         d.settings = { ...defaultSettings(), ...d.settings };
         if ((d.settings.priceProvider as string) !== 'csv') d.settings.priceProvider = 'server';
+        d.settings.cashBalance = null; // solde espèces : toujours calculé
+        d.catalog = builtinCatalog(); // catalogue : toujours la version intégrée à l'app
         return d;
       }
     }
@@ -56,7 +58,7 @@ export function update(fn: (d: AppData) => AppData | void, opts: { touch?: boole
 
 /** Remplace les données (import, synchronisation). */
 export function replaceData(next: AppData, origin: 'local' | 'remote' = 'local'): void {
-  data = { ...next, settings: { ...defaultSettings(), ...next.settings } };
+  data = { ...next, catalog: builtinCatalog(), settings: { ...defaultSettings(), ...next.settings, cashBalance: null } };
   persist();
   listeners.forEach((l) => l());
   changeHooks.forEach((h) => h(data, origin));

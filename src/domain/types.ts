@@ -37,18 +37,19 @@ export interface CatalogEtf {
   index: string;
   name: string;
   isin: string;
-  ticker: string;
+  ticker: string; // mnémonique Euronext Paris ('' si non coté à Paris)
   exchange: string;
   category: string;
   peaEligible: boolean;
   ter: number;
-  aumMEur: number;
-  inceptionYear: number;
+  aumMEur: number | null;
+  inceptionYear: number | null;
   holdingsCount: number | null;
   esg: boolean;
-  replication: Replication;
-  distribution: Distribution;
-  unitPrice: number;
+  replication: Replication | null; // null = non renseigné
+  distribution: Distribution | null;
+  unitPrice: number | null; // cours indicatif (date : CATALOG_DATE)
+  note?: string;
 }
 
 export interface Deposit {

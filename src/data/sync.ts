@@ -56,7 +56,7 @@ async function push(uid: string) {
   const d = getData();
   set({ state: 'syncing' });
   try {
-    await fs.setDoc(docRef(uid), { data: JSON.stringify(d), updatedAt: d.updatedAt, device: navigator.userAgent.slice(0, 120) });
+    await fs.setDoc(docRef(uid), { data: JSON.stringify({ ...d, catalog: [] }), updatedAt: d.updatedAt, device: navigator.userAgent.slice(0, 120) });
     lastSynced = d.updatedAt;
     set({ state: 'ok', lastSync: new Date().toISOString(), error: '' });
   } catch (e) {

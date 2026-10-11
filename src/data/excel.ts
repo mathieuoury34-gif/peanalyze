@@ -369,8 +369,8 @@ export async function parseWorkbook(buf: ArrayBuffer | Uint8Array, current: AppD
   const next: AppData = structuredClone(current);
   next.deposits = deposits;
   next.transactions = transactions;
-  const cashCell = hist.get('G6');
-  next.settings.cashBalance = typeof cashCell === 'number' && cashCell > 0 ? cashCell : null;
+  // Solde espèces toujours recalculé (virements − achats frais compris + remboursements) : jamais figé par l'import
+  next.settings.cashBalance = null;
 
   // cours (Sélection ETF, colonne H)
   for (const e of next.etfs) {

@@ -1,8 +1,20 @@
 // Données initiales : export de « Suivi des investissements.xlsx » (seed-data.json)
 import seedJson from './seed-data.json';
+import catalogJson from './catalog.json';
 import type { AppData, CatalogEtf, Etf } from '../domain/types';
 
 export const DATA_VERSION = 1;
+
+/** Catalogue des ETF éligibles au PEA : donnée de référence intégrée à l'app (jamais synchronisée). */
+export const CATALOG_SOURCE: string = catalogJson.source;
+export const CATALOG_DATE: string = catalogJson.updated;
+export function builtinCatalog(): CatalogEtf[] {
+  return catalogJson.etfs as CatalogEtf[];
+}
+/** Clé unique d'une ligne du catalogue (mnémonique Paris, sinon ISIN). */
+export function catKey(c: CatalogEtf): string {
+  return c.ticker || c.isin;
+}
 
 export function defaultSettings(): AppData['settings'] {
   return {
@@ -43,19 +55,6 @@ export function buildSeed(json: any = seedJson): AppData {
   const SHORT: Record<string, string> = { PAEEM: 'MSCI EM', PUST: 'NASDAQ-100' };
   etfs.forEach((e) => { if (SHORT[e.id]) e.index = SHORT[e.id]; });
 
-  // Noms d'indices courts du catalogue (maquette T1-03)
-  const CAT_INDEX: Record<string, string> = {
-    ESE: 'S&P 500', SPEA: 'S&P 500', PSP5: 'S&P 500', CACC: 'CAC 40', MSE: 'EURO STOXX 50', C50: 'EURO STOXX 50',
-    ETZ: 'STOXX Europe 600', BNK: 'STOXX Europe 600 Banks', TNO: 'STOXX Europe 600 Technology',
-    HLT: 'STOXX Europe 600 Health Care', IND: 'STOXX Europe 600 Industrials', CW8: 'MSCI World', DCAM: 'MSCI World',
-    WPEA: 'MSCI World', LWLD: 'MSCI World Leveraged (2x)', PUST: 'Nasdaq-100', LQQ: 'Nasdaq-100 Leveraged (2x)',
-    RS2U: 'Russell 2000', RS2K: 'Russell 2000', PLEM: 'MSCI EM EMEA ESG Leaders', PAEEM: 'MSCI EM ESG Leaders',
-  };
-  const catalog: CatalogEtf[] = json.catalog.map((c: any) => ({
-    ...c,
-    name: c.name.trim(),
-    index: CAT_INDEX[c.ticker] || c.index.replace(/®/g, '').replace(/ Index$/, ''),
-  }));
   const ids = new Set<string>();
   const uid = (base: string) => { let k = base, n = 2; while (ids.has(k)) k = base + '-' + n++; ids.add(k); return k; };
 
@@ -64,7 +63,7 @@ export function buildSeed(json: any = seedJson): AppData {
     updatedAt: '', // plus ancien que tout : des données synchronisées ont toujours la priorité
     etfs,
     myEtfIds: etfs.map((e) => e.id),
-    catalog,
+    catalog: builtinCatalog(),
     deposits: json.deposits.map((d: any) => ({ id: uid('d-' + d.date), date: d.date, amount: d.amount })),
     transactions: json.transactions.map((t: any) => ({
       id: uid('b-' + t.date + '-' + t.etfId),

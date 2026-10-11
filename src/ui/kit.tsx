@@ -137,9 +137,9 @@ export function ChipGroup<T extends string>({ value, options, onChange, label, c
 
 // ------------------------------------------------------------------ navigation principale
 const TABS: { id: Exclude<Tab, 'none'>; label: string; to: string }[] = [
-  { id: 'marches', label: 'Marchés', to: '/marches' },
-  { id: 'historique', label: 'Historique', to: '/historique' },
   { id: 'portefeuille', label: 'Portefeuille', to: '/portefeuille' },
+  { id: 'historique', label: 'Historique', to: '/historique' },
+  { id: 'marches', label: 'Marchés', to: '/marches' },
   { id: 'simulateur', label: 'Simulateur', to: '/simulateur' },
 ];
 

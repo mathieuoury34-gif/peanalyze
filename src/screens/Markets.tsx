@@ -10,6 +10,7 @@ import { aum, dateFr, eur, eurSigned, num, pct, pctSigned, NBSP } from '../domai
 import { getData, replaceData, update } from '../data/store';
 import { refreshPrices } from '../data/prices';
 import type { CatalogEtf, Etf } from '../domain/types';
+import { catKey, CATALOG_DATE } from '../data/seed';
 
 const NAV = [{ to: '/marches', label: 'Mes ETF' }, { to: '/marches/catalogue', label: 'Catalogue' }];
 const color = (id: string) => `var(--etf-${id}, var(--chart-other))`;
@@ -190,12 +191,13 @@ type Sort = 'ter' | 'aum' | 'year' | 'unit';
 const MAX_COMPARE = 3;
 
 export function addCatalogEtf(c: CatalogEtf): void {
+  if (!c.ticker) return; // non coté sur Euronext Paris : pas de suivi de cours possible
   update((d) => {
     if (!d.etfs.some((e) => e.id === c.ticker)) {
       d.etfs.push({
         id: c.ticker, index: c.index, name: c.name, isin: c.isin, ticker: c.ticker, exchange: c.exchange || 'Euronext Paris',
-        category: c.category, peaEligible: c.peaEligible, lastPrice: c.unitPrice, ter: c.ter, aumMEur: c.aumMEur,
-        replication: c.replication, distribution: c.distribution, inStrategy: false, sectors: [], countries: [], priceHistory: [],
+        category: c.category, peaEligible: c.peaEligible, lastPrice: c.unitPrice ?? 0, ter: c.ter, aumMEur: c.aumMEur ?? 0,
+        replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant', inStrategy: false, sectors: [], countries: [], priceHistory: [],
       });
     }
     if (!d.myEtfIds.includes(c.ticker)) d.myEtfIds.push(c.ticker);
@@ -208,19 +210,22 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
   const [f, setF] = useState({ pea: true, cheap: false, phys: false, synth: false, esg: false });
   const [cat, setCat] = useState('all');
   const [sort, setSort] = useState<Sort>('ter');
-  const cats = useMemo(() => Array.from(new Set(data.catalog.map((c) => c.category))), [data.catalog]);
+  const CAT_ORDER = ['Monde', 'États-Unis', 'Europe', 'Zone euro', 'France', 'Allemagne', 'Autres pays européens', 'Émergents, Asie et Japon', 'Secteurs et thèmes', 'Levier et inverse', 'Monétaire et diversifiés'];
+  const cats = useMemo(() => Array.from(new Set(data.catalog.map((c) => c.category))).sort((a, b) => (CAT_ORDER.indexOf(a) + 99) % 99 - (CAT_ORDER.indexOf(b) + 99) % 99), [data.catalog]);
   const ql = q.trim().toLowerCase();
-  const key: Record<Sort, (c: CatalogEtf) => number> = { ter: (c) => c.ter, aum: (c) => -c.aumMEur, year: (c) => c.inceptionYear, unit: (c) => c.unitPrice };
+  // valeurs inconnues (null) toujours en fin de liste
+  const key: Record<Sort, (c: CatalogEtf) => number> = { ter: (c) => c.ter, aum: (c) => -(c.aumMEur ?? -Infinity), year: (c) => c.inceptionYear ?? Infinity, unit: (c) => c.unitPrice ?? Infinity };
   const list = data.catalog
     .filter((c) => (!f.pea || c.peaEligible) && (!f.cheap || c.ter <= 0.002) && (!f.phys || c.replication === 'Physique') && (!f.synth || c.replication === 'Synthétique')
       && (!f.esg || c.esg) && (cat === 'all' || c.category === cat)
       && (!ql || (c.ticker + ' ' + c.index + ' ' + c.name + ' ' + c.isin).toLowerCase().includes(ql)))
-    .sort((a, b) => key[sort](a) - key[sort](b) || b.aumMEur - a.aumMEur);
+    .sort((a, b) => (key[sort](a) - key[sort](b)) || ((b.aumMEur ?? 0) - (a.aumMEur ?? 0)));
   const chip = (k: keyof typeof f, label: string) => (
     <button key={k} type="button" className="chip" aria-pressed={f[k]} onClick={() => setF({ ...f, [k]: !f[k] })} data-component="Chip.filter">{label}</button>
   );
 
   const toggleMine = (c: CatalogEtf) => {
+    if (!c.ticker) { showToast('Cet ETF n’est pas coté sur Euronext Paris : suivi des cours impossible', { error: true }); return; }
     const mine = data.myEtfIds.includes(c.ticker);
     if (mine) {
       const prev = getData();
@@ -271,23 +276,25 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
         {list.length > 0 ? (
           <ul className="tile-list" style={{ padding: '0 var(--space-12)' }}>
             {list.map((c, i) => {
-              const checked = compare.includes(c.ticker);
-              const mine = data.myEtfIds.includes(c.ticker);
+              const k = catKey(c);
+              const checked = compare.includes(k);
+              const mine = !!c.ticker && data.myEtfIds.includes(c.ticker);
               return (
-                <li key={c.ticker} className="list-row" data-component="ListRow.catalogue" style={{ gridTemplateColumns: '20px 1fr auto var(--touch-min)', minHeight: 64, borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
+                <li key={k} className="list-row" data-component="ListRow.catalogue" style={{ gridTemplateColumns: '20px 1fr auto var(--touch-min)', minHeight: 64, borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
                   <input type="checkbox" className="checkbox" checked={checked} disabled={!checked && compare.length >= MAX_COMPARE}
-                    aria-label={`Comparer ${c.index} (${c.ticker})`}
-                    onChange={() => setCompare(checked ? compare.filter((x) => x !== c.ticker) : [...compare, c.ticker])} />
+                    aria-label={`Comparer ${c.index} (${c.ticker || c.isin})`}
+                    onChange={() => setCompare(checked ? compare.filter((x) => x !== k) : [...compare, k])} />
                   <span className="stack" style={{ minWidth: 0 }}>
                     <span className="t-strong ellipsis">{c.index}</span>
-                    <span className="t-caption c-moderate ellipsis">{c.name} ({c.ticker})</span>
+                    <span className="t-caption c-moderate ellipsis">{c.name} ({c.ticker || 'hors Paris'})</span>
+                    {c.note && <span className="t-legal c-moderate ellipsis">{c.note}</span>}
                   </span>
                   <span className="stack" style={{ alignItems: 'flex-end' }}>
                     <span className="t-amount-s">{pct(c.ter, 2)}</span>
                     <span className="t-caption c-moderate nowrap">{aum(c.aumMEur)}</span>
                   </span>
-                  <button type="button" className="icon-btn" style={{ marginRight: 'calc(-1 * var(--space-10))' }}
-                    aria-label={mine ? `${c.index} (${c.ticker}) est dans Mes ETF` : `Ajouter ${c.index} (${c.ticker}) à Mes ETF`} aria-pressed={mine} onClick={() => toggleMine(c)}>
+                  <button type="button" className="icon-btn" style={{ marginRight: 'calc(-1 * var(--space-10))', opacity: c.ticker ? 1 : 0.35 }}
+                    aria-label={!c.ticker ? `${c.index} : non coté sur Euronext Paris` : mine ? `${c.index} (${c.ticker}) est dans Mes ETF` : `Ajouter ${c.index} (${c.ticker}) à Mes ETF`} aria-pressed={mine} onClick={() => toggleMine(c)}>
                     {mine ? <CheckFilled /> : <Icon name="plusCircle" size={22} />}
                   </button>
                 </li>
@@ -295,6 +302,7 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
             })}
           </ul>
         ) : <p className="center c-moderate" style={{ padding: 'var(--space-24) var(--space-16)' }}>Aucun ETF ne correspond à ces filtres.</p>}
+        <p className="t-legal c-moderate" style={{ padding: '0 var(--space-4)' }}>Liste des ETF éligibles au PEA (source justETF, relevé du {CATALOG_DATE.split('-').reverse().join('/')}). Frais, encours et prix d’une part indicatifs ; vérifiez auprès de votre courtier avant d’acheter.</p>
       </main>
       {compare.length >= 2 && (
         <div style={{ position: 'fixed', left: 0, right: 0, margin: '0 auto', maxWidth: 'var(--content-max)', bottom: 'calc(var(--tabbar-height) + var(--safe-bottom))', zIndex: 5, padding: 'var(--space-12) var(--screen-margin)', background: 'var(--bg-surface)', boxShadow: 'var(--shadow-sticky)' }} className="row compare-bar">
@@ -309,16 +317,16 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
 // ------------------------------------------------------------------ T1-04
 export function CompareScreen({ compare, setCompare }: { compare: string[]; setCompare: (c: string[]) => void }) {
   const { data } = useCalc();
-  const sel = compare.map((t) => data.catalog.find((c) => c.ticker === t)).filter(Boolean) as CatalogEtf[];
+  const sel = compare.map((t) => data.catalog.find((c) => catKey(c) === t)).filter(Boolean) as CatalogEtf[];
   const grid = { display: 'grid', gridTemplateColumns: `repeat(${Math.max(sel.length, 1)}, minmax(0, 1fr))`, gap: 'var(--space-8)' };
   const defs: [string, (c: CatalogEtf) => number | string | boolean | null, (v: never) => string, 'min' | 'max' | null, string][] = [
     ['Frais de gestion', (c) => c.ter, (v: number) => pct(v, 2), 'min', 'le plus bas'],
     ['Encours', (c) => c.aumMEur, (v: number) => aum(v), 'max', 'le plus élevé'],
-    ['Création', (c) => c.inceptionYear, (v: number) => String(v), 'min', 'le plus ancien'],
+    ['Création', (c) => c.inceptionYear, (v: number | null) => (v === null ? '—' : String(v)), 'min', 'le plus ancien'],
     ['Nombre de composants', (c) => c.holdingsCount, (v: number | null) => (v === null ? '—' : num(v, 0)), 'max', 'le plus diversifié'],
-    ['Réplication', (c) => c.replication, (v: string) => v, null, ''],
-    ['Distribution', (c) => c.distribution, (v: string) => v, null, ''],
-    ['Prix d’une part', (c) => { const e = data.etfs.find((x) => x.id === c.ticker); return e ? e.lastPrice : c.unitPrice; }, (v: number) => eur(v, v >= 100 ? 0 : 2), 'min', 'le plus accessible'],
+    ['Réplication', (c) => c.replication, (v: string | null) => v ?? '—', null, ''],
+    ['Distribution', (c) => c.distribution, (v: string | null) => v ?? '—', null, ''],
+    ['Prix d’une part', (c) => { const e = c.ticker ? data.etfs.find((x) => x.id === c.ticker) : undefined; return e ? e.lastPrice : c.unitPrice; }, (v: number | null) => (v === null ? '—' : eur(v, v >= 100 ? 0 : 2)), 'min', 'le plus accessible'],
     ['ESG', (c) => c.esg, (v: boolean) => (v ? 'Oui' : 'Non'), null, ''],
   ];
   return (
@@ -327,11 +335,11 @@ export function CompareScreen({ compare, setCompare }: { compare: string[]; setC
       <div style={{ position: 'sticky', top: 'calc(var(--safe-top) + var(--header-height))', zIndex: 2, background: 'var(--bg-surface)', boxShadow: 'var(--shadow-s)', padding: 'var(--space-8) var(--screen-margin) var(--space-12)' }}>
         <div style={grid}>
           {sel.map((c) => (
-            <div key={c.ticker} style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', padding: 'var(--space-8) var(--space-8) var(--space-8) var(--space-10)', borderRadius: 'var(--radius-12)', background: 'var(--bg-surface-minimal)', minWidth: 0 }}>
-              <span className="t-amount-s" style={{ paddingRight: 28 }}>{c.ticker}</span>
+            <div key={catKey(c)} style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', padding: 'var(--space-8) var(--space-8) var(--space-8) var(--space-10)', borderRadius: 'var(--radius-12)', background: 'var(--bg-surface-minimal)', minWidth: 0 }}>
+              <span className="t-amount-s" style={{ paddingRight: 28 }}>{c.ticker || c.isin}</span>
               <span className="t-caption c-neutral ellipsis">{c.index}</span>
               <span className="t-legal c-moderate" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{c.name}</span>
-              <button type="button" aria-label={`Retirer ${c.ticker} de la comparaison`} onClick={() => sel.length > 2 ? setCompare(compare.filter((x) => x !== c.ticker)) : undefined}
+              <button type="button" aria-label={`Retirer ${c.ticker || c.isin} de la comparaison`} onClick={() => sel.length > 2 ? setCompare(compare.filter((x) => x !== catKey(c))) : undefined}
                 disabled={sel.length <= 2} style={{ position: 'absolute', top: 0, right: 0, width: 36, height: 36, border: 0, background: 'transparent', color: 'var(--text-neutral)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: sel.length > 2 ? 'pointer' : 'default', opacity: sel.length > 2 ? 1 : 0.35 }}>
                 <Icon name="close" size={18} />
               </button>

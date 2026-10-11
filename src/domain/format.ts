@@ -44,7 +44,9 @@ export function pts(v: number, decimals = 1): string {
   return (r > 0 ? '+' : '') + num(v, decimals);
 }
 
-export function aum(v: number): string {
+export function aum(v: number | null): string {
+  if (v === null || v === undefined) return '—';
+  if (v < 1) return '< 1' + NBSP + 'M€';
   return num(v, 0) + NBSP + 'M€';
 }
 

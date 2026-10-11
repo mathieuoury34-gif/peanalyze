@@ -8,8 +8,9 @@ import { eur, num, parseNum, pts, todayIso, NBSP } from '../domain/format';
 import { getData, newId, replaceData, update } from '../data/store';
 
 export function AssistantScreen() {
-  const { data, positions, etf } = useCalc();
-  const [text, setText] = useState('750');
+  const { data, positions, etf, summary } = useCalc();
+  const cash = summary.cashBalance;
+  const [text, setText] = useState(() => String(Math.round((750 + cash) * 100) / 100).replace('.', ','));
   const [mode, setMode] = useState<AssistantMode>('target');
   const amount = Math.max(0, parseNum(text) || 0);
   const fee = data.settings.feePerOrder;
@@ -54,9 +55,14 @@ export function AssistantScreen() {
               <span className="suffix" aria-hidden="true">€</span>
             </span>
           </label>
+          {cash > 0 && (
+            <p className="t-caption c-neutral" style={{ margin: 0 }}>
+              Le montant inclut votre solde espèces : <strong>{eur(cash)}</strong> (remboursements de frais et reliquats des achats précédents). Les boutons ci-dessous indiquent le virement du mois.
+            </p>
+          )}
           <div role="group" aria-label="Montants rapides" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 'var(--space-8)' }}>
             {[300, 500, 750, 1000].map((v) => (
-              <button key={v} type="button" className="chip" style={{ padding: 0 }} aria-pressed={amount === v} onClick={() => setText(String(v))}>{num(v, 0)}{NBSP}€</button>
+              <button key={v} type="button" className="chip" style={{ padding: 0 }} aria-pressed={Math.abs(amount - (v + cash)) < 0.005} onClick={() => setText(String(Math.round((v + cash) * 100) / 100).replace('.', ','))}>{num(v, 0)}{NBSP}€</button>
             ))}
           </div>
           <Segmented label="Méthode de répartition" value={mode} onChange={setMode} options={[['target', 'Suivre la cible'], ['rebalance', 'Rééquilibrer']]} />

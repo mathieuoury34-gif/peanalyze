@@ -25,11 +25,11 @@ self.addEventListener('fetch', (e) => {
   }
   if (url.origin !== self.location.origin) return; // API de cours, Firebase : toujours en direct
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then((r) => { caches.open(SHELL).then((c) => c.put('./', r.clone())); return r; }).catch(() => caches.match('./')));
+    e.respondWith(fetch(req).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(SHELL).then((c) => c.put('./', copy)); } return r; }).catch(() => caches.match('./')));
     return;
   }
   e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((r) => {
-    if (r.ok && url.pathname.endsWith('template.xlsx')) caches.open(RUNTIME).then((c) => c.put(req, r.clone()));
+    if (r.ok && url.pathname.endsWith('template.xlsx')) { const copy = r.clone(); caches.open(RUNTIME).then((c) => c.put(req, copy)); }
     return r;
   })));
 });

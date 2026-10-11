@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Design tokens – PEAnalyze (application de suivi PEA)
+   Valeurs relevées le 11/10/2026 sur credit-agricole.fr (design system « msl »).
+   Seules les couleurs, typos, rayons, ombres et espacements sont repris :
+   ni logo, ni nom de marque, ni pictogrammes propriétaires.
+   v2 (11/10/2026) : ajout des styles typographiques composés, des tokens de
+   mise en page mobile, des couleurs par ETF et de quelques tokens manquants
+   relevés pendant la maquette (marqués « v2 »).
+   Polices : Montserrat 500/600/700 + Open Sans 400/600/700 (Google Fonts).
+   ========================================================================== */
+
+:root {
+  /* ---------- Typographie ---------- */
+  --font-heading: Montserrat, system-ui, ui-sans-serif, sans-serif;
+  --font-body: "Open Sans", system-ui, ui-sans-serif, sans-serif;
+
+  --fs-11: 11px;  --lh-11: 16.5px;
+  --fs-12: 12px;  --lh-12: 18px;
+  --fs-14: 14px;  --lh-14: 21px;
+  --fs-16: 16px;  --lh-16: 24px;
+  --fs-18: 18px;  --lh-18: 27px;
+  --fs-24: 24px;  --lh-24: 36px;
+  --fs-28: 28px;  --lh-28: 42px;
+  --fs-34: 34px;  --lh-34: 48px;
+  --fs-40: 40px;  --lh-40: 56px;
+
+  --fw-400: 400; --fw-500: 500; --fw-600: 600; --fw-700: 700;
+
+  /* v2 – styles composés (à utiliser avec la propriété raccourcie `font`) */
+  --type-display: var(--fw-700) var(--fs-34)/var(--lh-34) var(--font-heading);
+  --type-h1: var(--fw-700) var(--fs-28)/var(--lh-28) var(--font-heading);
+  --type-h2: var(--fw-700) var(--fs-24)/var(--lh-24) var(--font-heading);
+  --type-h3: var(--fw-700) var(--fs-18)/var(--lh-18) var(--font-heading);
+  --type-amount-l: var(--fw-700) var(--fs-18)/var(--lh-18) var(--font-heading);
+  --type-amount-m: var(--fw-700) var(--fs-16)/var(--lh-16) var(--font-heading);
+  --type-amount-s: var(--fw-700) var(--fs-14)/var(--lh-14) var(--font-heading);
+  --type-button: var(--fw-700) var(--fs-14)/var(--lh-14) var(--font-heading);
+  --type-overline: var(--fw-700) var(--fs-12)/var(--lh-12) var(--font-heading); /* + text-transform: uppercase; letter-spacing: var(--overline-tracking) */
+  --type-chip: var(--fw-700) var(--fs-12)/var(--lh-12) var(--font-heading);
+  --type-body: var(--fw-400) var(--fs-14)/var(--lh-14) var(--font-body);
+  --type-body-strong: var(--fw-600) var(--fs-14)/var(--lh-14) var(--font-body);
+  --type-label: var(--fw-600) var(--fs-14)/var(--lh-14) var(--font-body);   /* libellé de champ */
+  --type-caption: var(--fw-400) var(--fs-12)/var(--lh-12) var(--font-body);
+  --type-caption-strong: var(--fw-600) var(--fs-12)/var(--lh-12) var(--font-body);
+  --type-legal: var(--fw-400) var(--fs-11)/var(--lh-11) var(--font-body);
+  --type-tab: var(--fw-600) var(--fs-11)/var(--lh-11) var(--font-body);     /* libellés de la barre d'onglets */
+  --type-badge: var(--fw-600) var(--fs-11)/var(--lh-11) var(--font-body);
+  --overline-tracking: 0.6px;
+
+  /* ---------- Couleurs de marque ---------- */
+  --brand-primary: #007461;
+  --brand-primary-hover: #075144;
+  --brand-primary-pressed: #004652;
+  --brand-secondary: #308276;
+  --brand-accent: #004652;
+  --brand-tertiary: #0A94A8;
+  --brand-light-green: #A0D7A2;
+
+  /* ---------- Fonds ---------- */
+  --bg-page: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-surface-minimal: #F6F7F9;
+  --bg-brand-minimal: #F4F9F3;
+  --bg-brand-moderate: #D8EAD7;
+  --bg-brand-neutral: #EDF0ED;
+  --bg-blue-minimal: #E0F3F6;
+  --bg-grey-minimal: #EDEEF1;
+  --bg-contrast: #19212D;
+  --bg-hover: #7E937E33;
+  --bg-pressed: #7E937E4D;
+  --bg-highlight: #6EA3711A;
+  --bg-overlay: #07162180;
+  --bg-reverse-subtle: #FFFFFF26;   /* v2 – chip translucide sur fond pétrole */
+  --bg-disabled: #EDEEF1;           /* v2 */
+
+  /* ---------- Textes ---------- */
+  --text: #19212D;
+  --text-strong: #071621;
+  --text-neutral: #465266;
+  --text-moderate: #666E8A;
+  --text-primary: #007461;
+  --text-accent: #004652;
+  --text-blue: #1C6A77;
+  --text-reverse: #FFFFFF;
+  --text-reverse-muted: #D8EAD7;    /* v2 – libellés secondaires sur fond pétrole */
+  --text-disabled: #666E8A;
+
+  /* ---------- Bordures & séparateurs ---------- */
+  --border: #666E8A;
+  --border-minimal: #D9DBE3;
+  --border-moderate: #AEB2C0;
+  --border-primary: #007461;
+  --divider: #AEB2C0;
+  --divider-minimal: #EDEEF1;
+  --divider-reverse: #FFFFFF33;     /* v2 – séparateur sur fond pétrole */
+  --focus-indicator: #0A94A8;
+
+  /* ---------- États fonctionnels ---------- */
+  --success: #008037;  --success-text: #137128;  --success-bg: #EAF5EB;
+  --critical: #CA2F2E; --critical-text: #AE0014; --critical-bg: #FFEDEB;
+  --warning: #C85207;  --warning-text: #A64100;  --warning-bg: #FFEEE7;
+  --info: #097FAF;     --info-text: #16688D;     --info-bg: #E9F5FD;
+  --notification: #E62F44;
+
+  /* ---------- Palette graphiques ---------- */
+  --chart-1: #007461;
+  --chart-2: #0A94A8;
+  --chart-3: #F8D10A;
+  --chart-4: #004652;
+  --chart-5: #A0D7A2;
+  --chart-6: #5159EA;
+  --chart-7: #1BCB99;
+  --chart-8: #BAE3EC;
+  --chart-other: #BCC0CD;
+  --chart-grid: #EDEEF1;
+  --chart-axis: #666E8A;
+  --chart-deposited: #AEB2C0;
+  --chart-deposited-line: #666E8A;  /* v2 – pointillé « montant épargné » (contraste suffisant sur blanc) */
+  --chart-value: #007461;
+  --chart-value-area: #0074611A;    /* v2 – aire sous la courbe de valeur */
+  --chart-gain-area: #A0D7A273;     /* v2 – écart valeur > épargne */
+  --chart-pru: #C85207;             /* v2 – ligne de prix de revient */
+
+  /* v2 – couleur fixe de chaque ETF (identique partout dans l'app) */
+  --etf-ESE: var(--chart-1);
+  --etf-PUST: var(--chart-2);
+  --etf-PAEEM: var(--chart-3);
+  --etf-ETZ: var(--chart-4);
+  --etf-CACC: var(--chart-5);
+  --etf-WPEA: var(--chart-6);
+
+  /* ---------- Rayons ---------- */
+  --radius-2: 2px; --radius-4: 4px; --radius-6: 6px; --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+  --radius-24: 24px; --radius-32: 32px; --radius-40: 40px;
+  --radius-full: 999px;
+
+  /* ---------- Ombres ---------- */
+  --shadow-xs: 0 1px 3px 0 #293D5E26;      /* v2 – segment actif, poignée de curseur */
+  --shadow-s: 0 4px 16px 0 #293D5E1A;
+  --shadow-m: 0 10px 60px 0 #293D5E26;
+  --shadow-l: 0 20px 80px 0 #293D5E4D;
+  --shadow-sticky: 0 -2px 12px 0 #293D5E1A;
+  --shadow-fab: 0 6px 20px 0 #00746159;    /* v2 – bouton flottant */
+
+  /* ---------- Espacements (grille 4px) ---------- */
+  --space-2: 2px;                            /* v2 */
+  --space-4: 4px; --space-6: 6px; --space-8: 8px; --space-10: 10px; --space-12: 12px;
+  --space-16: 16px; --space-20: 20px; --space-24: 24px; --space-32: 32px;
+  --space-40: 40px; --space-48: 48px; --space-64: 64px;
+
+  /* ---------- Mise en page mobile (v2) ---------- */
+  --screen-width: 390px;
+  --screen-height: 844px;
+  --screen-margin: 16px;
+  --safe-top: 47px;
+  --safe-bottom: 34px;
+  --header-height: 64px;
+  --tabbar-height: 64px;
+  --touch-min: 44px;
+  --fab-size: 56px;
+
+  /* ---------- Composants ---------- */
+  --button-height: 40px;
+  --button-padding: 8px 24px;
+  --button-radius: 999px;
+  --chip-height: 36px;                     /* v2 */
+  --chip-padding: 8px 16px;
+  --tab-indicator-height: 3px;
+  --input-height: 48px;                    /* v2 */
+  --input-radius: 4px;                     /* v2 */
+  --input-border: 1px solid #666E8A;
+  --input-border-focus: 2px solid #0A94A8;
+  --input-border-error: 2px solid #CA2F2E; /* v2 */
+  --toast-bg: #008037;
+  --tooltip-bg: #004652;
+  --sparkline-height: 40px;                /* v2 */
+  --donut-ring: 24px;                      /* v2 */
+  --allocation-bar-height: 8px;            /* v2 */
+}

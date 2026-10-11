@@ -1,0 +1,22 @@
+{
+  "name": "peanalyze",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PEAnalyze – application personnelle de suivi de PEA (ETF)",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --serve",
+    "test": "node --import tsx --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "jszip": "3.10.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "tsx": "4.23.12",
+    "typescript": "6.0.3"
+  }
+}

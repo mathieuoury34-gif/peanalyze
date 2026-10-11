@@ -1,0 +1,64 @@
+# PEAnalyze : cours mis à jour 2 fois par jour ouvré + publication sur GitHub Pages (gratuit)
+name: Publier PEAnalyze
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 11 * * 1-5'   # vers 13 h (heure de Paris en été, 12 h en hiver)
+    - cron: '50 16 * * 1-5'  # après la clôture d'Euronext (17 h 30)
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  prices:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Mettre à jour les cours (EODHD)
+        env:
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+        run: node scripts/update-prices.mjs
+      - name: Enregistrer prices.json
+        run: |
+          if ! git diff --quiet public/prices.json; then
+            git config user.name "peanalyze-bot"
+            git config user.email "peanalyze-bot@users.noreply.github.com"
+            git add public/prices.json
+            git commit -m "Cours du $(date -u +%d/%m/%Y\ %H:%M) UTC"
+            git push
+          fi
+  build:
+    needs: prices
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

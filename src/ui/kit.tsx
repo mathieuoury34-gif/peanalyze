@@ -23,13 +23,15 @@ export function useWidth<T extends HTMLElement>(fallback = 326): [React.RefObjec
   return [ref, w];
 }
 
-export function useScrolled(threshold = 24): boolean {
+export function useScrolled(threshold = 20): boolean {
   const [s, setS] = useState(false);
   useEffect(() => {
-    const on = () => setS(window.scrollY > threshold);
+    let raf = 0;
+    const on = () => { raf = 0; setS(window.scrollY >= threshold); };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(on); };
     on();
-    window.addEventListener('scroll', on, { passive: true });
-    return () => window.removeEventListener('scroll', on);
+    window.addEventListener('scroll', schedule, { passive: true });
+    return () => { window.removeEventListener('scroll', schedule); if (raf) cancelAnimationFrame(raf); };
   }, [threshold]);
   return s;
 }

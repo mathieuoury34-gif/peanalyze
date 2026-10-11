@@ -80,16 +80,18 @@ ul { list-style: none; margin: 0; padding: 0; }
 .c-reverse-muted { color: var(--text-reverse-muted); }
 
 /* ------------------------------------------------------------------ en-têtes */
-.app-header { position: sticky; top: 0; z-index: 5; background: var(--bg-surface); padding: var(--safe-top) var(--space-6) 0 var(--screen-margin); }
-.app-header .bar { height: var(--header-height); display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); transition: height .18s; }
-.app-header h1 { font: var(--type-h2); color: var(--text); transition: font-size .18s; }
+.app-header { position: sticky; top: calc(44px - var(--header-height)); z-index: 5; background: var(--bg-surface); padding: var(--safe-top) var(--space-6) 0 var(--screen-margin); }
+/* La hauteur de l'en-tête ne change jamais (sinon la page se décale et l'en-tête oscille) :
+   il défile de 20 px puis reste accroché ; seule sa partie basse (44 px) reste visible en mode compact. */
+.app-header .bar { height: var(--header-height); display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); }
+.app-header h1 { font: var(--type-h2); color: var(--text); }
 .app-header .updated { font: var(--type-caption); color: var(--text-moderate); }
-.app-header.compact .bar { height: 44px; }
-.app-header.compact .titles { position: absolute; left: 0; right: 0; text-align: center; pointer-events: none; }
+.app-header .titles { display: flex; flex-direction: column; min-width: 0; }
+.app-header .actions { display: flex; align-items: center; margin-left: auto; position: relative; z-index: 1; transition: transform .18s ease-out; }
+.app-header.compact .titles { position: absolute; left: 0; right: 0; top: calc(var(--safe-top) + var(--header-height) - 44px); height: 44px; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
 .app-header.compact h1 { font: var(--type-h3); }
 .app-header.compact .updated { display: none; }
-.app-header .titles { display: flex; flex-direction: column; min-width: 0; }
-.app-header .actions { display: flex; align-items: center; margin-left: auto; position: relative; z-index: 1; }
+.app-header.compact .actions { transform: translateY(calc((var(--header-height) - 44px) / 2)); }
 .app-header.compact { box-shadow: 0 1px 0 var(--divider-minimal); }
 .icon-btn { width: var(--touch-min); height: var(--touch-min); border: 0; border-radius: var(--radius-full); background: transparent; color: var(--brand-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
 .icon-btn:hover { background: var(--bg-hover); }

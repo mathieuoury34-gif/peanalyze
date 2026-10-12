@@ -284,11 +284,19 @@ export function PurchaseScreen() {
   const [gross, setGross] = useState(editing ? toInput(editing.grossAmount) : '');
   const [refund, setRefund] = useState(editing ? toInput(editing.feeRefund) : toInput(0));
   const cur = etf(etfId);
-  const p = parseNum(price), g = parseNum(gross), r = parseNum(refund) || 0;
+  const p = parseNum(price), r = parseNum(refund) || 0;
   const exec = isFinite(p) ? Math.round(p * qty * 100) / 100 : 0;
+  // Montant brut laissé vide : estimation = cours × quantité + frais estimés par ordre (Paramètres › PEA)
+  const estimated = Math.round((exec + data.settings.feePerOrder) * 100) / 100;
+  const grossAuto = !gross.trim();
+  const g = grossAuto ? estimated : parseNum(gross);
   const fees = isFinite(g) ? Math.round((g - exec) * 100) / 100 : 0;
   const err = isFinite(g) && g > 0 && fees < 0;
   const valid = !!cur && isFinite(p) && p > 0 && qty > 0 && isFinite(g) && g > 0 && !err && r >= 0;
+  const missing = !cur ? t('Choisissez un ETF (ajoutez-le d’abord à « Mes ETF » depuis le catalogue).')
+    : !(isFinite(p) && p > 0) ? t('Indiquez le cours unitaire.')
+      : !grossAuto && !(isFinite(g) && g > 0) ? t('Montant brut invalide.')
+        : r < 0 || !isFinite(parseNum(refund) || 0) ? t('Remboursement de frais invalide.') : '';
 
   const save = (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -354,9 +362,11 @@ export function PurchaseScreen() {
           </div>
           <label className="field">
             <span className="lbl">{t('Montant brut payé (€)')}</span>
-            <input className={'input num' + (err ? ' invalid' : '')} type="text" inputMode="decimal" value={gross} placeholder={toInput(exec + data.settings.feePerOrder)}
+            <input className={'input num' + (err ? ' invalid' : '')} type="text" inputMode="decimal" value={gross} placeholder={toInput(estimated)}
               onChange={(e) => setGross(e.target.value)} aria-invalid={err} data-component="AmountField" />
-            <span className="hint">{t('Débit affiché par le courtier, frais inclus')}</span>
+            <span className="hint">{grossAuto
+              ? t('Laissé vide, l’achat est enregistré à {v} (cours × quantité + {f} de frais estimés). Saisissez le débit réel du courtier s’il est différent.', { v: eur(estimated), f: eur(data.settings.feePerOrder) })
+              : t('Débit affiché par le courtier, frais inclus')}</span>
             {err && <span role="alert" className="err">{t("Le montant brut doit être supérieur ou égal au cours d'exécution.")}</span>}
           </label>
           <label className="field">
@@ -371,7 +381,10 @@ export function PurchaseScreen() {
           </section>
         </div>
         <div style={{ position: 'sticky', bottom: 0, padding: 'var(--space-12) var(--screen-margin) calc(var(--safe-bottom) + var(--space-12))', background: 'var(--bg-surface)', boxShadow: 'var(--shadow-sticky)' }}>
-          <div className="form-narrow"><button type="submit" className="btn btn-primary block" disabled={!valid}>{editing ? t('Enregistrer les modifications') : t("Enregistrer l'achat")}</button></div>
+          <div className="form-narrow stack-8">
+            {!valid && missing && <span role="status" className="t-caption-strong c-critical center">{missing}</span>}
+            <button type="submit" className="btn btn-primary block" disabled={!valid}>{editing ? t('Enregistrer les modifications') : t("Enregistrer l'achat")}</button>
+          </div>
         </div>
       </form>
     </div>

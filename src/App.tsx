@@ -7,6 +7,7 @@ import { CatalogueScreen, CompareScreen, EtfDetailScreen, ManageEtfsScreen, MyEt
 import { AddSheet, DepositScreen, JournalScreen, OverviewScreen, PurchaseScreen } from './screens/History';
 import { SimulatorScreen } from './screens/Simulator';
 import { LoadingScreen, LoginScreen, SettingsScreen } from './screens/Settings';
+import { HelpScreen } from './screens/Help';
 import { needsLogin, useSync } from './data/sync';
 
 function Screen() {
@@ -32,6 +33,7 @@ function Screen() {
       return <SimulatorScreen />;
     case 'parametres':
       if (b === 'etf') return <ManageEtfsScreen />;
+      if (b === 'aide') return <HelpScreen key={route.key} />;
       return <SettingsScreen />;
     default:
       return <PortfolioScreen />;

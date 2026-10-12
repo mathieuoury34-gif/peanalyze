@@ -1,20 +1,41 @@
 // Onglet Marchés : T1-01 Mes ETF, T1-02 Détail, T1-03 Catalogue, T1-04 Comparateur, gestion de la liste
 import { useMemo, useState } from 'react';
-import { AppHeader, EtfDot, PriceErrorBanner, SubHeader, SubNav, VarChip, showToast } from '../ui/kit';
+import { AppHeader, EtfDot, PriceErrorBanner, Sheet, SubHeader, SubNav, VarChip, showToast } from '../ui/kit';
 import { Donut, HBarList, PriceChart, Sparkline } from '../ui/charts';
 import { CheckFilled, Icon } from '../ui/icons';
-import { navigate } from '../ui/router';
+import { closeSheet, navigate, openSheet, useRoute } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { displayHistory, normalizeLabel, periodStartIndex, topWithOthers } from '../domain/calc';
 import { aum, dateFr, eur, eurSigned, num, pct, pctSigned, NBSP } from '../domain/format';
 import { getData, replaceData, update } from '../data/store';
 import { MAX_ETFS, refreshPrices, usePriceStatus } from '../data/prices';
-import { t, tl } from '../i18n';
+import { lang, t, tl } from '../i18n';
 import type { CatalogEtf, Etf } from '../domain/types';
 import { catKey, CATALOG_DATE, COMPOSITION_DATE, isCatalogComposition } from '../data/seed';
 
 const NAV = [{ to: '/marches', label: t('Mes ETF') }, { to: '/marches/catalogue', label: t('Catalogue') }];
 const color = (id: string) => `var(--etf-${id}, var(--chart-other))`;
+
+/** Pages officielles et complètes d'un ETF (ouvertes dans le navigateur). */
+export function etfLinks(isin: string, ticker: string): { label: string; href: string }[] {
+  const links = [{ label: t('Fiche complète sur justETF'), href: `https://www.justetf.com/${lang === 'en' ? 'en' : 'fr'}/etf-profile.html?isin=${encodeURIComponent(isin)}` }];
+  if (ticker) links.push({ label: t('Cours sur Google Finance'), href: `https://www.google.com/finance/quote/${encodeURIComponent(ticker)}:EPA?hl=${lang}` });
+  return links;
+}
+
+export function EtfLinks({ isin, ticker }: { isin: string; ticker: string }) {
+  if (!isin) return null;
+  return (
+    <div className="stack-4" style={{ paddingTop: 'var(--space-8)' }}>
+      {etfLinks(isin, ticker).map((l) => (
+        <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="ext-link">
+          <Icon name="external" size={18} />{l.label}
+        </a>
+      ))}
+      <span className="t-legal c-moderate">{t('Documents officiels (DIC, prospectus, rapports) disponibles depuis la fiche justETF ou le site de l’émetteur.')}</span>
+    </div>
+  );
+}
 
 // ------------------------------------------------------------------ T1-01
 export function MyEtfsScreen() {
@@ -27,7 +48,10 @@ export function MyEtfsScreen() {
       <PriceErrorBanner />
       <SubNav items={NAV} label={t('Sections Marchés')} />
       <main className="content gap-12">
-        <p className="t-caption c-moderate">{t('{n} ETF suivis', { n: etfs.length })}{firstDate ? ' · ' + t('variation depuis le {d}', { d: dateFr(firstDate) }) : ''}</p>
+        <div className="between" style={{ gap: 'var(--space-8)' }}>
+          <p className="t-caption c-moderate">{t('{n} ETF suivis', { n: etfs.length })}{firstDate ? ' · ' + t('variation depuis le {d}', { d: dateFr(firstDate) }) : ''}</p>
+          <button type="button" className="btn btn-tertiary" style={{ flexShrink: 0 }} onClick={() => navigate('/parametres/etf')}><Icon name="list" size={18} />{t('Gérer ma liste')}</button>
+        </div>
         <div className="stack-12 dcols-3">
           {etfs.map((e) => {
             const h = displayHistory(e);
@@ -156,6 +180,7 @@ export function EtfDetailScreen({ id }: { id: string }) {
             <dt>{t('Réplication')}</dt><dd>{tl(e.replication)}</dd>
             <dt>{t('Revenus')}</dt><dd>{tl(e.distribution)}</dd>
           </dl>
+          <EtfLinks isin={e.isin} ticker={e.ticker} />
         </section>
 
         {sectors.length > 0 && (
@@ -218,6 +243,10 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
   const [f, setF] = useState({ pea: true, cheap: false, phys: false, synth: false, esg: false });
   const [cat, setCat] = useState('all');
   const [sort, setSort] = useState<Sort>('ter');
+  const route = useRoute();
+  const [infoKey, setInfoKey] = useState<string | null>(null);
+  const infoEtf = route.query.get('sheet') === 'info' && infoKey ? data.catalog.find((c) => catKey(c) === infoKey) : undefined;
+  const showInfo = (c: CatalogEtf) => { setInfoKey(catKey(c)); openSheet('info'); };
   const CAT_ORDER = ['Monde', 'États-Unis', 'Europe', 'Zone euro', 'France', 'Allemagne', 'Autres pays européens', 'Émergents, Asie et Japon', 'Secteurs et thèmes', 'Levier et inverse', 'Monétaire et diversifiés'];
   const cats = useMemo(() => Array.from(new Set(data.catalog.map((c) => c.category))).sort((a, b) => (CAT_ORDER.indexOf(a) + 99) % 99 - (CAT_ORDER.indexOf(b) + 99) % 99), [data.catalog]);
   const ql = q.trim().toLowerCase();
@@ -300,11 +329,12 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
                   <input type="checkbox" className="checkbox" checked={checked} disabled={!checked && compare.length >= MAX_COMPARE}
                     aria-label={t('Comparer {i} ({k})', { i: c.index, k: c.ticker || c.isin })}
                     onChange={() => setCompare(checked ? compare.filter((x) => x !== k) : [...compare, k])} />
-                  <span className="stack" style={{ minWidth: 0 }}>
-                    <span className="t-strong ellipsis">{tl(c.index)}</span>
+                  <button type="button" className="row-link stack" style={{ minWidth: 0 }} onClick={() => showInfo(c)}
+                    aria-label={t('Informations sur {i} ({k})', { i: c.index, k: c.ticker || c.isin })}>
+                    <span className="t-strong ellipsis">{tl(c.index)} <Icon name="info" size={14} style={{ verticalAlign: '-2px', color: 'var(--text-moderate)' }} /></span>
                     <span className="t-caption c-moderate ellipsis">{c.name} ({c.ticker || t('hors Paris')})</span>
                     {c.note && <span className="t-legal c-moderate ellipsis">{tl(c.note)}</span>}
-                  </span>
+                  </button>
                   <span className="stack" style={{ alignItems: 'flex-end' }}>
                     <span className="t-amount-s">{pct(c.ter, 2)}</span>
                     <span className="t-caption c-moderate nowrap">{aum(c.aumMEur)}</span>
@@ -320,6 +350,7 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
         ) : <p className="center c-moderate" style={{ padding: 'var(--space-24) var(--space-16)' }}>{t('Aucun ETF ne correspond à ces filtres.')}</p>}
         <p className="t-legal c-moderate" style={{ padding: '0 var(--space-4)' }}>{t('Liste des ETF éligibles au PEA (source justETF, relevé du {d}). Frais, encours et prix d’une part indicatifs ; vérifiez auprès de votre courtier avant d’acheter.', { d: CATALOG_DATE.split('-').reverse().join('/') })}</p>
       </main>
+      {infoEtf && <CatalogInfoSheet c={infoEtf} mine={!!infoEtf.ticker && data.myEtfIds.includes(infoEtf.ticker)} onToggleMine={() => toggleMine(infoEtf)} />}
       {compare.length >= 2 && (
         <div style={{ position: 'fixed', left: 0, right: 0, margin: '0 auto', maxWidth: 'var(--content-max)', bottom: 'calc(var(--tabbar-height) + var(--safe-bottom))', zIndex: 5, padding: 'var(--space-12) var(--screen-margin)', background: 'var(--bg-surface)', boxShadow: 'var(--shadow-sticky)' }} className="row compare-bar">
           <span className="grow t-caption c-neutral">{compare.length >= MAX_COMPARE ? t('3 ETF maximum') : t('Cochez jusqu’à 3 ETF')}</span>
@@ -327,6 +358,45 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
         </div>
       )}
     </div>
+  );
+}
+
+// ------------------------------------------------------------------ fiche rapide d'un ETF du catalogue
+function CatalogInfoSheet({ c, mine, onToggleMine }: { c: CatalogEtf; mine: boolean; onToggleMine: () => void }) {
+  const { data } = useCalc();
+  const inData = !!c.ticker && data.etfs.some((e) => e.id === c.ticker);
+  return (
+    <Sheet title={tl(c.index)} onClose={closeSheet}
+      footer={
+        <div className="stack-8">
+          {c.ticker && (
+            <button type="button" className={'btn block ' + (mine ? 'btn-secondary' : 'btn-primary')} onClick={onToggleMine}>
+              {mine ? <><Icon name="check" size={20} />{t('Dans Mes ETF (retirer)')}</> : <><Icon name="plus" size={20} />{t('Ajouter à Mes ETF')}</>}
+            </button>
+          )}
+          {inData && <button type="button" className="btn btn-tertiary block" onClick={() => { closeSheet(); setTimeout(() => navigate('/marches/etf/' + c.ticker), 0); }}>{t('Ouvrir la fiche dans l’app (cours et graphique)')}</button>}
+        </div>
+      }>
+      <div className="stack-8" style={{ paddingBottom: 'var(--space-12)' }}>
+        <span className="t-caption c-moderate">{c.name}</span>
+        <dl className="kv">
+          <dt>ISIN</dt><dd>{c.isin}</dd>
+          <dt>{t('Mnémonique')}</dt><dd>{c.ticker || t('non coté à Paris')}</dd>
+          <dt>{t('Catégorie')}</dt><dd>{tl(c.category)}</dd>
+          <dt>{t('Éligible PEA')}</dt><dd>{c.peaEligible ? t('Oui') : t('Non')}</dd>
+          <dt>{t('Frais de gestion')}</dt><dd>{pct(c.ter, 2)} {t('par an')}</dd>
+          <dt>{t('Encours')}</dt><dd>{aum(c.aumMEur)}</dd>
+          {c.inceptionYear !== null && <><dt>{t('Création')}</dt><dd>{c.inceptionYear}</dd></>}
+          {c.holdingsCount !== null && <><dt>{t('Nombre de composants')}</dt><dd>{num(c.holdingsCount, 0)}</dd></>}
+          <dt>{t('Réplication')}</dt><dd>{c.replication ? tl(c.replication) : '—'}</dd>
+          <dt>{t('Revenus')}</dt><dd>{c.distribution ? tl(c.distribution) : '—'}</dd>
+          <dt>ESG</dt><dd>{c.esg ? t('Oui') : t('Non')}</dd>
+          {c.unitPrice !== null && <><dt>{t('Prix d’une part (indicatif)')}</dt><dd>{eur(c.unitPrice)}</dd></>}
+        </dl>
+        {c.note && <p className="t-caption c-neutral">{tl(c.note)}</p>}
+        <EtfLinks isin={c.isin} ticker={c.ticker} />
+      </div>
+    </Sheet>
   );
 }
 

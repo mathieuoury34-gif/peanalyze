@@ -1,6 +1,7 @@
 // T3-02 Assistant du mois + T3-03 Allocation cible
 import { useState } from 'react';
 import { EtfDot, Segmented, Sheet, SubHeader, Switch, showToast } from '../ui/kit';
+import { Icon } from '../ui/icons';
 import { navigate, closeSheet } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { assistant, type AssistantMode } from '../domain/calc';
@@ -46,9 +47,19 @@ export function AssistantScreen() {
 
   return (
     <div className="screen" data-screen="T3-02">
-      <SubHeader title={t('Assistant du mois')} fallback="/portefeuille" />
+      <SubHeader title={t('Planifier mes achats')} fallback="/portefeuille" />
       <main className="content flush-top">
         <section className="bleed stack-12 form-narrow" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-20)' }}>
+          <details className="explain" open={!data.transactions.length || undefined}>
+            <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment ça marche ?')}</summary>
+            <ol>
+              <li>{t('Indiquez le montant que vous allez investir ce mois-ci (votre virement sur le PEA).')}</li>
+              <li>{t('L’app calcule combien de parts entières de chaque ETF de votre stratégie acheter, frais de courtage compris.')}</li>
+              <li>{t('Passez les ordres chez votre courtier (PEAnalyze n’achète rien à votre place), puis touchez « Enregistrer ces achats » pour les noter dans le journal.')}</li>
+            </ol>
+            <span>{t('C’est un simple calcul à partir de votre allocation cible, pas un conseil en investissement.')}</span>
+            <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=assistant')}>{t('En savoir plus dans l’aide')}</button>
+          </details>
           <label className="field">
             <span className="lbl">{t('Montant à investir ce mois-ci')}</span>
             <span className="input-wrap">
@@ -69,8 +80,8 @@ export function AssistantScreen() {
           <Segmented label={t('Méthode de répartition')} value={mode} onChange={setMode} options={[['target', t('Suivre la cible')], ['rebalance', t('Rééquilibrer')]]} />
           <p className="t-caption c-neutral">
             {mode === 'target'
-              ? t('Le versement est réparti selon l’allocation cible ({c} %) entre les {n} ETF de ta stratégie, en parts entières.', { c: targetsText, n: strat.length })
-              : t('Chaque part va à l’ETF le plus en dessous de sa cible : l’écart se réduit plus vite, mais tout peut aller sur un seul ETF.')}
+              ? t('« Suivre la cible » : le versement est découpé selon vos pourcentages ({c} %) entre les {n} ETF de votre stratégie. Chaque mois, chaque ETF reçoit sa part. Idéal pour un investissement régulier.', { c: targetsText, n: strat.length })
+              : t('« Rééquilibrer » : le versement va d’abord aux ETF les plus en retard sur leur cible. Votre portefeuille revient plus vite à la répartition voulue, mais un mois peut tout aller sur un seul ETF.')}
           </p>
         </section>
 
@@ -168,6 +179,9 @@ export function TargetSheet() {
         </>
       }
       footer={<button type="button" className="btn btn-primary block" disabled={bad} onClick={save}>{t('Valider')}</button>}>
+      <p className="t-caption c-neutral" style={{ margin: 'var(--space-12) 0 0' }}>
+        {t('Indiquez la part de chaque ETF dans vos futurs achats (total 100 %). Un ETF à 0 % est « hors stratégie » : il reste dans le portefeuille mais l’assistant ne propose plus d’en acheter. Faites glisser un curseur pour l’ajouter à la stratégie.')}
+      </p>
       <ul style={{ padding: 'var(--space-8) 0' }}>
         {list.map((e, i) => {
           const on = inStrat[e.id];
@@ -179,8 +193,9 @@ export function TargetSheet() {
                 <span className="grow t-strong">{tl(e.index)} <span className="t-caption c-moderate">· {e.id}</span></span>
                 <span className="t-amount-m right" style={{ minWidth: 52, color: on ? 'var(--text)' : 'var(--text-moderate)' }}>{on ? vals[e.id] : 0}{NBSP}%</span>
               </span>
-              <input className="range" type="range" min={0} max={100} step={5} value={on ? vals[e.id] : 0} disabled={!on}
-                aria-label={t('Cible {i}', { i: e.index })} onChange={(ev) => setVals({ ...vals, [e.id]: Number(ev.target.value) })} data-component="Slider" />
+              <input className="range" type="range" min={0} max={100} step={5} value={on ? vals[e.id] : 0}
+                aria-label={t('Cible {i}', { i: e.index })} data-component="Slider"
+                onChange={(ev) => { const v = Number(ev.target.value); setVals({ ...vals, [e.id]: v }); setInStrat({ ...inStrat, [e.id]: v > 0 }); }} />
               <span className="between">
                 <span id={id} className="t-caption c-neutral">{t('Dans ma stratégie')}</span>
                 <Switch checked={on} labelledBy={id} onChange={(v) => { setInStrat({ ...inStrat, [e.id]: v }); if (v && !vals[e.id]) setVals({ ...vals, [e.id]: 5 }); }} />

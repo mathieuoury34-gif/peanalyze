@@ -4,7 +4,8 @@ import { AppHeader, Switch } from '../ui/kit';
 import { StackedAreaChart } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { useCalc } from '../ui/useCalc';
-import { deflate, monthlySeries, simulate } from '../domain/calc';
+import { navigate } from '../ui/router';
+import { deflate, MAX_HORIZON, monthlySeries, simulate } from '../domain/calc';
 import { eur, num, parseNum, pct } from '../domain/format';
 import { update } from '../data/store';
 import type { Simulation } from '../domain/types';
@@ -38,6 +39,12 @@ export function SimulatorScreen() {
     <div className="screen" data-screen="T4-01">
       <AppHeader title={t('Simulateur')} />
       <main className="content dgrid">
+        <details className="explain dspan-12" open={!data.transactions.length || undefined}>
+          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('À quoi sert le simulateur ?')}</summary>
+          <span>{t('Il estime ce que pourrait devenir votre épargne si vous investissez régulièrement : choisissez un capital de départ, un rendement annuel moyen et vos versements mensuels. C’est une projection théorique, indépendante de votre portefeuille réel (sauf si vous activez « Comparer à ma progression réelle »).')}</span>
+          <span>{t('La bourse ne monte pas de façon régulière : le résultat est une tendance, pas une promesse. Frais et impôts ne sont pas déduits.')}</span>
+          <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=simulateur')}>{t('En savoir plus dans l’aide')}</button>
+        </details>
         <section aria-labelledby="t401-par" className="card g16 dspan-5">
           <h2 id="t401-par">{t('Paramètres')}</h2>
           <label className="field">
@@ -47,8 +54,8 @@ export function SimulatorScreen() {
           </label>
           <label className="stack" style={{ gap: 'var(--space-2)' }}>
             <span className="between"><span className="t-label">{t('Horizon de placement')}</span><span className="t-amount-m c-primary">{tn(ys, '{n} an', '{n} ans')}</span></span>
-            <input className="range" type="range" min={1} max={40} step={1} value={ys} onChange={(e) => set({ horizonYears: Number(e.target.value) })} data-component="Slider" />
-            <span className="between t-legal c-moderate"><span>{t('{n} an', { n: 1 })}</span><span>{t('{n} ans', { n: 40 })}</span></span>
+            <input className="range" type="range" min={1} max={MAX_HORIZON} step={1} value={ys} onChange={(e) => set({ horizonYears: Number(e.target.value) })} data-component="Slider" />
+            <span className="between t-legal c-moderate"><span>{t('{n} an', { n: 1 })}</span><span>{t('{n} ans', { n: MAX_HORIZON })}</span></span>
           </label>
           <label className="stack" style={{ gap: 'var(--space-2)' }}>
             <span className="between"><span className="t-label">{t("Taux d'intérêt annuel")}</span><span className="t-amount-m c-primary">{pct(sim.annualRate, Math.round(sim.annualRate * 1000) % 10 ? 1 : 0)}</span></span>
@@ -63,7 +70,7 @@ export function SimulatorScreen() {
             {phases.map((p, i) => (
               <li key={i} className="row" style={{ gap: 'var(--space-6)', padding: 'var(--space-6) 0', borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
                 <span className="t-caption c-neutral">{t("À partir de l'année")}</span>
-                <input type="number" min={1} max={40} value={p.fromYear} aria-label={t('Année de début de la phase {n}', { n: i + 1 })}
+                <input type="number" min={1} max={MAX_HORIZON} value={p.fromYear} aria-label={t('Année de début de la phase {n}', { n: i + 1 })}
                   onChange={(e) => setPhase(i, { fromYear: Math.max(1, Number(e.target.value) || 1) })}
                   className="input" style={{ width: 52, height: 'var(--touch-min)', padding: '0 var(--space-6)', font: 'var(--type-body-strong)', textAlign: 'center' }} />
                 <span className="t-caption c-neutral">·</span>

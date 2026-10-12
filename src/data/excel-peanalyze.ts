@@ -2,7 +2,7 @@
 // Les données saisies (virements, achats, ETF, cours, compositions, simulateur) sont des valeurs ;
 // tout le reste est en formules, pour que le fichier reste vivant dans Excel.
 import type { AppData, Etf } from '../domain/types';
-import { computePositions, exposure, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
+import { computePositions, exposure, MAX_HORIZON, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
 import { Workbook, colName as L, type Sheet, type Style, type Value } from './xlsx';
 
 // ------------------------------------------------------------------ charte (tokens.css)
@@ -373,15 +373,15 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     }
     si.put(16, 4, "Classez les phases par année croissante ; une phase s'applique jusqu'à la suivante.", { sz: 8, color: MODERATE, border: false });
     si.section(4, 7, "Résultat à l'horizon");
-    const res: [string, string, string][] = [['Capital final', 'INDEX(D21:D61,MATCH(B6,A21:A61,0))', EUR0], ['Total versé', 'INDEX(C21:C61,MATCH(B6,A21:A61,0))', EUR0],
-      ['Intérêts composés', 'H5-H6', EUR0], ['Capital final en euros constants', 'INDEX(F21:F61,MATCH(B6,A21:A61,0))', EUR0]];
+    const res: [string, string, string][] = [['Capital final', 'INDEX(D21:D71,MATCH(B6,A21:A71,0))', EUR0], ['Total versé', 'INDEX(C21:C71,MATCH(B6,A21:A71,0))', EUR0],
+      ['Intérêts composés', 'H5-H6', EUR0], ['Capital final en euros constants', 'INDEX(F21:F71,MATCH(B6,A21:A71,0))', EUR0]];
     res.forEach(([lab, fx, fmt], i) => {
       si.put(5 + i, 7, lab, { color: NEUTRAL });
       si.put(5 + i, 8, f(fx), { fmt, b: true, color: i === 0 ? PRIMARY : TEXT, sz: i === 0 ? 12 : 10 });
     });
     si.section(19, 1, 'Projection année par année');
     si.header(20, 1, ['Année', 'Versement mensuel', 'Total versé', 'Capital', 'Intérêts cumulés', 'Capital en euros constants'], 28);
-    for (let y = 0; y <= 40; y++) {
+    for (let y = 0; y <= MAX_HORIZON; y++) {
       const r = 21 + y;
       const hide = `A${r}>$B$6`;
       si.put(r, 1, y, { fmt: '0', h: 'center', b: true });
@@ -397,9 +397,9 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       si.put(r, 5, f(`IF(D${r}="","",D${r}-C${r})`), { fmt: EUR0, color: SUCCESS });
       si.put(r, 6, f(`IF(D${r}="","",D${r}/(1+$B$8)^A${r})`), { fmt: EUR0, color: NEUTRAL });
     }
-    ws.cf('A21:A61', { type: 'expression', formula: 'A21>$B$6', dxf: { font: { color: DIVIDER } } });
+    ws.cf('A21:A71', { type: 'expression', formula: 'A21>$B$6', dxf: { font: { color: DIVIDER } } });
     si.widths({ A: 28, B: 14, C: 13, D: 16, E: 16, F: 16, G: 30, H: 14 });
-    const hz = Math.min(40, Math.max(1, Math.round(sim.horizonYears)));
+    const hz = Math.min(MAX_HORIZON, Math.max(1, Math.round(sim.horizonYears)));
     const rr = (c: string) => `Simulateur!$${c}$21:$${c}$${21 + hz}`;
     ws.chart({
       kind: 'line', title: 'Capital projeté et total versé', at: [11, 7], size: [17, 9], legend: 'b', valFmt: '#,##0 "€"', catText: false,

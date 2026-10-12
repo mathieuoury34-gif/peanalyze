@@ -322,6 +322,9 @@ export function assistant(items: AssistantInput[], amount: number, mode: Assista
 // ---------------------------------------------------------------- simulateur
 export interface SimYear { year: number; value: number; deposited: number }
 
+/** Horizon maximal du simulateur (années). */
+export const MAX_HORIZON = 50;
+
 export function simulate(sim: Simulation): SimYear[] {
   const phases = sim.dcaPhases.slice().sort((a, b) => a.fromYear - b.fromYear);
   const monthly = (y: number) => {

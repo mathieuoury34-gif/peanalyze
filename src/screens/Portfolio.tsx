@@ -75,10 +75,10 @@ export function PortfolioScreen() {
 
         <a href="#/portefeuille/assistant" className="dspan-5" onClick={(e) => { e.preventDefault(); navigate('/portefeuille/assistant'); }}
           style={{ display: 'grid', gridTemplateColumns: '40px 1fr 24px', gap: 'var(--space-12)', alignItems: 'center', padding: 'var(--space-16)', borderRadius: 'var(--radius-16)', background: 'var(--bg-brand-minimal)', color: 'var(--text)', textDecoration: 'none' }}>
-          <span style={{ width: 40, height: 40, borderRadius: 'var(--radius-full)', background: 'var(--brand-primary)', color: 'var(--text-reverse)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="sparkle" size={20} /></span>
+          <span style={{ width: 40, height: 40, borderRadius: 'var(--radius-full)', background: 'var(--brand-primary)', color: 'var(--text-reverse)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="listChecks" size={20} /></span>
           <span className="stack">
-            <span className="t-amount-s">{t('Assistant du mois')}</span>
-            <span className="t-caption c-neutral">{t('Combien de parts acheter avec mon versement ?')}</span>
+            <span className="t-amount-s">{t('Planifier mes achats du mois')}</span>
+            <span className="t-caption c-neutral">{t('Combien de parts de chaque ETF acheter avec mon versement ?')}</span>
           </span>
           <Icon name="next" size={20} style={{ color: 'var(--primary-fg)' }} />
         </a>
@@ -112,9 +112,14 @@ export function PortfolioScreen() {
           )}
         </section>
 
-        <button type="button" className="btn btn-secondary block dspan-6" onClick={() => openSheet('cible')} data-component="Button.secondary">
-          {t('Modifier mon allocation cible')}
-        </button>
+        <div className="stack-8 dspan-6">
+          <button type="button" className="btn btn-secondary block" onClick={() => openSheet('cible')} data-component="Button.secondary">
+            {t('Modifier mon allocation cible')}
+          </button>
+          <button type="button" className="btn btn-tertiary block" onClick={() => navigate('/parametres/etf')}>
+            <Icon name="list" size={18} />{t('Gérer mes ETF suivis ({n})', { n: data.myEtfIds.length })}
+          </button>
+        </div>
       </main>
       <Fab onClick={() => openSheet('ajouter')} />
     </div>

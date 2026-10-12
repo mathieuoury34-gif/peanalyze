@@ -126,6 +126,12 @@ export function SettingsScreen() {
     <div className="screen" data-screen="T0-01">
       <SubHeader title={t('Paramètres')} fallback="/portefeuille" />
       <main className="content form-narrow" style={{ gap: 'var(--space-24)' }}>
+        <Section id="t001-help" title={t('Aide')}>
+          <ul className="tile-list" style={{ padding: '0 var(--space-16)' }}>
+            <Row icon="help" title={t('Aide et guide')} sub={t('Comment ça marche, explication des chiffres, questions fréquentes')} onClick={() => navigate('/parametres/aide')} />
+          </ul>
+        </Section>
+
         <Section id="t001-sync" title={t('Compte & synchronisation')}>
           <div className="card" style={{ borderRadius: 'var(--radius-12)' }}>
             {!sync.configured ? (
@@ -272,7 +278,7 @@ export function SettingsScreen() {
         <Section id="t001-about" title={t('À propos')}>
           <div className="card g8" style={{ borderRadius: 'var(--radius-12)' }}>
             <span data-component="AppLogo"><Logo size={18} /></span>
-            <span className="t-caption c-neutral">{t('Application personnelle de suivi de PEA en ETF. Les données restent les vôtres ; les cours viennent de la source que vous configurez. Version {v}.', { v: '1.1' })}</span>
+            <span className="t-caption c-neutral">{t('Application personnelle de suivi de PEA en ETF. Les données restent les vôtres ; les cours viennent de la source que vous configurez. Version {v}.', { v: '1.2' })}</span>
             {!reset
               ? <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start', color: 'var(--critical-text)', whiteSpace: 'normal', textAlign: 'left' }} onClick={() => setReset(true)}>{t('Effacer toutes mes données')}</button>
               : (

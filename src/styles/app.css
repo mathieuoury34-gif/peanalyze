@@ -356,3 +356,27 @@ select.input { appearance: auto; }
 @media (min-width: 600px) and (max-width: 1023px) {
   .app-main { box-shadow: 0 0 0 1px var(--divider-minimal); }
 }
+
+/* ---------- retours testeurs (12/10/2026) ---------- */
+/* Filtres en puces : sur ordinateur (souris) ou écran large, ils passent à la ligne au lieu de défiler sans flèche */
+@media (min-width: 600px), (hover: hover) and (pointer: fine) {
+  .chips { flex-wrap: wrap; overflow-x: visible; margin: 0; padding: 0; }
+}
+.row-link { display: flex; flex-direction: column; align-items: stretch; text-align: left; padding: var(--space-4) 0; border: 0; background: transparent; color: var(--text); font: inherit; cursor: pointer; min-height: var(--touch-min); justify-content: center; }
+.row-link:hover .t-strong { text-decoration: underline; }
+.ext-link { display: inline-flex; align-items: center; gap: var(--space-8); min-height: var(--touch-min); font: var(--type-button); color: var(--primary-fg); text-decoration: none; }
+.ext-link:hover { text-decoration: underline; }
+.faq { border-top: 1px solid var(--divider-minimal); }
+.faq:first-of-type { border-top: 0; }
+.faq summary { list-style: none; display: grid; grid-template-columns: 1fr 20px; gap: var(--space-12); align-items: center; min-height: 52px; padding: var(--space-10) 0; font: var(--type-body-strong); color: var(--text); cursor: pointer; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary svg { color: var(--primary-fg); transition: transform .2s; }
+.faq[open] summary svg { transform: rotate(180deg); }
+.faq .faq-a { padding: 0 0 var(--space-12); color: var(--text-neutral); display: flex; flex-direction: column; gap: var(--space-8); }
+.faq .faq-a p, .faq .faq-a ul { margin: 0; }
+.faq .faq-a ul { padding-left: var(--space-20); display: flex; flex-direction: column; gap: var(--space-4); }
+.help-search { margin-bottom: var(--space-4); }
+.explain { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12) var(--space-16); border-radius: var(--radius-12); background: var(--info-bg); color: var(--info-text); font: var(--type-caption); }
+.explain strong { font-weight: var(--fw-700); }
+.explain ol { margin: 0; padding-left: var(--space-20); display: flex; flex-direction: column; gap: var(--space-4); }
+.explain a, .explain button.link { color: inherit; font: var(--type-caption-strong); text-decoration: underline; background: none; border: 0; padding: 0; cursor: pointer; align-self: flex-start; min-height: 32px; }

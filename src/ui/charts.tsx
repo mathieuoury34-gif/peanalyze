@@ -65,10 +65,11 @@ export function PriceChart({ history, start, buys, pru, color, label, emptyText 
     yTicks.push(<span key={v} className="tick" style={{ left: W + 6, top: y - 9 }}>{eur(v, step < 1 ? 1 : 0)}</span>);
   }
   const days = (Date.parse(history[e][0]) - Date.parse(history[s][0])) / 864e5;
-  const xTicks = [0, 1, 2, 3].map((k) => {
-    const i = Math.round(s + ((e - s) * k) / 3), d = history[i][0];
+  const tickIdx = Array.from(new Set([0, 1, 2, 3].map((k) => Math.round(s + ((e - s) * k) / 3))));
+  const xTicks = tickIdx.map((i, k) => {
+    const d = history[i][0];
     const lab = days <= 100 ? d.slice(8, 10) + '/' + d.slice(5, 7) : MONTHS[+d.slice(5, 7) - 1] + ' ' + d.slice(2, 4);
-    const st: React.CSSProperties = k === 0 ? { left: 0 } : k === 3 ? { right: AXIS } : { left: X(i) - 30, width: 60, textAlign: 'center' };
+    const st: React.CSSProperties = k === 0 ? { left: 0 } : k === tickIdx.length - 1 ? { right: AXIS } : { left: X(i) - 30, width: 60, textAlign: 'center' };
     return <span key={k} className="tick" style={{ top: 194, ...st }}>{lab}</span>;
   });
   const buyIdx = buys.map((b) => ({ i: history.findIndex((p) => p[0] >= b.date), b })).filter((x) => x.i >= s && x.i <= e);
@@ -144,9 +145,9 @@ export function AreaComparisonChart({ points }: { points: { month: string; depos
     grid += 'M0,' + Y(v).toFixed(1) + ' H' + W + ' ';
     yTicks.push(<span key={v} className="tick" style={{ left: W + 6, top: Y(v) - 9 }}>{kEur(v)}</span>);
   }
-  const picks = [0, Math.round((n - 1) / 3), Math.round((2 * (n - 1)) / 3), n - 1];
+  const picks = Array.from(new Set([0, Math.round((n - 1) / 3), Math.round((2 * (n - 1)) / 3), n - 1]));
   const xTicks = picks.map((i, k) => (
-    <span key={k} className="tick" style={{ top: 166, ...(k === 0 ? { left: 0 } : k === 3 ? { right: AXIS } : { left: X(i) - 30, width: 60, textAlign: 'center' as const }) }}>{monthShort(points[i].month)}</span>
+    <span key={k} className="tick" style={{ top: 166, ...(k === 0 ? { left: 0 } : k === picks.length - 1 ? { right: AXIS } : { left: X(i) - 30, width: 60, textAlign: 'center' as const }) }}>{monthShort(points[i].month)}</span>
   ));
   const h = hover === null ? n - 1 : hover;
   const hx = X(h);
@@ -238,8 +239,9 @@ export function StackedAreaChart({ years, real, label }: { years: { year: number
     grid += 'M0,' + Y(t).toFixed(1) + ' H' + W + ' ';
     yTicks.push(<span key={t} className="tick" style={{ left: W + 6, top: Y(t) - 9 }}>{kEur(t)}</span>);
   }
+  // graduations : début, milieu (seulement s'il est distinct des extrémités) et fin ; clés uniques (évite des étiquettes fantômes)
   const half = Math.round(horizon / 2);
-  const xTicks = [[0, { left: 0 }], [half, { left: X(half) - 30, width: 60, textAlign: 'center' }], [horizon, { right: AXIS }]] as [number, React.CSSProperties][];
+  const xTicks = ([[0, { left: 0 }], ...(half > 0 && half < horizon ? [[half, { left: X(half) - 30, width: 60, textAlign: 'center' }]] : []), [horizon, { right: AXIS }]] as [number, React.CSSProperties][]);
   const h = hover === null ? n - 1 : hover;
   const hp = years[h];
   const hx = X(hp.year);
@@ -255,7 +257,7 @@ export function StackedAreaChart({ years, real, label }: { years: { year: number
         <line x1="0" x2={W} y1={B} y2={B} strokeWidth="1" style={{ stroke: 'var(--border-moderate)' }} />
       </svg>
       {yTicks}
-      {xTicks.map(([y, st]) => <span key={'x' + y} className="tick" style={{ top: 186, ...st }}>{t('an {y}', { y })}</span>)}
+      {xTicks.map(([y, st], i) => <span key={'x' + i} className="tick" style={{ top: 186, ...st }}>{t('an {y}', { y })}</span>)}
       <div className="cross" style={{ top: T, height: H, left: hx, borderLeftColor: 'var(--text)' }} />
       <div className="hit" style={{ width: W, height: B }} onPointerMove={(ev) => setHover(hoverFromEvent(ev, n))} onPointerDown={(ev) => setHover(hoverFromEvent(ev, n))} />
       <div role="status" className="tip" data-component="ChartTooltip" style={{ minWidth: 140, top: 12, left: tipLeft }}>

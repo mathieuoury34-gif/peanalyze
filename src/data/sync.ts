@@ -158,17 +158,56 @@ async function pushWatchList() {
   }
 }
 
+/**
+ * Résout quand l'utilisateur revient dans l'app sans être connecté (fenêtre Google fermée, retour arrière,
+ * échec de la connexion). Sur téléphone, et surtout dans l'app installée, la fenêtre de connexion s'ouvre dans
+ * un autre onglet et sa fermeture n'est pas toujours détectée : sans ce garde-fou, la promesse ne se termine
+ * jamais et le bouton « Continuer avec Google » reste bloqué jusqu'au redémarrage de l'app.
+ */
+function returnedWithoutLogin(): { promise: Promise<void>; cancel: () => void } {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let armed = false;
+  let cleanup: () => void = () => {};
+  const promise = new Promise<void>((resolve) => {
+    const check = () => {
+      if (!armed || document.visibilityState !== 'visible') return;
+      clearTimeout(timer);
+      // laisse le temps à Firebase de terminer une connexion réussie
+      timer = setTimeout(() => { if (!auth?.currentUser) { cleanup(); resolve(); } }, 3000);
+    };
+    window.addEventListener('focus', check);
+    document.addEventListener('visibilitychange', check);
+    const arm = setTimeout(() => { armed = true; }, 800); // l'ouverture de la fenêtre Google fait perdre le focus
+    cleanup = () => { clearTimeout(arm); clearTimeout(timer); window.removeEventListener('focus', check); document.removeEventListener('visibilitychange', check); };
+  });
+  return { promise, cancel: () => cleanup() };
+}
+
+let signingIn = false;
 export async function signIn(): Promise<void> {
   if (!(await init())) throw new Error(t('Synchronisation non configurée'));
   const provider = new fa.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
+  signingIn = true;
+  const back = returnedWithoutLogin();
   try {
-    await fa.signInWithPopup(auth, provider);
+    // la première des deux : connexion terminée (ou erreur), ou retour dans l'app sans connexion
+    const popup: Promise<unknown> = fa.signInWithPopup(auth, provider);
+    popup.catch(() => undefined); // évite une erreur non gérée si la fenêtre se ferme après l'abandon
+    await Promise.race([popup, back.promise]);
   } catch (e) {
     const code = (e as { code?: string }).code || '';
     if (code.includes('popup-blocked') || code.includes('operation-not-supported')) await fa.signInWithRedirect(auth, provider);
-    else if (!code.includes('popup-closed')) throw e;
+    else if (!/popup-closed|cancelled-popup-request|user-cancelled/.test(code)) throw e;
+  } finally {
+    back.cancel();
+    signingIn = false;
   }
+}
+
+/** Une connexion Google est-elle en cours ? */
+export function isSigningIn(): boolean {
+  return signingIn;
 }
 
 export async function signOut(): Promise<void> {

@@ -59,6 +59,9 @@ export function AppHeader({ title }: { title: string }) {
           <button type="button" className={'icon-btn' + (ps.loading ? ' spin' : '')} aria-label={t('Actualiser les cours')} onClick={() => refreshPrices({ force: true })} disabled={ps.loading}>
             <Icon name="refresh" />
           </button>
+          <a href="#/parametres/aide" className="icon-btn" aria-label={t('Aide et guide')} onClick={(e) => { e.preventDefault(); navigate('/parametres/aide'); }}>
+            <Icon name="help" />
+          </a>
           <a href="#/parametres" className="icon-btn" aria-label={t('Paramètres')} onClick={(e) => { e.preventDefault(); navigate('/parametres'); }}>
             <Icon name="settings" />
           </a>
@@ -166,8 +169,11 @@ export function TabBar() {
               <Icon name={t.id} />{tr(t.label)}
             </a>
           ))}
-          <a href="#/parametres" aria-current={route.path.startsWith('/parametres') ? 'page' : undefined} onClick={go('/parametres')}>
+          <a href="#/parametres" aria-current={route.path.startsWith('/parametres') && route.path !== '/parametres/aide' ? 'page' : undefined} onClick={go('/parametres')}>
             <Icon name="settings" />{tr('Paramètres')}
+          </a>
+          <a href="#/parametres/aide" aria-current={route.path === '/parametres/aide' ? 'page' : undefined} onClick={go('/parametres/aide')}>
+            <Icon name="help" />{tr('Aide et guide')}
           </a>
         </nav>
         <SyncFoot />

@@ -30,6 +30,12 @@ export function WelcomeCard({ className = '' }: { className?: string }) {
     <section className={'card g16 ' + className} aria-labelledby="welcome-title" data-component="WelcomeCard">
       <h2 id="welcome-title" style={{ margin: 0 }}>{t('Bienvenue sur PEAnalyze')}</h2>
       <p className="c-neutral" style={{ margin: 0 }}>
+        {t('PEAnalyze suit votre PEA investi en ETF : vous y notez les virements et les achats faits chez votre courtier, et l’app calcule la valeur, les plus-values, les frais et combien acheter chaque mois. Elle ne déplace jamais d’argent.')}
+      </p>
+      <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} onClick={() => navigate('/parametres/aide')}>
+        <Icon name="help" size={18} />{t('Découvrir comment ça marche')}
+      </button>
+      <p className="c-neutral" style={{ margin: 0 }}>
         {t('Votre portefeuille est vide sur cet appareil.')}{' '}
         {sync.configured && !sync.user
           ? t('Connectez-vous avec Google pour retrouver vos données, ou importez votre fichier Excel.')

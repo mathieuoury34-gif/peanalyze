@@ -25,7 +25,12 @@ self.addEventListener('fetch', (e) => {
   }
   if (url.origin !== self.location.origin) return; // API de cours, Firebase : toujours en direct
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(SHELL).then((c) => c.put('./', copy)); } return r; }).catch(() => caches.match('./')));
+    // la page est servie tout de suite depuis le cache (démarrage instantané) et mise à jour en arrière-plan
+    e.respondWith(caches.match('./').then((hit) => {
+      const net = fetch(req).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(SHELL).then((c) => c.put('./', copy)); } return r; });
+      if (hit) { e.waitUntil(net.catch(() => undefined)); return hit; }
+      return net;
+    }));
     return;
   }
   e.respondWith(caches.match(req).then((hit) => hit || fetch(req)));

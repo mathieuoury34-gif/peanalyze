@@ -2,6 +2,8 @@
 
 Application personnelle de suivi de PEA en ETF (Portefeuille, Historique, Marchés, Simulateur), installable sur Android, iPhone et PC, **sans aucun frais**.
 
+> **Documentation complète (architecture, formats, procédure pour tout refaire, journal des versions) : [`docs/DOSSIER_PEANALYZE.md`](docs/DOSSIER_PEANALYZE.md).**
+
 ## Structure
 | Dossier | Contenu |
 |---|---|
@@ -11,6 +13,7 @@ Application personnelle de suivi de PEA en ETF (Portefeuille, Historique, March�
 | `src/screens/` | Écrans T0 à T4 de la maquette |
 | `src/styles/` | `tokens.css` (design tokens v2) et `app.css` |
 | `public/` | Icônes, manifeste PWA, `prices.json` (cours mis à jour par GitHub Actions) |
+| `docs/` | Dossier de reconstruction (à lire en premier) |
 | `tests/` | Tests des calculs (valeurs attendues de HANDOFF.md §6) et aller-retour export / import Excel |
 | `private/` | **Non publié** (ignoré par git) : opérations personnelles et fichier Excel d'origine, utilisés par les tests en local |
 
@@ -32,4 +35,4 @@ Le dépôt et le site publiés ne contiennent **aucune opération personnelle** 
 - iPhone : Safari › Partager › *Sur l'écran d'accueil*.
 
 ## Export Excel
-Paramètres › Exporter en Excel produit le classeur officiel PEAnalyze (9 onglets : Tableau de bord, Portefeuille, Historique, Évolution, Mes ETF, Cours, Compositions, Catalogue, Simulateur). Les saisies (cellules en bleu) sont des valeurs, tout le reste est en formules et graphiques, recalculés à l'ouverture. Le même fichier peut être réimporté dans l'app.
+Paramètres › Exporter en Excel produit le classeur officiel PEAnalyze (9 onglets : Tableau de bord, Portefeuille, Historique, Évolution, Mes ETF, Cours, Compositions, Catalogue, Simulateur). Les saisies (cellules en bleu) sont des valeurs, tout le reste est en formules et graphiques, recalculés à l'ouverture. Le même fichier peut être réimporté dans l'app : il restitue aussi la liste « Mes ETF » (choisie dans une liste déroulante du catalogue), l'allocation cible, les couleurs des ETF et la date d'ouverture du PEA.

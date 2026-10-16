@@ -20,7 +20,10 @@ export interface SyncStatus {
   lastSync: string;
   error: string;
 }
-let status: SyncStatus = { configured: !!FIREBASE_CONFIG.apiKey, ready: !FIREBASE_CONFIG.apiKey, user: null, state: 'off', lastSync: '', error: '' };
+// Appareil déjà connecté (ou utilisé sans compte) : on affiche tout de suite les données locales sans attendre Firebase
+let authChecked = false;
+const known = (() => { try { const p = getPrefs(); return !!(p.syncedUid || p.skipLogin); } catch { return false; } })();
+let status: SyncStatus = { configured: !!FIREBASE_CONFIG.apiKey, ready: !FIREBASE_CONFIG.apiKey || known, user: null, state: 'off', lastSync: '', error: '' };
 const listeners = new Set<() => void>();
 const set = (s: Partial<SyncStatus>) => { status = { ...status, ...s }; listeners.forEach((l) => l()); };
 export function useSync(): SyncStatus {
@@ -44,6 +47,7 @@ async function init(): Promise<boolean> {
     db = f.initializeFirestore(fbApp, { localCache: f.persistentLocalCache() });
     return true;
   } catch (e) {
+    authChecked = true;
     set({ ready: true, state: 'error', error: t('Service de synchronisation injoignable') });
     console.warn('[sync] init', e);
     return false;
@@ -103,6 +107,7 @@ export async function startSync(): Promise<void> {
   if (!(await init())) return;
   fa.getRedirectResult(auth).catch(() => undefined);
   fa.onAuthStateChanged(auth, (u: Any) => {
+    authChecked = true;
     if (u) {
       set({ ready: true, user: { name: u.displayName || '', email: u.email || '', photo: u.photoURL || '' }, state: 'syncing' });
       setPrefs({ skipLogin: false });
@@ -219,5 +224,5 @@ export async function syncNow(): Promise<void> {
 }
 
 export function needsLogin(): boolean {
-  return status.configured && status.ready && !status.user && !getPrefs().skipLogin;
+  return status.configured && status.ready && authChecked && !status.user && !getPrefs().skipLogin;
 }

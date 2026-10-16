@@ -313,19 +313,10 @@ export function LoginScreen({ onSkip }: { onSkip: () => void }) {
 }
 
 export function LoadingScreen() {
+  // même écran de lancement que dans index.html : la transition est continue
   return (
-    <div className="screen" aria-busy="true" aria-label={t('Chargement du portefeuille')} data-component="Skeleton">
-      <div className="stack-16" style={{ padding: 'calc(var(--safe-top) + var(--space-16)) var(--screen-margin)' }}>
-        <div className="skel" style={{ height: 44, borderRadius: 'var(--radius-full)' }} />
-        <div className="skel" style={{ height: 150, borderRadius: 'var(--radius-16)' }} />
-        <div className="row" style={{ gap: 'var(--space-16)' }}>
-          <div className="skel" style={{ width: 140, height: 140, borderRadius: 'var(--radius-full)' }} />
-          <div className="stack grow" style={{ gap: 'var(--space-10)' }}>
-            {[90, 70, 80, 60].map((w) => <div key={w} className="skel" style={{ height: 12, width: w + '%', borderRadius: 'var(--radius-full)' }} />)}
-          </div>
-        </div>
-        <div className="skel" style={{ height: 96, borderRadius: 'var(--radius-16)' }} />
-      </div>
+    <div className="splash" role="status" aria-label={t('Chargement du portefeuille')}>
+      <div className="mark"><svg width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7 13.5 15.5 8.5 10.5 2 17" /><path d="M16 7h6v6" /></svg></div>
     </div>
   );
 }

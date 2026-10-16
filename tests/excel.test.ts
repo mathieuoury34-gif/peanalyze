@@ -8,6 +8,7 @@ import { parseWorkbook } from '../src/data/excel';
 
 function sample() {
   const d = buildSeed();
+  d.settings.peaOpeningDate = '2025-11-03';
   d.deposits = [
     { id: 'd1', date: '2026-01-05', amount: 500 },
     { id: 'd2', date: '2026-02-05', amount: 300.5 },
@@ -32,6 +33,7 @@ test('classeur PEAnalyze : export puis réimport', async () => {
   assert.deepEqual(back.transactions.map((t) => [t.date, t.etfId, t.unitPrice, t.quantity, t.grossAmount, t.feeRefund]),
     d.transactions.map((t) => [t.date, t.etfId, t.unitPrice, t.quantity, t.grossAmount, t.feeRefund]));
   assert.deepEqual(back.simulation, d.simulation);
+  assert.equal(back.settings.peaOpeningDate, '2025-11-03');
   for (const e of d.etfs) assert.equal(back.targetAllocation[e.id] || 0, e.inStrategy ? d.targetAllocation[e.id] || 0 : 0);
 });
 

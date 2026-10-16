@@ -368,6 +368,9 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     });
     si.put(9, 1, 'Taux mensuel équivalent', { color: NEUTRAL });
     si.put(9, 2, f('(1+B7)^(1/12)-1'), { fmt: '0.000%' });
+    si.put(10, 1, "Date d'ouverture du PEA", { color: NEUTRAL });
+    const od = data.settings.peaOpeningDate;
+    si.put(10, 2, od ? new Date(+od.slice(0, 4), +od.slice(5, 7) - 1, +od.slice(8, 10)) : null, { fmt: DATE, inp: true, b: true, bg: TINT, h: 'right' });
     si.section(4, 4, 'Versements mensuels par phase');
     si.header(5, 4, ["À partir de l'année", 'Versement mensuel'], 28);
     const phases = sim.dcaPhases.slice().sort((a, b) => a.fromYear - b.fromYear);

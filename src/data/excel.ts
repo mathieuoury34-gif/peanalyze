@@ -166,6 +166,8 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
   // simulateur
   try {
     const si = await L.sheet('Simulateur');
+    const od = si.get('B10');
+    if (typeof od === 'number' && od > 0) next.settings.peaOpeningDate = serialToIso(od);
     const cap = num(si.get('B5')), hz = num(si.get('B6')), rate = num(si.get('B7'));
     if (isFinite(cap) && isFinite(hz) && isFinite(rate)) {
       const phases = [];

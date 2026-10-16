@@ -64,5 +64,5 @@ test('import : la liste Mes ETF, la cible et les couleurs viennent du classeur',
   assert.deepEqual(back.myEtfIds, ['PUST', 'ESE']);
   assert.equal(back.targetAllocation.WPEA || 0, 0);
   assert.deepEqual(back.etfs.map((e) => e.id).sort(), ['ESE', 'PUST']);
-  assert.deepEqual(back.settings.etfColors, { ESE: 'AE0014' });
+  assert.deepEqual(back.settings.etfColors, { PUST: '007461', ESE: 'AE0014' });
 });

@@ -2,7 +2,7 @@
 // sinon attribuée selon l'ordre d'apparition dans « Mes ETF ».
 import { useEffect } from 'react';
 import type { AppData } from './domain/types';
-import { useData } from './data/store';
+import { update, useData } from './data/store';
 
 /** Couleurs par défaut (ordre de « Mes ETF »), identiques aux jetons --chart-1…8 du thème clair. */
 export const DEFAULT_HEX = ['007461', '0A94A8', 'F8D10A', '004652', 'A0D7A2', '5159EA', '1BCB99', 'BAE3EC', 'C85207', '8E6C8A', 'E5484D', 'F59E0B'];
@@ -29,24 +29,49 @@ export function defaultHex(index: number): string {
   return DEFAULT_HEX[index % DEFAULT_HEX.length];
 }
 
-/** Couleur hexadécimale (sans #) de chaque ETF suivi. */
-export function etfHexes(data: AppData): Record<string, string> {
-  const custom = data.settings.etfColors || {};
+/** Couleur de chaque ETF suivi : celle enregistrée, sinon la première couleur par défaut libre (dans l'ordre de Mes ETF).
+ *  Une fois attribuée, la couleur suit l'ETF quand on le déplace dans la liste. */
+export function assignColors(ids: string[], custom: Record<string, string> = {}): Record<string, string> {
   const out: Record<string, string> = {};
-  trackedIds(data).forEach((id, i) => { out[id] = isHex(custom[id]) ? custom[id].toUpperCase() : defaultHex(i); });
+  const used = new Set<string>();
+  for (const id of ids) if (isHex(custom[id])) { out[id] = custom[id].toUpperCase(); used.add(out[id]); }
+  let k = 0;
+  for (const id of ids) {
+    if (out[id]) continue;
+    while (k < DEFAULT_HEX.length && used.has(DEFAULT_HEX[k])) k++;
+    out[id] = k < DEFAULT_HEX.length ? DEFAULT_HEX[k] : defaultHex(ids.indexOf(id));
+    used.add(out[id]);
+  }
   return out;
 }
 
-/** Applique les couleurs aux variables CSS --etf-{id} (les défauts suivent le thème clair/sombre). */
+/** Couleur hexadécimale (sans #) de chaque ETF suivi. */
+export function etfHexes(data: AppData): Record<string, string> {
+  return assignColors(trackedIds(data), data.settings.etfColors);
+}
+
+/** Ordre d'affichage des ETF : Mes ETF, puis les autres. */
+export function etfOrder(data: AppData): string[] {
+  const t = trackedIds(data);
+  return [...t, ...data.etfs.map((e) => e.id).filter((id) => !t.includes(id))];
+}
+
+/** Applique les couleurs aux variables CSS --etf-{id}. */
 export function applyEtfColors(data: AppData): void {
   const root = document.documentElement;
-  const custom = data.settings.etfColors || {};
-  trackedIds(data).forEach((id, i) => {
-    root.style.setProperty(`--etf-${id}`, isHex(custom[id]) ? '#' + custom[id] : i < 8 ? `var(--chart-${i + 1})` : '#' + defaultHex(i));
-  });
+  for (const [id, hex] of Object.entries(etfHexes(data))) root.style.setProperty(`--etf-${id}`, '#' + hex);
 }
 
 export function useEtfColors(): void {
   const data = useData();
-  useEffect(() => { applyEtfColors(data); }, [data]);
+  useEffect(() => {
+    applyEtfColors(data);
+    // fige les couleurs attribuées par défaut pour qu'elles ne changent plus quand on réordonne la liste
+    const ids = trackedIds(data);
+    const cur = data.settings.etfColors || {};
+    if (ids.some((id) => !isHex(cur[id]))) {
+      const full = assignColors(ids, cur);
+      update((d) => { d.settings.etfColors = { ...(d.settings.etfColors || {}), ...full }; }, { touch: false });
+    }
+  }, [data]);
 }

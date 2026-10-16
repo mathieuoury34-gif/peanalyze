@@ -3,7 +3,6 @@
 import JSZip from 'jszip';
 import type { AppData, Deposit, Etf, Transaction } from '../domain/types';
 import { t } from '../i18n';
-import { defaultHex } from '../etfColors';
 
 // libellés « Indice » utilisés dans l'Excel d'origine pour les ETF suivis
 const EXCEL_LABEL: Record<string, string> = {
@@ -154,10 +153,7 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
       for (const e of next.etfs) { e.inStrategy = !!strat[e.id]; }
       next.targetAllocation = targets;
       next.etfs = next.etfs.filter((e) => next.myEtfIds.includes(e.id));
-      // couleurs : on ne garde que celles qui diffèrent de la couleur par défaut de la ligne
-      const custom: Record<string, string> = {};
-      next.myEtfIds.forEach((id, i) => { if (colors[id] && colors[id] !== defaultHex(i)) custom[id] = colors[id]; });
-      next.settings.etfColors = custom;
+      next.settings.etfColors = colors; // couleurs du classeur (les ETF sans couleur reçoivent la première libre)
     }
   } catch (err) {
     if (err instanceof Error && !/manquante/.test(err.message)) throw err; // onglet absent : on garde la stratégie de l'app

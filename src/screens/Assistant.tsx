@@ -1,4 +1,5 @@
 // T3-02 Assistant du mois + T3-03 Allocation cible
+import { etfOrder } from '../etfColors';
 import { useState } from 'react';
 import { EtfDot, Segmented, Sheet, SubHeader, Switch, showToast } from '../ui/kit';
 import { Icon } from '../ui/icons';
@@ -17,7 +18,7 @@ export function AssistantScreen() {
   const amount = Math.max(0, parseNum(text) || 0);
   const fee = data.settings.feePerOrder;
 
-  const order = data.etfs.map((e) => e.id);
+  const order = etfOrder(data);
   const all = positions.slice().sort((a, b) => order.indexOf(a.etfId) - order.indexOf(b.etfId));
   const items = all.map((p) => ({ id: p.etfId, price: p.price, value: p.marketValue, target: p.weightTarget }));
   const res = assistant(items, amount, mode, fee);
@@ -149,7 +150,7 @@ export function AssistantScreen() {
 export function TargetSheet() {
   const { data } = useCalc();
   const held = new Set(data.transactions.map((t) => t.etfId));
-  const list = data.etfs.filter((e) => held.has(e.id) || data.myEtfIds.includes(e.id));
+  const list = etfOrder(data).map((id) => data.etfs.find((e) => e.id === id)!).filter((e) => e && (held.has(e.id) || data.myEtfIds.includes(e.id)));
   const [vals, setVals] = useState<Record<string, number>>(() => Object.fromEntries(list.map((e) => [e.id, Math.round((e.inStrategy ? data.targetAllocation[e.id] || 0 : 0) * 100)])));
   const [inStrat, setInStrat] = useState<Record<string, boolean>>(() => Object.fromEntries(list.map((e) => [e.id, e.inStrategy])));
   const total = list.reduce((s, e) => s + (inStrat[e.id] ? vals[e.id] : 0), 0);

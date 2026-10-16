@@ -10,6 +10,7 @@ import { eur, eurSigned, num, pct, pctSigned, pts, NBSP } from '../domain/format
 import type { Position } from '../domain/types';
 import { WelcomeCard } from '../ui/WelcomeCard';
 import { t, tl, tn } from '../i18n';
+import { etfOrder } from '../etfColors';
 
 const NAV = [{ to: '/portefeuille', label: t('Synthèse') }, { to: '/portefeuille/repartitions', label: t('Répartitions') }];
 
@@ -20,7 +21,7 @@ export function PortfolioScreen() {
   const [showOff, setShowOff] = useState(false);
   const [donutRef, donutW] = useWidth<HTMLDivElement>(326);
 
-  const order = data.etfs.map((e) => e.id);
+  const order = etfOrder(data);
   const ordered = positions.slice().sort((a, b) => order.indexOf(a.etfId) - order.indexOf(b.etfId));
   const strat = positions.filter((p) => p.inStrategy).sort((a, b) => b.marketValue - a.marketValue);
   const off = positions.filter((p) => !p.inStrategy && p.quantity > 0).sort((a, b) => b.marketValue - a.marketValue);

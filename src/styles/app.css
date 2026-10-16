@@ -308,8 +308,13 @@ select.input { appearance: auto; }
 .table-wrap td { padding: var(--space-10) var(--space-8); text-align: right; }
 .table-wrap tbody tr:nth-child(even) { background: var(--bg-surface-minimal); }
 
+.dcol { display: contents; }
+
 /* écran de connexion */
 .login { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-24); padding: calc(var(--safe-top) + var(--space-32)) var(--space-24) calc(var(--safe-bottom) + var(--space-32)); background: var(--bg-surface); text-align: center; }
+.login > * { max-width: 100%; }
+.login .btn { white-space: normal; text-align: center; line-height: 1.3; }
+.login .btn-tertiary { padding: var(--space-8) 0; }
 .login .art { width: 120px; height: 120px; border-radius: 32px; background: var(--brand-primary); display: flex; align-items: center; justify-content: center; color: var(--text-reverse); box-shadow: var(--shadow-fab); }
 
 /* ------------------------------------------------------------------ version ordinateur (≥ 1024 px) */
@@ -341,8 +346,16 @@ select.input { appearance: auto; }
   .sheet .handle { display: none; }
   .op-list { margin: 0; }
   .month-header { padding-left: 0; padding-right: 0; top: 44px; }
-  .dgrid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-16); align-items: start; }
+  .dgrid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-16); align-items: stretch; }
   .dgrid > * { grid-column: span 12; }
+  .dgrid > .btn, .dgrid > .dstart { align-self: start; }
+  .dgrid > .stack-8 > .hero:first-child { flex: 1; }
+  .dgrid > .drow { flex-direction: row; gap: var(--space-16); }
+  .drow > .hero { flex: 1.4; justify-content: center; }
+  .drow > .grid-2 { flex: 1; gap: var(--space-16); }
+  .dcol { display: flex; flex-direction: column; gap: var(--space-16); }
+  .dcols-3 { align-items: stretch !important; }
+  .dspan-12 { grid-column: span 12 !important; }
   .dspan-4 { grid-column: span 4 !important; }
   .dspan-5 { grid-column: span 5 !important; }
   .dspan-6 { grid-column: span 6 !important; }

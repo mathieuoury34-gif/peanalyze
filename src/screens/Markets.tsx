@@ -121,7 +121,8 @@ export function EtfDetailScreen({ id }: { id: string }) {
     <div className="screen" data-screen="T1-02">
       <SubHeader title={tl(e.index)} fallback="/marches" />
       <main className="content flush-top dgrid">
-        <section aria-label={t('Cours')} className="bleed stack-12 dspan-8" style={{ paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-20)', gridRow: 'span 3' }}>
+        <div className="dcol dspan-7">
+        <section aria-label={t('Cours')} className="bleed stack-12" style={{ paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-20)', order: 1 }}>
           <div className="stack-4">
             <span className="t-caption c-moderate">{e.name} · {e.id}</span>
             <span className="t-display">{eur(e.lastPrice)}</span>
@@ -151,7 +152,24 @@ export function EtfDetailScreen({ id }: { id: string }) {
           </div>
         </section>
 
-        <section aria-labelledby="t102-pos" className="card highlight dspan-4">
+        <section aria-labelledby="t102-car" className="card g4" style={{ order: 3 }}>
+          <h2 id="t102-car" style={{ marginBottom: 'var(--space-8)' }}>{t('Caractéristiques')}</h2>
+          <dl className="kv">
+            <dt>ISIN</dt><dd>{e.isin}</dd>
+            <dt>{t('Place')}</dt><dd>{tl(e.exchange)}</dd>
+            <dt>{t('Catégorie')}</dt><dd>{tl(e.category)}</dd>
+            <dt>{t('Éligible PEA')}</dt><dd style={{ color: e.peaEligible ? 'var(--success-text)' : 'var(--critical-text)' }}>{e.peaEligible ? t('Oui') : t('Non')}</dd>
+            <dt>{t('Frais de gestion')}</dt><dd>{pct(e.ter, 2)}</dd>
+            <dt>{t('Actifs nets')}</dt><dd>{aum(e.aumMEur)}</dd>
+            <dt>{t('Réplication')}</dt><dd>{tl(e.replication)}</dd>
+            <dt>{t('Revenus')}</dt><dd>{tl(e.distribution)}</dd>
+          </dl>
+          <EtfLinks isin={e.isin} ticker={e.ticker} />
+        </section>
+
+        </div>
+        <div className="dcol dspan-5">
+        <section aria-labelledby="t102-pos" className="card highlight" style={{ order: 2 }}>
           <h2 id="t102-pos">{t('Ma position')}</h2>
           {p && p.quantity > 0 ? (
             <div className="grid-2" style={{ gap: 'var(--space-12)' }}>
@@ -168,23 +186,8 @@ export function EtfDetailScreen({ id }: { id: string }) {
           </button>
         </section>
 
-        <section aria-labelledby="t102-car" className="card g4 dspan-4">
-          <h2 id="t102-car" style={{ marginBottom: 'var(--space-8)' }}>{t('Caractéristiques')}</h2>
-          <dl className="kv">
-            <dt>ISIN</dt><dd>{e.isin}</dd>
-            <dt>{t('Place')}</dt><dd>{tl(e.exchange)}</dd>
-            <dt>{t('Catégorie')}</dt><dd>{tl(e.category)}</dd>
-            <dt>{t('Éligible PEA')}</dt><dd style={{ color: e.peaEligible ? 'var(--success-text)' : 'var(--critical-text)' }}>{e.peaEligible ? t('Oui') : t('Non')}</dd>
-            <dt>{t('Frais de gestion')}</dt><dd>{pct(e.ter, 2)}</dd>
-            <dt>{t('Actifs nets')}</dt><dd>{aum(e.aumMEur)}</dd>
-            <dt>{t('Réplication')}</dt><dd>{tl(e.replication)}</dd>
-            <dt>{t('Revenus')}</dt><dd>{tl(e.distribution)}</dd>
-          </dl>
-          <EtfLinks isin={e.isin} ticker={e.ticker} />
-        </section>
-
         {sectors.length > 0 && (
-          <section aria-labelledby="t102-sec" className="card g16 dspan-6">
+          <section aria-labelledby="t102-sec" className="card g16" style={{ order: 4 }}>
             <h2 id="t102-sec">{t('Répartition sectorielle')}</h2>
             <Donut slices={sectorSlices} label={t('Secteurs du {i} : {l}', { i: e.index, l: sectors.map((x) => x.label + ' ' + pct(x.weight)).join(', ') })}>
               <span className="t-amount-l">{e.sectors.length}</span>
@@ -202,14 +205,15 @@ export function EtfDetailScreen({ id }: { id: string }) {
           </section>
         )}
         {countries.length > 0 && (
-          <section aria-labelledby="t102-geo" className="card dspan-6">
+          <section aria-labelledby="t102-geo" className="card" style={{ order: 5 }}>
             <h2 id="t102-geo">{t('Répartition géographique')}</h2>
             <HBarList rows={countries} />
             {e.countries.length > 8 && <p className="t-caption c-moderate">{t('Top 8 pays + « Autres ».')}</p>}
           </section>
         )}
+        </div>
         {(sectors.length > 0 || countries.length > 0) && isCatalogComposition(e) && (
-          <p className="t-caption c-moderate dspan-12">{t('Principaux secteurs et pays de l’indice suivi (source justETF, au {d}).', { d: dateFr(COMPOSITION_DATE) })}</p>
+          <p className="t-caption c-moderate dspan-12" style={{ order: 6 }}>{t('Principaux secteurs et pays de l’indice suivi (source justETF, au {d}).', { d: dateFr(COMPOSITION_DATE) })}</p>
         )}
         {!sectors.length && !countries.length && (
           <section className="card"><p className="c-neutral t-caption">{t('Composition non renseignée pour cet ETF.')}</p></section>
@@ -484,7 +488,7 @@ export function ManageEtfsScreen() {
   };
   return (
     <div className="screen">
-      <SubHeader title={t('Mes ETF')} fallback="/parametres" />
+      <SubHeader title={t('Mes ETF')} fallback="/marches" />
       <main className="content gap-12 form-narrow">
         <p className="t-caption c-neutral">{t('Ordre d’affichage dans l’onglet Marchés. Un ETF détenu reste dans le portefeuille même s’il est retiré de cette liste.')}</p>
         <p className="t-caption c-neutral">{t('{n} / {m} ETF suivis par le robot des cours ({f} par jour). Un ETF retiré n’est plus actualisé.', { n: new Set([...data.myEtfIds, ...held]).size, m: MAX_ETFS[data.settings.priceFreq === 1 ? 1 : 2], f: data.settings.priceFreq === 1 ? t('1 actualisation') : t('2 actualisations') })}</p>

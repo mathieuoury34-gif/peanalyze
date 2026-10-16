@@ -126,12 +126,6 @@ export function SettingsScreen() {
     <div className="screen" data-screen="T0-01">
       <SubHeader title={t('Paramètres')} fallback="/portefeuille" />
       <main className="content form-narrow" style={{ gap: 'var(--space-24)' }}>
-        <Section id="t001-help" title={t('Aide')}>
-          <ul className="tile-list" style={{ padding: '0 var(--space-16)' }}>
-            <Row icon="help" title={t('Aide et guide')} sub={t('Comment ça marche, explication des chiffres, questions fréquentes')} onClick={() => navigate('/parametres/aide')} />
-          </ul>
-        </Section>
-
         <Section id="t001-sync" title={t('Compte & synchronisation')}>
           <div className="card" style={{ borderRadius: 'var(--radius-12)' }}>
             {!sync.configured ? (
@@ -171,6 +165,17 @@ export function SettingsScreen() {
           </div>
         </Section>
 
+        <Section id="t001-theme" title={t('Thème')}>
+          <div className="card g8" style={{ borderRadius: 'var(--radius-12)' }}>
+            <div className="seg" role="group" aria-label={t('Thème de l’application')}>
+              {([['light', t('Clair')], ['dark', t('Sombre')], ['system', t('Système')]] as [ThemePref, string][]).map(([v, l]) => (
+                <button key={v} type="button" aria-pressed={theme === v} onClick={() => { setThemePref(v); setTheme(v); }}>{l}</button>
+              ))}
+            </div>
+            <span className="t-caption c-moderate">{t('« Système » suit le réglage clair ou sombre du téléphone ou de l’ordinateur.')}</span>
+          </div>
+        </Section>
+
         <Section id="t001-lang" title={t('Langue')}>
           <div className="card g8" style={{ borderRadius: 'var(--radius-12)' }}>
             <div className="seg" role="group" aria-label={t('Langue de l’application')}>
@@ -181,15 +186,41 @@ export function SettingsScreen() {
           </div>
         </Section>
 
-        <Section id="t001-theme" title={t('Thème')}>
-          <div className="card g8" style={{ borderRadius: 'var(--radius-12)' }}>
-            <div className="seg" role="group" aria-label={t('Thème de l’application')}>
-              {([['light', t('Clair')], ['dark', t('Sombre')], ['system', t('Système')]] as [ThemePref, string][]).map(([v, l]) => (
-                <button key={v} type="button" aria-pressed={theme === v} onClick={() => { setThemePref(v); setTheme(v); }}>{l}</button>
-              ))}
+        <Section id="t001-pea" title={t('PEA')}>
+          <div className="card g16" style={{ borderRadius: 'var(--radius-12)' }}>
+            <label className="field">
+              <span className="lbl">{t("Date d'ouverture du PEA")}</span>
+              <input className={'input' + (openDate && !parseDateFr(openDate) ? ' invalid' : '')} type="text" inputMode="numeric" placeholder={t('jj/mm/aaaa')} value={openDate}
+                onChange={(e) => { setOpenDate(e.target.value); const iso = parseDateFr(e.target.value); if (iso || !e.target.value) update((d) => { d.settings.peaOpeningDate = iso; }); }} data-component="DatePicker.field" />
+              <span className="hint">{firstDeposit ? t('Premier versement enregistré le {d}.', { d: dateFr(firstDeposit) }) : ''}{fiveYears ? ' ' + t('Fiscalité allégée à partir du {d} (5 ans).', { d: dateFr(fiveYears) }) : ''}</span>
+            </label>
+            <div className="stack" style={{ gap: 'var(--space-6)' }}>
+              <span className="between"><span className="t-label">{t('Plafond des versements')}</span><span className="t-caption c-neutral">{eur(summary.totalDeposited, 0)} / {eur(PEA_CEILING, 0)}</span></span>
+              <span className="hbar"><span style={{ width: Math.min(100, (summary.totalDeposited / PEA_CEILING) * 100) + '%' }} /></span>
             </div>
-            <span className="t-caption c-moderate">{t('« Système » suit le réglage clair ou sombre du téléphone ou de l’ordinateur.')}</span>
+            <label className="field">
+              <span className="lbl">{t('Frais estimés par ordre (€)')}</span>
+              <input className="input num" type="text" inputMode="decimal" value={fee} onChange={(e) => { setFee(e.target.value); const v = parseNum(e.target.value); if (isFinite(v) && v >= 0) update((d) => { d.settings.feePerOrder = v; }); }} />
+              <span className="hint">{t('Utilisé par l’assistant du mois et pour pré-remplir les achats.')}</span>
+            </label>
           </div>
+        </Section>
+
+        <Section id="t001-data" title={t('Données')}>
+          <ul className="tile-list divided" style={{ padding: '0 var(--space-16)' }}>
+            <Row icon="upload" title={t('Importer un fichier Excel')} sub={busy === 'import' ? t('Lecture en cours…') : t('Classeur PEAnalyze ou fichier d’origine (Suivi des investissements)')} onClick={() => xlsxInput.current?.click()} />
+            <Row icon="sheet" title={t('Exporter en Excel (.xlsx)')} sub={busy === 'xlsx' ? t('Préparation du fichier…') : t('Classeur PEAnalyze : 9 onglets, formules et graphiques')} onClick={doExportXlsx} />
+            <Row icon="download" title={t('Exporter en JSON')} sub={t('Sauvegarde complète des données')} onClick={() => download('peanalyze-sauvegarde-' + new Date().toISOString().slice(0, 10) + '.json', new Blob([JSON.stringify(getData(), null, 1)], { type: 'application/json' }))} />
+            <Row icon="upload" title={t('Restaurer une sauvegarde JSON')} sub={t('Remplace les données de l’app')} onClick={() => jsonInput.current?.click()} />
+          </ul>
+          <input ref={xlsxInput} type="file" accept=".xlsx" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onImportXlsx(f); e.target.value = ''; }} />
+          <input ref={jsonInput} type="file" accept=".json,application/json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onImportJson(f); e.target.value = ''; }} />
+        </Section>
+
+        <Section id="t001-help" title={t('Aide')}>
+          <ul className="tile-list" style={{ padding: '0 var(--space-16)' }}>
+            <Row icon="help" title={t('Aide et guide')} sub={t('Comment ça marche, explication des chiffres, questions fréquentes')} onClick={() => navigate('/parametres/aide')} />
+          </ul>
         </Section>
 
         <Section id="t001-cours" title={t('Cours')}>
@@ -233,45 +264,6 @@ export function SettingsScreen() {
               {testing ? t('Test en cours…') : s.priceProvider === 'server' ? t('Actualiser et vérifier') : t('Enregistrer et tester')}
             </button>
             {testMsg && <span role="status" className="t-caption-strong" style={{ color: testMsg.ok ? 'var(--success-text)' : 'var(--critical-text)' }}>{testMsg.text}</span>}
-          </div>
-        </Section>
-
-        <Section id="t001-data" title={t('Données')}>
-          <ul className="tile-list divided" style={{ padding: '0 var(--space-16)' }}>
-            <Row icon="upload" title={t('Importer un fichier Excel')} sub={busy === 'import' ? t('Lecture en cours…') : t('Classeur PEAnalyze ou fichier d’origine (Suivi des investissements)')} onClick={() => xlsxInput.current?.click()} />
-            <Row icon="sheet" title={t('Exporter en Excel (.xlsx)')} sub={busy === 'xlsx' ? t('Préparation du fichier…') : t('Classeur PEAnalyze : 9 onglets, formules et graphiques')} onClick={doExportXlsx} />
-            <Row icon="download" title={t('Exporter en JSON')} sub={t('Sauvegarde complète des données')} onClick={() => download('peanalyze-sauvegarde-' + new Date().toISOString().slice(0, 10) + '.json', new Blob([JSON.stringify(getData(), null, 1)], { type: 'application/json' }))} />
-            <Row icon="upload" title={t('Restaurer une sauvegarde JSON')} sub={t('Remplace les données de l’app')} onClick={() => jsonInput.current?.click()} />
-          </ul>
-          <input ref={xlsxInput} type="file" accept=".xlsx" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onImportXlsx(f); e.target.value = ''; }} />
-          <input ref={jsonInput} type="file" accept=".json,application/json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onImportJson(f); e.target.value = ''; }} />
-        </Section>
-
-        <Section id="t001-etf" title={t('Mes ETF')}>
-          <a href="#/parametres/etf" onClick={(e) => { e.preventDefault(); navigate('/parametres/etf'); }} className="card" style={{ display: 'grid', gridTemplateColumns: '1fr auto 20px', gap: 'var(--space-12)', alignItems: 'center', minHeight: 64, padding: '0 var(--space-16)', borderRadius: 'var(--radius-12)', color: 'var(--text)', textDecoration: 'none' }}>
-            <span className="stack"><span className="t-strong">{t('Gérer la liste « Mes ETF »')}</span><span className="t-caption c-moderate">{t('Ordre, ajout et retrait des ETF suivis')}</span></span>
-            <span className="badge" style={{ background: 'var(--bg-grey-minimal)', font: 'var(--type-chip)' }}>{data.myEtfIds.length} ETF</span>
-            <Icon name="next" size={20} style={{ color: 'var(--text-moderate)' }} />
-          </a>
-        </Section>
-
-        <Section id="t001-pea" title={t('PEA')}>
-          <div className="card g16" style={{ borderRadius: 'var(--radius-12)' }}>
-            <label className="field">
-              <span className="lbl">{t("Date d'ouverture du PEA")}</span>
-              <input className={'input' + (openDate && !parseDateFr(openDate) ? ' invalid' : '')} type="text" inputMode="numeric" placeholder={t('jj/mm/aaaa')} value={openDate}
-                onChange={(e) => { setOpenDate(e.target.value); const iso = parseDateFr(e.target.value); if (iso || !e.target.value) update((d) => { d.settings.peaOpeningDate = iso; }); }} data-component="DatePicker.field" />
-              <span className="hint">{firstDeposit ? t('Premier versement enregistré le {d}.', { d: dateFr(firstDeposit) }) : ''}{fiveYears ? ' ' + t('Fiscalité allégée à partir du {d} (5 ans).', { d: dateFr(fiveYears) }) : ''}</span>
-            </label>
-            <div className="stack" style={{ gap: 'var(--space-6)' }}>
-              <span className="between"><span className="t-label">{t('Plafond des versements')}</span><span className="t-caption c-neutral">{eur(summary.totalDeposited, 0)} / {eur(PEA_CEILING, 0)}</span></span>
-              <span className="hbar"><span style={{ width: Math.min(100, (summary.totalDeposited / PEA_CEILING) * 100) + '%' }} /></span>
-            </div>
-            <label className="field">
-              <span className="lbl">{t('Frais estimés par ordre (€)')}</span>
-              <input className="input num" type="text" inputMode="decimal" value={fee} onChange={(e) => { setFee(e.target.value); const v = parseNum(e.target.value); if (isFinite(v) && v >= 0) update((d) => { d.settings.feePerOrder = v; }); }} />
-              <span className="hint">{t('Utilisé par l’assistant du mois et pour pré-remplir les achats.')}</span>
-            </label>
           </div>
         </Section>
 

@@ -59,9 +59,6 @@ export function AppHeader({ title }: { title: string }) {
           <button type="button" className={'icon-btn' + (ps.loading ? ' spin' : '')} aria-label={t('Actualiser les cours')} onClick={() => refreshPrices({ force: true })} disabled={ps.loading}>
             <Icon name="refresh" />
           </button>
-          <a href="#/parametres/aide" className="icon-btn" aria-label={t('Aide et guide')} onClick={(e) => { e.preventDefault(); navigate('/parametres/aide'); }}>
-            <Icon name="help" />
-          </a>
           <a href="#/parametres" className="icon-btn" aria-label={t('Paramètres')} onClick={(e) => { e.preventDefault(); navigate('/parametres'); }}>
             <Icon name="settings" />
           </a>

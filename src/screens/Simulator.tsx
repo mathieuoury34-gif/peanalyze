@@ -89,7 +89,7 @@ export function SimulatorScreen() {
           </button>
         </section>
 
-        <section aria-label={t('Résultats')} className="stack-8 dspan-5">
+        <section aria-label={t('Résultats')} className="stack-8 dspan-12 drow">
           <div className="hero" style={{ gap: 'var(--space-4)' }} data-component="Card.hero">
             <span className="overline">{tn(ys, 'Capital final dans {n} an', 'Capital final dans {n} ans')}{constant ? ' ' + t('(euros constants)') : ''}</span>
             <span className="t-display">{eur(last.value, 0)}</span>
@@ -106,7 +106,7 @@ export function SimulatorScreen() {
           </div>
         </section>
 
-        <section aria-labelledby="t401-chart" className="card dspan-7">
+        <section aria-labelledby="t401-chart" className="card dspan-12">
           <h2 id="t401-chart">{t('Évolution du capital')}</h2>
           <StackedAreaChart years={years} real={real ? realSeries : undefined}
             label={t('Capital simulé sur {n} ans : {d} de versements et {i} d’intérêts', { n: ys, d: eur(last.deposited, 0), i: eur(last.value - last.deposited, 0) })} />

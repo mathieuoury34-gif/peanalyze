@@ -1,7 +1,7 @@
 // État de l'application : données persistées localement (+ synchronisation cloud optionnelle)
 import { useSyncExternalStore } from 'react';
 import type { AppData } from '../domain/types';
-import { buildSeed, builtinCatalog, DATA_VERSION, defaultSettings, fillCompositions } from './seed';
+import { emptySeed, builtinCatalog, DATA_VERSION, defaultSettings, fillCompositions } from './seed';
 
 const KEY = 'peanalyze:data';
 type Listener = () => void;
@@ -20,7 +20,7 @@ function load(): AppData {
       }
     }
   } catch { /* stockage indisponible : on repart des données d'origine */ }
-  return buildSeed();
+  return emptySeed();
 }
 
 let data: AppData = load();

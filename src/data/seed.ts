@@ -107,3 +107,12 @@ export function buildSeed(json: any = seedJson): AppData {
     settings: defaultSettings(),
   };
 }
+
+/** Données initiales de l'application : neutres (aucun ETF suivi, aucune stratégie) tant qu'aucun classeur n'est chargé. */
+export function emptySeed(): AppData {
+  const d = buildSeed();
+  d.etfs = [];
+  d.myEtfIds = [];
+  d.targetAllocation = {};
+  return d;
+}

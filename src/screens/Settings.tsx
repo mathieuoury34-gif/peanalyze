@@ -8,7 +8,7 @@ import { dateFr, dateTimeFr, eur, num, parseDateFr, parseNum, toInput, NBSP } fr
 import { getData, replaceData, setPrefs, update } from '../data/store';
 import { refreshPrices, testSource } from '../data/prices';
 import { signIn, signOut, syncNow, useSync } from '../data/sync';
-import { buildSeed } from '../data/seed';
+import { emptySeed } from '../data/seed';
 import type { AppData, PriceRefresh } from '../domain/types';
 import { MAX_ETFS } from '../data/prices';
 import { lang, setLang, t } from '../i18n';
@@ -276,7 +276,7 @@ export function SettingsScreen() {
               : (
                 <div className="row wrap">
                   <span className="t-caption-strong c-critical grow">{t('Tous les virements et achats seront effacés. Confirmer ?')}</span>
-                  <button type="button" className="btn btn-danger" onClick={() => { const prev = getData(); replaceData({ ...buildSeed(), updatedAt: new Date().toISOString() }); setReset(false); showToast(t('Données réinitialisées'), { undo: () => replaceData(prev) }); }}>{t('Réinitialiser')}</button>
+                  <button type="button" className="btn btn-danger" onClick={() => { const prev = getData(); replaceData({ ...emptySeed(), updatedAt: new Date().toISOString() }); setReset(false); showToast(t('Données réinitialisées'), { undo: () => replaceData(prev) }); }}>{t('Réinitialiser')}</button>
                   <button type="button" className="btn btn-secondary" onClick={() => setReset(false)}>{t('Annuler')}</button>
                 </div>
               )}

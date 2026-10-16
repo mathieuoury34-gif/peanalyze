@@ -25,7 +25,7 @@ interface PricesFile { updatedAt: string; tickers?: string[]; skipped?: string[]
 
 async function fromServer(etfs: Etf[]): Promise<Quote[]> {
   const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 15000);
+  const timer = setTimeout(() => ctrl.abort(), 15000);
   try {
     const r = await fetch(new URL('prices.json', document.baseURI).href + '?t=' + Date.now(), { cache: 'no-store', signal: ctrl.signal });
     if (!r.ok) throw new Error(t('Fichier des cours introuvable ({s})', { s: r.status }));
@@ -38,7 +38,7 @@ async function fromServer(etfs: Etf[]): Promise<Quote[]> {
     }
     if (!out.length) throw new Error(t('Aucun cours disponible pour vos ETF'));
     return out;
-  } finally { clearTimeout(t); }
+  } finally { clearTimeout(timer); }
 }
 
 /** CSV publié depuis Google Sheets : « ticker;cours;date » ou « ticker,cours,date » (en-tête facultatif). */
@@ -108,6 +108,7 @@ export async function refreshPrices(opts: { force?: boolean; silent?: boolean } 
   }
   const held = new Set(d.transactions.map((t) => t.etfId));
   const etfs = d.etfs.filter((e) => d.myEtfIds.includes(e.id) || held.has(e.id));
+  if (!etfs.length) return false; // rien à actualiser : l'app reste neutre
   setStatus({ loading: true });
   try {
     const quotes = d.settings.priceProvider === 'csv' ? await fromCsv(etfs, d.settings.csvUrl) : await fromServer(etfs);

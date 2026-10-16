@@ -14,4 +14,9 @@ startAutoRefresh();
 // Application hors ligne (service worker) – uniquement en production (https)
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => undefined));
+  // nouvelle version installée : on recharge une fois pour l'appliquer tout de suite (sans attendre la prochaine ouverture)
+  if (navigator.serviceWorker.controller) {
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded) return; reloaded = true; location.reload(); });
+  }
 }

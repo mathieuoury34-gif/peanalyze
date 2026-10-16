@@ -503,7 +503,7 @@ export function ManageEtfsScreen() {
         <ul className="tile-list" style={{ padding: '0 var(--space-12)' }}>
           {list.map((e, i) => (
             <Fragment key={e.id}>
-            <li className="list-row" style={{ gridTemplateColumns: '12px 1fr auto', minHeight: 64, borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
+            <li className="list-row" style={{ gridTemplateColumns: '22px 1fr auto', columnGap: 'var(--space-12)', minHeight: 64, borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
               <button type="button" aria-expanded={pick === e.id} aria-label={t('Couleur de {i}', { i: e.id })} onClick={() => setPick(pick === e.id ? null : e.id)}
                 style={{ width: 22, height: 22, borderRadius: 'var(--radius-full)', border: '2px solid var(--surface-card, #fff)', boxShadow: '0 0 0 1px var(--divider-minimal)', background: `var(--etf-${e.id}, var(--chart-other))`, cursor: 'pointer', padding: 0 }} />
               <span className="stack" style={{ minWidth: 0 }}>

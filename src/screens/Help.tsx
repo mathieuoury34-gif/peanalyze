@@ -196,8 +196,8 @@ const FAQ: Cat[] = [
         id: 'mes-etf', tags: 'mes etf liste gérer ajouter retirer ordre suivre my etfs list manage',
         q: { fr: 'Comment gérer la liste « Mes ETF » ?', en: 'How do I manage the “My ETFs” list?' },
         a: {
-          fr: ['Marchés › Mes ETF › « Gérer ma liste » (aussi depuis Portefeuille › Gérer mes ETF suivis, ou Paramètres). Vous pouvez changer l’ordre, retirer un ETF ou en ajouter depuis le catalogue (bouton ⊕).', 'Un ETF détenu reste dans votre portefeuille même s’il est retiré de la liste.'],
-          en: ['Markets › My ETFs › “Manage my list” (also from Portfolio › Manage my tracked ETFs, or Settings). You can change the order, remove an ETF or add one from the catalogue (⊕ button).', 'An ETF you hold stays in your portfolio even if it is removed from the list.'],
+          fr: ['Marchés › Mes ETF › « Gérer ma liste » (aussi depuis Portefeuille › Gérer mes ETF suivis, ou Paramètres). Vous pouvez changer l’ordre, retirer un ETF ou en ajouter depuis le catalogue (bouton ⊕).', 'Touchez la pastille de couleur d’un ETF pour en choisir une autre dans la palette : la couleur est attachée à l’ETF et le suit quand vous le déplacez ; un nouvel ETF reçoit la première couleur libre. L’ordre de la liste est aussi celui des graphiques (Réel et cible, etc.).', 'Un ETF détenu reste dans votre portefeuille même s’il est retiré de la liste.'],
+          en: ['Markets › My ETFs › “Manage my list” (also from Portfolio › Manage my tracked ETFs, or Settings). You can change the order, remove an ETF or add one from the catalogue (⊕ button).', 'Tap an ETF’s colour dot to pick another colour from the palette: the colour belongs to the ETF and follows it when you move it; a new ETF gets the first free colour. The list order is also the order used in the charts (Actual and target, etc.).', 'An ETF you hold stays in your portfolio even if it is removed from the list.'],
         },
       },
       {

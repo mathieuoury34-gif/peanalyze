@@ -498,6 +498,7 @@ export function ManageEtfsScreen() {
     <div className="screen">
       <SubHeader title={t('Mes ETF')} fallback="/marches" />
       <main className="content gap-12 form-narrow">
+        <p className="t-caption c-neutral row" style={{ gap: 'var(--space-6)', alignItems: 'flex-start' }}><Icon name="info" size={16} /><span>{t('Touchez la pastille d’un ETF pour changer sa couleur. Elle le suit quand vous le déplacez ; un nouvel ETF reçoit la première couleur libre. Cet ordre est aussi celui des graphiques.')}</span></p>
         <p className="t-caption c-neutral">{t('Ordre d’affichage dans l’onglet Marchés. Un ETF détenu reste dans le portefeuille même s’il est retiré de cette liste.')}</p>
         <p className="t-caption c-neutral">{t('{n} / {m} ETF suivis par le robot des cours ({f} par jour). Un ETF retiré n’est plus actualisé.', { n: new Set([...data.myEtfIds, ...held]).size, m: MAX_ETFS[data.settings.priceFreq === 1 ? 1 : 2], f: data.settings.priceFreq === 1 ? t('1 actualisation') : t('2 actualisations') })}</p>
         <ul className="tile-list" style={{ padding: '0 var(--space-12)' }}>

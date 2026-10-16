@@ -463,4 +463,5 @@ export const EN: Record<string, string> = {
   "Couleur de {i}": "Colour of {i}",
   "Palette de couleurs": "Colour palette",
   "Couleur par défaut": "Default colour",
+  "Touchez la pastille d’un ETF pour changer sa couleur. Elle le suit quand vous le déplacez ; un nouvel ETF reçoit la première couleur libre. Cet ordre est aussi celui des graphiques.": "Tap an ETF’s dot to change its colour. It follows the ETF when you move it; a new ETF gets the first free colour. This order is also used in the charts.",
 };

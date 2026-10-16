@@ -313,11 +313,7 @@ export function LoginScreen({ onSkip }: { onSkip: () => void }) {
 }
 
 export function LoadingScreen() {
-  // même écran de lancement que dans index.html : la transition est continue
-  return (
-    <div className="splash" role="status" aria-label={t('Chargement du portefeuille')}>
-      <div className="mark"><svg width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7 13.5 15.5 8.5 10.5 2 17" /><path d="M16 7h6v6" /></svg></div>
-    </div>
-  );
+  // le logo animé de index.html reste affiché par-dessus tant que l'application n'est pas prête (voir splash.ts)
+  return <div className="screen" aria-busy="true" aria-label={t('Chargement du portefeuille')} />;
 }
 

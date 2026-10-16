@@ -59,7 +59,7 @@ export function SimulatorScreen() {
           </label>
           <label className="stack" style={{ gap: 'var(--space-2)' }}>
             <span className="between"><span className="t-label">{t("Taux d'intérêt annuel")}</span><span className="t-amount-m c-primary">{pct(sim.annualRate, Math.round(sim.annualRate * 1000) % 10 ? 1 : 0)}</span></span>
-            <input className="range" type="range" min={0} max={15} step={0.5} value={Math.round(sim.annualRate * 1000) / 10} onChange={(e) => set({ annualRate: Number(e.target.value) / 100 })} data-component="Slider" />
+            <input className="range" type="range" min={0} max={15} step={0.1} value={Math.round(sim.annualRate * 1000) / 10} onChange={(e) => set({ annualRate: Number(e.target.value) / 100 })} data-component="Slider" />
             <span className="between t-legal c-moderate"><span>{pct(0, 0)}</span><span>{pct(0.15, 0)}</span></span>
           </label>
         </section>

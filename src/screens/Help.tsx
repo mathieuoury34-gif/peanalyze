@@ -154,8 +154,8 @@ const FAQ: Cat[] = [
         id: 'cible', tags: 'allocation cible stratégie pourcentage hors stratégie cac 40 msci world target strategy off',
         q: { fr: 'Comment régler mon allocation cible ? Pourquoi « hors stratégie » ?', en: 'How do I set my target allocation? What does “outside strategy” mean?' },
         a: {
-          fr: ['Portefeuille › Modifier mon allocation cible. Faites glisser le curseur de chaque ETF (par pas de 5 %) ; le total doit faire 100 % pour pouvoir valider.', 'Un ETF à 0 % est « hors stratégie » : vous le gardez dans le portefeuille, mais vous n’en rachetez plus. Pour le remettre dans la stratégie, faites simplement glisser son curseur (l’interrupteur « Dans ma stratégie » s’active tout seul).', 'Seuls les ETF de « Mes ETF » ou déjà détenus apparaissent dans cette liste.'],
-          en: ['Portfolio › Edit my target allocation. Drag each ETF’s slider (in 5% steps); the total must be 100% to confirm.', 'An ETF at 0% is “outside strategy”: you keep it in the portfolio but no longer buy it. To bring it back into the strategy, just drag its slider (the “In my strategy” switch turns on by itself).', 'Only ETFs in “My ETFs” or already held appear in this list.'],
+          fr: ['Portefeuille › Modifier mon allocation cible. Faites glisser le curseur de chaque ETF (par pas de 1 %) ; le total doit faire 100 % pour pouvoir valider.', 'Un ETF à 0 % est « hors stratégie » : vous le gardez dans le portefeuille, mais vous n’en rachetez plus. Pour le remettre dans la stratégie, faites simplement glisser son curseur (l’interrupteur « Dans ma stratégie » s’active tout seul).', 'Seuls les ETF de « Mes ETF » ou déjà détenus apparaissent dans cette liste.'],
+          en: ['Portfolio › Edit my target allocation. Drag each ETF’s slider (in 1% steps); the total must be 100% to confirm.', 'An ETF at 0% is “outside strategy”: you keep it in the portfolio but no longer buy it. To bring it back into the strategy, just drag its slider (the “In my strategy” switch turns on by itself).', 'Only ETFs in “My ETFs” or already held appear in this list.'],
         },
       },
     ],

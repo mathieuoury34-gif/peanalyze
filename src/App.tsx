@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useEtfColors } from './etfColors';
+import { hideSplash } from './splash';
 import { HOME, navigate, useRoute } from './ui/router';
 import { TabBar, ToastHost } from './ui/kit';
 import { PortfolioScreen, RepartitionsScreen } from './screens/Portfolio';
@@ -53,7 +54,9 @@ export function App() {
     if (!['portefeuille', 'marches', 'historique', 'simulateur', 'parametres'].includes(route.parts[0])) navigate(HOME, { replace: true });
   }, [route.parts]);
 
-  if (sync.configured && !sync.ready) return <LoadingScreen />;
+  const booting = sync.configured && !sync.ready;
+  useEffect(() => { if (!booting) hideSplash(); }, [booting]);
+  if (booting) return <LoadingScreen />;
   if (needsLogin()) return <LoginScreen onSkip={() => force((x) => x + 1)} />;
 
   return (

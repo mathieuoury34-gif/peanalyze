@@ -194,7 +194,7 @@ export function TargetSheet() {
                 <span className="grow t-strong">{tl(e.index)} <span className="t-caption c-moderate">· {e.id}</span></span>
                 <span className="t-amount-m right" style={{ minWidth: 52, color: on ? 'var(--text)' : 'var(--text-moderate)' }}>{on ? vals[e.id] : 0}{NBSP}%</span>
               </span>
-              <input className="range" type="range" min={0} max={100} step={5} value={on ? vals[e.id] : 0}
+              <input className="range" type="range" min={0} max={100} step={1} value={on ? vals[e.id] : 0}
                 aria-label={t('Cible {i}', { i: e.index })} data-component="Slider"
                 onChange={(ev) => { const v = Number(ev.target.value); setVals({ ...vals, [e.id]: v }); setInStrat({ ...inStrat, [e.id]: v > 0 }); }} />
               <span className="between">

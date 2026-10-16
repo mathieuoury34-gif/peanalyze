@@ -3,6 +3,7 @@
 // tout le reste est en formules, pour que le fichier reste vivant dans Excel.
 import type { AppData, Etf } from '../domain/types';
 import { computePositions, exposure, MAX_HORIZON, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
+import { etfHexes } from '../etfColors';
 import { Workbook, colName as L, type Sheet, type Style, type Value } from './xlsx';
 
 // ------------------------------------------------------------------ charte (tokens.css)
@@ -10,9 +11,9 @@ const PRIMARY = '007461', PETROL = '004652', TEXT = '19212D', NEUTRAL = '465266'
 const BG = 'F6F7F9', DIV = 'EDEEF1', DIVIDER = 'AEB2C0';
 const SUCCESS = '137128', SUCCESS_BG = 'EAF5EB', CRIT = 'AE0014', CRIT_BG = 'FFEDEB';
 const TINT = 'E6F1EF', INPUT = '1F3FBF', SUB = 'D5E3E1';
-const ETF_COLORS: Record<string, string> = { ESE: '007461', PUST: '0A94A8', PAEEM: 'F8D10A', ETZ: '004652', CACC: 'A0D7A2', WPEA: '5159EA' };
 const EXTRA = ['1BCB99', 'BAE3EC', 'C85207', '8E6C8A', 'BCC0CD', '0A94A8', 'F8D10A', '5159EA'];
-const LIGHT = new Set(['F8D10A', 'A0D7A2', 'BAE3EC', 'BCC0CD', '1BCB99']);
+const isLight = (hex: string) => { const n = parseInt(hex, 16); return 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255) > 150; };
+const LIGHT = { has: isLight };
 
 const EUR = '#,##0.00 "€"', EUR0 = '#,##0 "€"', EUR_S = '+#,##0.00 "€";-#,##0.00 "€";0.00 "€"', PRICE = '#,##0.00## "€"';
 const PCT1 = '0.0%', PCT2 = '0.00%', PCT_S = '+0.0%;-0.0%;0.0%', PTS = '+0.0" pts";-0.0" pts";0.0" pts"';
@@ -69,8 +70,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
   for (const id of held) if (!ids.includes(id) && data.etfs.some((e) => e.id === id)) ids.push(id);
   const etfs: Etf[] = ids.map((id) => data.etfs.find((e) => e.id === id)!);
   const tickers = etfs.map((e) => e.id);
-  const colors: Record<string, string> = {};
-  tickers.forEach((t, i) => { colors[t] = ETF_COLORS[t] || EXTRA[i % EXTRA.length]; });
+  const colors: Record<string, string> = etfHexes({ ...data, myEtfIds: ids });
   const deps = sorted(data.deposits);
   const txs = sorted(data.transactions);
   const positions = computePositions(data);
@@ -125,7 +125,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
 
     // ================================================================ Mes ETF
     const mw = me.ws;
-    me.header(4, 1, ['Ticker', 'Indice', 'Nom', 'ISIN', 'Catégorie', 'Dans la stratégie', 'Allocation cible', 'Frais (TER)', 'Encours', 'Réplication', 'Distribution', 'Dernier cours', 'Date du cours', 'Perf. depuis le début']);
+    me.header(4, 1, ['Ticker', 'Indice', 'Nom', 'ISIN', 'Catégorie', 'Dans la stratégie', 'Allocation cible', 'Frais (TER)', 'Encours', 'Réplication', 'Distribution', 'Dernier cours', 'Date du cours', 'Perf. depuis le début', 'Couleur']);
     const lastCol = L(1 + Math.max(nC, 1));
     etfs.forEach((e, i) => {
       const r = 5 + i;
@@ -146,15 +146,20 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       me.put(r, 12, f(`INDEX(${rng},MATCH(9.99E+307,INDEX(${rng},0,${colm})),${colm})`), { fmt: PRICE, b: true });
       me.put(r, 13, f(`INDEX(Cours!$A$4:$A$5000,MATCH(9.99E+307,INDEX(${rng},0,${colm})))`), { fmt: DATE });
       me.put(r, 14, f(`L${r}/INDEX(${rng},MATCH(TRUE,INDEX(INDEX(${rng},0,${colm})<>"",0),0),${colm})-1`), { fmt: PCT_S });
+      me.put(r, 15, colors[t], { inp: true, h: 'center' });
     });
-    const rt = 5 + etfs.length;
-    if (etfs.length) {
-      mw.validation(`F5:F${rt - 1}`, '"Oui,Non"');
-      me.put(rt, 6, 'Total cible', { b: true, h: 'right', border: false });
-      me.put(rt, 7, f(`SUM(G5:G${rt - 1})`), { fmt: PCT1, b: true, h: 'center', border: false });
-      me.put(rt, 8, f(`IF(ROUND(G${rt},4)=1,"✓ 100 %","⚠ doit faire 100 %")`), { color: MODERATE, border: false });
+    // lignes libres : le ticker se choisit dans la liste déroulante du catalogue (aucune faute de frappe possible)
+    const rt = E_LAST + 1;
+    for (let r = 5 + etfs.length; r <= E_LAST; r++) {
+      for (let c = 1; c <= 15; c++) me.put(r, c, null, { inp: true, h: c === 1 || c === 6 || c === 7 || c === 15 ? 'center' : undefined, fmt: c === 7 ? PCT1 : undefined });
     }
-    me.widths({ A: 9, B: 16, C: 44, D: 15, E: 30, F: 11, G: 11, H: 9, I: 11, J: 12, K: 13, L: 12, M: 12, N: 12 });
+    mw.validation(`A5:A${E_LAST}`, `Catalogue!$D$5:$D$${4 + Math.max(data.catalog.length, 1)}`);
+    mw.validation(`F5:F${E_LAST}`, '"Oui,Non"');
+    me.put(rt, 6, 'Total cible', { b: true, h: 'right', border: false });
+    me.put(rt, 7, f(`SUM(G5:G${E_LAST})`), { fmt: PCT1, b: true, h: 'center', border: false });
+    me.put(rt, 8, f(`IF(ROUND(G${rt},4)=1,"✓ 100 %","⚠ doit faire 100 %")`), { color: MODERATE, border: false });
+    me.put(rt + 1, 1, "Choisissez chaque ETF dans la liste déroulante de la colonne A (catalogue de l'application) : l'ordre des lignes donne la couleur par défaut dans les graphiques ; la colonne O (code couleur hexadécimal) permet d'en choisir une autre.", { sz: 8, color: MODERATE, border: false });
+    me.widths({ A: 9, B: 16, C: 44, D: 15, E: 30, F: 11, G: 11, H: 9, I: 11, J: 12, K: 13, L: 12, M: 12, N: 12, O: 9 });
     mw.freeze = 'B5';
     wb.define('E_Ticker', `'Mes ETF'!$A$5:$A$${E_LAST}`);
     wb.define('E_Indice', `'Mes ETF'!$B$5:$B$${E_LAST}`);
@@ -163,7 +168,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     wb.define('E_Cours', `'Mes ETF'!$L$5:$L$${E_LAST}`);
     if (dates.length && nC) {
       mw.chart({
-        kind: 'line', title: 'Performance des ETF (base 100 au début de l’historique)', at: [rt + 3, 2], size: [26, 9], legend: 'b',
+        kind: 'line', title: 'Performance des ETF (base 100 au début de l’historique)', at: [rt + 4, 2], size: [26, 9], legend: 'b',
         catFmt: 'mmm yy', valFmt: '0', tickSkip: 42,
         series: tickers.map((t, j) => ({ nameRef: `Cours!$${L(base + j)}$3`, cat: `Cours!$${L(base - 1)}$4:$${L(base - 1)}$${last}`, val: `Cours!$${L(base + j)}$4:$${L(base + j)}$${last}`, color: colors[t], line: { w: 15000 } })),
       });

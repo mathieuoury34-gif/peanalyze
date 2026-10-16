@@ -3,6 +3,7 @@
 import JSZip from 'jszip';
 import type { AppData, Deposit, Etf, Transaction } from '../domain/types';
 import { t } from '../i18n';
+import { defaultHex } from '../etfColors';
 
 // libellés « Indice » utilisés dans l'Excel d'origine pour les ETF suivis
 const EXCEL_LABEL: Record<string, string> = {
@@ -118,20 +119,49 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
   next.transactions = transactions;
   next.settings.cashBalance = null;
 
-  // stratégie et allocation cible (Mes ETF)
+  // Mes ETF : liste, ordre, stratégie, allocation cible et couleurs lus dans le classeur
   try {
     const me = await L.sheet('Mes ETF');
+    const listed: string[] = [];
+    const colors: Record<string, string> = {};
+    const targets: Record<string, number> = {};
+    const strat: Record<string, boolean> = {};
     for (let r = 5; r < 60; r++) {
-      const tk = me.get('A' + r);
-      if (typeof tk !== 'string' || !tk.trim()) break;
-      const e = next.etfs.find((x) => x.id === tk.trim());
-      if (!e) continue;
-      const inS = String(me.get('F' + r) || '').trim().toLowerCase() === 'oui';
+      const raw = me.get('A' + r);
+      if (typeof raw !== 'string' || !raw.trim()) { if (r > 30) break; continue; }
+      const tk = raw.trim().toUpperCase();
+      let e = next.etfs.find((x) => x.id === tk);
+      if (!e) {
+        const c = next.catalog.find((x) => x.ticker === tk);
+        if (!c) throw new Error(t('ETF « {t} » inconnu', { t: tk }));
+        e = { id: tk, index: c.index, name: c.name, isin: c.isin, ticker: tk, exchange: c.exchange, category: c.category, peaEligible: c.peaEligible,
+          lastPrice: c.unitPrice ?? 0, ter: c.ter, aumMEur: c.aumMEur ?? 0, replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant',
+          inStrategy: false, sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []), priceHistory: [] };
+        next.etfs.push(e);
+      }
+      if (listed.includes(tk)) continue;
+      listed.push(tk);
       const g = num(me.get('G' + r));
-      e.inStrategy = inS && isFinite(g) && g > 0;
-      next.targetAllocation[e.id] = e.inStrategy ? g : 0;
+      strat[tk] = String(me.get('F' + r) || '').trim().toLowerCase() === 'oui' && isFinite(g) && g > 0;
+      targets[tk] = strat[tk] ? g : 0;
+      const col = String(me.get('O' + r) ?? '').trim().replace(/^#/, '');
+      if (/^[0-9a-fA-F]{6}$/.test(col)) colors[tk] = col.toUpperCase();
     }
-  } catch { /* onglet absent : on garde la stratégie de l'app */ }
+    if (listed.length) {
+      // la liste de l'ami remplace la vôtre ; les ETF détenus absents de la feuille restent suivis à la suite
+      const held = [...new Set(transactions.map((x) => x.etfId))].filter((x) => !listed.includes(x));
+      next.myEtfIds = [...listed, ...held];
+      for (const e of next.etfs) { e.inStrategy = !!strat[e.id]; }
+      next.targetAllocation = targets;
+      next.etfs = next.etfs.filter((e) => next.myEtfIds.includes(e.id));
+      // couleurs : on ne garde que celles qui diffèrent de la couleur par défaut de la ligne
+      const custom: Record<string, string> = {};
+      next.myEtfIds.forEach((id, i) => { if (colors[id] && colors[id] !== defaultHex(i)) custom[id] = colors[id]; });
+      next.settings.etfColors = custom;
+    }
+  } catch (err) {
+    if (err instanceof Error && !/manquante/.test(err.message)) throw err; // onglet absent : on garde la stratégie de l'app
+  }
 
   // simulateur
   try {

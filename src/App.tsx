@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useEtfColors } from './etfColors';
 import { HOME, navigate, useRoute } from './ui/router';
 import { TabBar, ToastHost } from './ui/kit';
 import { PortfolioScreen, RepartitionsScreen } from './screens/Portfolio';
@@ -42,6 +43,7 @@ function Screen() {
 
 export function App() {
   const route = useRoute();
+  useEtfColors();
   const sync = useSync();
   const [, force] = useState(0);
   const sheet = route.query.get('sheet');

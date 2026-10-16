@@ -95,6 +95,7 @@ export interface Settings {
   lastPriceUpdate: string; // ISO date-heure ou ''
   cashBalance: number | null; // null = calculé
   feePerOrder: number;
+  etfColors?: Record<string, string>; // couleur choisie par ETF (hex sans #) ; sinon défaut selon l'ordre de Mes ETF
 }
 
 export interface AppData {

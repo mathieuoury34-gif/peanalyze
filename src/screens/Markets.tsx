@@ -1,5 +1,6 @@
 // Onglet Marchés : T1-01 Mes ETF, T1-02 Détail, T1-03 Catalogue, T1-04 Comparateur, gestion de la liste
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
+import { etfHexes, PALETTE } from '../etfColors';
 import { AppHeader, EtfDot, PriceErrorBanner, Sheet, SubHeader, SubNav, VarChip, showToast } from '../ui/kit';
 import { Donut, HBarList, PriceChart, Sparkline } from '../ui/charts';
 import { CheckFilled, Icon } from '../ui/icons';
@@ -476,6 +477,13 @@ export function ManageEtfsScreen() {
   const { data } = useCalc();
   const list = data.myEtfIds.map((id) => data.etfs.find((e) => e.id === id)).filter(Boolean) as Etf[];
   const held = new Set(data.transactions.map((t) => t.etfId));
+  const [pick, setPick] = useState<string | null>(null);
+  const hexes = etfHexes(data);
+  const setColor = (id: string, hex: string | null) => update((d) => {
+    const m = { ...(d.settings.etfColors || {}) };
+    if (hex) m[id] = hex; else delete m[id];
+    d.settings.etfColors = m;
+  });
   const move = (i: number, k: number) => update((d) => {
     const a = d.myEtfIds; const j = i + k;
     if (j < 0 || j >= a.length) return;
@@ -494,8 +502,10 @@ export function ManageEtfsScreen() {
         <p className="t-caption c-neutral">{t('{n} / {m} ETF suivis par le robot des cours ({f} par jour). Un ETF retiré n’est plus actualisé.', { n: new Set([...data.myEtfIds, ...held]).size, m: MAX_ETFS[data.settings.priceFreq === 1 ? 1 : 2], f: data.settings.priceFreq === 1 ? t('1 actualisation') : t('2 actualisations') })}</p>
         <ul className="tile-list" style={{ padding: '0 var(--space-12)' }}>
           {list.map((e, i) => (
-            <li key={e.id} className="list-row" style={{ gridTemplateColumns: '12px 1fr auto', minHeight: 64, borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
-              <EtfDot id={e.id} />
+            <Fragment key={e.id}>
+            <li className="list-row" style={{ gridTemplateColumns: '12px 1fr auto', minHeight: 64, borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
+              <button type="button" aria-expanded={pick === e.id} aria-label={t('Couleur de {i}', { i: e.id })} onClick={() => setPick(pick === e.id ? null : e.id)}
+                style={{ width: 22, height: 22, borderRadius: 'var(--radius-full)', border: '2px solid var(--surface-card, #fff)', boxShadow: '0 0 0 1px var(--divider-minimal)', background: `var(--etf-${e.id}, var(--chart-other))`, cursor: 'pointer', padding: 0 }} />
               <span className="stack" style={{ minWidth: 0 }}>
                 <span className="t-strong">{tl(normalizeLabel(e.index))}</span>
                 <span className="t-caption c-moderate">{e.id}{held.has(e.id) ? ' · ' + t('détenu') : ''}</span>
@@ -506,6 +516,18 @@ export function ManageEtfsScreen() {
                 <button type="button" className="icon-btn" style={{ color: 'var(--critical-text)' }} aria-label={t('Retirer {i}', { i: e.index })} onClick={() => remove(e.id)}><Icon name="trash" size={20} /></button>
               </span>
             </li>
+            {pick === e.id && (
+              <li style={{ padding: 'var(--space-8) 0', gridColumn: '1 / -1' }}>
+                <div role="group" aria-label={t('Palette de couleurs')} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(34px, 1fr))', gap: 'var(--space-6)' }}>
+                  {PALETTE.map((h) => (
+                    <button key={h} type="button" aria-label={'#' + h} aria-pressed={hexes[e.id] === h} onClick={() => { setColor(e.id, h); setPick(null); }}
+                      style={{ height: 34, borderRadius: 'var(--radius-full)', background: '#' + h, border: hexes[e.id] === h ? '3px solid var(--text-primary, #19212D)' : '1px solid var(--divider-minimal)', cursor: 'pointer', padding: 0 }} />
+                  ))}
+                </div>
+                {data.settings.etfColors?.[e.id] && <button type="button" className="btn btn-tertiary" onClick={() => { setColor(e.id, null); setPick(null); }}>{t('Couleur par défaut')}</button>}
+              </li>
+            )}
+            </Fragment>
           ))}
         </ul>
         <button type="button" className="btn btn-secondary block" onClick={() => navigate('/marches/catalogue')}><Icon name="plus" size={20} />{t('Ajouter depuis le catalogue')}</button>

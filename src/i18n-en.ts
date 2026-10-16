@@ -460,4 +460,7 @@ export const EN: Record<string, string> = {
   "À quoi sert le simulateur ?": "What is the simulator for?",
   "Il estime ce que pourrait devenir votre épargne si vous investissez régulièrement : choisissez un capital de départ, un rendement annuel moyen et vos versements mensuels. C’est une projection théorique, indépendante de votre portefeuille réel (sauf si vous activez « Comparer à ma progression réelle »).": "It estimates what your savings could become if you invest regularly: choose a starting capital, an average annual return and your monthly contributions. It is a theoretical projection, independent of your real portfolio (unless you turn on “Compare with my actual progress”).",
   "La bourse ne monte pas de façon régulière : le résultat est une tendance, pas une promesse. Frais et impôts ne sont pas déduits.": "The stock market does not rise steadily: the result is a trend, not a promise. Fees and taxes are not deducted.",
+  "Couleur de {i}": "Colour of {i}",
+  "Palette de couleurs": "Colour palette",
+  "Couleur par défaut": "Default colour",
 };

@@ -48,3 +48,19 @@ test('import du fichier d’origine', { skip: existsSync(ORIG) ? false : 'fichie
   assert.equal(back.transactions.length, 30);
   assert.equal(back.simulation.initialCapital, 3000);
 });
+
+test('import : la liste Mes ETF, la cible et les couleurs viennent du classeur', async () => {
+  const d = sample();
+  d.myEtfIds = ['PUST', 'ESE'];
+  d.settings.etfColors = { ESE: 'AE0014' };
+  const buf = await buildPeanalyzeWorkbook(d, CATALOG_DATE).zip().generateAsync({ type: 'uint8array' });
+  // l'importeur a une autre liste et une autre cible
+  const mine = buildSeed();
+  mine.myEtfIds = ['WPEA', 'ETZ'];
+  mine.targetAllocation = { WPEA: 1 };
+  const back = await parseWorkbook(buf, mine);
+  assert.deepEqual(back.myEtfIds, ['PUST', 'ESE']);
+  assert.equal(back.targetAllocation.WPEA || 0, 0);
+  assert.deepEqual(back.etfs.map((e) => e.id).sort(), ['ESE', 'PUST']);
+  assert.deepEqual(back.settings.etfColors, { ESE: 'AE0014' });
+});

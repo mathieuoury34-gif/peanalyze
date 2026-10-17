@@ -1,6 +1,7 @@
 // Onglet Simulateur : T4-01 paramètres et résultat + T4-02 tableau année par année (section dépliable)
 import { useMemo, useState } from 'react';
-import { AppHeader, Switch } from '../ui/kit';
+import { AppHeader, PriceErrorBanner, SubNav, Switch } from '../ui/kit';
+import { SIM_NAV } from './PlanParts';
 import { StackedAreaChart } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { useCalc } from '../ui/useCalc';
@@ -38,6 +39,8 @@ export function SimulatorScreen() {
   return (
     <div className="screen" data-screen="T4-01">
       <AppHeader title={t('Simulateur')} />
+      <PriceErrorBanner />
+      <SubNav items={SIM_NAV()} label={t('Sections du simulateur')} />
       <main className="content dgrid">
         <details className="explain dspan-12" open={!data.transactions.length || undefined}>
           <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('À quoi sert le simulateur ?')}</summary>

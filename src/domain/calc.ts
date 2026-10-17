@@ -173,7 +173,7 @@ export function normalizeLabel(label: string): string {
 export interface ExposureRow { label: string; weight: number; isOther?: boolean }
 
 /** Un ETF dont la répartition vient seulement de justETF (classification TRBC) n'est pas comparable aux autres (GICS) : on ne l'additionne pas. */
-export function compositionUsable(etf: Etf): boolean {
+export function compositionUsable(etf: Pick<Etf, 'sectors' | 'countries' | 'comp'>): boolean {
   return (etf.sectors.length > 0 || etf.countries.length > 0) && etf.comp?.kind !== 'justetf';
 }
 

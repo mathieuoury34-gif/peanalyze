@@ -93,6 +93,25 @@ export interface Simulation {
   dcaPhases: DcaPhase[];
 }
 
+/** Vente envisagée dans un plan : tout l'ETF, un nombre de parts ou une fraction des parts. */
+export interface PlanSell {
+  etfId: string;
+  kind: 'all' | 'qty' | 'pct';
+  value: number; // parts (qty) ou fraction 0–1 (pct) ; ignoré pour « all »
+}
+
+/** Scénario « et si… » : ventes, versement, retrait et stratégie visée. Ne modifie jamais le portefeuille réel. */
+export interface Plan {
+  id: string;
+  name: string;
+  createdAt: string; // ISO date-heure
+  sells: PlanSell[];
+  deposit: number; // nouveau versement prévu (€)
+  withdraw: number; // somme que l'on retirerait du PEA (€)
+  monthly: number; // versement mensuel habituel, pour estimer la convergence sans vendre
+  targets: Record<string, number> | null; // clé ETF (identifiant ou ticker/ISIN du catalogue) → 0–1 ; null = stratégie actuelle de l'app
+}
+
 export type PriceRefresh = 'open' | 'hour' | 'manual';
 
 export interface Settings {
@@ -118,6 +137,7 @@ export interface AppData {
   transactions: Transaction[];
   targetAllocation: Record<string, number>; // 0–1
   simulation: Simulation;
+  plans?: Plan[]; // scénarios du Simulateur › Plans
   settings: Settings;
 }
 

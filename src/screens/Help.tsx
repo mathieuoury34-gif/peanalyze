@@ -246,6 +246,22 @@ const FAQ: Cat[] = [
         },
       },
       {
+        id: 'plans', tags: 'plans plan vendre vente etf scénario et si stratégie cible msci world sell scenario what if target',
+        q: { fr: 'À quoi servent les plans (vendre un ETF, changer de stratégie) ?', en: 'What are plans for (selling an ETF, changing strategy)?' },
+        a: {
+          fr: ['Un plan est un scénario « et si… » : vous choisissez ce que vous vendriez (un ETF entier, une partie des parts), un éventuel nouveau versement, et la stratégie que vous visez. L’app calcule ce que rapporteraient les ventes (frais compris), puis les achats en parts entières qui rapprochent le plus votre portefeuille de la cible.', 'Elle montre ce que ça change : écart à la cible avant / après, frais de gestion moyens (et en combien de temps les frais de courtage sont amortis), plus-value réalisée, nombre de lignes, et l’exposition par secteur et par pays avant / après. « Et sans vendre ? » estime combien de mois de versements seraient nécessaires pour y arriver sans rien vendre.', 'Les modèles de départ : vendre un ETF (la stratégie actuelle est conservée sans lui), tout regrouper dans un seul ETF (par exemple un MSCI World), investir un versement, ou un plan libre. Vous pouvez dupliquer des plans pour les comparer côte à côte.'],
+          en: ['A plan is a “what if…” scenario: you choose what you would sell (a whole ETF, part of the shares), an optional new deposit and the strategy you are aiming for. The app works out what the sales would bring (fees included), then the whole-share purchases that bring your portfolio closest to the target.', 'It shows what changes: gap to target before / after, average management fees (and how long it takes for brokerage fees to pay back), realised gain, number of positions, and exposure by sector and by country before / after. “And without selling?” estimates how many months of contributions would be needed to get there without selling anything.', 'Starter templates: sell an ETF (the current strategy is kept without it), consolidate everything into one ETF (for example a MSCI World), invest a deposit, or a blank plan. You can duplicate plans to compare them side by side.'],
+        },
+      },
+      {
+        id: 'plans-limites', tags: 'plans limites ventes journal impôt retrait frais plans limits sales journal tax withdrawal fees',
+        q: { fr: 'Que ne font pas les plans ?', en: 'What do plans not do?' },
+        a: {
+          fr: ['Un plan ne passe aucun ordre et ne modifie pas votre portefeuille : vous exécutez les ordres chez votre courtier. Le journal de l’app n’enregistre pour l’instant que les achats et les virements ; les ventes ne sont donc pas encore suivies après coup.', 'Les ventes sont comptées avec les mêmes frais par ordre que les achats, au dernier cours connu. Les ETF du catalogue que vous ne suivez pas utilisent un cours indicatif à vérifier. Vendre et réinvestir à l’intérieur du PEA n’est pas imposé ; en sortir de l’argent peut l’être (et, avant 5 ans, clôture en principe le plan) : vérifiez les règles avant tout retrait.', 'C’est un calcul, pas un conseil en investissement.'],
+          en: ['A plan places no orders and does not change your portfolio: you execute the orders with your broker. The app’s journal currently records only purchases and transfers, so sales are not yet tracked afterwards.', 'Sales are counted with the same fee per order as purchases, at the last known price. Catalogue ETFs you do not track use an indicative price to be checked. Selling and reinvesting inside the PEA is not taxed; taking money out can be (and, before 5 years, in principle closes the plan): check the rules before any withdrawal.', 'This is a calculation, not investment advice.'],
+        },
+      },
+      {
         id: 'sim-options', tags: 'phases dca euros constants inflation progression réelle horizon 50 ans',
         q: { fr: 'Phases de versement, euros constants, progression réelle', en: 'Contribution phases, constant euros, actual progress' },
         a: {

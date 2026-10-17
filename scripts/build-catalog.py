@@ -83,11 +83,11 @@ SECTOR_FR = {'Banks': 'Banques', 'Healthcare': 'Santé', 'Basic Resources': 'Res
 # ------------------------------------------------------------------ compositions (pays et secteurs)
 COMPO = ROOT / 'data-src' / 'compositions-justetf.txt'
 COMPO_DATE = '2026-08-31'
-SECTOR_MAP = {  # classification justETF -> secteurs utilisés dans l'app (GICS, en français)
-    'Technology': 'Technologies de l’information', 'Finance': 'Finance', 'Healthcare': 'Santé', 'Industrials': 'Industrie',
-    'Consumer Cyclicals': 'Consommation discrétionnaire', 'Consumer Non-Cyclicals': 'Consommation de base', 'Energy': 'Énergie',
-    'Utilities': 'Services aux collectivités', 'Non-Energy Materials': 'Matériaux', 'Telecommunication': 'Services de communication',
-    'Business Services': 'Industrie', 'Consumer Services': 'Consommation discrétionnaire', 'Real Estate': 'Immobilier', 'Other': 'Autres',
+SECTOR_MAP = {  # classification justETF (TRBC) -> libellés français fidèles ; différente du GICS des émetteurs, donc jamais mélangée avec elle
+    'Technology': 'Technologie', 'Finance': 'Finance', 'Healthcare': 'Santé', 'Industrials': 'Industrie',
+    'Consumer Cyclicals': 'Consommation cyclique', 'Consumer Non-Cyclicals': 'Consommation non cyclique', 'Energy': 'Énergie',
+    'Utilities': 'Services aux collectivités', 'Non-Energy Materials': 'Matériaux hors énergie', 'Telecommunication': 'Télécommunications',
+    'Business Services': 'Services aux entreprises', 'Consumer Services': 'Services aux consommateurs', 'Real Estate': 'Immobilier', 'Other': 'Autres',
 }
 COUNTRY_MAP = {
     'United States': 'États-Unis', 'United Kingdom': 'Royaume-Uni', 'Germany': 'Allemagne', 'Switzerland': 'Suisse', 'Netherlands': 'Pays-Bas',

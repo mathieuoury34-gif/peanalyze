@@ -3,3 +3,5 @@ dist
 *.log
 # données personnelles (jamais publiées)
 private/
+.cache/
+__pycache__/

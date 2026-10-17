@@ -61,6 +61,8 @@ const EN_LABELS: Record<string, string> = {
   'Technologies de l’information': 'Information technology', 'Finance': 'Financials', 'Services de communication': 'Communication services',
   'Consommation discrétionnaire': 'Consumer discretionary', 'Santé': 'Health care', 'Industrie': 'Industrials', 'Consommation de base': 'Consumer staples',
   'Énergie': 'Energy', 'Télécommunications': 'Telecommunications', 'Services aux collectivités': 'Utilities', 'Matériaux': 'Materials', 'Immobilier': 'Real estate', 'Autres': 'Other',
+  'Consommation cyclique': 'Consumer cyclicals', 'Consommation non cyclique': 'Consumer non-cyclicals', 'Technologie': 'Technology',
+  'Services aux entreprises': 'Business services', 'Matériaux hors énergie': 'Basic materials',
   // pays
   'États-Unis': 'United States', 'France': 'France', 'Royaume-Uni': 'United Kingdom', 'Allemagne': 'Germany', 'Suisse': 'Switzerland',
   'Pays-Bas': 'Netherlands', 'Japon': 'Japan', 'Chine': 'China', 'Taïwan': 'Taiwan', 'Inde': 'India', 'Corée du Sud': 'South Korea', 'Canada': 'Canada',

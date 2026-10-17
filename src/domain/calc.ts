@@ -172,18 +172,40 @@ export function normalizeLabel(label: string): string {
 
 export interface ExposureRow { label: string; weight: number; isOther?: boolean }
 
-/** Exposition du portefeuille : Σ_etf poids réel × poids du libellé. */
-export function exposure(data: AppData, positions: Position[], kind: 'sectors' | 'countries'): ExposureRow[] {
-  const acc = new Map<string, number>();
+/** Un ETF dont la répartition vient seulement de justETF (classification TRBC) n'est pas comparable aux autres (GICS) : on ne l'additionne pas. */
+export function compositionUsable(etf: Etf): boolean {
+  return (etf.sectors.length > 0 || etf.countries.length > 0) && etf.comp?.kind !== 'justetf';
+}
+
+/** Part du portefeuille couverte par des répartitions vérifiées, et ETF laissés de côté (indicatives ou absentes). */
+export function exposureCoverage(data: AppData, positions: Position[]): { covered: number; missing: { etfId: string; name: string; weight: number }[] } {
+  let covered = 0, total = 0;
+  const missing: { etfId: string; name: string; weight: number }[] = [];
   for (const p of positions) {
     const etf = etfById(data, p.etfId);
     if (!etf || p.weightActual <= 0) continue;
+    total += p.weightActual;
+    if (compositionUsable(etf)) covered += p.weightActual;
+    else missing.push({ etfId: etf.id, name: etf.name, weight: p.weightActual });
+  }
+  return { covered: total > 0 ? covered / total : 1, missing };
+}
+
+/** Exposition du portefeuille : Σ_etf poids réel × poids du libellé, ramenée à 100 % de la part couverte par des données vérifiées. */
+export function exposure(data: AppData, positions: Position[], kind: 'sectors' | 'countries'): ExposureRow[] {
+  const acc = new Map<string, number>();
+  let covered = 0;
+  for (const p of positions) {
+    const etf = etfById(data, p.etfId);
+    if (!etf || p.weightActual <= 0 || !compositionUsable(etf)) continue;
+    covered += p.weightActual;
     for (const it of etf[kind]) {
       const l = normalizeLabel(it.label);
       acc.set(l, (acc.get(l) || 0) + p.weightActual * it.weight);
     }
   }
-  return Array.from(acc, ([label, weight]) => ({ label, weight })).sort((a, b) => b.weight - a.weight);
+  const k = covered > 0 ? 1 / covered : 1;
+  return Array.from(acc, ([label, weight]) => ({ label, weight: weight * k })).sort((a, b) => b.weight - a.weight);
 }
 
 /** Garde les n premiers libellés (hors « Autres ») et regroupe le reste dans « Autres », placé en dernier. */

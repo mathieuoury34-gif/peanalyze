@@ -5,7 +5,7 @@ import { DoubleDonut, Donut, HBarList } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { navigate, openSheet } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
-import { exposure, topWithOthers } from '../domain/calc';
+import { exposure, exposureCoverage, topWithOthers } from '../domain/calc';
 import { eur, eurSigned, num, pct, pctSigned, pts, NBSP } from '../domain/format';
 import type { Position } from '../domain/types';
 import { WelcomeCard } from '../ui/WelcomeCard';
@@ -193,6 +193,7 @@ export function RepartitionsScreen() {
   const grey = sectorList.filter((s, i) => !(s.label !== 'Autres' && i < 8)).map((s) => tl(s.label).toLowerCase());
   const countries = topWithOthers(exposure(data, positions, 'countries'), 10).map((r) => ({ ...r, label: tl(r.label) }));
   const top = named[0];
+  const cov = exposureCoverage(data, positions);
 
   return (
     <div className="screen" data-screen="T3-04">
@@ -228,6 +229,12 @@ export function RepartitionsScreen() {
           <Icon name="info" size={18} />
           {t('Répartition calculée en pondérant la composition de chaque ETF par son poids dans le portefeuille.')}
         </p>
+        {cov.missing.length > 0 && (
+          <p className="row t-caption c-neutral form-narrow" style={{ alignItems: 'flex-start' }} data-testid="coverage-note">
+            <Icon name="info" size={18} />
+            {t('Calcul sur {p} du portefeuille : la composition de {l} n’est pas encore vérifiée (source indicative, non comparable) et n’est pas comptée.', { p: pct(cov.covered, 0), l: cov.missing.map((m) => m.name).join(', ') })}
+          </p>
+        )}
       </main>
       <Fab onClick={() => openSheet('ajouter')} />
     </div>

@@ -11,6 +11,14 @@ export interface WeightItem {
 /** Un point d'historique : [date ISO 'YYYY-MM-DD', cours de clôture] */
 export type PricePoint = [string, number];
 
+/** Origine d'une répartition sectorielle/géographique : fiche mensuelle de l'ETF, fiche d'un ETF suivant le même indice, ou justETF (indicatif). */
+export interface CompMeta {
+  kind: 'fiche' | 'indice' | 'justetf';
+  date: string; // ISO, date des données
+  from?: string; // ISIN de l'ETF dont provient la fiche
+  fromName?: string; // nom de cet ETF (kind « indice »)
+}
+
 export interface Etf {
   id: string; // = ticker (ESE, PUST…)
   index: string; // nom court de l'indice (S&P 500)
@@ -30,6 +38,7 @@ export interface Etf {
   inStrategy: boolean;
   sectors: WeightItem[];
   countries: WeightItem[];
+  comp?: CompMeta;
   priceHistory: PricePoint[];
 }
 
@@ -50,8 +59,9 @@ export interface CatalogEtf {
   distribution: Distribution | null;
   unitPrice: number | null; // cours indicatif (date : CATALOG_DATE)
   note?: string;
-  sectors?: WeightItem[]; // principaux secteurs de l'indice (justETF, date : COMPOSITION_DATE)
+  sectors?: WeightItem[]; // secteurs de l'indice (GICS, fiche mensuelle de l'émetteur)
   countries?: WeightItem[];
+  comp?: CompMeta;
 }
 
 export interface Deposit {

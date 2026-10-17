@@ -2,6 +2,7 @@
 #  - 13 h (heure de Paris) : cours des ETF suivis 2 fois par jour
 #  - après la clôture d'Euronext : cours de tous les ETF suivis
 #  - toutes les heures : historique des ETF qui viennent d'être ajoutés à « Mes ETF »
+#  - le 3 et le 10 de chaque mois : répartitions sectorielle et géographique (fiches mensuelles officielles, sans API de cours)
 # Le site n'est republié que si le code ou les cours ont changé.
 name: Publier PEAnalyze
 on:
@@ -11,10 +12,11 @@ on:
     - cron: '0 11 * * 1-5'   # midi (13 h en été, 12 h en hiver)
     - cron: '50 16 * * 1-5'  # clôture (17 h 30 à Paris)
     - cron: '17 * * * *'     # passage horaire : nouveaux ETF
+    - cron: '30 6 3,10 * *'  # fiches mensuelles des émetteurs : répartitions
   workflow_dispatch:
     inputs:
       mode:
-        description: 'midday, close ou sync'
+        description: 'midday, close, sync ou compositions'
         default: 'close'
 permissions:
   contents: write
@@ -25,7 +27,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   prices:
-    if: github.event_name != 'push'
+    if: ${{ github.event_name != 'push' && github.event.schedule != '30 6 3,10 * *' && inputs.mode != 'compositions' }}
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.robot.outputs.changed }}
@@ -48,10 +50,32 @@ jobs:
           git add public/prices.json
           git commit -m "Cours du $(date -u +%d/%m/%Y\ %H:%M) UTC"
           git push
+  compositions:
+    if: ${{ github.event.schedule == '30 6 3,10 * *' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'compositions') }}
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.robot.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pdfplumber
+      - name: Lire les nouvelles fiches mensuelles
+        id: robot
+        run: python3 scripts/update-compositions.py
+      - name: Enregistrer compositions.json
+        if: steps.robot.outputs.changed == 'true'
+        run: |
+          git config user.name "peanalyze-bot"
+          git config user.email "peanalyze-bot@users.noreply.github.com"
+          git add public/compositions.json
+          git commit -m "Répartitions du $(date -u +%d/%m/%Y)"
+          git push
   build:
-    needs: prices
-    # code envoyé (prices ignoré) ou cours modifiés ; si le robot échoue, rien n'est republié
-    if: ${{ !cancelled() && (github.event_name == 'push' || needs.prices.outputs.changed == 'true') }}
+    needs: [prices, compositions]
+    # code envoyé, cours ou répartitions modifiés ; si un robot échoue, rien n'est republié
+    if: ${{ !cancelled() && (github.event_name == 'push' || needs.prices.outputs.changed == 'true' || needs.compositions.outputs.changed == 'true') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

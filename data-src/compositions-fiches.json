@@ -1,0 +1,7725 @@
+{
+"FR0007052782": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9857
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3157
+},
+{
+"label": "Finance",
+"weight": 0.1432
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1125
+},
+{
+"label": "Énergie",
+"weight": 0.0899
+},
+{
+"label": "Consommation de base",
+"weight": 0.0854
+},
+{
+"label": "Santé",
+"weight": 0.0772
+},
+{
+"label": "Matériaux",
+"weight": 0.0747
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0335
+},
+{
+"label": "Services de communication",
+"weight": 0.0273
+},
+{
+"label": "Immobilier",
+"weight": 0.0059
+}
+],
+"title": "Amundi CAC 40 UCITS ETF Dist"
+},
+"FR0007054358": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "AMUNDI EURO STOXX 50 II UCITS ETF Acc"
+},
+"FR0010010827": {
+"countries": [
+{
+"label": "Italie",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5155
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1437
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0947
+},
+{
+"label": "Industrie",
+"weight": 0.0866
+},
+{
+"label": "Énergie",
+"weight": 0.0813
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0494
+},
+{
+"label": "Santé",
+"weight": 0.0105
+},
+{
+"label": "Services de communication",
+"weight": 0.0088
+},
+{
+"label": "Consommation de base",
+"weight": 0.0051
+},
+{
+"label": "Matériaux",
+"weight": 0.0042
+}
+],
+"title": "Amundi FTSE MIB UCITS ETF Dist"
+},
+"FR0010251744": {
+"countries": [
+{
+"label": "Espagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4442
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1972
+},
+{
+"label": "Industrie",
+"weight": 0.1254
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1233
+},
+{
+"label": "Services de communication",
+"weight": 0.0345
+},
+{
+"label": "Énergie",
+"weight": 0.0327
+},
+{
+"label": "Matériaux",
+"weight": 0.0137
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0104
+},
+{
+"label": "Immobilier",
+"weight": 0.0095
+},
+{
+"label": "Santé",
+"weight": 0.0059
+},
+{
+"label": "Consommation de base",
+"weight": 0.0031
+}
+],
+"title": "Amundi IBEX 35 UCITS ETF Dist"
+},
+"FR0010342592": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9481
+},
+{
+"label": "Irlande",
+"weight": 0.0179
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0138
+},
+{
+"label": "Canada",
+"weight": 0.0091
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0073
+},
+{
+"label": "Autres",
+"weight": 0.0039
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5965
+},
+{
+"label": "Services de communication",
+"weight": 0.1508
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1003
+},
+{
+"label": "Consommation de base",
+"weight": 0.0567
+},
+{
+"label": "Santé",
+"weight": 0.0383
+},
+{
+"label": "Industrie",
+"weight": 0.0316
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0103
+},
+{
+"label": "Matériaux",
+"weight": 0.0092
+},
+{
+"label": "Énergie",
+"weight": 0.0045
+},
+{
+"label": "Finance",
+"weight": 0.0019
+}
+],
+"title": "Amundi Nasdaq-100 Daily (2x) Leveraged UCITS ETF Acc"
+},
+"FR0010405431": {
+"countries": [
+{
+"label": "Grèce",
+"weight": 0.8873
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1127
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5443
+},
+{
+"label": "Consommation de base",
+"weight": 0.1194
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0832
+},
+{
+"label": "Énergie",
+"weight": 0.0667
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0629
+},
+{
+"label": "Industrie",
+"weight": 0.0614
+},
+{
+"label": "Services de communication",
+"weight": 0.0303
+},
+{
+"label": "Matériaux",
+"weight": 0.0275
+},
+{
+"label": "Immobilier",
+"weight": 0.0042
+}
+],
+"title": "Amundi MSCI Greece UCITS ETF Dist"
+},
+"FR0010411884": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9857
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3157
+},
+{
+"label": "Finance",
+"weight": 0.1432
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1125
+},
+{
+"label": "Énergie",
+"weight": 0.0899
+},
+{
+"label": "Consommation de base",
+"weight": 0.0854
+},
+{
+"label": "Santé",
+"weight": 0.0772
+},
+{
+"label": "Matériaux",
+"weight": 0.0747
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0335
+},
+{
+"label": "Services de communication",
+"weight": 0.0273
+},
+{
+"label": "Immobilier",
+"weight": 0.0059
+}
+],
+"title": "Amundi CAC 40 Daily (-2x) Inverse UCITS ETF Acc"
+},
+"FR0010424135": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "Amundi EURO STOXX 50 Daily (-1x) Inverse UCITS ETF Acc"
+},
+"FR0010468983": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "Amundi EURO STOXX 50 Daily (2x) Leveraged UCITS ETF Acc"
+},
+"FR0010591362": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9857
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3157
+},
+{
+"label": "Finance",
+"weight": 0.1432
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1125
+},
+{
+"label": "Énergie",
+"weight": 0.0899
+},
+{
+"label": "Consommation de base",
+"weight": 0.0854
+},
+{
+"label": "Santé",
+"weight": 0.0772
+},
+{
+"label": "Matériaux",
+"weight": 0.0747
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0335
+},
+{
+"label": "Services de communication",
+"weight": 0.0273
+},
+{
+"label": "Immobilier",
+"weight": 0.0059
+}
+],
+"title": "Amundi CAC 40 Daily (-1x) Inverse UCITS ETF Acc"
+},
+"FR0010592014": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9857
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3157
+},
+{
+"label": "Finance",
+"weight": 0.1432
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1125
+},
+{
+"label": "Énergie",
+"weight": 0.0899
+},
+{
+"label": "Consommation de base",
+"weight": 0.0854
+},
+{
+"label": "Santé",
+"weight": 0.0772
+},
+{
+"label": "Matériaux",
+"weight": 0.0747
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0335
+},
+{
+"label": "Services de communication",
+"weight": 0.0273
+},
+{
+"label": "Immobilier",
+"weight": 0.0059
+}
+],
+"title": "Amundi CAC 40 Daily (2x) Leveraged UCITS ETF Acc"
+},
+"FR0010655704": {
+"countries": [
+{
+"label": "France",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.4213
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1702
+},
+{
+"label": "Consommation de base",
+"weight": 0.1277
+},
+{
+"label": "Santé",
+"weight": 0.1154
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0586
+},
+{
+"label": "Services de communication",
+"weight": 0.0472
+},
+{
+"label": "Immobilier",
+"weight": 0.0222
+},
+{
+"label": "Finance",
+"weight": 0.0189
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0153
+},
+{
+"label": "Matériaux",
+"weight": 0.0033
+}
+],
+"title": "Amundi CAC Transition Climat UCITS ETF Acc"
+},
+"FR0010655712": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.35
+},
+{
+"label": "Finance",
+"weight": 0.2135
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1515
+},
+{
+"label": "Santé",
+"weight": 0.0657
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0578
+},
+{
+"label": "Services de communication",
+"weight": 0.0552
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0456
+},
+{
+"label": "Matériaux",
+"weight": 0.0432
+},
+{
+"label": "Consommation de base",
+"weight": 0.0103
+},
+{
+"label": "Immobilier",
+"weight": 0.0073
+}
+],
+"title": "AMUNDI ETF DAX UCITS ETF DR"
+},
+"FR0010655746": {
+"countries": [
+{
+"label": "Espagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4442
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1972
+},
+{
+"label": "Industrie",
+"weight": 0.1254
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1233
+},
+{
+"label": "Services de communication",
+"weight": 0.0345
+},
+{
+"label": "Énergie",
+"weight": 0.0327
+},
+{
+"label": "Matériaux",
+"weight": 0.0137
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0104
+},
+{
+"label": "Immobilier",
+"weight": 0.0095
+},
+{
+"label": "Santé",
+"weight": 0.0059
+},
+{
+"label": "Consommation de base",
+"weight": 0.0031
+}
+],
+"title": "Amundi IBEX 35 UCITS ETF Acc"
+},
+"FR0010717090": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2836
+},
+{
+"label": "Allemagne",
+"weight": 0.2349
+},
+{
+"label": "Italie",
+"weight": 0.1527
+},
+{
+"label": "Espagne",
+"weight": 0.1182
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0976
+},
+{
+"label": "Finlande",
+"weight": 0.0359
+},
+{
+"label": "Irlande",
+"weight": 0.0312
+},
+{
+"label": "Autriche",
+"weight": 0.0192
+},
+{
+"label": "Belgique",
+"weight": 0.0139
+},
+{
+"label": "Portugal",
+"weight": 0.0128
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4193
+},
+{
+"label": "Industrie",
+"weight": 0.15
+},
+{
+"label": "Énergie",
+"weight": 0.1026
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0967
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0714
+},
+{
+"label": "Consommation de base",
+"weight": 0.0593
+},
+{
+"label": "Services de communication",
+"weight": 0.0546
+},
+{
+"label": "Santé",
+"weight": 0.0461
+}
+],
+"title": "Amundi MSCI EMU High Dividend UCITS ETF Acc"
+},
+"FR0010755611": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3917
+},
+{
+"label": "Finance",
+"weight": 0.1131
+},
+{
+"label": "Services de communication",
+"weight": 0.1005
+},
+{
+"label": "Santé",
+"weight": 0.0944
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0866
+},
+{
+"label": "Industrie",
+"weight": 0.0834
+},
+{
+"label": "Consommation de base",
+"weight": 0.0435
+},
+{
+"label": "Énergie",
+"weight": 0.0347
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0185
+},
+{
+"label": "Matériaux",
+"weight": 0.0174
+},
+{
+"label": "Immobilier",
+"weight": 0.0162
+}
+],
+"title": "Amundi MSCI USA Daily (2x) Leveraged UCITS ETF Acc"
+},
+"FR0011440478": {
+"countries": [
+{
+"label": "Afrique du Sud",
+"weight": 0.3002
+},
+{
+"label": "Arabie saoudite",
+"weight": 0.2325
+},
+{
+"label": "Émirats arabes unis",
+"weight": 0.1236
+},
+{
+"label": "Pologne",
+"weight": 0.1149
+},
+{
+"label": "Grèce",
+"weight": 0.0574
+},
+{
+"label": "Koweït",
+"weight": 0.0517
+},
+{
+"label": "Qatar",
+"weight": 0.0438
+},
+{
+"label": "Turquie",
+"weight": 0.0359
+},
+{
+"label": "Hongrie",
+"weight": 0.0314
+},
+{
+"label": "République tchèque",
+"weight": 0.0085
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4891
+},
+{
+"label": "Matériaux",
+"weight": 0.1374
+},
+{
+"label": "Services de communication",
+"weight": 0.0786
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0719
+},
+{
+"label": "Immobilier",
+"weight": 0.0706
+},
+{
+"label": "Énergie",
+"weight": 0.0583
+},
+{
+"label": "Industrie",
+"weight": 0.032
+},
+{
+"label": "Consommation de base",
+"weight": 0.0285
+},
+{
+"label": "Santé",
+"weight": 0.0154
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0139
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0044
+}
+],
+"title": "Amundi PEA Emergent EMEA (MSCI Emerging EMEA) ESG Transition"
+},
+"FR0011857234": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2948
+},
+{
+"label": "Matériaux",
+"weight": 0.1721
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1686
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1261
+},
+{
+"label": "Finance",
+"weight": 0.0803
+},
+{
+"label": "Services de communication",
+"weight": 0.0681
+},
+{
+"label": "Immobilier",
+"weight": 0.0463
+},
+{
+"label": "Santé",
+"weight": 0.0437
+}
+],
+"title": "Amundi MDAX UCITS ETF Dist"
+},
+"FR0011869270": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 1.0
+}
+],
+"title": "AMUNDI PEA S&P US Industrials Screened UCITS ETF - Acc"
+},
+"FR0011869304": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.316
+},
+{
+"label": "France",
+"weight": 0.1535
+},
+{
+"label": "Suisse",
+"weight": 0.135
+},
+{
+"label": "Suède",
+"weight": 0.1258
+},
+{
+"label": "Allemagne",
+"weight": 0.114
+},
+{
+"label": "Belgique",
+"weight": 0.0851
+},
+{
+"label": "Espagne",
+"weight": 0.0383
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0108
+},
+{
+"label": "Finlande",
+"weight": 0.0067
+},
+{
+"label": "Autres",
+"weight": 0.0148
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Immobilier",
+"weight": 0.9983
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0017
+}
+],
+"title": "Amundi PEA Immobilier Europe (FTSE EPRA/NAREIT) UCITS ETF"
+},
+"FR0011869312": {
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.2842
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2127
+},
+{
+"label": "Chine",
+"weight": 0.195
+},
+{
+"label": "Australie",
+"weight": 0.1108
+},
+{
+"label": "Inde",
+"weight": 0.1054
+},
+{
+"label": "Singapour",
+"weight": 0.0326
+},
+{
+"label": "Hong Kong",
+"weight": 0.0314
+},
+{
+"label": "Thaïlande",
+"weight": 0.0093
+},
+{
+"label": "Malaisie",
+"weight": 0.0087
+},
+{
+"label": "Autres",
+"weight": 0.0099
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4328
+},
+{
+"label": "Finance",
+"weight": 0.2024
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0769
+},
+{
+"label": "Industrie",
+"weight": 0.0702
+},
+{
+"label": "Matériaux",
+"weight": 0.0562
+},
+{
+"label": "Services de communication",
+"weight": 0.0524
+},
+{
+"label": "Santé",
+"weight": 0.0327
+},
+{
+"label": "Énergie",
+"weight": 0.0231
+},
+{
+"label": "Consommation de base",
+"weight": 0.0209
+},
+{
+"label": "Immobilier",
+"weight": 0.0164
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.016
+}
+],
+"title": "Amundi PEA Asie Pacifique (MSCI AC Asia Pacific Ex Japan) UCITS"
+},
+"FR0011869320": {
+"countries": [
+{
+"label": "Inde",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3011
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.128
+},
+{
+"label": "Industrie",
+"weight": 0.1098
+},
+{
+"label": "Matériaux",
+"weight": 0.0875
+},
+{
+"label": "Énergie",
+"weight": 0.0767
+},
+{
+"label": "Santé",
+"weight": 0.0725
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0674
+},
+{
+"label": "Consommation de base",
+"weight": 0.0521
+},
+{
+"label": "Services de communication",
+"weight": 0.051
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0401
+},
+{
+"label": "Immobilier",
+"weight": 0.0139
+}
+],
+"title": "Amundi PEA Inde (MSCI India) UCITS ETF Acc"
+},
+"FR0011871078": {
+"countries": [
+{
+"label": "Chine",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.2386
+},
+{
+"label": "Finance",
+"weight": 0.2217
+},
+{
+"label": "Services de communication",
+"weight": 0.191
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1178
+},
+{
+"label": "Santé",
+"weight": 0.0651
+},
+{
+"label": "Industrie",
+"weight": 0.0506
+},
+{
+"label": "Matériaux",
+"weight": 0.0361
+},
+{
+"label": "Consommation de base",
+"weight": 0.0286
+},
+{
+"label": "Énergie",
+"weight": 0.0221
+},
+{
+"label": "Immobilier",
+"weight": 0.0164
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0121
+}
+],
+"title": "Amundi PEA Chine (MSCI China) Screened UCITS ETF - Acc"
+},
+"FR0011871110": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9481
+},
+{
+"label": "Irlande",
+"weight": 0.0179
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0138
+},
+{
+"label": "Canada",
+"weight": 0.0091
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0073
+},
+{
+"label": "Autres",
+"weight": 0.0039
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5965
+},
+{
+"label": "Services de communication",
+"weight": 0.1508
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1003
+},
+{
+"label": "Consommation de base",
+"weight": 0.0567
+},
+{
+"label": "Santé",
+"weight": 0.0383
+},
+{
+"label": "Industrie",
+"weight": 0.0316
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0103
+},
+{
+"label": "Matériaux",
+"weight": 0.0092
+},
+{
+"label": "Énergie",
+"weight": 0.0045
+},
+{
+"label": "Finance",
+"weight": 0.0019
+}
+],
+"title": "Amundi PEA Nasdaq-100 UCITS ETF Acc"
+},
+"FR0011871128": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "en",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3937
+},
+{
+"label": "Finance",
+"weight": 0.1151
+},
+{
+"label": "Services de communication",
+"weight": 0.0993
+},
+{
+"label": "Santé",
+"weight": 0.0936
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0857
+},
+{
+"label": "Industrie",
+"weight": 0.0813
+},
+{
+"label": "Consommation de base",
+"weight": 0.0443
+},
+{
+"label": "Énergie",
+"weight": 0.0339
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0189
+},
+{
+"label": "Immobilier",
+"weight": 0.0171
+},
+{
+"label": "Matériaux",
+"weight": 0.0171
+}
+],
+"title": "Amundi PEA S&P 500 UCITS ETF Acc"
+},
+"FR0011871136": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3937
+},
+{
+"label": "Finance",
+"weight": 0.1151
+},
+{
+"label": "Services de communication",
+"weight": 0.0993
+},
+{
+"label": "Santé",
+"weight": 0.0936
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0857
+},
+{
+"label": "Industrie",
+"weight": 0.0813
+},
+{
+"label": "Consommation de base",
+"weight": 0.0443
+},
+{
+"label": "Énergie",
+"weight": 0.0339
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0189
+},
+{
+"label": "Immobilier",
+"weight": 0.0171
+},
+{
+"label": "Matériaux",
+"weight": 0.0171
+}
+],
+"title": "Amundi PEA S&P 500 UCITS ETF EUR Hedged Acc"
+},
+"FR0011882364": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.5806
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0942
+},
+{
+"label": "Japon",
+"weight": 0.0662
+},
+{
+"label": "Suisse",
+"weight": 0.0404
+},
+{
+"label": "Brésil",
+"weight": 0.0338
+},
+{
+"label": "Chine",
+"weight": 0.0313
+},
+{
+"label": "Suède",
+"weight": 0.0278
+},
+{
+"label": "France",
+"weight": 0.0251
+},
+{
+"label": "Allemagne",
+"weight": 0.0244
+},
+{
+"label": "Canada",
+"weight": 0.0227
+},
+{
+"label": "Australie",
+"weight": 0.0192
+},
+{
+"label": "Taïwan",
+"weight": 0.0113
+},
+{
+"label": "Malaisie",
+"weight": 0.0095
+},
+{
+"label": "Italie",
+"weight": 0.0094
+},
+{
+"label": "Autres",
+"weight": 0.0041
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.7408
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.2051
+},
+{
+"label": "Consommation de base",
+"weight": 0.0295
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0245
+}
+],
+"title": "Amundi PEA Eau (MSCI Water) UCITS ETF - Capi"
+},
+"FR0012399731": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "AMUNDI EURO STOXX 50 II UCITS ETF CHF Hedged Acc"
+},
+"FR0012399772": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "AMUNDI EURO STOXX 50 II UCITS ETF GBP Hedged Acc"
+},
+"FR0012399806": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "AMUNDI EURO STOXX 50 II UCITS ETF USD Hedged Acc"
+},
+"FR0013380607": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9857
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3157
+},
+{
+"label": "Finance",
+"weight": 0.1432
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1125
+},
+{
+"label": "Énergie",
+"weight": 0.0899
+},
+{
+"label": "Consommation de base",
+"weight": 0.0854
+},
+{
+"label": "Santé",
+"weight": 0.0772
+},
+{
+"label": "Matériaux",
+"weight": 0.0747
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0335
+},
+{
+"label": "Services de communication",
+"weight": 0.0273
+},
+{
+"label": "Immobilier",
+"weight": 0.0059
+}
+],
+"title": "Amundi CAC 40 UCITS ETF Acc"
+},
+"FR0013411980": {
+"countries": [
+{
+"label": "Japon",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2576
+},
+{
+"label": "Finance",
+"weight": 0.191
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1578
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1409
+},
+{
+"label": "Services de communication",
+"weight": 0.0656
+},
+{
+"label": "Matériaux",
+"weight": 0.0527
+},
+{
+"label": "Santé",
+"weight": 0.0499
+},
+{
+"label": "Consommation de base",
+"weight": 0.0468
+},
+{
+"label": "Immobilier",
+"weight": 0.0158
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0126
+},
+{
+"label": "Énergie",
+"weight": 0.0094
+}
+],
+"title": "Amundi PEA Japon (TOPIX) UCITS ETF EUR Acc"
+},
+"FR0013411998": {
+"countries": [
+{
+"label": "Japon",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2576
+},
+{
+"label": "Finance",
+"weight": 0.191
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1578
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1409
+},
+{
+"label": "Services de communication",
+"weight": 0.0656
+},
+{
+"label": "Matériaux",
+"weight": 0.0527
+},
+{
+"label": "Santé",
+"weight": 0.0499
+},
+{
+"label": "Consommation de base",
+"weight": 0.0468
+},
+{
+"label": "Immobilier",
+"weight": 0.0158
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0126
+},
+{
+"label": "Énergie",
+"weight": 0.0094
+}
+],
+"title": "Amundi PEA Japon (TOPIX) UCITS ETF EUR Hedged Acc"
+},
+"FR0013412004": {
+"countries": [
+{
+"label": "Brésil",
+"weight": 0.4303
+},
+{
+"label": "Mexique",
+"weight": 0.3369
+},
+{
+"label": "Chili",
+"weight": 0.0934
+},
+{
+"label": "Pérou",
+"weight": 0.0846
+},
+{
+"label": "Colombie",
+"weight": 0.0549
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4161
+},
+{
+"label": "Matériaux",
+"weight": 0.1278
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1142
+},
+{
+"label": "Consommation de base",
+"weight": 0.1055
+},
+{
+"label": "Industrie",
+"weight": 0.0923
+},
+{
+"label": "Services de communication",
+"weight": 0.0445
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.033
+},
+{
+"label": "Énergie",
+"weight": 0.0265
+},
+{
+"label": "Immobilier",
+"weight": 0.0248
+},
+{
+"label": "Santé",
+"weight": 0.0153
+}
+],
+"title": "Amundi PEA Amerique Latine (MSCI Emerging Latin America)"
+},
+"FR0013412012": {
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.3603
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2625
+},
+{
+"label": "Chine",
+"weight": 0.2333
+},
+{
+"label": "Inde",
+"weight": 0.1147
+},
+{
+"label": "Thaïlande",
+"weight": 0.0117
+},
+{
+"label": "Malaisie",
+"weight": 0.0094
+},
+{
+"label": "Autres",
+"weight": 0.008
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.546
+},
+{
+"label": "Finance",
+"weight": 0.1515
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0829
+},
+{
+"label": "Services de communication",
+"weight": 0.0615
+},
+{
+"label": "Industrie",
+"weight": 0.0572
+},
+{
+"label": "Santé",
+"weight": 0.032
+},
+{
+"label": "Matériaux",
+"weight": 0.0215
+},
+{
+"label": "Énergie",
+"weight": 0.018
+},
+{
+"label": "Consommation de base",
+"weight": 0.0166
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0065
+},
+{
+"label": "Immobilier",
+"weight": 0.0063
+}
+],
+"title": "Amundi PEA Asie Emergente (MSCI Emerging Asia) Screened UCITS"
+},
+"FR0013412020": {
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.2893
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2157
+},
+{
+"label": "Chine",
+"weight": 0.1978
+},
+{
+"label": "Inde",
+"weight": 0.1058
+},
+{
+"label": "Brésil",
+"weight": 0.0399
+},
+{
+"label": "Afrique du Sud",
+"weight": 0.0304
+},
+{
+"label": "Arabie saoudite",
+"weight": 0.0234
+},
+{
+"label": "Mexique",
+"weight": 0.0164
+},
+{
+"label": "Émirats arabes unis",
+"weight": 0.0124
+},
+{
+"label": "Pologne",
+"weight": 0.0117
+},
+{
+"label": "Malaisie",
+"weight": 0.0097
+},
+{
+"label": "Thaïlande",
+"weight": 0.0088
+},
+{
+"label": "Grèce",
+"weight": 0.0058
+},
+{
+"label": "Autres",
+"weight": 0.0329
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4395
+},
+{
+"label": "Finance",
+"weight": 0.1972
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0735
+},
+{
+"label": "Industrie",
+"weight": 0.0629
+},
+{
+"label": "Services de communication",
+"weight": 0.0599
+},
+{
+"label": "Matériaux",
+"weight": 0.0518
+},
+{
+"label": "Énergie",
+"weight": 0.0305
+},
+{
+"label": "Consommation de base",
+"weight": 0.0283
+},
+{
+"label": "Santé",
+"weight": 0.027
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0163
+},
+{
+"label": "Immobilier",
+"weight": 0.013
+}
+],
+"title": "Amundi PEA Emergent (MSCI Emerging) ESG Transition UCITS ETF"
+},
+"FR0013412038": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2241
+},
+{
+"label": "France",
+"weight": 0.1484
+},
+{
+"label": "Suisse",
+"weight": 0.1421
+},
+{
+"label": "Allemagne",
+"weight": 0.1366
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0944
+},
+{
+"label": "Espagne",
+"weight": 0.0631
+},
+{
+"label": "Suède",
+"weight": 0.0532
+},
+{
+"label": "Italie",
+"weight": 0.0516
+},
+{
+"label": "Danemark",
+"weight": 0.0244
+},
+{
+"label": "Finlande",
+"weight": 0.0186
+},
+{
+"label": "Belgique",
+"weight": 0.0173
+},
+{
+"label": "Norvège",
+"weight": 0.0099
+},
+{
+"label": "Irlande",
+"weight": 0.0068
+},
+{
+"label": "Autriche",
+"weight": 0.0061
+},
+{
+"label": "Autres",
+"weight": 0.0035
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2561
+},
+{
+"label": "Industrie",
+"weight": 0.1866
+},
+{
+"label": "Santé",
+"weight": 0.127
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0972
+},
+{
+"label": "Consommation de base",
+"weight": 0.082
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0598
+},
+{
+"label": "Matériaux",
+"weight": 0.0539
+},
+{
+"label": "Énergie",
+"weight": 0.0538
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0473
+},
+{
+"label": "Services de communication",
+"weight": 0.031
+},
+{
+"label": "Immobilier",
+"weight": 0.0053
+}
+],
+"title": "Amundi PEA MSCI Europe UCITS ETF Acc"
+},
+"FR0013412269": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9817
+},
+{
+"label": "Irlande",
+"weight": 0.0161
+},
+{
+"label": "Autres",
+"weight": 0.0022
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.6598
+},
+{
+"label": "Services de communication",
+"weight": 0.2023
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0576
+},
+{
+"label": "Santé",
+"weight": 0.0396
+},
+{
+"label": "Consommation de base",
+"weight": 0.0147
+},
+{
+"label": "Industrie",
+"weight": 0.0108
+},
+{
+"label": "Matériaux",
+"weight": 0.0103
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0027
+},
+{
+"label": "Énergie",
+"weight": 0.0022
+}
+],
+"title": "Amundi PEA US Tech Screened UCITS ETF - Acc"
+},
+"FR0013412285": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3923
+},
+{
+"label": "Finance",
+"weight": 0.126
+},
+{
+"label": "Santé",
+"weight": 0.1197
+},
+{
+"label": "Services de communication",
+"weight": 0.1122
+},
+{
+"label": "Industrie",
+"weight": 0.0854
+},
+{
+"label": "Consommation de base",
+"weight": 0.049
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0425
+},
+{
+"label": "Immobilier",
+"weight": 0.0215
+},
+{
+"label": "Matériaux",
+"weight": 0.0205
+},
+{
+"label": "Énergie",
+"weight": 0.0183
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0126
+}
+],
+"title": "Amundi PEA S&P 500 Screened UCITS ETF - Acc"
+},
+"FR0013412293": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3923
+},
+{
+"label": "Finance",
+"weight": 0.126
+},
+{
+"label": "Santé",
+"weight": 0.1197
+},
+{
+"label": "Services de communication",
+"weight": 0.1122
+},
+{
+"label": "Industrie",
+"weight": 0.0854
+},
+{
+"label": "Consommation de base",
+"weight": 0.049
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0425
+},
+{
+"label": "Immobilier",
+"weight": 0.0215
+},
+{
+"label": "Matériaux",
+"weight": 0.0205
+},
+{
+"label": "Énergie",
+"weight": 0.0183
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0126
+}
+],
+"title": "Amundi PEA S&P 500 Screened UCITS ETF - EUR Hedged Acc"
+},
+"FR0014002H76": {
+"countries": [
+{
+"label": "Italie",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5155
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1437
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0947
+},
+{
+"label": "Industrie",
+"weight": 0.0866
+},
+{
+"label": "Énergie",
+"weight": 0.0813
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0494
+},
+{
+"label": "Santé",
+"weight": 0.0105
+},
+{
+"label": "Services de communication",
+"weight": 0.0088
+},
+{
+"label": "Consommation de base",
+"weight": 0.0051
+},
+{
+"label": "Matériaux",
+"weight": 0.0042
+}
+],
+"title": "Amundi FTSE MIB UCITS ETF Acc"
+},
+"FR001400KE06": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Consommation de base",
+"weight": 1.0
+}
+],
+"title": "AMUNDI PEA S&P US Consumer Staples Screened UCITS ETF - Acc"
+},
+"FR001400KH45": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3971
+},
+{
+"label": "Finance",
+"weight": 0.1547
+},
+{
+"label": "Santé",
+"weight": 0.1473
+},
+{
+"label": "Services de communication",
+"weight": 0.1227
+},
+{
+"label": "Industrie",
+"weight": 0.0591
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0516
+},
+{
+"label": "Matériaux",
+"weight": 0.0271
+},
+{
+"label": "Immobilier",
+"weight": 0.0181
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0164
+},
+{
+"label": "Consommation de base",
+"weight": 0.0059
+}
+],
+"title": "Amundi PEA MSCI USA Value Advanced UCITS ETF - Acc"
+},
+"FR001400U5Q4": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7301
+},
+{
+"label": "Japon",
+"weight": 0.0578
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.034
+},
+{
+"label": "Canada",
+"weight": 0.0331
+},
+{
+"label": "France",
+"weight": 0.0225
+},
+{
+"label": "Suisse",
+"weight": 0.0216
+},
+{
+"label": "Allemagne",
+"weight": 0.0207
+},
+{
+"label": "Australie",
+"weight": 0.0152
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+},
+{
+"label": "Espagne",
+"weight": 0.0096
+},
+{
+"label": "Suède",
+"weight": 0.0081
+},
+{
+"label": "Italie",
+"weight": 0.0078
+},
+{
+"label": "Autres",
+"weight": 0.0251
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3155
+},
+{
+"label": "Finance",
+"weight": 0.1584
+},
+{
+"label": "Industrie",
+"weight": 0.1085
+},
+{
+"label": "Santé",
+"weight": 0.0928
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0832
+},
+{
+"label": "Services de communication",
+"weight": 0.0829
+},
+{
+"label": "Consommation de base",
+"weight": 0.0481
+},
+{
+"label": "Énergie",
+"weight": 0.0403
+},
+{
+"label": "Matériaux",
+"weight": 0.0321
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.023
+},
+{
+"label": "Immobilier",
+"weight": 0.0153
+}
+],
+"title": "AMUNDI PEA MONDE (MSCI World) UCITS ETF Acc"
+},
+"FR001400ZGO4": {
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.2893
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2157
+},
+{
+"label": "Chine",
+"weight": 0.1978
+},
+{
+"label": "Inde",
+"weight": 0.1058
+},
+{
+"label": "Brésil",
+"weight": 0.0399
+},
+{
+"label": "Afrique du Sud",
+"weight": 0.0304
+},
+{
+"label": "Arabie saoudite",
+"weight": 0.0234
+},
+{
+"label": "Mexique",
+"weight": 0.0164
+},
+{
+"label": "Émirats arabes unis",
+"weight": 0.0124
+},
+{
+"label": "Pologne",
+"weight": 0.0117
+},
+{
+"label": "Malaisie",
+"weight": 0.0097
+},
+{
+"label": "Thaïlande",
+"weight": 0.0088
+},
+{
+"label": "Grèce",
+"weight": 0.0058
+},
+{
+"label": "Autres",
+"weight": 0.0329
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4395
+},
+{
+"label": "Finance",
+"weight": 0.1972
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0735
+},
+{
+"label": "Industrie",
+"weight": 0.0629
+},
+{
+"label": "Services de communication",
+"weight": 0.0599
+},
+{
+"label": "Matériaux",
+"weight": 0.0518
+},
+{
+"label": "Énergie",
+"weight": 0.0305
+},
+{
+"label": "Consommation de base",
+"weight": 0.0283
+},
+{
+"label": "Santé",
+"weight": 0.027
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0163
+},
+{
+"label": "Immobilier",
+"weight": 0.013
+}
+],
+"title": "Amundi PEA Emergent (MSCI Emerging) ESG Transition UCITS ETF S"
+},
+"FR001400ZGP1": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "AMUNDI EURO STOXX 50 II UCITS ETF S - Acc"
+},
+"FR001400ZGQ9": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9857
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3157
+},
+{
+"label": "Finance",
+"weight": 0.1432
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1125
+},
+{
+"label": "Énergie",
+"weight": 0.0899
+},
+{
+"label": "Consommation de base",
+"weight": 0.0854
+},
+{
+"label": "Santé",
+"weight": 0.0772
+},
+{
+"label": "Matériaux",
+"weight": 0.0747
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0349
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0335
+},
+{
+"label": "Services de communication",
+"weight": 0.0273
+},
+{
+"label": "Immobilier",
+"weight": 0.0059
+}
+],
+"title": "Amundi CAC 40 UCITS ETF S - Acc"
+},
+"FR001400ZGR7": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9481
+},
+{
+"label": "Irlande",
+"weight": 0.0179
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0138
+},
+{
+"label": "Canada",
+"weight": 0.0091
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0073
+},
+{
+"label": "Autres",
+"weight": 0.0039
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5965
+},
+{
+"label": "Services de communication",
+"weight": 0.1508
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1003
+},
+{
+"label": "Consommation de base",
+"weight": 0.0567
+},
+{
+"label": "Santé",
+"weight": 0.0383
+},
+{
+"label": "Industrie",
+"weight": 0.0316
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0103
+},
+{
+"label": "Matériaux",
+"weight": 0.0092
+},
+{
+"label": "Énergie",
+"weight": 0.0045
+},
+{
+"label": "Finance",
+"weight": 0.0019
+}
+],
+"title": "Amundi PEA Nasdaq-100 UCITS ETF S - Acc"
+},
+"FR001400ZGS5": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3923
+},
+{
+"label": "Finance",
+"weight": 0.126
+},
+{
+"label": "Santé",
+"weight": 0.1197
+},
+{
+"label": "Services de communication",
+"weight": 0.1122
+},
+{
+"label": "Industrie",
+"weight": 0.0854
+},
+{
+"label": "Consommation de base",
+"weight": 0.049
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0425
+},
+{
+"label": "Immobilier",
+"weight": 0.0215
+},
+{
+"label": "Matériaux",
+"weight": 0.0205
+},
+{
+"label": "Énergie",
+"weight": 0.0183
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0126
+}
+],
+"title": "Amundi PEA S&P 500 Screened UCITS ETF S - Acc"
+},
+"LU0252633754": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.35
+},
+{
+"label": "Finance",
+"weight": 0.2135
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1515
+},
+{
+"label": "Santé",
+"weight": 0.0657
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0578
+},
+{
+"label": "Services de communication",
+"weight": 0.0552
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0456
+},
+{
+"label": "Matériaux",
+"weight": 0.0432
+},
+{
+"label": "Consommation de base",
+"weight": 0.0103
+},
+{
+"label": "Immobilier",
+"weight": 0.0073
+}
+],
+"title": "Amundi DAX II UCITS ETF Acc"
+},
+"LU0252634307": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.35
+},
+{
+"label": "Finance",
+"weight": 0.2135
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1515
+},
+{
+"label": "Santé",
+"weight": 0.0657
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0578
+},
+{
+"label": "Services de communication",
+"weight": 0.0552
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0456
+},
+{
+"label": "Matériaux",
+"weight": 0.0432
+},
+{
+"label": "Consommation de base",
+"weight": 0.0103
+},
+{
+"label": "Immobilier",
+"weight": 0.0073
+}
+],
+"title": "Amundi LevDax Daily (2x) leveraged UCITS ETF Acc"
+},
+"LU0908500753": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2287
+},
+{
+"label": "France",
+"weight": 0.1476
+},
+{
+"label": "Suisse",
+"weight": 0.1351
+},
+{
+"label": "Allemagne",
+"weight": 0.131
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0836
+},
+{
+"label": "Espagne",
+"weight": 0.0603
+},
+{
+"label": "Italie",
+"weight": 0.0574
+},
+{
+"label": "Suède",
+"weight": 0.0476
+},
+{
+"label": "Danemark",
+"weight": 0.0255
+},
+{
+"label": "Finlande",
+"weight": 0.0197
+},
+{
+"label": "Belgique",
+"weight": 0.0184
+},
+{
+"label": "Norvège",
+"weight": 0.0124
+},
+{
+"label": "Pologne",
+"weight": 0.0102
+},
+{
+"label": "Irlande",
+"weight": 0.0072
+},
+{
+"label": "Autriche",
+"weight": 0.0067
+},
+{
+"label": "Grèce",
+"weight": 0.0054
+},
+{
+"label": "Autres",
+"weight": 0.0032
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2639
+},
+{
+"label": "Industrie",
+"weight": 0.1895
+},
+{
+"label": "Santé",
+"weight": 0.1202
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0912
+},
+{
+"label": "Consommation de base",
+"weight": 0.0761
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0631
+},
+{
+"label": "Énergie",
+"weight": 0.057
+},
+{
+"label": "Matériaux",
+"weight": 0.0557
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0465
+},
+{
+"label": "Services de communication",
+"weight": 0.0269
+},
+{
+"label": "Immobilier",
+"weight": 0.01
+}
+],
+"title": "Amundi Core STOXX Europe 600 UCITS ETF Acc"
+},
+"LU1327051279": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9481
+},
+{
+"label": "Irlande",
+"weight": 0.0179
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0138
+},
+{
+"label": "Canada",
+"weight": 0.0091
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0073
+},
+{
+"label": "Autres",
+"weight": 0.0039
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5965
+},
+{
+"label": "Services de communication",
+"weight": 0.1508
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1003
+},
+{
+"label": "Consommation de base",
+"weight": 0.0567
+},
+{
+"label": "Santé",
+"weight": 0.0383
+},
+{
+"label": "Industrie",
+"weight": 0.0316
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0103
+},
+{
+"label": "Matériaux",
+"weight": 0.0092
+},
+{
+"label": "Énergie",
+"weight": 0.0045
+},
+{
+"label": "Finance",
+"weight": 0.0019
+}
+],
+"title": "Amundi Nasdaq-100 Daily (-1x) Inverse UCITS ETF Acc"
+},
+"LU1598689153": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2221
+},
+{
+"label": "France",
+"weight": 0.2152
+},
+{
+"label": "Italie",
+"weight": 0.152
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0936
+},
+{
+"label": "Espagne",
+"weight": 0.0912
+},
+{
+"label": "Belgique",
+"weight": 0.0868
+},
+{
+"label": "Finlande",
+"weight": 0.0662
+},
+{
+"label": "Autriche",
+"weight": 0.05
+},
+{
+"label": "Irlande",
+"weight": 0.0124
+},
+{
+"label": "Portugal",
+"weight": 0.0105
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.2756
+},
+{
+"label": "Finance",
+"weight": 0.135
+},
+{
+"label": "Immobilier",
+"weight": 0.1049
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1025
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0968
+},
+{
+"label": "Matériaux",
+"weight": 0.0728
+},
+{
+"label": "Énergie",
+"weight": 0.0699
+},
+{
+"label": "Santé",
+"weight": 0.0515
+},
+{
+"label": "Services de communication",
+"weight": 0.051
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.02
+},
+{
+"label": "Consommation de base",
+"weight": 0.0199
+}
+],
+"title": "Amundi MSCI EMU Small Cap ESG Broad Transition UCITS ETF Dist"
+},
+"LU1598690169": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2726
+},
+{
+"label": "Allemagne",
+"weight": 0.2405
+},
+{
+"label": "Espagne",
+"weight": 0.1577
+},
+{
+"label": "Italie",
+"weight": 0.1376
+},
+{
+"label": "Pays-Bas",
+"weight": 0.092
+},
+{
+"label": "Finlande",
+"weight": 0.0451
+},
+{
+"label": "Belgique",
+"weight": 0.0177
+},
+{
+"label": "Irlande",
+"weight": 0.0166
+},
+{
+"label": "Autriche",
+"weight": 0.0137
+},
+{
+"label": "Portugal",
+"weight": 0.0065
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.4598
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.1071
+},
+{
+"label": "Industrie",
+"weight": 0.0911
+},
+{
+"label": "Énergie",
+"weight": 0.0646
+},
+{
+"label": "Santé",
+"weight": 0.0605
+},
+{
+"label": "Consommation de base",
+"weight": 0.0573
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.053
+},
+{
+"label": "Matériaux",
+"weight": 0.049
+},
+{
+"label": "Services de communication",
+"weight": 0.0237
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0235
+},
+{
+"label": "Immobilier",
+"weight": 0.0105
+}
+],
+"title": "Amundi MSCI EMU Value Factor UCITS ETF Dist"
+},
+"LU1646360971": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2717
+},
+{
+"label": "Allemagne",
+"weight": 0.2499
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1728
+},
+{
+"label": "Espagne",
+"weight": 0.1155
+},
+{
+"label": "Italie",
+"weight": 0.0944
+},
+{
+"label": "Finlande",
+"weight": 0.0341
+},
+{
+"label": "Belgique",
+"weight": 0.0317
+},
+{
+"label": "Irlande",
+"weight": 0.0124
+},
+{
+"label": "Autriche",
+"weight": 0.0112
+},
+{
+"label": "Portugal",
+"weight": 0.0063
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2699
+},
+{
+"label": "Industrie",
+"weight": 0.1968
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.166
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0749
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0654
+},
+{
+"label": "Santé",
+"weight": 0.0574
+},
+{
+"label": "Consommation de base",
+"weight": 0.0524
+},
+{
+"label": "Énergie",
+"weight": 0.0407
+},
+{
+"label": "Matériaux",
+"weight": 0.0397
+},
+{
+"label": "Services de communication",
+"weight": 0.0314
+},
+{
+"label": "Immobilier",
+"weight": 0.0054
+}
+],
+"title": "Amundi Core MSCI EMU UCITS ETF Dist"
+},
+"LU1646361276": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2717
+},
+{
+"label": "Allemagne",
+"weight": 0.2499
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1728
+},
+{
+"label": "Espagne",
+"weight": 0.1155
+},
+{
+"label": "Italie",
+"weight": 0.0944
+},
+{
+"label": "Finlande",
+"weight": 0.0341
+},
+{
+"label": "Belgique",
+"weight": 0.0317
+},
+{
+"label": "Irlande",
+"weight": 0.0124
+},
+{
+"label": "Autriche",
+"weight": 0.0112
+},
+{
+"label": "Portugal",
+"weight": 0.0063
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2699
+},
+{
+"label": "Industrie",
+"weight": 0.1968
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.166
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0749
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0654
+},
+{
+"label": "Santé",
+"weight": 0.0574
+},
+{
+"label": "Consommation de base",
+"weight": 0.0524
+},
+{
+"label": "Énergie",
+"weight": 0.0407
+},
+{
+"label": "Matériaux",
+"weight": 0.0397
+},
+{
+"label": "Services de communication",
+"weight": 0.0314
+},
+{
+"label": "Immobilier",
+"weight": 0.0054
+}
+],
+"title": "Amundi Core MSCI EMU UCITS ETF Acc"
+},
+"LU1681037518": {
+"countries": [
+{
+"label": "Italie",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.489
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.144
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1157
+},
+{
+"label": "Industrie",
+"weight": 0.1119
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0655
+},
+{
+"label": "Énergie",
+"weight": 0.0243
+},
+{
+"label": "Services de communication",
+"weight": 0.0242
+},
+{
+"label": "Santé",
+"weight": 0.0145
+},
+{
+"label": "Consommation de base",
+"weight": 0.0067
+},
+{
+"label": "Matériaux",
+"weight": 0.0042
+}
+],
+"title": "Amundi Italy MIB ESG UCITS ETF Acc"
+},
+"LU1681038672": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.206
+},
+{
+"label": "Finance",
+"weight": 0.1918
+},
+{
+"label": "Industrie",
+"weight": 0.1398
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1357
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0889
+},
+{
+"label": "Énergie",
+"weight": 0.0665
+},
+{
+"label": "Immobilier",
+"weight": 0.057
+},
+{
+"label": "Matériaux",
+"weight": 0.0417
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0271
+},
+{
+"label": "Services de communication",
+"weight": 0.0246
+},
+{
+"label": "Consommation de base",
+"weight": 0.0195
+},
+{
+"label": "Autres",
+"weight": 0.0014
+}
+],
+"title": "Amundi Russell 2000 UCITS ETF EUR Acc"
+},
+"LU1681038839": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.206
+},
+{
+"label": "Finance",
+"weight": 0.1918
+},
+{
+"label": "Industrie",
+"weight": 0.1398
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1357
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0889
+},
+{
+"label": "Énergie",
+"weight": 0.0665
+},
+{
+"label": "Immobilier",
+"weight": 0.057
+},
+{
+"label": "Matériaux",
+"weight": 0.0417
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0271
+},
+{
+"label": "Services de communication",
+"weight": 0.0246
+},
+{
+"label": "Consommation de base",
+"weight": 0.0195
+},
+{
+"label": "Autres",
+"weight": 0.0014
+}
+],
+"title": "Amundi Russell 2000 UCITS ETF USD Acc"
+},
+"LU1681042864": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4011
+},
+{
+"label": "Services de communication",
+"weight": 0.1247
+},
+{
+"label": "Finance",
+"weight": 0.1127
+},
+{
+"label": "Santé",
+"weight": 0.0965
+},
+{
+"label": "Industrie",
+"weight": 0.0834
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.082
+},
+{
+"label": "Consommation de base",
+"weight": 0.0538
+},
+{
+"label": "Matériaux",
+"weight": 0.0205
+},
+{
+"label": "Immobilier",
+"weight": 0.02
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0045
+},
+{
+"label": "Énergie",
+"weight": 0.0008
+}
+],
+"title": "Amundi PEA MSCI USA ESG Selection UCITS ETF EUR"
+},
+"LU1681042948": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4011
+},
+{
+"label": "Services de communication",
+"weight": 0.1247
+},
+{
+"label": "Finance",
+"weight": 0.1127
+},
+{
+"label": "Santé",
+"weight": 0.0965
+},
+{
+"label": "Industrie",
+"weight": 0.0834
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.082
+},
+{
+"label": "Consommation de base",
+"weight": 0.0538
+},
+{
+"label": "Matériaux",
+"weight": 0.0205
+},
+{
+"label": "Immobilier",
+"weight": 0.02
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0045
+},
+{
+"label": "Énergie",
+"weight": 0.0008
+}
+],
+"title": "Amundi PEA MSCI USA ESG Selection UCITS ETF USD"
+},
+"LU1681043086": {
+"countries": [
+{
+"label": "Inde",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3011
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.128
+},
+{
+"label": "Industrie",
+"weight": 0.1098
+},
+{
+"label": "Matériaux",
+"weight": 0.0875
+},
+{
+"label": "Énergie",
+"weight": 0.0767
+},
+{
+"label": "Santé",
+"weight": 0.0725
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0674
+},
+{
+"label": "Consommation de base",
+"weight": 0.0521
+},
+{
+"label": "Services de communication",
+"weight": 0.051
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0401
+},
+{
+"label": "Immobilier",
+"weight": 0.0139
+}
+],
+"title": "Amundi MSCI India Swap II UCITS ETF EUR Acc"
+},
+"LU1681043599": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7301
+},
+{
+"label": "Japon",
+"weight": 0.0578
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.034
+},
+{
+"label": "Canada",
+"weight": 0.0331
+},
+{
+"label": "France",
+"weight": 0.0225
+},
+{
+"label": "Suisse",
+"weight": 0.0216
+},
+{
+"label": "Allemagne",
+"weight": 0.0207
+},
+{
+"label": "Australie",
+"weight": 0.0152
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+},
+{
+"label": "Espagne",
+"weight": 0.0096
+},
+{
+"label": "Suède",
+"weight": 0.0081
+},
+{
+"label": "Italie",
+"weight": 0.0078
+},
+{
+"label": "Autres",
+"weight": 0.0251
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3155
+},
+{
+"label": "Finance",
+"weight": 0.1584
+},
+{
+"label": "Industrie",
+"weight": 0.1085
+},
+{
+"label": "Santé",
+"weight": 0.0928
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0832
+},
+{
+"label": "Services de communication",
+"weight": 0.0829
+},
+{
+"label": "Consommation de base",
+"weight": 0.0481
+},
+{
+"label": "Énergie",
+"weight": 0.0403
+},
+{
+"label": "Matériaux",
+"weight": 0.0321
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.023
+},
+{
+"label": "Immobilier",
+"weight": 0.0153
+}
+],
+"title": "Amundi MSCI World Swap UCITS ETF EUR Acc"
+},
+"LU1681043672": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7301
+},
+{
+"label": "Japon",
+"weight": 0.0578
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.034
+},
+{
+"label": "Canada",
+"weight": 0.0331
+},
+{
+"label": "France",
+"weight": 0.0225
+},
+{
+"label": "Suisse",
+"weight": 0.0216
+},
+{
+"label": "Allemagne",
+"weight": 0.0207
+},
+{
+"label": "Australie",
+"weight": 0.0152
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+},
+{
+"label": "Espagne",
+"weight": 0.0096
+},
+{
+"label": "Suède",
+"weight": 0.0081
+},
+{
+"label": "Italie",
+"weight": 0.0078
+},
+{
+"label": "Autres",
+"weight": 0.0251
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3155
+},
+{
+"label": "Finance",
+"weight": 0.1584
+},
+{
+"label": "Industrie",
+"weight": 0.1085
+},
+{
+"label": "Santé",
+"weight": 0.0928
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0832
+},
+{
+"label": "Services de communication",
+"weight": 0.0829
+},
+{
+"label": "Consommation de base",
+"weight": 0.0481
+},
+{
+"label": "Énergie",
+"weight": 0.0403
+},
+{
+"label": "Matériaux",
+"weight": 0.0321
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.023
+},
+{
+"label": "Immobilier",
+"weight": 0.0153
+}
+],
+"title": "Amundi MSCI World Swap UCITS ETF USD Acc"
+},
+"LU1681043912": {
+"countries": [
+{
+"label": "Chine",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3759
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1529
+},
+{
+"label": "Industrie",
+"weight": 0.1442
+},
+{
+"label": "Services de communication",
+"weight": 0.1021
+},
+{
+"label": "Matériaux",
+"weight": 0.0979
+},
+{
+"label": "Santé",
+"weight": 0.0405
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0295
+},
+{
+"label": "Consommation de base",
+"weight": 0.0279
+},
+{
+"label": "Immobilier",
+"weight": 0.015
+},
+{
+"label": "Finance",
+"weight": 0.014
+}
+],
+"title": "Amundi MSCI China Tech UCITS ETF EUR"
+},
+"LU1681044480": {
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.3458
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2588
+},
+{
+"label": "Chine",
+"weight": 0.2371
+},
+{
+"label": "Inde",
+"weight": 0.1282
+},
+{
+"label": "Thaïlande",
+"weight": 0.0113
+},
+{
+"label": "Malaisie",
+"weight": 0.0106
+},
+{
+"label": "Indonésie",
+"weight": 0.0053
+},
+{
+"label": "Autres",
+"weight": 0.003
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5254
+},
+{
+"label": "Finance",
+"weight": 0.1459
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0801
+},
+{
+"label": "Industrie",
+"weight": 0.0654
+},
+{
+"label": "Services de communication",
+"weight": 0.059
+},
+{
+"label": "Matériaux",
+"weight": 0.034
+},
+{
+"label": "Santé",
+"weight": 0.0308
+},
+{
+"label": "Énergie",
+"weight": 0.0221
+},
+{
+"label": "Consommation de base",
+"weight": 0.0189
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0123
+},
+{
+"label": "Immobilier",
+"weight": 0.006
+}
+],
+"title": "Amundi MSCI EM Asia UCITS ETF EUR Acc"
+},
+"LU1681044563": {
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.3458
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2588
+},
+{
+"label": "Chine",
+"weight": 0.2371
+},
+{
+"label": "Inde",
+"weight": 0.1282
+},
+{
+"label": "Thaïlande",
+"weight": 0.0113
+},
+{
+"label": "Malaisie",
+"weight": 0.0106
+},
+{
+"label": "Indonésie",
+"weight": 0.0053
+},
+{
+"label": "Autres",
+"weight": 0.003
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5254
+},
+{
+"label": "Finance",
+"weight": 0.1459
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0801
+},
+{
+"label": "Industrie",
+"weight": 0.0654
+},
+{
+"label": "Services de communication",
+"weight": 0.059
+},
+{
+"label": "Matériaux",
+"weight": 0.034
+},
+{
+"label": "Santé",
+"weight": 0.0308
+},
+{
+"label": "Énergie",
+"weight": 0.0221
+},
+{
+"label": "Consommation de base",
+"weight": 0.0189
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0123
+},
+{
+"label": "Immobilier",
+"weight": 0.006
+}
+],
+"title": "Amundi MSCI EM Asia UCITS ETF USD Acc"
+},
+"LU1681044720": {
+"countries": [
+{
+"label": "Suisse",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.3861
+},
+{
+"label": "Finance",
+"weight": 0.2001
+},
+{
+"label": "Consommation de base",
+"weight": 0.1326
+},
+{
+"label": "Industrie",
+"weight": 0.1303
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0641
+},
+{
+"label": "Matériaux",
+"weight": 0.0618
+},
+{
+"label": "Services de communication",
+"weight": 0.0101
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0075
+},
+{
+"label": "Immobilier",
+"weight": 0.006
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0015
+}
+],
+"title": "Amundi MSCI Switzerland UCITS ETF EUR Acc"
+},
+"LU1681045024": {
+"countries": [
+{
+"label": "Brésil",
+"weight": 0.6078
+},
+{
+"label": "Mexique",
+"weight": 0.2409
+},
+{
+"label": "Chili",
+"weight": 0.0643
+},
+{
+"label": "Pérou",
+"weight": 0.0619
+},
+{
+"label": "Colombie",
+"weight": 0.0251
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3471
+},
+{
+"label": "Matériaux",
+"weight": 0.1972
+},
+{
+"label": "Énergie",
+"weight": 0.1136
+},
+{
+"label": "Consommation de base",
+"weight": 0.1012
+},
+{
+"label": "Industrie",
+"weight": 0.0879
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0774
+},
+{
+"label": "Services de communication",
+"weight": 0.029
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0248
+},
+{
+"label": "Immobilier",
+"weight": 0.0148
+},
+{
+"label": "Santé",
+"weight": 0.007
+}
+],
+"title": "Amundi MSCI EM Latin America UCITS ETF EUR Acc"
+},
+"LU1681045370": {
+"countries": [
+{
+"label": "Taïwan",
+"weight": 0.2879
+},
+{
+"label": "Corée du Sud",
+"weight": 0.2155
+},
+{
+"label": "Chine",
+"weight": 0.1975
+},
+{
+"label": "Inde",
+"weight": 0.1067
+},
+{
+"label": "Brésil",
+"weight": 0.0401
+},
+{
+"label": "Afrique du Sud",
+"weight": 0.0295
+},
+{
+"label": "Arabie saoudite",
+"weight": 0.0231
+},
+{
+"label": "Mexique",
+"weight": 0.0159
+},
+{
+"label": "Émirats arabes unis",
+"weight": 0.0125
+},
+{
+"label": "Pologne",
+"weight": 0.0116
+},
+{
+"label": "Thaïlande",
+"weight": 0.0094
+},
+{
+"label": "Malaisie",
+"weight": 0.0088
+},
+{
+"label": "Grèce",
+"weight": 0.0062
+},
+{
+"label": "Koweït",
+"weight": 0.0054
+},
+{
+"label": "Autres",
+"weight": 0.03
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.4381
+},
+{
+"label": "Finance",
+"weight": 0.1936
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.074
+},
+{
+"label": "Industrie",
+"weight": 0.0632
+},
+{
+"label": "Services de communication",
+"weight": 0.059
+},
+{
+"label": "Matériaux",
+"weight": 0.0575
+},
+{
+"label": "Énergie",
+"weight": 0.034
+},
+{
+"label": "Santé",
+"weight": 0.0269
+},
+{
+"label": "Consommation de base",
+"weight": 0.0259
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0185
+},
+{
+"label": "Immobilier",
+"weight": 0.0095
+}
+],
+"title": "Amundi MSCI Emerging Markets Swap UCITS ETF EUR Acc"
+},
+"LU1681046931": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9896
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0104
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3368
+},
+{
+"label": "Finance",
+"weight": 0.1439
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1233
+},
+{
+"label": "Consommation de base",
+"weight": 0.0911
+},
+{
+"label": "Santé",
+"weight": 0.0886
+},
+{
+"label": "Matériaux",
+"weight": 0.0723
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.05
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0438
+},
+{
+"label": "Services de communication",
+"weight": 0.0381
+},
+{
+"label": "Immobilier",
+"weight": 0.0121
+}
+],
+"title": "Amundi CAC 40 ESG UCITS ETF"
+},
+"LU1681047079": {
+"countries": [
+{
+"label": "France",
+"weight": 0.9896
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0104
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.3368
+},
+{
+"label": "Finance",
+"weight": 0.1439
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1233
+},
+{
+"label": "Consommation de base",
+"weight": 0.0911
+},
+{
+"label": "Santé",
+"weight": 0.0886
+},
+{
+"label": "Matériaux",
+"weight": 0.0723
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.05
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0438
+},
+{
+"label": "Services de communication",
+"weight": 0.0381
+},
+{
+"label": "Immobilier",
+"weight": 0.0121
+}
+],
+"title": "Amundi CAC 40 ESG UCITS ETF"
+},
+"LU1681047236": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "Amundi Core Euro STOXX 50 UCITS ETF EUR Acc"
+},
+"LU1681047319": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "Amundi Core Euro STOXX 50 UCITS ETF EUR Dist"
+},
+"LU1681047400": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3125
+},
+{
+"label": "Allemagne",
+"weight": 0.285
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1505
+},
+{
+"label": "Espagne",
+"weight": 0.1141
+},
+{
+"label": "Italie",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0268
+},
+{
+"label": "Finlande",
+"weight": 0.0243
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2784
+},
+{
+"label": "Industrie",
+"weight": 0.2053
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1772
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0811
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0533
+},
+{
+"label": "Énergie",
+"weight": 0.0504
+},
+{
+"label": "Santé",
+"weight": 0.0502
+},
+{
+"label": "Consommation de base",
+"weight": 0.0499
+},
+{
+"label": "Matériaux",
+"weight": 0.0338
+},
+{
+"label": "Services de communication",
+"weight": 0.0203
+}
+],
+"title": "Amundi Core Euro STOXX 50 UCITS ETF USD Acc"
+},
+"LU1681048804": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3937
+},
+{
+"label": "Finance",
+"weight": 0.1151
+},
+{
+"label": "Services de communication",
+"weight": 0.0993
+},
+{
+"label": "Santé",
+"weight": 0.0936
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0857
+},
+{
+"label": "Industrie",
+"weight": 0.0813
+},
+{
+"label": "Consommation de base",
+"weight": 0.0443
+},
+{
+"label": "Énergie",
+"weight": 0.0339
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0189
+},
+{
+"label": "Immobilier",
+"weight": 0.0171
+},
+{
+"label": "Matériaux",
+"weight": 0.0171
+}
+],
+"title": "Amundi S&P 500 Swap UCITS ETF EUR Acc"
+},
+"LU1812092168": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.2891
+},
+{
+"label": "France",
+"weight": 0.2392
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2226
+},
+{
+"label": "Allemagne",
+"weight": 0.0983
+},
+{
+"label": "Norvège",
+"weight": 0.0432
+},
+{
+"label": "Belgique",
+"weight": 0.0296
+},
+{
+"label": "Italie",
+"weight": 0.0289
+},
+{
+"label": "Pologne",
+"weight": 0.0282
+},
+{
+"label": "Suisse",
+"weight": 0.0209
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.5728
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1717
+},
+{
+"label": "Industrie",
+"weight": 0.0906
+},
+{
+"label": "Énergie",
+"weight": 0.0714
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0268
+},
+{
+"label": "Immobilier",
+"weight": 0.0259
+},
+{
+"label": "Matériaux",
+"weight": 0.0257
+},
+{
+"label": "Services de communication",
+"weight": 0.015
+}
+],
+"title": "Amundi STOXX Europe Select Dividend 30 UCITS ETF Dist"
+},
+"LU1829219390": {
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.3026
+},
+{
+"label": "Italie",
+"weight": 0.2331
+},
+{
+"label": "France",
+"weight": 0.1298
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0892
+},
+{
+"label": "Allemagne",
+"weight": 0.0578
+},
+{
+"label": "Finlande",
+"weight": 0.0447
+},
+{
+"label": "Autriche",
+"weight": 0.044
+},
+{
+"label": "Grèce",
+"weight": 0.034
+},
+{
+"label": "Irlande",
+"weight": 0.032
+},
+{
+"label": "Belgique",
+"weight": 0.0246
+},
+{
+"label": "Portugal",
+"weight": 0.0081
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 1.0
+}
+],
+"title": "Amundi Euro Stoxx Banks UCITS ETF Acc"
+},
+"LU1829220216": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.6431
+},
+{
+"label": "Japon",
+"weight": 0.0509
+},
+{
+"label": "Taïwan",
+"weight": 0.0343
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.03
+},
+{
+"label": "Canada",
+"weight": 0.0292
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0257
+},
+{
+"label": "Chine",
+"weight": 0.0235
+},
+{
+"label": "France",
+"weight": 0.0198
+},
+{
+"label": "Suisse",
+"weight": 0.019
+},
+{
+"label": "Allemagne",
+"weight": 0.0182
+},
+{
+"label": "Australie",
+"weight": 0.0134
+},
+{
+"label": "Inde",
+"weight": 0.0127
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0126
+},
+{
+"label": "Espagne",
+"weight": 0.0084
+},
+{
+"label": "Suède",
+"weight": 0.0071
+},
+{
+"label": "Italie",
+"weight": 0.0069
+},
+{
+"label": "Autres",
+"weight": 0.0451
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3301
+},
+{
+"label": "Finance",
+"weight": 0.1626
+},
+{
+"label": "Industrie",
+"weight": 0.1031
+},
+{
+"label": "Santé",
+"weight": 0.0849
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0821
+},
+{
+"label": "Services de communication",
+"weight": 0.08
+},
+{
+"label": "Consommation de base",
+"weight": 0.0455
+},
+{
+"label": "Énergie",
+"weight": 0.0395
+},
+{
+"label": "Matériaux",
+"weight": 0.0351
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0225
+},
+{
+"label": "Immobilier",
+"weight": 0.0146
+}
+],
+"title": "Amundi MSCI All Country World Swap UCITS ETF EUR Acc"
+},
+"LU1829221024": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.9481
+},
+{
+"label": "Irlande",
+"weight": 0.0179
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0138
+},
+{
+"label": "Canada",
+"weight": 0.0091
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0073
+},
+{
+"label": "Autres",
+"weight": 0.0039
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.5965
+},
+{
+"label": "Services de communication",
+"weight": 0.1508
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1003
+},
+{
+"label": "Consommation de base",
+"weight": 0.0567
+},
+{
+"label": "Santé",
+"weight": 0.0383
+},
+{
+"label": "Industrie",
+"weight": 0.0316
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0103
+},
+{
+"label": "Matériaux",
+"weight": 0.0092
+},
+{
+"label": "Énergie",
+"weight": 0.0045
+},
+{
+"label": "Finance",
+"weight": 0.0019
+}
+],
+"title": "Amundi Core Nasdaq-100 Swap UCITS ETF Acc"
+},
+"LU1834983550": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.6761
+},
+{
+"label": "Suède",
+"weight": 0.1027
+},
+{
+"label": "France",
+"weight": 0.0785
+},
+{
+"label": "Finlande",
+"weight": 0.0393
+},
+{
+"label": "Pologne",
+"weight": 0.0386
+},
+{
+"label": "Norvège",
+"weight": 0.0294
+},
+{
+"label": "Autriche",
+"weight": 0.015
+},
+{
+"label": "Allemagne",
+"weight": 0.0109
+},
+{
+"label": "Espagne",
+"weight": 0.0096
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 0.976
+},
+{
+"label": "Industrie",
+"weight": 0.024
+}
+],
+"title": "Amundi STOXX Europe 600 Basic Resources UCITS ETF Acc"
+},
+"LU1834983634": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.4003
+},
+{
+"label": "France",
+"weight": 0.2226
+},
+{
+"label": "Allemagne",
+"weight": 0.1442
+},
+{
+"label": "Suède",
+"weight": 0.0556
+},
+{
+"label": "Suisse",
+"weight": 0.0546
+},
+{
+"label": "Norvège",
+"weight": 0.0262
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0249
+},
+{
+"label": "Finlande",
+"weight": 0.0213
+},
+{
+"label": "Pologne",
+"weight": 0.0209
+},
+{
+"label": "Belgique",
+"weight": 0.0162
+},
+{
+"label": "Autriche",
+"weight": 0.0081
+},
+{
+"label": "Espagne",
+"weight": 0.0052
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 0.9487
+},
+{
+"label": "Industrie",
+"weight": 0.0333
+},
+{
+"label": "Consommation de base",
+"weight": 0.0181
+}
+],
+"title": "Amundi STOXX Europe 600 Basic Materials UCITS ETF Acc"
+},
+"LU1834985845": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.4231
+},
+{
+"label": "Suisse",
+"weight": 0.242
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0787
+},
+{
+"label": "France",
+"weight": 0.0648
+},
+{
+"label": "Norvège",
+"weight": 0.0201
+},
+{
+"label": "Suède",
+"weight": 0.0199
+},
+{
+"label": "Irlande",
+"weight": 0.0189
+},
+{
+"label": "Danemark",
+"weight": 0.0138
+},
+{
+"label": "Pologne",
+"weight": 0.0083
+},
+{
+"label": "Allemagne",
+"weight": 0.0074
+},
+{
+"label": "Finlande",
+"weight": 0.0068
+},
+{
+"label": "Portugal",
+"weight": 0.0054
+},
+{
+"label": "Autres",
+"weight": 0.004
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Consommation de base",
+"weight": 0.9764
+},
+{
+"label": "Matériaux",
+"weight": 0.0189
+},
+{
+"label": "Santé",
+"weight": 0.0047
+}
+],
+"title": "Amundi STOXX Europe 600 Consumer Staples UCITS ETF Acc"
+},
+"LU1834986900": {
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.4154
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2267
+},
+{
+"label": "Danemark",
+"weight": 0.1026
+},
+{
+"label": "France",
+"weight": 0.0965
+},
+{
+"label": "Allemagne",
+"weight": 0.0751
+},
+{
+"label": "Belgique",
+"weight": 0.0513
+},
+{
+"label": "Suède",
+"weight": 0.0108
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0108
+},
+{
+"label": "Finlande",
+"weight": 0.0056
+},
+{
+"label": "Autres",
+"weight": 0.0051
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.9878
+},
+{
+"label": "Matériaux",
+"weight": 0.0122
+}
+],
+"title": "Amundi STOXX Europe 600 Healthcare UCITS ETF Acc"
+},
+"LU1834987890": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2664
+},
+{
+"label": "Allemagne",
+"weight": 0.1686
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.16
+},
+{
+"label": "Suisse",
+"weight": 0.1354
+},
+{
+"label": "Suède",
+"weight": 0.1126
+},
+{
+"label": "Italie",
+"weight": 0.0284
+},
+{
+"label": "Espagne",
+"weight": 0.0284
+},
+{
+"label": "Finlande",
+"weight": 0.028
+},
+{
+"label": "Danemark",
+"weight": 0.0249
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0246
+},
+{
+"label": "Norvège",
+"weight": 0.0085
+},
+{
+"label": "Irlande",
+"weight": 0.0066
+},
+{
+"label": "Autres",
+"weight": 0.0077
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.9185
+},
+{
+"label": "Matériaux",
+"weight": 0.0476
+},
+{
+"label": "Finance",
+"weight": 0.0186
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0079
+},
+{
+"label": "Énergie",
+"weight": 0.0053
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0022
+}
+],
+"title": "Amundi STOXX Europe 600 Industrials UCITS ETF Acc"
+},
+"LU1834987973": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.3189
+},
+{
+"label": "Suisse",
+"weight": 0.2314
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1347
+},
+{
+"label": "France",
+"weight": 0.1055
+},
+{
+"label": "Italie",
+"weight": 0.0744
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0521
+},
+{
+"label": "Finlande",
+"weight": 0.0281
+},
+{
+"label": "Norvège",
+"weight": 0.0155
+},
+{
+"label": "Belgique",
+"weight": 0.0147
+},
+{
+"label": "Pologne",
+"weight": 0.012
+},
+{
+"label": "Danemark",
+"weight": 0.0076
+},
+{
+"label": "Espagne",
+"weight": 0.0052
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 1.0
+}
+],
+"title": "Amundi STOXX Europe 600 Insurance UCITS ETF Acc"
+},
+"LU1834988518": {
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.4373
+},
+{
+"label": "Allemagne",
+"weight": 0.2621
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0908
+},
+{
+"label": "Italie",
+"weight": 0.0484
+},
+{
+"label": "France",
+"weight": 0.0483
+},
+{
+"label": "Suède",
+"weight": 0.037
+},
+{
+"label": "Espagne",
+"weight": 0.0349
+},
+{
+"label": "Suisse",
+"weight": 0.0235
+},
+{
+"label": "Norvège",
+"weight": 0.0077
+},
+{
+"label": "Autriche",
+"weight": 0.0066
+},
+{
+"label": "Autres",
+"weight": 0.0034
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.8363
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0841
+},
+{
+"label": "Industrie",
+"weight": 0.065
+},
+{
+"label": "Services de communication",
+"weight": 0.0145
+}
+],
+"title": "Amundi STOXX Europe 600 Technology UCITS ETF Acc"
+},
+"LU1834988609": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2691
+},
+{
+"label": "Finlande",
+"weight": 0.1575
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1541
+},
+{
+"label": "Suède",
+"weight": 0.1165
+},
+{
+"label": "France",
+"weight": 0.0807
+},
+{
+"label": "Espagne",
+"weight": 0.0693
+},
+{
+"label": "Suisse",
+"weight": 0.0658
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0436
+},
+{
+"label": "Norvège",
+"weight": 0.0213
+},
+{
+"label": "Italie",
+"weight": 0.014
+},
+{
+"label": "Grèce",
+"weight": 0.0078
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Services de communication",
+"weight": 0.7814
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.2098
+},
+{
+"label": "Industrie",
+"weight": 0.0089
+}
+],
+"title": "Amundi STOXX Europe 600 Telecommunications UCITS ETF Acc"
+},
+"LU1834988781": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3364
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1873
+},
+{
+"label": "Allemagne",
+"weight": 0.1371
+},
+{
+"label": "Suisse",
+"weight": 0.1124
+},
+{
+"label": "Italie",
+"weight": 0.076
+},
+{
+"label": "Espagne",
+"weight": 0.0626
+},
+{
+"label": "Pologne",
+"weight": 0.0234
+},
+{
+"label": "Irlande",
+"weight": 0.0198
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0165
+},
+{
+"label": "Suède",
+"weight": 0.0134
+},
+{
+"label": "Danemark",
+"weight": 0.0087
+},
+{
+"label": "Autres",
+"weight": 0.0065
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.7807
+},
+{
+"label": "Consommation de base",
+"weight": 0.095
+},
+{
+"label": "Services de communication",
+"weight": 0.0681
+},
+{
+"label": "Industrie",
+"weight": 0.051
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0029
+},
+{
+"label": "Énergie",
+"weight": 0.0023
+}
+],
+"title": "Amundi STOXX Europe 600 Consumer Discretionary UCITS ETF Acc"
+},
+"LU1834988864": {
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.2677
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2318
+},
+{
+"label": "Italie",
+"weight": 0.1554
+},
+{
+"label": "Allemagne",
+"weight": 0.1328
+},
+{
+"label": "France",
+"weight": 0.1102
+},
+{
+"label": "Portugal",
+"weight": 0.0302
+},
+{
+"label": "Grèce",
+"weight": 0.0196
+},
+{
+"label": "Finlande",
+"weight": 0.0172
+},
+{
+"label": "Danemark",
+"weight": 0.014
+},
+{
+"label": "Belgique",
+"weight": 0.0098
+},
+{
+"label": "Autriche",
+"weight": 0.0071
+},
+{
+"label": "Autres",
+"weight": 0.0042
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Services aux collectivités",
+"weight": 0.9917
+},
+{
+"label": "Industrie",
+"weight": 0.0083
+}
+],
+"title": "Amundi STOXX Europe 600 Utilities UCITS ETF Acc"
+},
+"LU1900066033": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7112
+},
+{
+"label": "Taïwan",
+"weight": 0.1492
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0484
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0453
+},
+{
+"label": "Japon",
+"weight": 0.0335
+},
+{
+"label": "Allemagne",
+"weight": 0.0055
+},
+{
+"label": "Autres",
+"weight": 0.0069
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 1.0
+}
+],
+"title": "Amundi MSCI Semiconductors UCITS ETF Acc"
+},
+"LU1931974429": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2574
+},
+{
+"label": "Allemagne",
+"weight": 0.2551
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1717
+},
+{
+"label": "Espagne",
+"weight": 0.1121
+},
+{
+"label": "Italie",
+"weight": 0.1006
+},
+{
+"label": "Finlande",
+"weight": 0.0361
+},
+{
+"label": "Belgique",
+"weight": 0.0296
+},
+{
+"label": "Irlande",
+"weight": 0.0167
+},
+{
+"label": "Autriche",
+"weight": 0.0145
+},
+{
+"label": "Portugal",
+"weight": 0.0062
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.273
+},
+{
+"label": "Industrie",
+"weight": 0.1916
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1699
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0749
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0627
+},
+{
+"label": "Santé",
+"weight": 0.0589
+},
+{
+"label": "Consommation de base",
+"weight": 0.05
+},
+{
+"label": "Énergie",
+"weight": 0.0442
+},
+{
+"label": "Matériaux",
+"weight": 0.0381
+},
+{
+"label": "Services de communication",
+"weight": 0.0332
+},
+{
+"label": "Immobilier",
+"weight": 0.0036
+}
+],
+"title": "Amundi Prime Eurozone UCITS ETF"
+},
+"LU2082996385": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.6761
+},
+{
+"label": "Suède",
+"weight": 0.1027
+},
+{
+"label": "France",
+"weight": 0.0785
+},
+{
+"label": "Finlande",
+"weight": 0.0393
+},
+{
+"label": "Pologne",
+"weight": 0.0386
+},
+{
+"label": "Norvège",
+"weight": 0.0294
+},
+{
+"label": "Autriche",
+"weight": 0.015
+},
+{
+"label": "Allemagne",
+"weight": 0.0109
+},
+{
+"label": "Espagne",
+"weight": 0.0096
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 0.976
+},
+{
+"label": "Industrie",
+"weight": 0.024
+}
+],
+"title": "Amundi STOXX Europe 600 Basic Resources UCITS ETF Dist"
+},
+"LU2082996542": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.4003
+},
+{
+"label": "France",
+"weight": 0.2226
+},
+{
+"label": "Allemagne",
+"weight": 0.1442
+},
+{
+"label": "Suède",
+"weight": 0.0556
+},
+{
+"label": "Suisse",
+"weight": 0.0546
+},
+{
+"label": "Norvège",
+"weight": 0.0262
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0249
+},
+{
+"label": "Finlande",
+"weight": 0.0213
+},
+{
+"label": "Pologne",
+"weight": 0.0209
+},
+{
+"label": "Belgique",
+"weight": 0.0162
+},
+{
+"label": "Autriche",
+"weight": 0.0081
+},
+{
+"label": "Espagne",
+"weight": 0.0052
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Matériaux",
+"weight": 0.9487
+},
+{
+"label": "Industrie",
+"weight": 0.0333
+},
+{
+"label": "Consommation de base",
+"weight": 0.0181
+}
+],
+"title": "Amundi STOXX Europe 600 Basic Materials UCITS ETF Dist"
+},
+"LU2082997359": {
+"countries": [
+{
+"label": "Royaume-Uni",
+"weight": 0.4231
+},
+{
+"label": "Suisse",
+"weight": 0.242
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0868
+},
+{
+"label": "Belgique",
+"weight": 0.0787
+},
+{
+"label": "France",
+"weight": 0.0648
+},
+{
+"label": "Norvège",
+"weight": 0.0201
+},
+{
+"label": "Suède",
+"weight": 0.0199
+},
+{
+"label": "Irlande",
+"weight": 0.0189
+},
+{
+"label": "Danemark",
+"weight": 0.0138
+},
+{
+"label": "Pologne",
+"weight": 0.0083
+},
+{
+"label": "Allemagne",
+"weight": 0.0074
+},
+{
+"label": "Finlande",
+"weight": 0.0068
+},
+{
+"label": "Portugal",
+"weight": 0.0054
+},
+{
+"label": "Autres",
+"weight": 0.004
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Consommation de base",
+"weight": 0.9764
+},
+{
+"label": "Matériaux",
+"weight": 0.0189
+},
+{
+"label": "Santé",
+"weight": 0.0047
+}
+],
+"title": "Amundi STOXX Europe 600 Consumer Staples UCITS ETF Dist"
+},
+"LU2082997516": {
+"countries": [
+{
+"label": "Suisse",
+"weight": 0.4154
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2267
+},
+{
+"label": "Danemark",
+"weight": 0.1026
+},
+{
+"label": "France",
+"weight": 0.0965
+},
+{
+"label": "Allemagne",
+"weight": 0.0751
+},
+{
+"label": "Belgique",
+"weight": 0.0513
+},
+{
+"label": "Suède",
+"weight": 0.0108
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0108
+},
+{
+"label": "Finlande",
+"weight": 0.0056
+},
+{
+"label": "Autres",
+"weight": 0.0051
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Santé",
+"weight": 0.9878
+},
+{
+"label": "Matériaux",
+"weight": 0.0122
+}
+],
+"title": "Amundi STOXX Europe 600 Healthcare UCITS ETF Dist"
+},
+"LU2082997789": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2664
+},
+{
+"label": "Allemagne",
+"weight": 0.1686
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.16
+},
+{
+"label": "Suisse",
+"weight": 0.1354
+},
+{
+"label": "Suède",
+"weight": 0.1126
+},
+{
+"label": "Italie",
+"weight": 0.0284
+},
+{
+"label": "Espagne",
+"weight": 0.0284
+},
+{
+"label": "Finlande",
+"weight": 0.028
+},
+{
+"label": "Danemark",
+"weight": 0.0249
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0246
+},
+{
+"label": "Norvège",
+"weight": 0.0085
+},
+{
+"label": "Irlande",
+"weight": 0.0066
+},
+{
+"label": "Autres",
+"weight": 0.0077
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.9185
+},
+{
+"label": "Matériaux",
+"weight": 0.0476
+},
+{
+"label": "Finance",
+"weight": 0.0186
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.0079
+},
+{
+"label": "Énergie",
+"weight": 0.0053
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0022
+}
+],
+"title": "Amundi STOXX Europe 600 Industrials UCITS ETF Dist"
+},
+"LU2082997946": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.3189
+},
+{
+"label": "Suisse",
+"weight": 0.2314
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1347
+},
+{
+"label": "France",
+"weight": 0.1055
+},
+{
+"label": "Italie",
+"weight": 0.0744
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0521
+},
+{
+"label": "Finlande",
+"weight": 0.0281
+},
+{
+"label": "Norvège",
+"weight": 0.0155
+},
+{
+"label": "Belgique",
+"weight": 0.0147
+},
+{
+"label": "Pologne",
+"weight": 0.012
+},
+{
+"label": "Danemark",
+"weight": 0.0076
+},
+{
+"label": "Espagne",
+"weight": 0.0052
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 1.0
+}
+],
+"title": "Amundi STOXX Europe 600 Insurance UCITS ETF Dist"
+},
+"LU2082998837": {
+"countries": [
+{
+"label": "Pays-Bas",
+"weight": 0.4373
+},
+{
+"label": "Allemagne",
+"weight": 0.2621
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0908
+},
+{
+"label": "Italie",
+"weight": 0.0484
+},
+{
+"label": "France",
+"weight": 0.0483
+},
+{
+"label": "Suède",
+"weight": 0.037
+},
+{
+"label": "Espagne",
+"weight": 0.0349
+},
+{
+"label": "Suisse",
+"weight": 0.0235
+},
+{
+"label": "Norvège",
+"weight": 0.0077
+},
+{
+"label": "Autriche",
+"weight": 0.0066
+},
+{
+"label": "Autres",
+"weight": 0.0034
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.8363
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0841
+},
+{
+"label": "Industrie",
+"weight": 0.065
+},
+{
+"label": "Services de communication",
+"weight": 0.0145
+}
+],
+"title": "Amundi STOXX Europe 600 Technology UCITS ETF Dist"
+},
+"LU2082999058": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2691
+},
+{
+"label": "Finlande",
+"weight": 0.1575
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1541
+},
+{
+"label": "Suède",
+"weight": 0.1165
+},
+{
+"label": "France",
+"weight": 0.0807
+},
+{
+"label": "Espagne",
+"weight": 0.0693
+},
+{
+"label": "Suisse",
+"weight": 0.0658
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0436
+},
+{
+"label": "Norvège",
+"weight": 0.0213
+},
+{
+"label": "Italie",
+"weight": 0.014
+},
+{
+"label": "Grèce",
+"weight": 0.0078
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Services de communication",
+"weight": 0.7814
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.2098
+},
+{
+"label": "Industrie",
+"weight": 0.0089
+}
+],
+"title": "Amundi STOXX Europe 600 Telecommunications UCITS ETF Dist"
+},
+"LU2082999132": {
+"countries": [
+{
+"label": "France",
+"weight": 0.3364
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.1873
+},
+{
+"label": "Allemagne",
+"weight": 0.1371
+},
+{
+"label": "Suisse",
+"weight": 0.1124
+},
+{
+"label": "Italie",
+"weight": 0.076
+},
+{
+"label": "Espagne",
+"weight": 0.0626
+},
+{
+"label": "Pologne",
+"weight": 0.0234
+},
+{
+"label": "Irlande",
+"weight": 0.0198
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0165
+},
+{
+"label": "Suède",
+"weight": 0.0134
+},
+{
+"label": "Danemark",
+"weight": 0.0087
+},
+{
+"label": "Autres",
+"weight": 0.0065
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.7807
+},
+{
+"label": "Consommation de base",
+"weight": 0.095
+},
+{
+"label": "Services de communication",
+"weight": 0.0681
+},
+{
+"label": "Industrie",
+"weight": 0.051
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0029
+},
+{
+"label": "Énergie",
+"weight": 0.0023
+}
+],
+"title": "Amundi STOXX Europe 600 Consumer Discretionary UCITS ETF Dist"
+},
+"LU2082999215": {
+"countries": [
+{
+"label": "Espagne",
+"weight": 0.2677
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.2318
+},
+{
+"label": "Italie",
+"weight": 0.1554
+},
+{
+"label": "Allemagne",
+"weight": 0.1328
+},
+{
+"label": "France",
+"weight": 0.1102
+},
+{
+"label": "Portugal",
+"weight": 0.0302
+},
+{
+"label": "Grèce",
+"weight": 0.0196
+},
+{
+"label": "Finlande",
+"weight": 0.0172
+},
+{
+"label": "Danemark",
+"weight": 0.014
+},
+{
+"label": "Belgique",
+"weight": 0.0098
+},
+{
+"label": "Autriche",
+"weight": 0.0071
+},
+{
+"label": "Autres",
+"weight": 0.0042
+}
+],
+"date": "2026-09-30",
+"lang": "de",
+"sectors": [
+{
+"label": "Services aux collectivités",
+"weight": 0.9917
+},
+{
+"label": "Industrie",
+"weight": 0.0083
+}
+],
+"title": "Amundi STOXX Europe 600 Utilities UCITS ETF Dist"
+},
+"LU2089238112": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2574
+},
+{
+"label": "Allemagne",
+"weight": 0.2551
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1717
+},
+{
+"label": "Espagne",
+"weight": 0.1121
+},
+{
+"label": "Italie",
+"weight": 0.1006
+},
+{
+"label": "Finlande",
+"weight": 0.0361
+},
+{
+"label": "Belgique",
+"weight": 0.0296
+},
+{
+"label": "Irlande",
+"weight": 0.0167
+},
+{
+"label": "Autriche",
+"weight": 0.0145
+},
+{
+"label": "Portugal",
+"weight": 0.0062
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.273
+},
+{
+"label": "Industrie",
+"weight": 0.1916
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1699
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0749
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0627
+},
+{
+"label": "Santé",
+"weight": 0.0589
+},
+{
+"label": "Consommation de base",
+"weight": 0.05
+},
+{
+"label": "Énergie",
+"weight": 0.0442
+},
+{
+"label": "Matériaux",
+"weight": 0.0381
+},
+{
+"label": "Services de communication",
+"weight": 0.0332
+},
+{
+"label": "Immobilier",
+"weight": 0.0036
+}
+],
+"title": "Amundi Prime Eurozone UCITS ETF"
+},
+"LU2090062436": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.35
+},
+{
+"label": "Finance",
+"weight": 0.2135
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1515
+},
+{
+"label": "Santé",
+"weight": 0.0657
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0578
+},
+{
+"label": "Services de communication",
+"weight": 0.0552
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0456
+},
+{
+"label": "Matériaux",
+"weight": 0.0432
+},
+{
+"label": "Consommation de base",
+"weight": 0.0103
+},
+{
+"label": "Immobilier",
+"weight": 0.0073
+}
+],
+"title": "Amundi DAX II UCITS ETF Dist"
+},
+"LU2090062600": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.35
+},
+{
+"label": "Finance",
+"weight": 0.2135
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1515
+},
+{
+"label": "Santé",
+"weight": 0.0657
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0578
+},
+{
+"label": "Services de communication",
+"weight": 0.0552
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0456
+},
+{
+"label": "Matériaux",
+"weight": 0.0432
+},
+{
+"label": "Consommation de base",
+"weight": 0.0103
+},
+{
+"label": "Immobilier",
+"weight": 0.0073
+}
+],
+"title": "Amundi LevDax Daily (2x) leveraged UCITS ETF Dist"
+},
+"LU2195226068": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2603
+},
+{
+"label": "Allemagne",
+"weight": 0.2253
+},
+{
+"label": "Pays-Bas",
+"weight": 0.1641
+},
+{
+"label": "Espagne",
+"weight": 0.124
+},
+{
+"label": "Italie",
+"weight": 0.1146
+},
+{
+"label": "Finlande",
+"weight": 0.0365
+},
+{
+"label": "Belgique",
+"weight": 0.0357
+},
+{
+"label": "Irlande",
+"weight": 0.0178
+},
+{
+"label": "Autriche",
+"weight": 0.0153
+},
+{
+"label": "Portugal",
+"weight": 0.0057
+},
+{
+"label": "Autres",
+"weight": 0.0008
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.3298
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.2003
+},
+{
+"label": "Industrie",
+"weight": 0.1429
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0978
+},
+{
+"label": "Santé",
+"weight": 0.0833
+},
+{
+"label": "Consommation de base",
+"weight": 0.0594
+},
+{
+"label": "Services de communication",
+"weight": 0.0403
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0377
+},
+{
+"label": "Immobilier",
+"weight": 0.0039
+},
+{
+"label": "Matériaux",
+"weight": 0.0032
+},
+{
+"label": "Énergie",
+"weight": 0.0013
+}
+],
+"title": "Amundi S&P Eurozone Climate Paris Aligned UCITS ETF Acc"
+},
+"LU2572256662": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2646
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1873
+},
+{
+"label": "Industrie",
+"weight": 0.1612
+},
+{
+"label": "Santé",
+"weight": 0.1407
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0931
+},
+{
+"label": "Services de communication",
+"weight": 0.0517
+},
+{
+"label": "Consommation de base",
+"weight": 0.0396
+},
+{
+"label": "Matériaux",
+"weight": 0.0382
+},
+{
+"label": "Énergie",
+"weight": 0.0237
+}
+],
+"title": "Amundi PEA Dow Jones Industrial Average UCITS ETF Dist"
+},
+"LU2611731667": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Industrie",
+"weight": 0.267
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.1612
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1558
+},
+{
+"label": "Matériaux",
+"weight": 0.1305
+},
+{
+"label": "Finance",
+"weight": 0.0993
+},
+{
+"label": "Services de communication",
+"weight": 0.0749
+},
+{
+"label": "Immobilier",
+"weight": 0.0572
+},
+{
+"label": "Santé",
+"weight": 0.054
+}
+],
+"title": "Amundi MDAX ESG UCITS ETF Dist"
+},
+"LU2655993207": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 0.7301
+},
+{
+"label": "Japon",
+"weight": 0.0578
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.034
+},
+{
+"label": "Canada",
+"weight": 0.0331
+},
+{
+"label": "France",
+"weight": 0.0225
+},
+{
+"label": "Suisse",
+"weight": 0.0216
+},
+{
+"label": "Allemagne",
+"weight": 0.0207
+},
+{
+"label": "Australie",
+"weight": 0.0152
+},
+{
+"label": "Pays-Bas",
+"weight": 0.0143
+},
+{
+"label": "Espagne",
+"weight": 0.0096
+},
+{
+"label": "Suède",
+"weight": 0.0081
+},
+{
+"label": "Italie",
+"weight": 0.0078
+},
+{
+"label": "Autres",
+"weight": 0.0251
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3155
+},
+{
+"label": "Finance",
+"weight": 0.1584
+},
+{
+"label": "Industrie",
+"weight": 0.1085
+},
+{
+"label": "Santé",
+"weight": 0.0928
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0832
+},
+{
+"label": "Services de communication",
+"weight": 0.0829
+},
+{
+"label": "Consommation de base",
+"weight": 0.0481
+},
+{
+"label": "Énergie",
+"weight": 0.0403
+},
+{
+"label": "Matériaux",
+"weight": 0.0321
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.023
+},
+{
+"label": "Immobilier",
+"weight": 0.0153
+}
+],
+"title": "Amundi MSCI World Swap UCITS ETF EUR Dist"
+},
+"t_INSTITUTIONNEL20260930": {
+"countries": [
+{
+"label": "États-Unis",
+"weight": 1.0
+}
+],
+"date": "2026-09-30",
+"lang": "fr",
+"sectors": [
+{
+"label": "Technologies de l’information",
+"weight": 0.3923
+},
+{
+"label": "Finance",
+"weight": 0.126
+},
+{
+"label": "Santé",
+"weight": 0.1197
+},
+{
+"label": "Services de communication",
+"weight": 0.1122
+},
+{
+"label": "Industrie",
+"weight": 0.0854
+},
+{
+"label": "Consommation de base",
+"weight": 0.049
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0425
+},
+{
+"label": "Immobilier",
+"weight": 0.0215
+},
+{
+"label": "Matériaux",
+"weight": 0.0205
+},
+{
+"label": "Énergie",
+"weight": 0.0183
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0126
+}
+],
+"title": "Amundi PEA S&P 500 Screened UCITS ETF - Acc"
+}
+}

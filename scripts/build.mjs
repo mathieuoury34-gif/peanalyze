@@ -35,7 +35,7 @@ function walk(dir, base = dir) {
 }
 
 function writeServiceWorker() {
-  const files = walk('dist').filter((f) => !f.endsWith('.map') && f !== 'sw.js' && f !== 'prices.json');
+  const files = walk('dist').filter((f) => !f.endsWith('.map') && f !== 'sw.js' && f !== 'prices.json' && f !== 'compositions.json');
   const hash = createHash('sha256');
   for (const f of files) hash.update(readFileSync(join('dist', f)));
   const version = hash.digest('hex').slice(0, 10);

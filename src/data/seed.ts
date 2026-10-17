@@ -12,25 +12,39 @@ export const COMPOSITION_DATE: string = (catalogJson as { compositionDate?: stri
 export function builtinCatalog(): CatalogEtf[] {
   return catalogJson.etfs as CatalogEtf[];
 }
-/** Composition d'un ETF ajouté depuis le catalogue (secteurs et pays de son indice). */
-export function catalogComposition(e: Pick<Etf, 'isin' | 'ticker'>): { sectors: Etf['sectors']; countries: Etf['countries'] } | null {
-  const c = builtinCatalog().find((x) => x.isin === e.isin) || (e.ticker ? builtinCatalog().find((x) => x.ticker === e.ticker) : undefined);
-  if (!c || (!c.sectors?.length && !c.countries?.length)) return null;
-  return { sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []) };
+/** Fiches mensuelles plus récentes publiées par le robot (public/compositions.json), indexées par ISIN de l'ETF source. */
+export interface CompositionsFile {
+  updatedAt: string;
+  items: Record<string, { date: string; title?: string; sectors: Etf['sectors']; countries: Etf['countries'] }>;
 }
-/** Complète les ETF sans composition (ajoutés depuis le catalogue) ; ne touche pas aux compositions saisies. */
-export function fillCompositions(d: AppData): AppData {
+
+let compOverlay: CompositionsFile | null = null;
+export function setCompositionsOverlay(f: CompositionsFile | null): void { compOverlay = f; }
+
+function catalogEntry(e: Pick<Etf, 'isin' | 'ticker'>): CatalogEtf | undefined {
+  return builtinCatalog().find((x) => x.isin === e.isin) || (e.ticker ? builtinCatalog().find((x) => x.ticker === e.ticker) : undefined);
+}
+
+/** Répartition proposée pour un ETF : celle du catalogue, ou celle d'une fiche plus récente du robot. */
+export function catalogComposition(e: Pick<Etf, 'isin' | 'ticker'>, overlay: CompositionsFile | null = compOverlay): { sectors: Etf['sectors']; countries: Etf['countries']; comp: NonNullable<Etf['comp']> } | null {
+  const c = catalogEntry(e);
+  if (!c || !c.comp || (!c.sectors?.length && !c.countries?.length)) return null;
+  const o = c.comp.kind !== 'justetf' && c.comp.from ? overlay?.items?.[c.comp.from] : undefined;
+  if (o && o.date > c.comp.date && o.sectors?.length) {
+    return { sectors: structuredClone(o.sectors), countries: structuredClone(o.countries ?? []), comp: { ...c.comp, date: o.date } };
+  }
+  return { sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []), comp: { ...c.comp } };
+}
+
+/** Met à jour les répartitions des ETF suivis quand le catalogue (ou une fiche plus récente du robot) est plus récent. */
+export function refreshCompositions(d: AppData, overlay: CompositionsFile | null = compOverlay): AppData {
   for (const e of d.etfs) {
-    if (e.sectors?.length || e.countries?.length) continue;
-    const c = catalogComposition(e);
-    if (c) { e.sectors = c.sectors; e.countries = c.countries; }
+    const c = catalogComposition(e, overlay);
+    if (!c) continue;
+    if (e.comp && e.comp.kind === c.comp.kind && e.comp.from === c.comp.from && e.comp.date >= c.comp.date) continue;
+    e.sectors = c.sectors; e.countries = c.countries; e.comp = c.comp;
   }
   return d;
-}
-/** Vrai si la composition affichée vient du catalogue (principaux secteurs et pays seulement). */
-export function isCatalogComposition(e: Etf): boolean {
-  const c = catalogComposition(e);
-  return !!c && JSON.stringify(c.sectors) === JSON.stringify(e.sectors) && JSON.stringify(c.countries) === JSON.stringify(e.countries);
 }
 /** Clé unique d'une ligne du catalogue (mnémonique Paris, sinon ISIN). */
 export function catKey(c: CatalogEtf): string {

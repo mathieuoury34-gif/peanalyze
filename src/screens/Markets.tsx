@@ -12,7 +12,7 @@ import { getData, replaceData, update } from '../data/store';
 import { MAX_ETFS, refreshPrices, usePriceStatus } from '../data/prices';
 import { lang, t, tl } from '../i18n';
 import type { CatalogEtf, Etf } from '../domain/types';
-import { catKey, CATALOG_DATE, COMPOSITION_DATE, isCatalogComposition } from '../data/seed';
+import { catKey, CATALOG_DATE } from '../data/seed';
 
 const NAV = [{ to: '/marches', label: t('Mes ETF') }, { to: '/marches/catalogue', label: t('Catalogue') }];
 const color = (id: string) => `var(--etf-${id}, var(--chart-other))`;
@@ -213,8 +213,12 @@ export function EtfDetailScreen({ id }: { id: string }) {
           </section>
         )}
         </div>
-        {(sectors.length > 0 || countries.length > 0) && isCatalogComposition(e) && (
-          <p className="t-caption c-moderate dspan-12" style={{ order: 6 }}>{t('Principaux secteurs et pays de l’indice suivi (source justETF, au {d}).', { d: dateFr(COMPOSITION_DATE) })}</p>
+        {(sectors.length > 0 || countries.length > 0) && e.comp && (
+          <p className="t-caption c-moderate dspan-12" style={{ order: 6 }}>
+            {e.comp.kind === 'fiche' && t('Source : fiche mensuelle officielle de l’émetteur, classification GICS, au {d}.', { d: dateFr(e.comp.date) })}
+            {e.comp.kind === 'indice' && t('Source : fiche mensuelle officielle d’un ETF suivant le même indice ({n}), classification GICS, au {d}.', { n: e.comp.fromName || e.comp.from || '', d: dateFr(e.comp.date) })}
+            {e.comp.kind === 'justetf' && t('Répartition indicative (source justETF, classification différente de celle des émetteurs), au {d} : non comptée dans les répartitions du portefeuille.', { d: dateFr(e.comp.date) })}
+          </p>
         )}
         {!sectors.length && !countries.length && (
           <section className="card"><p className="c-neutral t-caption">{t('Composition non renseignée pour cet ETF.')}</p></section>
@@ -235,7 +239,7 @@ export function addCatalogEtf(c: CatalogEtf): void {
       d.etfs.push({
         id: c.ticker, index: c.index, name: c.name, isin: c.isin, ticker: c.ticker, exchange: c.exchange || 'Euronext Paris',
         category: c.category, peaEligible: c.peaEligible, lastPrice: c.unitPrice ?? 0, ter: c.ter, aumMEur: c.aumMEur ?? 0,
-        replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant', inStrategy: false, sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []), priceHistory: [],
+        replication: c.replication ?? 'Synthétique', distribution: c.distribution ?? 'Capitalisant', inStrategy: false, sectors: structuredClone(c.sectors ?? []), countries: structuredClone(c.countries ?? []), comp: c.comp && { ...c.comp }, priceHistory: [],
       });
     }
     if (!d.myEtfIds.includes(c.ticker)) d.myEtfIds.push(c.ticker);

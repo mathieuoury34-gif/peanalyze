@@ -1,16 +1,19 @@
 // Portefeuille › Analyse : comparaison à un ETF de référence, recoupements entre ETF, risque et coût de détention
-import { useMemo } from 'react';
-import { AppHeader, EtfDot, Fab, PriceErrorBanner, SubNav } from '../ui/kit';
+import { useMemo, useState } from 'react';
+import { AppHeader, EtfDot, Fab, PriceErrorBanner, SubNav, showToast } from '../ui/kit';
 import { CompareLinesChart } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { navigate, openSheet } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { update } from '../data/store';
+import { catKey } from '../data/seed';
 import { benchmarkCompare, holdingCost, overlapPairs, riskAnalysis, simulationWithCosts, type OverlapPair } from '../domain/analysis';
 import { displayHistory, exposure, exposureCoverage } from '../domain/calc';
 import { dateFr, eur, eurSigned, num, pct, pctSigned } from '../domain/format';
 import { t, tl } from '../i18n';
 import { PF_NAV } from './Portfolio';
+import { addCatalogEtf } from './Markets';
+import { EtfPickerSheet } from './PlanParts';
 
 function Kpi({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'bad' }) {
   return (
@@ -36,10 +39,12 @@ const LEVEL: Record<OverlapPair['level'], () => string> = {
 export function AnalysisScreen() {
   const { data, positions, etf } = useCalc();
   const name = (id: string) => etf(id)?.index ?? id;
+  const [pickRef, setPickRef] = useState(false);
 
   // ---------------------------------------------------------------- référence
   const candidates = data.etfs.filter((e) => displayHistory(e).length >= 2);
-  const benchId = candidates.some((e) => e.id === data.settings.benchmarkId) ? data.settings.benchmarkId! : (candidates.find((e) => e.id === 'WPEA') ?? candidates.find((e) => /world|monde/i.test(e.index + ' ' + e.category)) ?? candidates[0])?.id;
+  const chosen = data.etfs.find((e) => e.id === data.settings.benchmarkId); // référence choisie, même si son historique n'est pas encore chargé
+  const benchId = chosen ? chosen.id : (candidates.find((e) => e.id === 'WPEA') ?? candidates.find((e) => /world|monde/i.test(e.index + ' ' + e.category)) ?? candidates[0])?.id;
   const bench = useMemo(() => (benchId ? benchmarkCompare(data, benchId) : null), [data, benchId]);
 
   const pairs = useMemo(() => overlapPairs(data, positions), [data, positions]);
@@ -72,14 +77,16 @@ export function AnalysisScreen() {
               <h2 id="t305-ref">{t('Face à un ETF de référence')}</h2>
               <span className="t-caption c-moderate">{t('Que serait devenu votre argent s’il avait été placé dans un seul ETF, aux mêmes dates ?')}</span>
             </div>
-            {candidates.length > 0 && (
+            {(candidates.length > 0 || chosen) && (
               <label className="field">
                 <span className="lbl">{t('ETF de référence')}</span>
                 <select className="input" value={benchId} onChange={(e) => update((d) => { d.settings.benchmarkId = e.target.value; })} data-component="Select">
-                  {candidates.map((e) => <option key={e.id} value={e.id}>{e.index} · {e.id}</option>)}
+                  {(chosen && !candidates.some((e) => e.id === chosen.id) ? [...candidates, chosen] : candidates).map((e) => <option key={e.id} value={e.id}>{e.index} · {e.id}</option>)}
                 </select>
               </label>
             )}
+            <p className="t-caption c-moderate">{t('Seuls les ETF de « Mes ETF » dont les cours sont suivis peuvent servir de référence. Pour comparer à un autre indice (MSCI World, S&P 500…), choisissez-le dans le catalogue : il est ajouté à Mes ETF et son historique est chargé au prochain passage du robot des cours.')}</p>
+            <button type="button" className="btn btn-secondary" style={{ alignSelf: 'flex-start' }} onClick={() => setPickRef(true)}><Icon name="search" size={20} />{t('Choisir un autre ETF de référence')}</button>
             {bench ? (
               <>
                 <p className="t-strong" data-testid="bench-verdict">
@@ -102,7 +109,7 @@ export function AnalysisScreen() {
                 </Note>
               </>
             ) : (
-              <p className="c-neutral">{candidates.length ? t('Pas assez d’historique de cours pour comparer : revenez après quelques semaines de cours.') : t('Aucun ETF suivi n’a encore d’historique de cours : actualisez les cours depuis les réglages.')}</p>
+              <p className="c-neutral">{chosen && displayHistory(chosen).length < 2 ? t('L’historique de cours de {r} n’est pas encore chargé : il arrive au prochain passage du robot des cours (en général sous 24 h).', { r: name(chosen.id) }) : candidates.length ? t('Pas assez d’historique de cours pour comparer : revenez après quelques semaines de cours.') : t('Aucun ETF suivi n’a encore d’historique de cours : actualisez les cours depuis les réglages.')}</p>
             )}
           </section>
         )}
@@ -219,6 +226,16 @@ export function AnalysisScreen() {
         )}
       </main>
       <Fab onClick={() => openSheet('ajouter')} />
+      {pickRef && (
+        <EtfPickerSheet data={data} title={t('Quel ETF pour comparer ?')} mode="any" onClose={() => setPickRef(false)}
+          onPick={(k) => {
+            setPickRef(false);
+            const c = data.catalog.find((x) => catKey(x) === k);
+            if (c && !c.ticker) { showToast(t('Cet ETF n’est pas coté à Paris : ses cours ne peuvent pas être suivis.'), { error: true }); return; }
+            if (c && !data.etfs.some((e) => e.id === c.ticker)) { addCatalogEtf(c); showToast(t('{n} ajouté à Mes ETF : son historique arrive au prochain passage du robot', { n: c.index })); }
+            update((d) => { d.settings.benchmarkId = c?.ticker ?? k; });
+          }} />
+      )}
     </div>
   );
 }

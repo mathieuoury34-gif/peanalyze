@@ -7,12 +7,12 @@ Application personnelle de suivi de PEA en ETF (Portefeuille, Historique, March�
 ## Structure
 | Dossier | Contenu |
 |---|---|
-| `src/domain/` | Règles de calcul (positions, PRU, TRI, expositions, assistant, simulateur) et formatage français |
+| `src/domain/` | Règles de calcul (positions, PRU, TRI, expositions, assistant, simulateur, plans) et formatage français |
 | `src/data/` | Données (stockage local, `seed-data.json` et `catalog.json` : ETF, cours et catalogue publics), cours, synchronisation Firebase, export Excel (`excel-peanalyze.ts` + générateur `xlsx.ts`) et import (`excel.ts`) |
 | `src/ui/` | Composants de la planche Système, graphiques SVG, navigation |
 | `src/screens/` | Écrans T0 à T4 de la maquette |
 | `src/styles/` | `tokens.css` (design tokens v2) et `app.css` |
-| `public/` | Icônes, manifeste PWA, `prices.json` (cours mis à jour par GitHub Actions) |
+| `public/` | Icônes, manifeste PWA, `prices.json` (cours) et `compositions.json` (répartitions) mis à jour par GitHub Actions |
 | `docs/` | Dossier de reconstruction (à lire en premier) |
 | `tests/` | Tests des calculs (valeurs attendues de HANDOFF.md §6) et aller-retour export / import Excel |
 | `private/` | **Non publié** (ignoré par git) : opérations personnelles et fichier Excel d'origine, utilisés par les tests en local |

@@ -1,5 +1,5 @@
 // Simulateur › Plans › un plan : ventes, argent disponible, stratégie visée, ordres et effets avant / après
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Segmented, Sheet, SubHeader, Empty, Switch, showToast } from '../ui/kit';
 import { Icon } from '../ui/icons';
 import { back, navigate } from '../ui/router';
@@ -11,11 +11,14 @@ import { catKey } from '../data/seed';
 import { getData, newId, replaceData, update } from '../data/store';
 import { t, tl, tn } from '../i18n';
 import { addCatalogEtf } from './Markets';
-import { Dot, EtfPickerSheet, MoneyField, shortName } from './PlanParts';
+import { Dot, EtfPickerSheet, MoneyField, planDrafts, shortName } from './PlanParts';
 
 export function PlanScreen({ id }: { id: string }) {
   const { data } = useCalc();
-  const plan = (data.plans ?? []).find((p) => p.id === id);
+  const saved = (data.plans ?? []).find((p) => p.id === id);
+  // Un plan neuf n'existe que comme brouillon tant qu'on n'a pas appuyé sur « Enregistrer ».
+  const [seed] = useState<Plan | undefined>(() => saved ?? planDrafts.get(id));
+  const plan = saved ?? seed;
   if (!plan) {
     return (
       <div className="screen">
@@ -24,7 +27,7 @@ export function PlanScreen({ id }: { id: string }) {
       </div>
     );
   }
-  return <PlanEditor key={plan.id} plan={plan} data={data} />;
+  return <PlanEditor key={plan.id} saved={saved} initial={plan} data={data} />;
 }
 
 const warnText = (w: PlanWarning): string => {
@@ -40,16 +43,31 @@ const warnText = (w: PlanWarning): string => {
   }
 };
 
-function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
+function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial: Plan; data: AppData }) {
   const { positions } = useCalc();
+  const [plan, setPlan] = useState<Plan>(() => structuredClone(saved ?? initial));
+  useEffect(() => () => { planDrafts.delete(initial.id); }, [initial.id]); // quitter l'écran abandonne un plan jamais enregistré
+  const dirty = !saved || JSON.stringify(plan) !== JSON.stringify(saved);
   const r = useMemo(() => computePlan(data, plan), [data, plan]);
   const backtest = useMemo(() => planBacktest(data, r), [data, r]);
-  const [nameText, setNameText] = useState(plan.name);
   const [targetSheet, setTargetSheet] = useState(false);
   const [applyOpen, setApplyOpen] = useState(false);
   const [alsoStrategy, setAlsoStrategy] = useState(plan.targets !== null);
   const [exp, setExp] = useState<'sec' | 'geo'>('sec');
-  const patch = (fn: (p: Plan) => void) => update((d) => { const p = (d.plans ?? []).find((x) => x.id === plan.id); if (p) fn(p); });
+  /** Modifie le brouillon local : rien n'est conservé tant qu'on n'a pas appuyé sur « Enregistrer ». */
+  const patch = (fn: (p: Plan) => void) => setPlan((cur) => { const c = structuredClone(cur); fn(c); return c; });
+  const save = () => {
+    const final: Plan = { ...structuredClone(plan), name: plan.name.trim() || t('Plan sans nom') };
+    update((d) => {
+      const list = d.plans ?? [];
+      const i = list.findIndex((x) => x.id === final.id);
+      if (i >= 0) list[i] = final; else list.push(final);
+      d.plans = list;
+    });
+    planDrafts.delete(final.id);
+    setPlan(final);
+    showToast(t('Plan enregistré'));
+  };
   const held = positions.filter((p) => p.quantity > 0);
   const targets = planTargets(data, plan);
   const custom = plan.targets !== null;
@@ -64,13 +82,14 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
 
   const remove = () => {
     const prev = getData();
-    update((d) => { d.plans = (d.plans ?? []).filter((x) => x.id !== plan.id); });
+    planDrafts.delete(plan.id);
+    if (saved) update((d) => { d.plans = (d.plans ?? []).filter((x) => x.id !== plan.id); });
     back('/simulateur/plans');
-    showToast(t('Plan supprimé'), { undo: () => replaceData(prev) });
+    showToast(saved ? t('Plan supprimé') : t('Plan abandonné'), saved ? { undo: () => replaceData(prev) } : undefined);
   };
   const duplicate = () => {
     const copy: Plan = { ...structuredClone(plan), id: newId('plan'), name: t('{n} (copie)', { n: plan.name }), createdAt: new Date().toISOString() };
-    update((d) => { d.plans = [...(d.plans ?? []), copy]; });
+    planDrafts.set(copy.id, copy);
     navigate('/simulateur/plan/' + copy.id, { replace: true });
   };
   const adopt = () => {
@@ -123,7 +142,7 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
         <section className="card g8 dspan-12">
           <label className="field">
             <span className="lbl">{t('Nom du plan')}</span>
-            <input className="input" value={nameText} maxLength={60} onChange={(e) => setNameText(e.target.value)} onBlur={() => patch((p) => { p.name = nameText.trim() || t('Plan sans nom'); })} />
+            <input className="input" value={plan.name} maxLength={60} onChange={(e) => patch((p) => { p.name = e.target.value; })} />
           </label>
         </section>
 
@@ -351,6 +370,8 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
 
         <section className="card g8 dspan-12" aria-label={t('Actions')}>
           <div className="stack-8">
+            <button type="button" className="btn btn-primary" data-testid="plan-save" disabled={!dirty} onClick={save}><Icon name="check" size={20} />{saved ? t('Enregistrer les modifications') : t('Enregistrer ce plan')}</button>
+            {dirty && <p className="t-caption c-moderate" role="note" data-testid="plan-unsaved">{saved ? t('Modifications non enregistrées : si vous quittez cet écran sans enregistrer, elles seront perdues.') : t('Ce plan n’est pas encore enregistré : si vous quittez cet écran sans enregistrer, il sera abandonné.')}</p>}
             <button type="button" className="btn btn-primary" disabled={r.sells.length + r.buys.length + (r.deposit > 0 ? 1 : 0) + (r.withdraw > 0 ? 1 : 0) === 0} onClick={() => setApplyOpen(true)}><Icon name="check" size={20} />{t('Appliquer ce plan')}</button>
             <button type="button" className="btn btn-secondary" disabled={Object.keys(targets).length === 0} onClick={adopt}><Icon name="check" size={20} />{t('Adopter cette cible dans l’app')}</button>
             <button type="button" className="btn btn-secondary" onClick={duplicate}><Icon name="list" size={20} />{t('Dupliquer ce plan')}</button>

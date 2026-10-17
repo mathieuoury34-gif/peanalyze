@@ -4,9 +4,12 @@ import { Sheet } from '../ui/kit';
 import { Icon } from '../ui/icons';
 import { eur, num, parseNum, pct, toInput } from '../domain/format';
 import { instrumentOf, searchCatalog, type Instrument } from '../domain/plan';
-import type { AppData } from '../domain/types';
+import type { AppData, Plan } from '../domain/types';
 import { catKey } from '../data/seed';
 import { t, tl } from '../i18n';
+
+/** Plans neufs pas encore enregistrés (en mémoire seulement) : ils disparaissent si l'on quitte l'écran sans enregistrer. */
+export const planDrafts = new Map<string, Plan>();
 
 export const SIM_NAV = () => [{ to: '/simulateur', label: t('Épargne') }, { to: '/simulateur/plans', label: t('Plans') }, { to: '/simulateur/objectifs', label: t('Objectifs') }];
 

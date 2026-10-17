@@ -7,14 +7,14 @@ import { useCalc } from '../ui/useCalc';
 import { eur, eurSigned, num, pct } from '../domain/format';
 import { blankPlan, computePlan, planSellOne, planSingle, type PlanResult } from '../domain/plan';
 import type { AppData, Plan } from '../domain/types';
-import { newId, update } from '../data/store';
+import { newId } from '../data/store';
 import { t, tn } from '../i18n';
-import { EtfPickerSheet, SIM_NAV, shortName } from './PlanParts';
+import { EtfPickerSheet, SIM_NAV, planDrafts, shortName } from './PlanParts';
 
 type Chooser = null | 'sell' | 'single';
 
 export function addPlan(plan: Plan): void {
-  update((d) => { d.plans = [...(d.plans ?? []), plan]; });
+  planDrafts.set(plan.id, plan); // brouillon : conservé seulement par « Enregistrer » dans l'éditeur
   navigate('/simulateur/plan/' + plan.id);
 }
 

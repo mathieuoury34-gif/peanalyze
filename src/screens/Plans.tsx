@@ -49,7 +49,7 @@ export function PlansScreen() {
 
         <section aria-labelledby="t410-new" className="card g8 dspan-12">
           <h2 id="t410-new">{t('Créer un plan')}</h2>
-          <div className="grid-2">
+          <div className="grid-2 btns">
             <button type="button" className="btn btn-secondary" disabled={!hasLines} onClick={() => setChooser('sell')}><Icon name="minus" size={20} />{t('Vendre un ETF')}</button>
             <button type="button" className="btn btn-secondary" onClick={() => setChooser('single')}><Icon name="sparkle" size={20} />{t('Tout regrouper dans un ETF')}</button>
             <button type="button" className="btn btn-secondary" style={{ gridColumn: '1 / -1' }} onClick={() => addPlan(blankPlan(data, id(), t('Plan libre')))}><Icon name="plus" size={20} />{t('Plan libre : ventes, versement et cible à ma main')}</button>

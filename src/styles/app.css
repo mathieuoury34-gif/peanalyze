@@ -175,6 +175,10 @@ ul { list-style: none; margin: 0; padding: 0; }
 .warn-chip { font: var(--type-chip); color: var(--warning-text); background: var(--warning-bg); padding: var(--space-2) var(--space-8); border-radius: var(--radius-full); white-space: nowrap; }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: var(--button-height); padding: var(--button-padding); border: 1px solid transparent; border-radius: var(--button-radius); font: var(--type-button); text-decoration: none; cursor: pointer; white-space: nowrap; }
+/* Boutons de grille ou libellés longs (surtout en anglais, sur téléphone) : le texte passe à la ligne au lieu de déborder */
+.grid-2 > .btn, .btn.wrap { white-space: normal; height: auto; min-height: var(--button-height); padding-top: var(--space-8); padding-bottom: var(--space-8); text-align: center; line-height: 1.25; }
+.btn svg { flex: none; }
+@media (max-width: 480px) { .grid-2.btns { grid-template-columns: minmax(0, 1fr); } }
 .btn.block { display: flex; width: 100%; }
 .btn-primary { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--text-reverse); }
 .btn-primary:hover { background: var(--brand-primary-hover); border-color: var(--brand-primary-hover); color: var(--text-reverse); }
@@ -392,6 +396,7 @@ select.input { appearance: auto; }
 .faq .faq-a ul { padding-left: var(--space-20); display: flex; flex-direction: column; gap: var(--space-4); }
 .help-search { margin-bottom: var(--space-4); }
 .explain { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12) var(--space-16); border-radius: var(--radius-12); background: var(--info-bg); color: var(--info-text); font: var(--type-caption); }
+.explain > :not(summary) { display: block; }
 .explain strong { font-weight: var(--fw-700); }
 .explain ol { margin: 0; padding-left: var(--space-20); display: flex; flex-direction: column; gap: var(--space-4); }
 .explain a, .explain button.link { color: inherit; font: var(--type-caption-strong); text-decoration: underline; background: none; border: 0; padding: 0; cursor: pointer; align-self: flex-start; min-height: 32px; }

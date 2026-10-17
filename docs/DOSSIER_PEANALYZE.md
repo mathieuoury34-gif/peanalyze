@@ -115,6 +115,6 @@ Chaque ETF a **une couleur propre** (`settings.etfColors`), choisie dans Mes ETF
 ## 13. Points ouverts
 - **Publier `firestore.rules`** dans la console Firebase (manuel ; tant que ce n'est pas fait, le robot suit les anciens ETF).
 - Date d'ouverture du PEA : à saisir une fois (Paramètres › PEA) puis ré-exporter l'Excel.
-- Testeur (PEA d'un ami) : données de départ avant le 04/01/2026, allocation cible et solde espèces à confirmer.
+- Testeur (PEA d'un ami) : Excel `PEAnalyze_PEA_ami.xlsx` complet depuis le 17/10/2026 (ouverture 10/10/2025, 78 opérations du relevé courtier : 36 achats, 11 versements, 31 remboursements de frais ; solde espèces 0,00 €). Stratégie : PSP5 40 %, CACC 25 %, PCEU 20 %, PAEEM 15 %, PE500 0 % (hors stratégie, conservé). Les cours de PSP5, PCEU et PE500 sont chargés par le robot à la première connexion de l'ami. Les frais courtier sont de 0,5 % du montant (minimum 1,92 € prélevé puis remboursé par « REMBOURSEMENT PLAF PEA T.PERCU »).
 - L'écran de démarrage blanc d'Android (avant l'app) est celui du système, non modifiable en thème sombre.
 - Limites connues : historique de cours 1 an (offre gratuite) ; ETF non cotés à Paris non suivables ; cours des ETF ajoutés dans l'Excel non repris dans la feuille Cours.

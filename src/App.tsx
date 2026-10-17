@@ -8,6 +8,8 @@ import { AssistantScreen, TargetSheet } from './screens/Assistant';
 import { CatalogueScreen, CompareScreen, EtfDetailScreen, ManageEtfsScreen, MyEtfsScreen } from './screens/Markets';
 import { AddSheet, DepositScreen, JournalScreen, OverviewScreen, PurchaseScreen } from './screens/History';
 import { SimulatorScreen } from './screens/Simulator';
+import { AnalysisScreen } from './screens/Analysis';
+import { GoalsScreen } from './screens/Goals';
 import { PlansScreen } from './screens/Plans';
 import { PlanScreen } from './screens/PlanEditor';
 import { LoadingScreen, LoginScreen, SettingsScreen } from './screens/Settings';
@@ -22,6 +24,7 @@ function Screen() {
     case 'portefeuille':
       if (b === 'repartitions') return <RepartitionsScreen />;
       if (b === 'assistant') return <AssistantScreen />;
+      if (b === 'analyse') return <AnalysisScreen />;
       return <PortfolioScreen />;
     case 'marches':
       if (b === 'catalogue') return <CatalogueScreen compare={compare} setCompare={setCompare} />;
@@ -34,9 +37,10 @@ function Screen() {
       if (b === 'virement') return <DepositScreen key={route.key} />;
       return <OverviewScreen />;
     case 'simulateur':
-      if (b === 'epargne') return <SimulatorScreen />;
+      if (b === 'plans') return <PlansScreen />;
+      if (b === 'objectifs') return <GoalsScreen />;
       if (b === 'plan' && c) return <PlanScreen id={c} />;
-      return <PlansScreen />;
+      return <SimulatorScreen />;
     case 'parametres':
       if (b === 'etf') return <ManageEtfsScreen />;
       if (b === 'aide') return <HelpScreen key={route.key} />;

@@ -67,16 +67,17 @@ export interface CatalogEtf {
 export interface Deposit {
   id: string;
   date: string; // ISO
-  amount: number;
+  amount: number; // négatif = retrait du PEA
 }
 
+/** Achat (quantité > 0) ou vente (quantité < 0, coût de revient sorti au PRU). */
 export interface Transaction {
   id: string;
   date: string; // ISO
   etfId: string;
   unitPrice: number;
   quantity: number;
-  grossAmount: number; // débit courtier, frais inclus
+  grossAmount: number; // débit courtier, frais inclus (négatif pour une vente : somme créditée, frais déduits)
   fees: number; // grossAmount − unitPrice × quantity
   feeRefund: number;
 }
@@ -112,6 +113,15 @@ export interface Plan {
   targets: Record<string, number> | null; // clé ETF (identifiant ou ticker/ISIN du catalogue) → 0–1 ; null = stratégie actuelle de l'app
 }
 
+/** Objectif d'épargne : un capital à atteindre à une date. */
+export interface Goal {
+  id: string;
+  name: string;
+  target: number; // capital visé (€)
+  date: string; // ISO, échéance
+  createdAt: string; // ISO date-heure
+}
+
 export type PriceRefresh = 'open' | 'hour' | 'manual';
 
 export interface Settings {
@@ -125,6 +135,8 @@ export interface Settings {
   cashBalance: number | null; // null = calculé
   feePerOrder: number;
   etfColors?: Record<string, string>; // couleur choisie par ETF (hex sans #) ; sinon défaut selon l'ordre de Mes ETF
+  reminderDay?: number; // rappel mensuel « investir » : jour du mois (1–28), 0/absent = désactivé
+  benchmarkId?: string; // ETF de référence pour la comparaison (Analyse) ; absent = 1er ETF suivi
 }
 
 export interface AppData {
@@ -138,6 +150,7 @@ export interface AppData {
   targetAllocation: Record<string, number>; // 0–1
   simulation: Simulation;
   plans?: Plan[]; // scénarios du Simulateur › Plans
+  goals?: Goal[]; // objectifs d'épargne
   settings: Settings;
 }
 
@@ -150,6 +163,7 @@ export interface Position {
   marketValue: number;
   unrealizedPnl: number;
   unrealizedPnlPct: number;
+  realizedPnl: number; // plus-value déjà réalisée par des ventes de cette ligne
   weightActual: number; // 0–1
   weightTarget: number; // 0–1
   gapPts: number; // (réel − cible) × 100
@@ -165,7 +179,8 @@ export interface PortfolioSummary {
   cashBalance: number;
   securitiesValue: number;
   totalValue: number;
-  unrealizedPnl: number;
+  unrealizedPnl: number; // valorisation − montant net épargné : plus-value totale (latente + réalisée)
+  realizedPnl: number; // part déjà réalisée par des ventes
   globalReturnPct: number;
   annualizedReturnXirr: number | null;
   feesPaid: number;

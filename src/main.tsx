@@ -3,6 +3,7 @@ import { App } from './App';
 import { startAutoRefresh } from './data/prices';
 import { loadCompositions } from './data/compositions';
 import { startSync } from './data/sync';
+import { startReminder } from './data/reminder';
 import { hideSplash } from './splash';
 import './styles/tokens.css';
 import './styles/app.css';
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')!).render(<App />);
 startSync();
 setTimeout(hideSplash, 8000); // sécurité : l'écran de lancement ne reste jamais bloqué
 startAutoRefresh();
+startReminder();
 setTimeout(() => void loadCompositions(), 2500); // répartitions mises à jour chaque mois par le robot
 
 // Application hors ligne (service worker) – uniquement en production (https)

@@ -1,7 +1,8 @@
 // Plans (Simulateur › Plans) : calcul d'un scénario « et si je vendais… et que j'achetais… ».
 // Fonctions pures : rien n'est écrit dans le portefeuille réel.
 import type { AppData, CatalogEtf, CompMeta, Plan, PlanSell, WeightItem } from './types';
-import { assistant, cashBalance, compositionUsable, computePositions, normalizeLabel, type ExposureRow } from './calc';
+import { assistant, cashBalance, compositionUsable, computePositions, displayHistory, ledger, normalizeLabel, priceAt, valuationDate, type ExposureRow } from './calc';
+import { drawdownOf, volatilityOf } from './analysis';
 import { catKey } from '../data/seed';
 
 const round2 = (v: number) => Math.round(v * 100) / 100;
@@ -29,8 +30,8 @@ export interface Instrument {
 export function instrumentOf(data: AppData, key: string): Instrument | null {
   const etf = data.etfs.find((e) => e.id === key);
   if (etf) {
-    let held = 0, cost = 0;
-    for (const t of data.transactions) if (t.etfId === key) { held += t.quantity; cost += t.grossAmount - t.feeRefund; }
+    const l = ledger(data.transactions).lines[key];
+    const held = l?.quantity ?? 0, cost = l?.costBasis ?? 0;
     return { key, name: etf.name, index: etf.index, isin: etf.isin, price: etf.lastPrice, indicative: false, ter: etf.ter, held, costBasis: cost,
       sectors: etf.sectors, countries: etf.countries, comp: etf.comp, mine: data.myEtfIds.includes(key) || held > 0 };
   }
@@ -319,16 +320,50 @@ export function planSingle(data: AppData, id: string, key: string, name: string)
   return p;
 }
 
-export function planInvest(data: AppData, id: string, name: string, amount: number): Plan {
-  const p = blankPlan(data, id, name);
-  p.deposit = amount;
-  return p;
-}
-
 /** Recherche dans le catalogue (nom, indice, mnémonique, ISIN). */
 export function searchCatalog(data: AppData, q: string, limit = 30): CatalogEtf[] {
   const s = q.trim().toLowerCase();
   const list = data.catalog.filter((c) => c.peaEligible && c.ticker && (c.unitPrice ?? 0) > 0); // cotés à Paris : l'app peut suivre leur cours
   const hit = s ? list.filter((c) => (c.name + ' ' + c.index + ' ' + c.ticker + ' ' + c.isin).toLowerCase().includes(s)) : list;
   return hit.sort((a, b) => (b.aumMEur ?? 0) - (a.aumMEur ?? 0)).slice(0, limit);
+}
+
+// ---------------------------------------------------------------- test sur le passé
+export interface BacktestSide { ret: number; vol: number | null; maxDd: number; coverage: number }
+export interface Backtest { from: string; to: string; sessions: number; before: BacktestSide; after: BacktestSide }
+
+/**
+ * « Qu'aurait donné ce plan sur la période de cours disponible ? » : la répartition d'aujourd'hui et celle d'après le plan
+ * sont achetées le même premier jour, puis conservées sans rien changer. Seuls les ETF avec un historique de cours comptent.
+ */
+export function planBacktest(data: AppData, r: PlanResult): Backtest | null {
+  const hist = new Map<string, [string, number][]>();
+  for (const row of r.rows) {
+    const e = data.etfs.find((x) => x.id === row.key);
+    if (e && (row.wBefore > 0 || row.wAfter > 0)) { const h = displayHistory(e); if (h.length >= 2) hist.set(row.key, h); }
+  }
+  const side = (pick: (x: AllocRow) => number) => {
+    const rows = r.rows.filter((x) => pick(x) > 0);
+    const total = rows.reduce((s, x) => s + pick(x), 0);
+    const covered = rows.filter((x) => hist.has(x.key));
+    const cw = covered.reduce((s, x) => s + pick(x), 0);
+    return { rows: covered, coverage: total > 0 ? cw / total : 0, weights: new Map(covered.map((x) => [x.key, cw > 0 ? pick(x) / cw : 0])) };
+  };
+  const b = side((x) => x.wBefore), a = side((x) => x.wAfter);
+  if (b.coverage < 0.5 || a.coverage < 0.5) return null;
+  const keys = new Set([...b.rows, ...a.rows].map((x) => x.key));
+  const from = Array.from(keys).reduce((m, k) => (hist.get(k)![0][0] > m ? hist.get(k)![0][0] : m), '');
+  const to = valuationDate(data);
+  const dates = Array.from(new Set(Array.from(keys).flatMap((k) => hist.get(k)!.map((x) => x[0])))).filter((d) => d >= from && d <= to).sort();
+  if (dates.length < 20) return null;
+  const run = (w: Map<string, number>, coverage: number): BacktestSide => {
+    const etfOf = (k: string) => data.etfs.find((e) => e.id === k)!;
+    const units = new Map<string, number>();
+    for (const [k, wt] of w) { const p0 = priceAt(etfOf(k), dates[0]); if (p0) units.set(k, wt / p0); }
+    const val = dates.map((d) => ({ date: d, v: Array.from(units).reduce((s, [k, u]) => s + u * (priceAt(etfOf(k), d) ?? 0), 0) }));
+    const rets = val.slice(1).map((x, i) => (val[i].v > 0 ? x.v / val[i].v - 1 : 0));
+    const dd = drawdownOf(val);
+    return { ret: val[val.length - 1].v / val[0].v - 1, vol: volatilityOf(rets), maxDd: dd ? dd.dd : 0, coverage };
+  };
+  return { from: dates[0], to: dates[dates.length - 1], sessions: dates.length - 1, before: run(b.weights, b.coverage), after: run(a.weights, a.coverage) };
 }

@@ -35,3 +35,28 @@ self.addEventListener('fetch', (e) => {
   }
   e.respondWith(caches.match(req).then((hit) => hit || fetch(req)));
 });
+
+// Rappel mensuel « investir » : la config est recopiée par l'app dans le cache « pea-config ».
+// Notification en tâche de fond là où le navigateur le permet (synchronisation périodique) ; sinon l'app notifie à son ouverture.
+async function remind() {
+  const cache = await caches.open('pea-config');
+  const hit = await cache.match('./reminder.json');
+  if (!hit) return;
+  const cfg = await hit.json();
+  if (!cfg.day) return;
+  const now = new Date();
+  const ym = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+  if (now.getDate() < cfg.day || cfg.boughtMonth === ym || cfg.notifiedMonth === ym) return;
+  await self.registration.showNotification(cfg.title, { body: cfg.body, icon: './icons/icon-192.png', badge: './icons/icon-192.png', tag: 'pea-reminder', data: { url: cfg.url } });
+  cfg.notifiedMonth = ym;
+  await cache.put('./reminder.json', new Response(JSON.stringify(cfg), { headers: { 'content-type': 'application/json' } }));
+}
+self.addEventListener('periodicsync', (e) => { if (e.tag === 'pea-reminder') e.waitUntil(remind()); });
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || './';
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+    for (const c of list) if ('focus' in c) { c.focus(); if ('navigate' in c) c.navigate(url); return; }
+    return self.clients.openWindow(url);
+  }));
+});

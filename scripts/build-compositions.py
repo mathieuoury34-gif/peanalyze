@@ -13,6 +13,7 @@ import json, re, sys, pathlib, datetime, glob, os
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import factsheet_parse as fp
 import compositions as comp
+import dws
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CAT = ROOT / 'src' / 'data' / 'catalog.json'
@@ -64,6 +65,21 @@ def main(dirs):
             if v and r.get('date') and r['date'] >= FRESH_AFTER and (isin not in parsed or r['date'] > parsed[isin]['date']):
                 parsed[isin] = dict(date=r['date'], lang=r.get('lang'), title=r.get('title', ''), sectors=v['sectors'], countries=v['countries'])
     print('fiches lues et valides :', len(parsed), '/', len(files))
+    # fiches déjà retenues lors d'un passage précédent et dont le PDF n'est plus en cache : on les garde (le PDF, s'il existe, l'emporte)
+    if OUT.exists():
+        for isin, p in json.load(open(OUT, encoding='utf-8')).items():
+            parsed.setdefault(isin, p)
+
+    # Xtrackers : positions du fonds (pays + secteur par ligne), retenues seulement si les secteurs sont en GICS
+    dws_ok = dws_total = 0
+    for e in etfs:
+        if e['name'].lower().startswith('xtrackers') and e['isin'] not in parsed:
+            dws_total += 1
+            r = dws.fetch(e['isin'])
+            if r and r['date'] >= FRESH_AFTER:
+                parsed[e['isin']] = r
+                dws_ok += 1
+    print('positions Xtrackers exploitables :', dws_ok, '/', dws_total)
 
     own = {e['isin']: e for e in etfs}
     by_index = {}

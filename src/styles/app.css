@@ -50,6 +50,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 .wrap { flex-wrap: wrap; }
 .grow { flex-grow: 1; min-width: 0; }
 .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); }
+@media (max-width: 480px) { .grid-3 { grid-template-columns: minmax(0, 1fr); } }
 .right { text-align: right; }
 .center { text-align: center; }
 .nowrap { white-space: nowrap; }

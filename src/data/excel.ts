@@ -1,7 +1,7 @@
 // Import Excel : classeur PEAnalyze (export officiel de l'app, 9 onglets) ou fichier d'origine
 // « Suivi des investissements.xlsx » (6 feuilles). L'export est dans excel-peanalyze.ts.
 import JSZip from 'jszip';
-import type { AppData, Deposit, Etf, Transaction } from '../domain/types';
+import type { AppData, Deposit, Etf, Goal, Plan, PlanSell, Transaction } from '../domain/types';
 import { t } from '../i18n';
 
 // libellés « Indice » utilisés dans l'Excel d'origine pour les ETF suivis
@@ -94,7 +94,7 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
   for (let r = 6; r < 6 + 5000; r++) {
     const a = hist.get('A' + r), b = hist.get('B' + r), d = hist.get('D' + r);
     if (a === undefined && d === undefined && hist.get('A' + (r + 1)) === undefined && hist.get('D' + (r + 1)) === undefined) break;
-    if (typeof a === 'number' && typeof b === 'number' && b > 0) deposits.push({ id: 'd-' + serialToIso(a) + '-' + r, date: serialToIso(a), amount: round2(b) });
+    if (typeof a === 'number' && typeof b === 'number' && b !== 0) deposits.push({ id: 'd-' + serialToIso(a) + '-' + r, date: serialToIso(a), amount: round2(b) }); // négatif = retrait
     if (typeof d === 'number') {
       const tk = String(hist.get('E' + r) || '').trim().toUpperCase();
       const unit = num(hist.get('G' + r)), qty = num(hist.get('H' + r)), gross = num(hist.get('J' + r)), refund = num(hist.get('L' + r));
@@ -173,8 +173,70 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
       }
       next.simulation = { initialCapital: cap, horizonYears: hz, annualRate: rate, dcaPhases: phases.length ? phases : next.simulation.dcaPhases };
     }
+    // réglages rangés dans le classeur : rappel mensuel et ETF de référence (absents = désactivés)
+    const rd = num(si.get('B11'));
+    next.settings.reminderDay = isFinite(rd) && rd >= 1 && rd <= 28 ? Math.round(rd) : 0;
+    const bm = String(si.get('B12') ?? '').trim().toUpperCase();
+    next.settings.benchmarkId = bm && next.etfs.some((e) => e.id === bm) ? bm : undefined;
   } catch { /* onglet absent */ }
+
+  // plans et objectifs appartiennent au classeur : ceux de l'application sont remplacés (vides si l'onglet est absent)
+  next.plans = await readPlans(L);
+  next.goals = await readGoals(L);
   return next;
+}
+
+/** Onglet « Plans » : une ligne par plan (A–G) + détail des ventes et cibles (I–M). */
+async function readPlans(L: Awaited<ReturnType<typeof loader>>): Promise<Plan[]> {
+  let sh: Map<string, number | string>;
+  try { sh = await L.sheet('Plans'); } catch { return []; }
+  const str = (v: unknown) => (typeof v === 'string' ? v.trim() : typeof v === 'number' ? String(v) : '');
+  const plans: Plan[] = [];
+  const byId = new Map<string, Plan>();
+  for (let r = 6, blank = 0; r < 2000 && blank < 40; r++) {
+    const name = str(sh.get('B' + r));
+    if (!name) { blank++; continue; }
+    blank = 0;
+    const id = str(sh.get('A' + r)) || 'plan-' + r;
+    const n = (c: string) => { const v = num(sh.get(c + r)); return isFinite(v) && v > 0 ? v : 0; };
+    const p: Plan = { id, name, createdAt: str(sh.get('C' + r)) || new Date().toISOString(), sells: [], deposit: n('D'), withdraw: n('E'), monthly: n('F'),
+      targets: /^pers/i.test(str(sh.get('G' + r))) ? {} : null };
+    plans.push(p);
+    byId.set(id, p);
+  }
+  for (let r = 6, blank = 0; r < 4000 && blank < 40; r++) {
+    const id = str(sh.get('I' + r));
+    if (!id) { blank++; continue; }
+    blank = 0;
+    const p = byId.get(id);
+    const etf = str(sh.get('K' + r)).toUpperCase();
+    if (!p || !etf) continue;
+    const type = str(sh.get('J' + r)).toLowerCase();
+    const mode = str(sh.get('L' + r)).toLowerCase();
+    const v = num(sh.get('M' + r));
+    if (type.startsWith('v')) {
+      const sell: PlanSell = mode.startsWith('t') ? { etfId: etf, kind: 'all', value: 0 } : mode === '%' ? { etfId: etf, kind: 'pct', value: isFinite(v) ? Math.min(1, Math.max(0, v)) : 0 } : { etfId: etf, kind: 'qty', value: isFinite(v) ? Math.max(0, v) : 0 };
+      p.sells.push(sell);
+    } else if (type.startsWith('c') && p.targets && isFinite(v)) p.targets[etf] = Math.max(0, v);
+  }
+  for (const p of plans) if (p.targets && !Object.keys(p.targets).length) p.targets = null;
+  return plans;
+}
+
+/** Onglet « Objectifs » : nom, capital visé, échéance. */
+async function readGoals(L: Awaited<ReturnType<typeof loader>>): Promise<Goal[]> {
+  let sh: Map<string, number | string>;
+  try { sh = await L.sheet('Objectifs'); } catch { return []; }
+  const goals: Goal[] = [];
+  for (let r = 6, blank = 0; r < 600 && blank < 30; r++) {
+    const name = sh.get('B' + r), target = num(sh.get('C' + r)), d = num(sh.get('D' + r));
+    if (typeof name !== 'string' || !name.trim()) { blank++; continue; }
+    blank = 0;
+    if (!isFinite(target) || target <= 0 || !isFinite(d) || d <= 0) continue;
+    const id = sh.get('A' + r), created = sh.get('E' + r);
+    goals.push({ id: typeof id === 'string' && id ? id : 'goal-' + r, name: name.trim(), target: round2(target), date: serialToIso(d), createdAt: typeof created === 'string' && created ? created : new Date().toISOString() });
+  }
+  return goals;
 }
 
 // ------------------------------------------------------------------ fichier d'origine « Suivi des investissements.xlsx »
@@ -213,6 +275,8 @@ async function parseOriginal(L: Awaited<ReturnType<typeof loader>>, current: App
   const next: AppData = structuredClone(current);
   next.deposits = deposits;
   next.transactions = transactions;
+  next.plans = []; // le fichier d'origine ne contient ni plans ni objectifs : ceux de l'autre classeur ne restent pas
+  next.goals = [];
   // Solde espèces toujours recalculé (virements − achats frais compris + remboursements) : jamais figé par l'import
   next.settings.cashBalance = null;
 

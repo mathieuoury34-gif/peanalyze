@@ -88,8 +88,8 @@ const FAQ: Cat[] = [
         id: 'simulateur-onglet', tags: 'simulateur projection futur simulator projection',
         q: { fr: 'Simulateur', en: 'Simulator' },
         a: {
-          fr: ['Il projette votre épargne dans le futur : capital de départ, rendement annuel moyen supposé, durée (jusqu’à 50 ans) et versements mensuels. Voir la rubrique « Simulateur » plus bas.'],
-          en: ['It projects your savings into the future: starting capital, assumed average annual return, duration (up to 50 years) and monthly contributions. See the “Simulator” section below.'],
+          fr: ['Il projette votre épargne dans le futur : capital de départ, rendement annuel moyen supposé, durée (jusqu’à 50 ans) et versements mensuels. Il comprend trois sous-onglets : Épargne (la projection), Plans (scénarios « et si… ») et Objectifs (un capital à atteindre à une date). Voir la rubrique « Simulateur » plus bas.'],
+          en: ['It projects your savings into the future: starting capital, assumed average annual return, duration (up to 50 years) and monthly contributions. It has three sub-tabs: Savings (the projection), Plans (“what if…” scenarios) and Goals (a capital to reach on a date). See the “Simulator” section below.'],
         },
       },
     ],
@@ -114,6 +114,22 @@ const FAQ: Cat[] = [
         },
       },
       {
+        id: 'vente', tags: 'vente vendre enregistrer plus-value réalisée sale sell record realised gain',
+        q: { fr: 'Comment enregistrer une vente d’ETF ?', en: 'How do I record an ETF sale?' },
+        a: {
+          fr: ['Bouton + › Vente d’ETF, puis choisissez l’ETF détenu, la date, le cours et le nombre de parts vendues. Le montant net reçu (somme créditée par le courtier, frais déduits) est estimé à cours × quantité − frais si vous le laissez vide.', 'L’app retire les parts vendues au prix de revient moyen (PRU) du moment, calcule la plus-value réalisée et augmente le solde espèces. Le PRU des parts restantes ne change pas. Dans le journal, les ventes ont leur filtre « Ventes ».'],
+          en: ['+ button › ETF sale, then choose the ETF you hold, the date, the price and the number of units sold. The net amount received (the sum credited by the broker, fees deducted) is estimated as price × quantity − fees if you leave it empty.', 'The app removes the units sold at the average cost (PRU) of the moment, works out the realised gain and raises the cash balance. The PRU of the remaining units does not change. In the journal, sales have their own “Sales” filter.'],
+        },
+      },
+      {
+        id: 'retrait', tags: 'retrait retirer argent sortir pea clôture withdrawal take out money',
+        q: { fr: 'Comment enregistrer un retrait d’argent du PEA ?', en: 'How do I record a withdrawal from the PEA?' },
+        a: {
+          fr: ['Bouton + › Retrait. Indiquez la date et la somme sortie du PEA : elle doit être disponible en espèces (vendez d’abord si besoin). Le retrait diminue le montant total épargné et le solde espèces, et il compte comme un flux sortant dans le rendement annualisé (TRI).', 'Attention : retirer de l’argent avant 5 ans peut clôturer le PEA et entraîner une fiscalité ; vérifiez les règles avant tout retrait.'],
+          en: ['+ button › Withdrawal. Enter the date and the sum taken out of the PEA: it must be available as cash (sell first if needed). A withdrawal lowers the total amount saved and the cash balance, and counts as an outgoing flow in the annualised return (IRR).', 'Careful: withdrawing money before 5 years can close the PEA and trigger taxes; check the rules before any withdrawal.'],
+        },
+      },
+      {
         id: 'modifier', tags: 'modifier supprimer corriger erreur annuler edit delete undo',
         q: { fr: 'Comment modifier ou supprimer une opération ?', en: 'How do I edit or delete an operation?' },
         a: {
@@ -125,8 +141,8 @@ const FAQ: Cat[] = [
         id: 'excel', tags: 'excel import export fichier xlsx sauvegarde json backup file',
         q: { fr: 'Puis-je importer ou exporter mes données (Excel) ?', en: 'Can I import or export my data (Excel)?' },
         a: {
-          fr: ['Oui, dans Paramètres › Données :', '- « Importer un fichier Excel » lit un classeur PEAnalyze ou l’ancien fichier « Suivi des investissements » ;', '- « Exporter en Excel » crée un classeur de 9 onglets, avec formules et graphiques, réimportable ensuite ;', '- « Exporter en JSON » fait une sauvegarde complète, restaurable avec « Restaurer une sauvegarde JSON ».'],
-          en: ['Yes, in Settings › Data:', '- “Import an Excel file” reads a PEAnalyze workbook or the original “Suivi des investissements” file;', '- “Export to Excel” creates a 9-sheet workbook with formulas and charts, which can be imported again;', '- “Export to JSON” makes a full backup, restorable with “Restore a JSON backup”.'],
+          fr: ['Oui, dans Paramètres › Données :', '- « Importer un fichier Excel » lit un classeur PEAnalyze ou l’ancien fichier « Suivi des investissements » ;', '- « Exporter en Excel » crée un classeur de 11 onglets, avec formules et graphiques, réimportable ensuite. Vos plans et objectifs y sont rangés (onglets « Plans » et « Objectifs ») : ils appartiennent au classeur, donc importer un autre fichier remplace ceux de l’app ;', '- « Exporter en JSON » fait une sauvegarde complète, restaurable avec « Restaurer une sauvegarde JSON ».'],
+          en: ['Yes, in Settings › Data:', '- “Import an Excel file” reads a PEAnalyze workbook or the original “Suivi des investissements” file;', '- “Export to Excel” creates an 11-sheet workbook with formulas and charts, which can be imported again. Your plans and goals are stored in it (“Plans” and “Objectifs” sheets): they belong to the workbook, so importing another file replaces the ones in the app;', '- “Export to JSON” makes a full backup, restorable with “Restore a JSON backup”.'],
         },
       },
     ],
@@ -167,8 +183,24 @@ const FAQ: Cat[] = [
         id: 'valorisation', tags: 'valorisation valeur totale plus-value latente rendement global value gain return',
         q: { fr: 'Valorisation, plus-value et rendement global', en: 'Value, gain and overall return' },
         a: {
-          fr: ['- Valorisation totale : nombre de parts × dernier cours de chaque ETF, plus le solde espèces.', '- Plus-value latente : valorisation − montant total épargné. « Latente » car elle n’est gagnée qu’à la vente.', '- Rendement global : plus-value ÷ montant épargné.'],
-          en: ['- Total value: number of shares × last price of each ETF, plus the cash balance.', '- Unrealised gain: total value − total amount saved. “Unrealised” because it is only earned when you sell.', '- Overall return: gain ÷ amount saved.'],
+          fr: ['- Valorisation totale : nombre de parts × dernier cours de chaque ETF, plus le solde espèces.', '- Plus-value latente : valorisation − montant total épargné. « Latente » car elle n’est gagnée qu’à la vente. Si vous avez vendu des ETF, le chiffre devient « plus-value totale » : lignes encore détenues + plus-value déjà réalisée.', '- Rendement global : plus-value ÷ montant épargné (net des retraits).'],
+          en: ['- Total value: number of shares × last price of each ETF, plus the cash balance.', '- Unrealised gain: total value − total amount saved. “Unrealised” because it is only earned when you sell. If you have sold ETFs, the figure becomes “total gain”: lines still held + gain already realised.', '- Overall return: gain ÷ amount saved (net of withdrawals).'],
+        },
+      },
+      {
+        id: 'analyse', tags: 'analyse référence benchmark doublons recoupement risque volatilité baisse concentration frais coût analysis overlap risk drawdown cost',
+        q: { fr: 'Que montre la page Analyse ?', en: 'What does the Analysis page show?' },
+        a: {
+          fr: ['Portefeuille › Analyse regroupe quatre éclairages :', '- Face à un ETF de référence : votre argent, avec les mêmes virements aux mêmes dates, comparé à ce qu’aurait donné un seul ETF (au choix). Sur l’historique de cours disponible (environ un an).', '- Doublons et recoupements : part commune des compositions de deux ETF détenus (pays et secteurs vérifiés), et exposition cumulée.', '- Risque : volatilité annuelle, pire baisse entre un sommet et le creux suivant, poids de la plus grosse ligne et nombre de lignes « équivalentes ».', '- Ce que vos ETF vous coûtent : frais courants pondérés + courtage des 12 derniers mois, avec leur effet sur la projection du simulateur.', 'Ce sont des mesures du passé, pas des prévisions ni des conseils.'],
+          en: ['Portfolio › Analysis brings together four views:', '- Against a reference ETF: your money, with the same deposits on the same dates, compared with what a single ETF (your choice) would have given. Over the available price history (about one year).', '- Duplicates and overlaps: the share two held ETFs’ compositions have in common (verified countries and sectors), and cumulative exposure.', '- Risk: annual volatility, worst drop from a peak to the next trough, weight of the largest line and number of “equivalent” lines.', '- What your ETFs cost you: weighted ongoing charges + brokerage of the last 12 months, with their effect on the simulator projection.', 'These are measures of the past, not forecasts or advice.'],
+        },
+      },
+      {
+        id: 'rappel', tags: 'rappel mensuel notification investir bandeau reminder monthly notification invest banner',
+        q: { fr: 'Comment fonctionne le rappel mensuel ?', en: 'How does the monthly reminder work?' },
+        a: {
+          fr: ['Paramètres › Rappel mensuel : choisissez le jour du mois. À partir de ce jour, un bandeau « C’est le moment d’investir » s’affiche sur l’écran Portefeuille tant qu’aucun achat n’est enregistré dans le mois ; « Plus tard » le masque jusqu’au mois suivant.', 'Vous pouvez aussi activer une notification. Sans serveur, elle s’affiche quand vous ouvrez l’app, et en tâche de fond seulement si votre navigateur le permet (Chrome ou Edge, app installée) : un téléphone qui n’ouvre jamais l’app peut ne rien recevoir. Le jour du rappel est enregistré dans le classeur Excel.'],
+          en: ['Settings › Monthly reminder: choose the day of the month. From that day, an “It’s time to invest” banner appears on the Portfolio screen as long as no purchase is recorded in the month; “Later” hides it until next month.', 'You can also enable a notification. Without a server, it appears when you open the app, and in the background only if your browser allows it (Chrome or Edge, installed app): a phone that never opens the app may receive nothing. The reminder day is stored in the Excel workbook.'],
         },
       },
       {
@@ -249,24 +281,32 @@ const FAQ: Cat[] = [
         id: 'plans', tags: 'plans plan vendre vente etf scénario et si stratégie cible msci world sell scenario what if target',
         q: { fr: 'À quoi servent les plans (vendre un ETF, changer de stratégie) ?', en: 'What are plans for (selling an ETF, changing strategy)?' },
         a: {
-          fr: ['Un plan est un scénario « et si… » : vous choisissez ce que vous vendriez (un ETF entier, une partie des parts), un éventuel nouveau versement, et la stratégie que vous visez. L’app calcule ce que rapporteraient les ventes (frais compris), puis les achats en parts entières qui rapprochent le plus votre portefeuille de la cible.', 'Elle montre ce que ça change : écart à la cible avant / après, frais de gestion moyens (et en combien de temps les frais de courtage sont amortis), plus-value réalisée, nombre de lignes, et l’exposition par secteur et par pays avant / après. « Et sans vendre ? » estime combien de mois de versements seraient nécessaires pour y arriver sans rien vendre.', 'Les modèles de départ : vendre un ETF (la stratégie actuelle est conservée sans lui), tout regrouper dans un seul ETF (par exemple un MSCI World), investir un versement, ou un plan libre. Vous pouvez dupliquer des plans pour les comparer côte à côte.'],
-          en: ['A plan is a “what if…” scenario: you choose what you would sell (a whole ETF, part of the shares), an optional new deposit and the strategy you are aiming for. The app works out what the sales would bring (fees included), then the whole-share purchases that bring your portfolio closest to the target.', 'It shows what changes: gap to target before / after, average management fees (and how long it takes for brokerage fees to pay back), realised gain, number of positions, and exposure by sector and by country before / after. “And without selling?” estimates how many months of contributions would be needed to get there without selling anything.', 'Starter templates: sell an ETF (the current strategy is kept without it), consolidate everything into one ETF (for example a MSCI World), invest a deposit, or a blank plan. You can duplicate plans to compare them side by side.'],
+          fr: ['Un plan est un scénario « et si… » : vous choisissez ce que vous vendriez (un ETF entier, une partie des parts), un éventuel nouveau versement, et la stratégie que vous visez. L’app calcule ce que rapporteraient les ventes (frais compris), puis les achats en parts entières qui rapprochent le plus votre portefeuille de la cible.', 'Elle montre ce que ça change : écart à la cible avant / après, frais de gestion moyens (et en combien de temps les frais de courtage sont amortis), plus-value réalisée, nombre de lignes, et l’exposition par secteur et par pays avant / après. « Et sans vendre ? » estime combien de mois de versements seraient nécessaires pour y arriver sans rien vendre.', 'Les modèles de départ : vendre un ETF (la stratégie actuelle est conservée sans lui), tout regrouper dans un seul ETF (par exemple un MSCI World), ou un plan libre pour régler ventes, versement et cible à votre main. Vous pouvez dupliquer des plans pour les comparer côte à côte. « Et sur le passé ? » rejoue, sur l’historique de cours disponible, la répartition d’aujourd’hui et celle d’après le plan (performance, volatilité, pire baisse) : c’est indicatif, sur une période courte.'],
+          en: ['A plan is a “what if…” scenario: you choose what you would sell (a whole ETF, part of the shares), an optional new deposit and the strategy you are aiming for. The app works out what the sales would bring (fees included), then the whole-share purchases that bring your portfolio closest to the target.', 'It shows what changes: gap to target before / after, average management fees (and how long it takes for brokerage fees to pay back), realised gain, number of positions, and exposure by sector and by country before / after. “And without selling?” estimates how many months of contributions would be needed to get there without selling anything.', 'Starter templates: sell an ETF (the current strategy is kept without it), consolidate everything into one ETF (for example a MSCI World), or a free plan to set sales, deposit and target as you wish. You can duplicate plans to compare them side by side. “And on the past?” replays, over the available price history, today’s allocation and the after-plan one (performance, volatility, worst drop): it is indicative, over a short period.'],
         },
       },
       {
         id: 'plans-limites', tags: 'plans limites ventes journal impôt retrait frais plans limits sales journal tax withdrawal fees',
         q: { fr: 'Que ne font pas les plans ?', en: 'What do plans not do?' },
         a: {
-          fr: ['Un plan ne passe aucun ordre et ne modifie pas votre portefeuille : vous exécutez les ordres chez votre courtier. Le journal de l’app n’enregistre pour l’instant que les achats et les virements ; les ventes ne sont donc pas encore suivies après coup.', 'Les ventes sont comptées avec les mêmes frais par ordre que les achats, au dernier cours connu. Les ETF du catalogue que vous ne suivez pas utilisent un cours indicatif à vérifier. Vendre et réinvestir à l’intérieur du PEA n’est pas imposé ; en sortir de l’argent peut l’être (et, avant 5 ans, clôture en principe le plan) : vérifiez les règles avant tout retrait.', 'C’est un calcul, pas un conseil en investissement.'],
-          en: ['A plan places no orders and does not change your portfolio: you execute the orders with your broker. The app’s journal currently records only purchases and transfers, so sales are not yet tracked afterwards.', 'Sales are counted with the same fee per order as purchases, at the last known price. Catalogue ETFs you do not track use an indicative price to be checked. Selling and reinvesting inside the PEA is not taxed; taking money out can be (and, before 5 years, in principle closes the plan): check the rules before any withdrawal.', 'This is a calculation, not investment advice.'],
+          fr: ['Un plan ne passe aucun ordre : vous exécutez les ordres chez votre courtier. Ensuite, « Appliquer ce plan » enregistre d’un coup les ventes, achats, versement ou retrait dans le journal, datés d’aujourd’hui au dernier cours connu : vérifiez ensuite les montants exacts (Historique › Journal › Modifier). Les plans appartiennent au classeur Excel : changer de classeur change de plans.', 'Les ventes sont comptées avec les mêmes frais par ordre que les achats, au dernier cours connu. Les ETF du catalogue que vous ne suivez pas utilisent un cours indicatif à vérifier. Vendre et réinvestir à l’intérieur du PEA n’est pas imposé ; en sortir de l’argent peut l’être (et, avant 5 ans, clôture en principe le plan) : vérifiez les règles avant tout retrait.', 'C’est un calcul, pas un conseil en investissement.'],
+          en: ['A plan places no orders and does not change your portfolio: you execute the orders with your broker. Afterwards, “Apply this plan” records the sales, purchases, deposit or withdrawal in the journal in one go, dated today at the last known price: then check the exact amounts (History › Journal › Edit). Plans belong to the Excel workbook: switching workbooks switches plans.', 'Sales are counted with the same fee per order as purchases, at the last known price. Catalogue ETFs you do not track use an indicative price to be checked. Selling and reinvesting inside the PEA is not taxed; taking money out can be (and, before 5 years, in principle closes the plan): check the rules before any withdrawal.', 'This is a calculation, not investment advice.'],
+        },
+      },
+      {
+        id: 'objectifs', tags: 'objectifs objectif capital date jauge versement mensuel requis goals target gauge',
+        q: { fr: 'À quoi servent les objectifs ?', en: 'What are goals for?' },
+        a: {
+          fr: ['Simulateur › Objectifs : fixez un capital à atteindre à une date (un apport, un projet…). La jauge compare ce capital à la valeur actuelle de votre PEA, et l’app calcule le versement mensuel nécessaire, avec le rendement annuel du simulateur et sans aucun rendement. Elle indique aussi si votre rythme prévu (première phase du simulateur) suffirait.', 'C’est indicatif : la bourse peut faire mieux ou moins bien que le rendement supposé. Les objectifs sont rangés dans le classeur Excel (onglet « Objectifs »).'],
+          en: ['Simulator › Goals: set a capital to reach on a date (a down payment, a project…). The gauge compares it with the current value of your PEA, and the app works out the monthly contribution needed, with the simulator’s annual return and with no return at all. It also tells you whether your planned pace (the simulator’s first phase) would be enough.', 'It is indicative: the market may do better or worse than the assumed return. Goals are stored in the Excel workbook (“Objectifs” sheet).'],
         },
       },
       {
         id: 'sim-options', tags: 'phases dca euros constants inflation progression réelle horizon 50 ans',
         q: { fr: 'Phases de versement, euros constants, progression réelle', en: 'Contribution phases, constant euros, actual progress' },
         a: {
-          fr: ['- Phases de versement : changez le montant mensuel à partir d’une année donnée (par exemple 700 €/mois, puis 900 € à partir de l’année 20).', '- Euros constants : retire l’effet d’une inflation de 2 % par an, pour voir le pouvoir d’achat réel du capital.', '- Comparer à ma progression réelle : superpose la valeur réelle de votre PEA depuis son ouverture.', '- L’horizon va de 1 à 50 ans.'],
-          en: ['- Contribution phases: change the monthly amount from a given year (for example €700/month, then €900 from year 20).', '- Constant euros: removes the effect of 2% annual inflation, to show the real purchasing power of the capital.', '- Compare with my actual progress: overlays the real value of your PEA since it was opened.', '- The horizon ranges from 1 to 50 years.'],
+          fr: ['- Phases de versement : changez le montant mensuel à partir d’une année donnée (par exemple 700 €/mois, puis 900 € à partir de l’année 20).', '- Euros constants : retire l’effet d’une inflation de 2 % par an, pour voir le pouvoir d’achat réel du capital.', '- Comparer à ma progression réelle : superpose la valeur réelle de votre PEA depuis son ouverture.', '- Déduire mes frais : retire du rendement les frais courants de vos ETF et, de vos versements, les frais de courtage de vos ordres des 12 derniers mois, pour voir l’effet des frais sur le capital final.', '- L’horizon va de 1 à 50 ans.'],
+          en: ['- Contribution phases: change the monthly amount from a given year (for example €700/month, then €900 from year 20).', '- Constant euros: removes the effect of 2% annual inflation, to show the real purchasing power of the capital.', '- Compare with my actual progress: overlays the real value of your PEA since it was opened.', '- Deduct my fees: takes your ETFs’ ongoing charges off the return and the brokerage fees of your last 12 months of orders off your contributions, to show the effect of fees on the final capital.', '- The horizon ranges from 1 to 50 years.'],
         },
       },
     ],

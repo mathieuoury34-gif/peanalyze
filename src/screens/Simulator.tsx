@@ -7,6 +7,7 @@ import { Icon } from '../ui/icons';
 import { useCalc } from '../ui/useCalc';
 import { navigate } from '../ui/router';
 import { deflate, MAX_HORIZON, monthlySeries, simulate } from '../domain/calc';
+import { adjustForCosts, holdingCost } from '../domain/analysis';
 import { eur, num, parseNum, pct } from '../domain/format';
 import { update } from '../data/store';
 import type { Simulation } from '../domain/types';
@@ -15,18 +16,20 @@ import { t, tn } from '../i18n';
 const INFLATION = 0.02;
 
 export function SimulatorScreen() {
-  const { data } = useCalc();
+  const { data, positions } = useCalc();
   const sim = data.simulation;
   const [capText, setCapText] = useState(num(sim.initialCapital, 0));
   const [real, setReal] = useState(false);
   const [constant, setConstant] = useState(false);
   const [table, setTable] = useState(false);
+  const [fees, setFees] = useState(false);
+  const cost = useMemo(() => holdingCost(data, positions), [data, positions]);
   const set = (patch: Partial<Simulation>) => update((d) => { d.simulation = { ...d.simulation, ...patch }; });
 
   const years = useMemo(() => {
-    const y = simulate(sim);
+    const y = simulate(fees && cost.securities > 0 ? adjustForCosts(data, cost, cost.ordersPerYear) : sim);
     return constant ? deflate(y, INFLATION) : y;
-  }, [sim, constant]);
+  }, [sim, constant, fees, cost, data]);
   const realSeries = useMemo(() => {
     const m = monthlySeries(data);
     return m.map((p, i) => ({ t: i / 12, value: constant ? p.value / Math.pow(1 + INFLATION, i / 12) : p.value }));
@@ -45,7 +48,7 @@ export function SimulatorScreen() {
         <details className="explain dspan-12" open={!data.transactions.length || undefined}>
           <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('À quoi sert le simulateur ?')}</summary>
           <span>{t('Il estime ce que pourrait devenir votre épargne si vous investissez régulièrement : choisissez un capital de départ, un rendement annuel moyen et vos versements mensuels. C’est une projection théorique, indépendante de votre portefeuille réel (sauf si vous activez « Comparer à ma progression réelle »).')}</span>
-          <span>{t('La bourse ne monte pas de façon régulière : le résultat est une tendance, pas une promesse. Frais et impôts ne sont pas déduits.')}</span>
+          <span>{t('La bourse ne monte pas de façon régulière : le résultat est une tendance, pas une promesse. Impôts non déduits ; frais déduits seulement si vous l’activez.')}</span>
           <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=simulateur')}>{t('En savoir plus dans l’aide')}</button>
         </details>
         <section aria-labelledby="t401-par" className="card g16 dspan-5">
@@ -120,6 +123,12 @@ export function SimulatorScreen() {
           </div>
           <div className="stack" style={{ borderTop: '1px solid var(--divider-minimal)', paddingTop: 'var(--space-4)' }}>
             <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id="t401-real">{t('Comparer à ma progression réelle')}</span><Switch checked={real} onChange={setReal} labelledBy="t401-real" /></div>
+            <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id="t401-fees">{t('Déduire mes frais (frais courants et courtage)')}</span><Switch checked={fees && cost.securities > 0} disabled={cost.securities <= 0} onChange={setFees} labelledBy="t401-fees" /></div>
+            {fees && cost.securities > 0 && (
+              <p className="t-caption c-neutral" style={{ paddingBottom: 'var(--space-8)' }} data-testid="fees-note">
+                {t('Frais retenus : {p} par an sur le rendement (frais courants de vos ETF) et {n} ordres par an à {f} chacun, pris sur vos versements. Rendement net utilisé : {r}.', { p: pct(cost.terPct, 2), n: cost.ordersPerYear, f: eur(data.settings.feePerOrder || 0), r: pct(sim.annualRate - cost.terPct, 2) })}
+              </p>
+            )}
             <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id="t401-const">{t('Afficher en euros constants (inflation {p})', { p: pct(INFLATION, 0) })}</span><Switch checked={constant} onChange={setConstant} labelledBy="t401-const" /></div>
           </div>
         </section>
@@ -148,7 +157,7 @@ export function SimulatorScreen() {
             </section>
           </div>
         )}
-        <p className="t-legal c-moderate">{t('Projection indicative : rendement constant, capitalisation mensuelle, versements en fin de mois, hors frais et fiscalité.')}</p>
+        <p className="t-legal c-moderate">{t('Projection indicative : rendement constant, capitalisation mensuelle, versements en fin de mois, hors fiscalité ; les frais ne sont déduits que si vous activez « Déduire mes frais ».')}</p>
       </main>
     </div>
   );

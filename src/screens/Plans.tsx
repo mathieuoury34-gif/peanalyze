@@ -5,7 +5,7 @@ import { Icon } from '../ui/icons';
 import { navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { eur, eurSigned, num, pct } from '../domain/format';
-import { blankPlan, computePlan, planInvest, planSellOne, planSingle, type PlanResult } from '../domain/plan';
+import { blankPlan, computePlan, planSellOne, planSingle, type PlanResult } from '../domain/plan';
 import type { AppData, Plan } from '../domain/types';
 import { newId, update } from '../data/store';
 import { t, tn } from '../i18n';
@@ -52,8 +52,7 @@ export function PlansScreen() {
           <div className="grid-2">
             <button type="button" className="btn btn-secondary" disabled={!hasLines} onClick={() => setChooser('sell')}><Icon name="minus" size={20} />{t('Vendre un ETF')}</button>
             <button type="button" className="btn btn-secondary" onClick={() => setChooser('single')}><Icon name="sparkle" size={20} />{t('Tout regrouper dans un ETF')}</button>
-            <button type="button" className="btn btn-secondary" onClick={() => addPlan(planInvest(data, id(), t('Nouveau versement'), data.simulation.dcaPhases[0]?.monthly ?? 500))}><Icon name="deposit" size={20} />{t('Investir un versement')}</button>
-            <button type="button" className="btn btn-secondary" onClick={() => addPlan(blankPlan(data, id(), t('Plan libre')))}><Icon name="plus" size={20} />{t('Plan libre')}</button>
+            <button type="button" className="btn btn-secondary" style={{ gridColumn: '1 / -1' }} onClick={() => addPlan(blankPlan(data, id(), t('Plan libre')))}><Icon name="plus" size={20} />{t('Plan libre : ventes, versement et cible à ma main')}</button>
           </div>
           <p className="t-caption c-moderate">{t('Ces modèles préparent un plan que vous pouvez ensuite modifier librement.')}</p>
         </section>

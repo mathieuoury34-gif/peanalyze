@@ -1,7 +1,7 @@
 // Classeur Excel officiel de PEAnalyze (validé le 11/10/2026) : 9 onglets à la charte de l'application.
 // Les données saisies (virements, achats, ETF, cours, compositions, simulateur) sont des valeurs ;
 // tout le reste est en formules, pour que le fichier reste vivant dans Excel.
-import type { AppData, Etf } from '../domain/types';
+import type { AppData, Etf, Transaction } from '../domain/types';
 import { computePositions, exposure, MAX_HORIZON, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
 import { etfHexes } from '../etfColors';
 import { Workbook, colName as L, type Sheet, type Style, type Value } from './xlsx';
@@ -62,6 +62,8 @@ function tickerStyle(color: string): Style {
 }
 
 const sorted = <T extends { date: string }>(a: T[]) => a.slice().sort((x, y) => (x.date < y.date ? -1 : x.date > y.date ? 1 : 0));
+/** Opérations : par date, achats avant ventes le même jour (comme le journal de l'app, pour que « Coût sorti » donne le même résultat). */
+const sortedTx = (a: Transaction[]) => a.map((t, i) => ({ t, i })).sort((x, y) => (x.t.date < y.t.date ? -1 : x.t.date > y.t.date ? 1 : (x.t.quantity >= 0 ? 0 : 1) - (y.t.quantity >= 0 ? 0 : 1) || x.i - y.i)).map((x) => x.t);
 
 /** Construit le classeur à partir des données de l'app. */
 export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workbook {
@@ -72,7 +74,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
   const tickers = etfs.map((e) => e.id);
   const colors: Record<string, string> = etfHexes({ ...data, myEtfIds: ids });
   const deps = sorted(data.deposits);
-  const txs = sorted(data.transactions);
+  const txs = sortedTx(data.transactions);
   const positions = computePositions(data);
   const order = tickers.filter((t) => positions.some((p) => p.etfId === t)).concat(positions.map((p) => p.etfId).filter((t) => !tickers.includes(t)));
   const vd = valuationDate(data);
@@ -81,13 +83,15 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
   const wb = new Workbook();
   const dash = page(wb, 'Tableau de bord', 'PEAnalyze · Tableau de bord', 'Valorisé au', 9);
   const pf = page(wb, 'Portefeuille', 'Portefeuille', 'Positions, allocation réelle et cible, parts à acheter, répartitions sectorielle et géographique.', 16);
-  const hi = page(wb, 'Historique', 'Historique des opérations', 'Saisissez vos virements et achats dans les cellules en bleu : montants, frais et indicateurs se calculent seuls. Débit courtier = montant débité frais inclus ; remboursement = frais rendus par le courtier.', 14);
+  const hi = page(wb, 'Historique', 'Historique des opérations', 'Saisissez vos virements, achats et ventes dans les cellules en bleu, dans l’ordre chronologique. Achat : quantité positive, débit courtier = montant débité frais inclus. Vente : quantité négative, débit courtier négatif = somme reçue après frais. Retrait du PEA : montant négatif dans « Virements ».', 15);
   const ev = page(wb, 'Évolution', 'Évolution mensuelle', 'Montant épargné et valeur réelle du portefeuille à la fin de chaque mois.', 7 + nC);
   const me = page(wb, 'Mes ETF', 'Mes ETF', 'Caractéristiques, stratégie et allocation cible des ETF suivis. Cours : feuille « Cours ».', 14);
   const co = page(wb, 'Cours', 'Cours de clôture', 'Historique quotidien des cours (Euronext Paris) et performance en base 100.', 3 + 2 * nC, PETROL);
   const cp = page(wb, 'Compositions', 'Compositions des indices', 'Répartition sectorielle et géographique de chaque ETF (poids saisis) et contribution au portefeuille.', 6, PETROL);
   const ca = page(wb, 'Catalogue', 'Catalogue des ETF éligibles au PEA', '', 15, PETROL);
   const si = page(wb, 'Simulateur', "Simulateur d'épargne", 'Capitalisation mensuelle, versements par phases, résultat en euros courants et constants.', 10);
+  const pl = page(wb, 'Plans', 'Plans « et si… »', 'Scénarios du Simulateur › Plans : ventes envisagées, versement, retrait et stratégie visée. Ils appartiennent à ce classeur : importer un autre fichier remplace vos plans.', 14, PETROL);
+  const go = page(wb, 'Objectifs', "Objectifs d'épargne", 'Capital visé à une date : progression calculée sur la valorisation actuelle du portefeuille.', 10, PETROL);
 
   // ================================================================ Cours
   {
@@ -179,10 +183,10 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
   const first = 6, lastRow = first + NROWS - 1;
   {
     const ws = hi.ws;
-    hi.section(4, 1, 'Virements');
-    hi.section(4, 4, 'Achats');
+    hi.section(4, 1, 'Virements (retrait : montant négatif)');
+    hi.section(4, 4, 'Achats et ventes (vente : quantité négative)');
     hi.header(5, 1, ['Date', 'Montant']);
-    hi.header(5, 4, ['Date', 'ETF', 'Indice', 'Cours', 'Quantité', 'Montant brut', 'Débit courtier', 'Frais', 'Rembour-sement', 'Frais nets', 'Frais en %']);
+    hi.header(5, 4, ['Date', 'ETF', 'Indice', 'Cours', 'Quantité', 'Montant brut', 'Débit courtier', 'Frais', 'Rembour-sement', 'Frais nets', 'Frais en %', 'Coût sorti']);
     ws.validation(`E${first}:E${lastRow}`, `'Mes ETF'!$A$5:$A$${E_LAST}`);
     const blank = (r: number, c: number, fmt?: string) => ws.set(r, c, null, { font: { color: INPUT }, numFmt: fmt });
     const pre = Math.max(txs.length + 200, 300);
@@ -209,7 +213,10 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
         hi.put(r, 9, f(`IF(D${r}="","",G${r}*H${r})`), { fmt: EUR, border: bd });
         hi.put(r, 11, f(`IF(D${r}="","",J${r}-I${r})`), { fmt: EUR, border: bd });
         hi.put(r, 13, f(`IF(D${r}="","",K${r}-L${r})`), { fmt: EUR, border: bd });
-        hi.put(r, 14, f(`IF(OR(D${r}="",I${r}=0),"",M${r}/I${r})`), { fmt: PCT2, border: bd });
+        hi.put(r, 14, f(`IF(OR(D${r}="",I${r}=0),"",M${r}/ABS(I${r}))`), { fmt: PCT2, border: bd });
+        // Coût sorti d'une vente : parts vendues × PRU de la ligne juste avant (achats nets − coût déjà sorti ÷ parts détenues), sur les lignes au-dessus
+        const up = (c: string) => `${c}$${first - 1}:${c}${r - 1}`;
+        hi.put(r, 15, f(`IF(OR(D${r}="",N(H${r})>=0),"",IFERROR(-H${r}*(SUMIFS(${up('J')},${up('E')},E${r},${up('H')},">0")-SUMIFS(${up('L')},${up('E')},E${r},${up('H')},">0")-SUMIF(${up('E')},E${r},${up('O')}))/SUMIF(${up('E')},E${r},${up('H')}),0))`), { fmt: EUR, border: bd, color: NEUTRAL });
       }
       // flux pour le TRI (colonnes masquées)
       ws.set(r, 16, f(`IF(A${r}="",MIN($A$${first}:$A$${lastRow}),A${r})`), { numFmt: DATE });
@@ -221,12 +228,12 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     ws.set(lastRow + 1, 17, f('Valorisation'), { numFmt: EUR });
     ws.set(4, 16, 'Flux pour le TRI', { font: { sz: 8, color: MODERATE } });
     ws.hidden.add(16); ws.hidden.add(17);
-    hi.widths({ A: 12, B: 12, C: 3, D: 12, E: 8, F: 14, G: 11, H: 9, I: 13, J: 13, K: 9, L: 11, M: 10, N: 9, O: 3, P: 11, Q: 11 });
+    hi.widths({ A: 12, B: 12, C: 3, D: 12, E: 8, F: 14, G: 11, H: 9, I: 13, J: 13, K: 9, L: 11, M: 10, N: 9, O: 12, P: 11, Q: 11 });
     ws.freeze = `A${first}`;
     ws.cf(`N${first}:N${lastRow}`, { type: 'cellIs', operator: 'greaterThan', formula: '0.005', dxf: { font: { color: CRIT } } });
     const rng = (c: string) => `Historique!$${c}$${first}:$${c}$${lastRow}`;
     for (const [nm, c] of [['V_Date', 'A'], ['V_Montant', 'B'], ['A_Date', 'D'], ['A_ETF', 'E'], ['A_Cours', 'G'], ['A_Qte', 'H'], ['A_Brut', 'I'],
-      ['A_Debit', 'J'], ['A_Frais', 'K'], ['A_Remb', 'L'], ['A_FraisNets', 'M'], ['A_FraisPct', 'N']]) wb.define(nm, rng(c));
+      ['A_Debit', 'J'], ['A_Frais', 'K'], ['A_Remb', 'L'], ['A_FraisNets', 'M'], ['A_FraisPct', 'N'], ['A_CoutSorti', 'O']]) wb.define(nm, rng(c));
     wb.define('TRI_Dates', `Historique!$P$${first - 1}:$P$${lastRow + 1}`);
     wb.define('TRI_Flux', `Historique!$Q$${first - 1}:$Q$${lastRow + 1}`);
   }
@@ -244,7 +251,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       ws.set(r, 2, t, tickerStyle(colors[t] || EXTRA[0]));
       pf.put(r, 3, f(`IF(INDEX(E_Strat,${m})="Oui","Oui","Hors stratégie")`), { color: NEUTRAL, h: 'center' });
       pf.put(r, 4, f(`SUMIF(A_ETF,$B${r},A_Qte)`), { fmt: INT, h: 'center' });
-      pf.put(r, 5, f(`SUMIF(A_ETF,$B${r},A_Debit)-SUMIF(A_ETF,$B${r},A_Remb)`), { fmt: EUR });
+      pf.put(r, 5, f(`SUMIFS(A_Debit,A_ETF,$B${r},A_Qte,">0")-SUMIFS(A_Remb,A_ETF,$B${r},A_Qte,">0")-SUMIF(A_ETF,$B${r},A_CoutSorti)`), { fmt: EUR });
       pf.put(r, 6, f(`IF(D${r}>0,E${r}/D${r},"")`), { fmt: PRICE });
       pf.put(r, 7, f(`INDEX(E_Cours,${m})`), { fmt: PRICE });
       pf.put(r, 8, f(`D${r}*G${r}`), { fmt: EUR, b: true });
@@ -419,6 +426,89 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     });
   }
 
+  // ---- réglages de l'app rangés dans le Simulateur (rappel mensuel, ETF de référence)
+  {
+    const sw = si.ws;
+    si.put(11, 1, 'Jour du rappel « investir » (0 = aucun)', { color: NEUTRAL });
+    si.put(11, 2, data.settings.reminderDay || 0, { fmt: '0', inp: true, b: true, bg: TINT, h: 'right' });
+    si.put(12, 1, 'ETF de référence (comparaison)', { color: NEUTRAL });
+    si.put(12, 2, data.settings.benchmarkId || '', { inp: true, b: true, bg: TINT, h: 'right' });
+    sw.validation('B12', `'Mes ETF'!$A$5:$A$${E_LAST}`);
+  }
+
+  // ================================================================ Plans
+  {
+    const ws = pl.ws;
+    const plans = data.plans || [];
+    pl.section(4, 1, 'Plans');
+    pl.header(5, 1, ['Réf.', 'Nom', 'Créé le', 'Versement', 'Retrait', 'Versement mensuel', 'Stratégie visée'], 30);
+    pl.section(4, 9, 'Détail : ventes et allocation visée');
+    pl.header(5, 9, ['Réf. du plan', 'Type', 'ETF', 'Mode', 'Valeur'], 30);
+    plans.forEach((p, i) => {
+      const r = 6 + i;
+      pl.put(r, 1, p.id, { color: MODERATE, sz: 8 });
+      pl.put(r, 2, p.name, { inp: true, b: true });
+      pl.put(r, 3, p.createdAt, { color: MODERATE, sz: 8 });
+      pl.put(r, 4, p.deposit, { fmt: EUR0, inp: true });
+      pl.put(r, 5, p.withdraw, { fmt: EUR0, inp: true });
+      pl.put(r, 6, p.monthly, { fmt: EUR0, inp: true });
+      pl.put(r, 7, p.targets ? 'Personnalisée' : 'Actuelle', { inp: true, h: 'center' });
+    });
+    let k = 6;
+    for (const p of plans) {
+      for (const sl of p.sells) {
+        pl.put(k, 9, p.id, { color: MODERATE, sz: 8 });
+        pl.put(k, 10, 'Vente', { inp: true });
+        pl.put(k, 11, sl.etfId, { inp: true, h: 'center' });
+        pl.put(k, 12, sl.kind === 'all' ? 'Tout' : sl.kind === 'qty' ? 'Parts' : '%', { inp: true, h: 'center' });
+        pl.put(k, 13, sl.kind === 'all' ? null : sl.value, { fmt: sl.kind === 'pct' ? PCT1 : '0.##', inp: true });
+        k++;
+      }
+      if (p.targets) {
+        for (const [etf, w] of Object.entries(p.targets)) {
+          pl.put(k, 9, p.id, { color: MODERATE, sz: 8 });
+          pl.put(k, 10, 'Cible', { inp: true });
+          pl.put(k, 11, etf, { inp: true, h: 'center' });
+          pl.put(k, 12, null);
+          pl.put(k, 13, w, { fmt: PCT1, inp: true });
+          k++;
+        }
+      }
+    }
+    pl.put(Math.max(plans.length, 1) + 7, 1, 'Un plan = une ligne à gauche + ses lignes « Vente » / « Cible » à droite (même Réf.). Modes de vente : Tout, Parts (nombre), % (fraction des parts). Les cibles sont des poids dont la somme fait 100 %.', { sz: 8, color: MODERATE, border: false });
+    pl.widths({ A: 12, B: 28, C: 18, D: 12, E: 11, F: 14, G: 15, H: 3, I: 12, J: 8, K: 12, L: 8, M: 10 });
+    ws.freeze = 'A6';
+    ws.validation('J6:J400', '"Vente,Cible"');
+    ws.validation('L6:L400', '"Tout,Parts,%"');
+  }
+
+  // ================================================================ Objectifs
+  {
+    const ws = go.ws;
+    const goals = data.goals || [];
+    go.header(5, 1, ['Réf.', 'Objectif', 'Capital visé', 'Échéance', 'Créé le', 'Valorisation actuelle', 'Atteint', 'Reste à atteindre', 'Mois restants', 'Mensuel requis (sans rendement)', 'Mensuel requis (rendement du simulateur)'], 42);
+    const nG = Math.max(goals.length + 5, 10);
+    for (let i = 0; i < nG; i++) {
+      const r = 6 + i, g = goals[i], bd = !!g;
+      go.put(r, 1, g ? g.id : null, { color: MODERATE, sz: 8, border: bd });
+      go.put(r, 2, g ? g.name : null, { inp: true, b: true, border: bd });
+      go.put(r, 3, g ? g.target : null, { fmt: EUR0, inp: true, border: bd });
+      go.put(r, 4, g ? new Date(+g.date.slice(0, 4), +g.date.slice(5, 7) - 1, +g.date.slice(8, 10)) : null, { fmt: DATE, inp: true, border: bd });
+      go.put(r, 5, g ? g.createdAt : null, { color: MODERATE, sz: 8, border: bd });
+      const on = `OR(C${r}="",D${r}="")`;
+      go.put(r, 6, f(`IF(${on},"",Valorisation)`), { fmt: EUR, border: bd });
+      go.put(r, 7, f(`IF(${on},"",IF(C${r}>0,MIN(1,F${r}/C${r}),0))`), { fmt: PCT1, b: true, color: PRIMARY, border: bd });
+      go.put(r, 8, f(`IF(${on},"",MAX(0,C${r}-F${r}))`), { fmt: EUR, border: bd });
+      go.put(r, 9, f(`IF(${on},"",MAX(0,(YEAR(D${r})-YEAR(ValDate))*12+MONTH(D${r})-MONTH(ValDate)))`), { fmt: '0', h: 'center', border: bd });
+      go.put(r, 10, f(`IF(${on},"",IF(H${r}=0,0,IF(I${r}=0,"",H${r}/I${r})))`), { fmt: EUR, border: bd });
+      go.put(r, 11, f(`IF(${on},"",IF(H${r}=0,0,IF(I${r}=0,"",IF(Simulateur!$B$9=0,H${r}/I${r},MAX(0,(C${r}-F${r}*(1+Simulateur!$B$9)^I${r})*Simulateur!$B$9/((1+Simulateur!$B$9)^I${r}-1))))))`), { fmt: EUR, b: true, border: bd });
+    }
+    ws.cf(`G6:G${5 + nG}`, { type: 'dataBar', color: '9FD0C7' });
+    go.put(7 + nG, 1, 'Ajoutez un objectif : nom, capital visé et échéance (cellules bleues). Les colonnes suivantes se calculent. « Avec rendement » reprend le rendement annuel du Simulateur.', { sz: 8, color: MODERATE, border: false });
+    go.widths({ A: 12, B: 28, C: 14, D: 12, E: 18, F: 15, G: 9, H: 15, I: 9, J: 17, K: 20 });
+    ws.freeze = 'A6';
+  }
+
   // ================================================================ Catalogue
   {
     const ws = ca.ws;
@@ -450,15 +540,16 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     wb.define('Epargne', 'SUM(V_Montant)');
     wb.define('Especes', 'MAX(0,SUM(V_Montant)-SUM(A_Debit)+SUM(A_Remb))');
     wb.define('Valorisation', 'TotalTitres+Especes');
+    wb.define('PlusValueRealisee', '-(SUMIF(A_Qte,"<0",A_Debit)-SUMIF(A_Qte,"<0",A_Remb))-SUM(A_CoutSorti)');
     const cards: [string, string, string, string, string, string][] = [
       ['Valorisation totale', 'Valorisation', EUR, 'dont espèces', 'Especes', EUR],
-      ['Plus-value latente', 'Valorisation-Epargne', EUR_S, 'rendement global', 'IF(Epargne>0,(Valorisation-Epargne)/Epargne,0)', PCT_S],
+      ['Plus-value totale', 'Valorisation-Epargne', EUR_S, 'rendement global', 'IF(Epargne>0,(Valorisation-Epargne)/Epargne,0)', PCT_S],
       ['Rendement annualisé (TRI)', 'IFERROR(XIRR(TRI_Flux,TRI_Dates),"")', PCT_S, 'virements', 'COUNT(V_Date)', INT],
       ['Montant épargné', 'Epargne', EUR, 'investi en titres', 'SUM(A_Brut)', EUR],
       ['Parts détenues', `Portefeuille!D${pt}`, INT, 'lignes', order.length ? `COUNTIF(Portefeuille!D${p0}:D${pt - 1},">0")` : '0', INT],
       ['Frais nets', 'SUM(A_Frais)-SUM(A_Remb)', EUR, 'remboursés', 'SUM(A_Remb)', EUR],
-      ['Frais moyens par achat', 'IFERROR(AVERAGE(A_FraisPct),0)', PCT2, 'part remboursée', 'IF(SUM(A_Frais)>0,SUM(A_Remb)/SUM(A_Frais),0)', '0%'],
-      ['Solde espèces', 'Especes', EUR, 'achats enregistrés', 'COUNT(A_Date)', INT],
+      ['Frais moyens par ordre', 'IFERROR(AVERAGE(A_FraisPct),0)', PCT2, 'part remboursée', 'IF(SUM(A_Frais)>0,SUM(A_Remb)/SUM(A_Frais),0)', '0%'],
+      ['Plus-value réalisée', 'PlusValueRealisee', EUR_S, 'ordres enregistrés', 'COUNT(A_Date)', INT],
     ];
     ws.width(1, 2);
     for (let c = 2; c <= 9; c++) ws.width(c, 13.5);
@@ -481,6 +572,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     });
     for (const [rr, h] of [[5, 18], [6, 18], [7, 18], [8, 18], [9, 8], [10, 18], [11, 18], [12, 18], [13, 18]]) ws.height(rr, h);
     ws.cf('D6', { type: 'cellIs', operator: 'lessThan', formula: '0', dxf: { font: { color: CRIT } } });
+    ws.cf('H11', { type: 'cellIs', operator: 'lessThan', formula: '0', dxf: { font: { color: CRIT } } });
     ws.cf('D6', { type: 'cellIs', operator: 'greaterThan', formula: '0', dxf: { font: { color: SUCCESS } } });
     dash.section(15, 2, 'Allocation réelle et cible');
     dash.header(16, 2, ['Indice', 'Ticker', 'Valeur', 'Réel', 'Cible', 'Écart', 'À acheter'], 22);
@@ -511,7 +603,8 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     const leg = tl + 35;
     ws.set(leg, 2, 'Mode d’emploi', { font: { sz: 9, b: true, color: NEUTRAL } });
     ['Les cellules en bleu se saisissent (Historique, Mes ETF, Cours, Compositions, Simulateur) ; tout le reste se calcule.',
-      'Valorisation = valeur des titres au dernier cours + solde espèces. Solde espèces = virements − débits courtier + remboursements de frais.',
+      'Valorisation = valeur des titres au dernier cours + solde espèces. Solde espèces = virements (retraits en négatif) − débits courtier (ventes en négatif) + remboursements de frais.',
+      'Plus-value totale = valorisation − montant épargné net : lignes encore détenues (latente) + ventes déjà réalisées. Coût sorti d’une vente = parts vendues × PRU du moment.',
       'TRI : taux de rendement interne annualisé sur les virements (XIRR, base 365 jours).',
       `Fichier exporté par PEAnalyze le ${new Date().toLocaleDateString('fr-FR')} (cours au ${vd.split('-').reverse().join('/')}) : les données de l’application font foi.`,
     ].forEach((n, i) => ws.set(leg + 1 + i, 2, '• ' + n, { font: { sz: 8, color: MODERATE } }));

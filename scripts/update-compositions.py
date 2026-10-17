@@ -11,6 +11,7 @@ import datetime, json, pathlib, sys, time, urllib.request, urllib.error
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import factsheet_parse as fp
 import compositions as comp
+import dws
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 KNOWN = ROOT / 'data-src' / 'compositions-fiches.json'
@@ -50,6 +51,15 @@ def main():
     fresh = fail = 0
     for isin in isins:
         have = max(known[isin]['date'], items.get(isin, {}).get('date', ''))
+        if known[isin].get('src') == 'dws':  # Xtrackers : positions du fonds via l'API de la page produit
+            r = dws.fetch(isin)
+            time.sleep(0.25)
+            if r and r['date'] > have:
+                items[isin] = dict(date=r['date'], title=r['title'], sectors=r['sectors'], countries=r['countries'])
+                fresh += 1
+            elif not r:
+                fail += 1
+            continue
         for d in month_ends():
             iso = f'{d[:4]}-{d[4:6]}-{d[6:]}'
             if iso <= have:

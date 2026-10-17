@@ -23,6 +23,9 @@ SECTOR = {
     'services de communication': 'Services de communication', 'santé': 'Santé', 'conso cyclique': 'Consommation discrétionnaire',
     'conso non cyclique': 'Consommation de base', 'énergie': 'Énergie', 'services publics': 'Services aux collectivités',
     'immobilier': 'Immobilier', 'matériaux': 'Matériaux', 'autres': 'Autres', 'autres pays': 'Autres',
+    # positions Xtrackers (DWS) en GICS français ; la classification ICB de DWS (« technologie », « industries »…) reste volontairement inconnue
+    'soins de santé': 'Santé', 'biens de consommation de base': 'Consommation de base', 'industrie': 'Industrie', 'inconnu': 'Autres',
+    'consommation discrétionnaire': 'Consommation discrétionnaire', 'services aux collectivités': 'Services aux collectivités',
 }
 
 COUNTRY = {
@@ -75,7 +78,7 @@ COUNTRY = {
     'bermudes': 'Bermudes', 'bermuda': 'Bermudes',
     'others': 'Autres', 'other': 'Autres', 'sonstige': 'Autres', 'autres pays': 'Autres', 'autres': 'Autres',
     # les fiches allemandes collent parfois deux libellés
-    'portugal sonstige': 'Autres',
+    'portugal sonstige': 'Autres', '--': 'Autres', 'inconnu': 'Autres', 'jersey': 'Autres',
 }
 
 

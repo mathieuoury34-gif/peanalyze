@@ -9,10 +9,11 @@ import { exposure, exposureCoverage, topWithOthers } from '../domain/calc';
 import { eur, eurSigned, num, pct, pctSigned, pts, NBSP } from '../domain/format';
 import type { Position } from '../domain/types';
 import { WelcomeCard } from '../ui/WelcomeCard';
+import { ReminderBanner } from '../ui/ReminderBanner';
 import { t, tl, tn } from '../i18n';
 import { etfOrder } from '../etfColors';
 
-const NAV = [{ to: '/portefeuille', label: t('Synthèse') }, { to: '/portefeuille/repartitions', label: t('Répartitions') }];
+export const PF_NAV = () => [{ to: '/portefeuille', label: t('Synthèse') }, { to: '/portefeuille/repartitions', label: t('Répartitions') }, { to: '/portefeuille/analyse', label: t('Analyse') }];
 
 export function PortfolioScreen() {
   const { data, positions, summary, etf } = useCalc();
@@ -36,9 +37,10 @@ export function PortfolioScreen() {
     <div className="screen" data-screen="T3-01">
       <AppHeader title={t('Portefeuille')} />
       <PriceErrorBanner />
-      <SubNav items={NAV} label={t('Sections du portefeuille')} />
+      <SubNav items={PF_NAV()} label={t('Sections du portefeuille')} />
       <main className="content with-fab dgrid">
         {!data.deposits.length && !data.transactions.length && <WelcomeCard className="dspan-12" />}
+        <ReminderBanner className="dspan-12" />
         <Hero className="dspan-5" label={t('Valorisation totale')} value={eur(summary.totalValue)} chip={`${summary.unrealizedPnl >= 0 ? '▲' : '▼'} ${eurSigned(summary.unrealizedPnl)} · ${pctSigned(summary.globalReturnPct)}`}>
           <div className="foot">
             <span><strong>{summary.totalQuantity}</strong> {t('parts')}</span>
@@ -199,7 +201,7 @@ export function RepartitionsScreen() {
     <div className="screen" data-screen="T3-04">
       <AppHeader title={t('Portefeuille')} />
       <PriceErrorBanner />
-      <SubNav items={NAV} label={t('Sections du portefeuille')} />
+      <SubNav items={PF_NAV()} label={t('Sections du portefeuille')} />
       <main className="content with-fab">
         <div className="form-narrow"><Segmented label={t('Type de répartition')} value={tab} onChange={setTab} options={[['sec', t('Secteurs')], ['geo', t('Pays')]]} /></div>
         {tab === 'sec' ? (

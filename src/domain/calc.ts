@@ -56,21 +56,50 @@ function targetOf(data: AppData, etf: Etf | undefined, id: string): number {
   return data.targetAllocation[id] || 0;
 }
 
+/** Résultat d'une vente enregistrée : coût de revient sorti au PRU du moment, produit net reçu, plus-value réalisée. */
+export interface SaleInfo { cost: number; proceeds: number; gain: number }
+export interface LedgerLine { quantity: number; costBasis: number; realized: number }
+
+/** Rejoue les opérations dans l'ordre (par date ; à date égale, achats avant ventes) :
+ *  un achat augmente parts et coût de revient, une vente (quantité négative) sort du coût de revient au PRU courant. */
+export function ledger(transactions: Transaction[], upTo?: string, skipId?: string): { lines: Record<string, LedgerLine>; sales: Map<string, SaleInfo> } {
+  const list = transactions
+    .map((t, i) => ({ t, i }))
+    .filter((x) => (!upTo || x.t.date <= upTo) && x.t.id !== skipId)
+    .sort((a, b) => (a.t.date < b.t.date ? -1 : a.t.date > b.t.date ? 1 : (a.t.quantity >= 0 ? 0 : 1) - (b.t.quantity >= 0 ? 0 : 1) || a.i - b.i));
+  const lines: Record<string, LedgerLine> = {};
+  const sales = new Map<string, SaleInfo>();
+  for (const { t } of list) {
+    const s = (lines[t.etfId] ||= { quantity: 0, costBasis: 0, realized: 0 });
+    const net = t.grossAmount - t.feeRefund; // débit net du courtier (négatif pour une vente)
+    if (t.quantity >= 0) { s.quantity += t.quantity; s.costBasis += net; continue; }
+    const sold = Math.min(-t.quantity, s.quantity);
+    const cost = s.quantity > 0 ? (s.costBasis / s.quantity) * sold : 0;
+    const proceeds = -net;
+    s.quantity -= sold;
+    s.costBasis = s.quantity > 0 ? s.costBasis - cost : 0;
+    s.realized += proceeds - cost;
+    sales.set(t.id, { cost: round2(cost), proceeds: round2(proceeds), gain: round2(proceeds - cost) });
+  }
+  return { lines, sales };
+}
+
+/** Parts détenues et coût de revient d'un ETF à une date (en ignorant éventuellement une opération en cours de modification). */
+export function holdingAt(transactions: Transaction[], etfId: string, upTo: string, skipId?: string): LedgerLine {
+  return ledger(transactions, upTo, skipId).lines[etfId] || { quantity: 0, costBasis: 0, realized: 0 };
+}
+
 export function computePositions(data: AppData): Position[] {
   const ids: string[] = [];
   for (const t of data.transactions) if (!ids.includes(t.etfId)) ids.push(t.etfId);
   for (const e of data.etfs) if (e.inStrategy && targetOf(data, e, e.id) > 0 && !ids.includes(e.id)) ids.push(e.id);
+  const { lines } = ledger(data.transactions);
 
   const raw = ids.map((id) => {
     const etf = etfById(data, id);
-    let quantity = 0, costBasis = 0;
-    for (const t of data.transactions) {
-      if (t.etfId !== id) continue;
-      quantity += t.quantity;
-      costBasis += t.grossAmount - t.feeRefund;
-    }
+    const l = lines[id] || { quantity: 0, costBasis: 0, realized: 0 };
     const price = etf ? etf.lastPrice : 0;
-    return { id, etf, quantity, costBasis, price, marketValue: quantity * price };
+    return { id, etf, quantity: l.quantity, costBasis: l.costBasis, realized: l.realized, price, marketValue: l.quantity * price };
   });
   const securities = raw.reduce((s, r) => s + r.marketValue, 0);
   const total = securities + cashBalance(data);
@@ -90,6 +119,7 @@ export function computePositions(data: AppData): Position[] {
       marketValue: r.marketValue,
       unrealizedPnl: pnl,
       unrealizedPnlPct: r.costBasis > 0 ? pnl / r.costBasis : 0,
+      realizedPnl: r.realized,
       weightActual,
       weightTarget,
       gapPts: (weightActual - weightTarget) * 100,
@@ -136,7 +166,7 @@ export function computeSummary(data: AppData, positions = computePositions(data)
   flows.push({ date: vd, amount: totalValue });
   const feesPaid = data.transactions.reduce((s, t) => s + t.fees, 0);
   const feesRefunded = data.transactions.reduce((s, t) => s + t.feeRefund, 0);
-  const feeRatios = data.transactions.filter((t) => t.unitPrice * t.quantity > 0).map((t) => (t.fees - t.feeRefund) / (t.unitPrice * t.quantity));
+  const feeRatios = data.transactions.filter((t) => t.quantity !== 0 && t.unitPrice > 0).map((t) => (t.fees - t.feeRefund) / (t.unitPrice * Math.abs(t.quantity)));
   return {
     totalDeposited,
     investedInSecurities,
@@ -144,6 +174,7 @@ export function computeSummary(data: AppData, positions = computePositions(data)
     securitiesValue,
     totalValue,
     unrealizedPnl,
+    realizedPnl: round2(positions.reduce((s, p) => s + p.realizedPnl, 0)),
     globalReturnPct: totalDeposited > 0 ? unrealizedPnl / totalDeposited : 0,
     annualizedReturnXirr: data.deposits.length ? xirr(flows) : null,
     feesPaid,
@@ -245,15 +276,30 @@ export function displayHistory(etf: Etf): [string, number][] {
 // ---------------------------------------------------------------- épargne vs valeur (mensuel)
 export interface MonthPoint { month: string; deposited: number; value: number }
 
-function monthEnd(ym: string): string {
+export function monthEnd(ym: string): string {
   const y = +ym.slice(0, 4), m = +ym.slice(5, 7);
   const d = new Date(Date.UTC(y, m, 0)).getUTCDate();
   return ym + '-' + String(d).padStart(2, '0');
 }
-function nextMonth(ym: string): string {
+export function nextMonth(ym: string): string {
   let y = +ym.slice(0, 4), m = +ym.slice(5, 7) + 1;
   if (m > 12) { m = 1; y += 1; }
   return y + '-' + String(m).padStart(2, '0');
+}
+
+/** Valeur du portefeuille (titres + espèces) à une date ; `latest` = utiliser le dernier cours connu plutôt que l'historique. */
+export function portfolioValueAt(data: AppData, end: string, latest = false): number {
+  const q = quantities(data.transactions, end);
+  let value = 0;
+  for (const id of Object.keys(q)) {
+    if (!q[id]) continue;
+    const etf = etfById(data, id);
+    if (!etf) continue;
+    const p = latest ? etf.lastPrice : priceAt(etf, end);
+    const tx = data.transactions.filter((t) => t.etfId === id && t.date <= end);
+    value += q[id] * (p ?? (tx.length ? tx[tx.length - 1].unitPrice : 0));
+  }
+  return value + cashBalance(data, end);
 }
 
 export function monthlySeries(data: AppData): MonthPoint[] {
@@ -264,17 +310,7 @@ export function monthlySeries(data: AppData): MonthPoint[] {
   for (let ym = first; ym <= vd.slice(0, 7); ym = nextMonth(ym)) {
     const end = ym === vd.slice(0, 7) ? vd : monthEnd(ym);
     const deposited = data.deposits.filter((d) => d.date <= end).reduce((s, d) => s + d.amount, 0);
-    const q = quantities(data.transactions, end);
-    let value = 0;
-    for (const id of Object.keys(q)) {
-      const etf = etfById(data, id);
-      if (!etf) continue;
-      const p = end === vd ? etf.lastPrice : priceAt(etf, end);
-      const tx = data.transactions.filter((t) => t.etfId === id && t.date <= end);
-      value += q[id] * (p ?? (tx.length ? tx[tx.length - 1].unitPrice : 0));
-    }
-    value += cashBalance(data, end);
-    out.push({ month: ym, deposited: round2(deposited), value: round2(value) });
+    out.push({ month: ym, deposited: round2(deposited), value: round2(portfolioValueAt(data, end, end === vd)) });
   }
   return out;
 }

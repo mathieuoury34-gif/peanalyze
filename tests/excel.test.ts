@@ -39,7 +39,7 @@ test('classeur PEAnalyze : export puis réimport', async () => {
 
 test('classeur PEAnalyze : structure', async () => {
   const wb = buildPeanalyzeWorkbook(sample(), CATALOG_DATE);
-  assert.deepEqual(wb.sheets.map((s) => s.name), ['Tableau de bord', 'Portefeuille', 'Historique', 'Évolution', 'Mes ETF', 'Cours', 'Compositions', 'Catalogue', 'Simulateur']);
+  assert.deepEqual(wb.sheets.map((s) => s.name), ['Tableau de bord', 'Portefeuille', 'Historique', 'Évolution', 'Mes ETF', 'Cours', 'Compositions', 'Catalogue', 'Simulateur', 'Plans', 'Objectifs']);
   assert.equal(wb.sheets.reduce((n, s) => n + s.charts.length, 0), 8);
 });
 
@@ -65,4 +65,36 @@ test('import : la liste Mes ETF, la cible et les couleurs viennent du classeur',
   assert.equal(back.targetAllocation.WPEA || 0, 0);
   assert.deepEqual(back.etfs.map((e) => e.id).sort(), ['ESE', 'PUST']);
   assert.deepEqual(back.settings.etfColors, { PUST: '007461', ESE: 'AE0014' });
+});
+
+test('ventes, retrait, plans, objectifs et réglages suivent le classeur', async () => {
+  const d = sample();
+  d.deposits.push({ id: 'd3', date: '2026-03-01', amount: -120 });
+  d.transactions.push({ id: 't3', date: '2026-03-02', etfId: 'ESE', unitPrice: 31, quantity: -4, grossAmount: -(31 * 4 - 1.92), fees: 1.92, feeRefund: 0 });
+  d.plans = [
+    { id: 'p1', name: 'Alléger le S&P', createdAt: '2026-04-01T10:00:00.000Z', sells: [{ etfId: 'ESE', kind: 'pct', value: 0.25 }, { etfId: 'PUST', kind: 'all', value: 0 }, { etfId: 'ESE', kind: 'qty', value: 2 }], deposit: 300, withdraw: 0, monthly: 150, targets: { ESE: 0.6, PUST: 0.4 } },
+    { id: 'p2', name: 'Simple', createdAt: '2026-04-02T10:00:00.000Z', sells: [], deposit: 0, withdraw: 500, monthly: 0, targets: null },
+  ];
+  d.goals = [{ id: 'g1', name: 'Apport maison', target: 25000, date: '2031-06-30', createdAt: '2026-04-03T10:00:00.000Z' }];
+  d.settings.reminderDay = 5;
+  d.settings.benchmarkId = 'ESE';
+  const back = await roundtrip(d);
+  assert.deepEqual(back.deposits.map((x) => x.amount), [500, 300.5, -120]);
+  assert.deepEqual(back.transactions.map((t) => t.quantity), [10, 2, -4]);
+  assert.equal(back.transactions[2].grossAmount, d.transactions[2].grossAmount);
+  assert.deepEqual(back.plans, d.plans);
+  assert.deepEqual(back.goals, d.goals);
+  assert.equal(back.settings.reminderDay, 5);
+  assert.equal(back.settings.benchmarkId, 'ESE');
+});
+
+test('changer de classeur remplace les plans et objectifs de l’application', async () => {
+  const mine = buildSeed();
+  mine.plans = [{ id: 'x', name: 'Plan de l’autre classeur', createdAt: '2026-01-01T00:00:00.000Z', sells: [], deposit: 0, withdraw: 0, monthly: 0, targets: null }];
+  mine.goals = [{ id: 'y', name: 'Autre objectif', target: 1000, date: '2030-01-01', createdAt: '2026-01-01T00:00:00.000Z' }];
+  const d = sample(); // classeur sans plan ni objectif
+  const buf = await buildPeanalyzeWorkbook(d, CATALOG_DATE).zip().generateAsync({ type: 'uint8array' });
+  const back = await parseWorkbook(buf, mine);
+  assert.deepEqual(back.plans, []);
+  assert.deepEqual(back.goals, []);
 });

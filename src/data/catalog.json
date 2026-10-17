@@ -1,7 +1,7 @@
 {
 "source": "justETF via quentinarioli.fr (05/10/2026) — frais, encours et cours au 30/09/2026",
 "updated": "2026-10-05",
-"compositionDate": "2026-09-30",
+"compositionDate": "2026-10-15",
 "etfs": [
 {
 "index": "EURO STOXX 50",
@@ -648,96 +648,128 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
 "kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"date": "2026-10-09",
+"from": "LU0846194776",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -1182,7 +1214,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -1323,7 +1355,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -1451,7 +1483,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -1517,7 +1549,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -1660,7 +1692,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -1828,7 +1860,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -1974,96 +2006,127 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
-"kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"kind": "fiche",
+"date": "2026-10-09",
+"from": "LU0846194776"
 }
 },
 {
@@ -2128,7 +2191,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -2194,7 +2257,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -2260,7 +2323,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -2543,7 +2606,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -2774,50 +2837,116 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.3006
-},
-{
-"label": "Technologie",
-"weight": 0.1814
+"weight": 0.275
 },
 {
 "label": "Industrie",
-"weight": 0.1513
+"weight": 0.2076
 },
 {
-"label": "Consommation cyclique",
-"weight": 0.0908
+"label": "Technologies de l’information",
+"weight": 0.2042
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0727
+},
+{
+"label": "Consommation de base",
+"weight": 0.0705
+},
+{
+"label": "Santé",
+"weight": 0.0669
+},
+{
+"label": "Matériaux",
+"weight": 0.0574
+},
+{
+"label": "Services de communication",
+"weight": 0.0243
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0158
+},
+{
+"label": "Immobilier",
+"weight": 0.005
 },
 {
 "label": "Autres",
-"weight": 0.2759
+"weight": 0.0006
 }
 ],
 "countries": [
 {
+"label": "Allemagne",
+"weight": 0.2911
+},
+{
 "label": "France",
-"weight": 0.3896
+"weight": 0.2667
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1806
+"weight": 0.229
 },
 {
-"label": "Allemagne",
-"weight": 0.1286
+"label": "Italie",
+"weight": 0.0424
 },
 {
 "label": "Espagne",
-"weight": 0.0907
+"weight": 0.0423
+},
+{
+"label": "Belgique",
+"weight": 0.0307
+},
+{
+"label": "Irlande",
+"weight": 0.0301
+},
+{
+"label": "Finlande",
+"weight": 0.0261
+},
+{
+"label": "Chine",
+"weight": 0.0144
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0065
+},
+{
+"label": "Portugal",
+"weight": 0.0064
+},
+{
+"label": "Suisse",
+"weight": 0.0059
+},
+{
+"label": "Autriche",
+"weight": 0.0041
+},
+{
+"label": "Luxembourg",
+"weight": 0.0029
 },
 {
 "label": "Autres",
-"weight": 0.2105
+"weight": 0.0015
 }
 ],
 "comp": {
-"kind": "justetf",
-"date": "2026-08-31"
+"kind": "indice",
+"date": "2026-10-15",
+"from": "IE00BNC1G699",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -3062,7 +3191,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -3154,50 +3283,116 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.3006
-},
-{
-"label": "Technologie",
-"weight": 0.1814
+"weight": 0.275
 },
 {
 "label": "Industrie",
-"weight": 0.1513
+"weight": 0.2076
 },
 {
-"label": "Consommation cyclique",
-"weight": 0.0908
+"label": "Technologies de l’information",
+"weight": 0.2042
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0727
+},
+{
+"label": "Consommation de base",
+"weight": 0.0705
+},
+{
+"label": "Santé",
+"weight": 0.0669
+},
+{
+"label": "Matériaux",
+"weight": 0.0574
+},
+{
+"label": "Services de communication",
+"weight": 0.0243
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0158
+},
+{
+"label": "Immobilier",
+"weight": 0.005
 },
 {
 "label": "Autres",
-"weight": 0.2759
+"weight": 0.0006
 }
 ],
 "countries": [
 {
+"label": "Allemagne",
+"weight": 0.2911
+},
+{
 "label": "France",
-"weight": 0.3896
+"weight": 0.2667
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1806
+"weight": 0.229
 },
 {
-"label": "Allemagne",
-"weight": 0.1286
+"label": "Italie",
+"weight": 0.0424
 },
 {
 "label": "Espagne",
-"weight": 0.0907
+"weight": 0.0423
+},
+{
+"label": "Belgique",
+"weight": 0.0307
+},
+{
+"label": "Irlande",
+"weight": 0.0301
+},
+{
+"label": "Finlande",
+"weight": 0.0261
+},
+{
+"label": "Chine",
+"weight": 0.0144
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0065
+},
+{
+"label": "Portugal",
+"weight": 0.0064
+},
+{
+"label": "Suisse",
+"weight": 0.0059
+},
+{
+"label": "Autriche",
+"weight": 0.0041
+},
+{
+"label": "Luxembourg",
+"weight": 0.0029
 },
 {
 "label": "Autres",
-"weight": 0.2105
+"weight": 0.0015
 }
 ],
 "comp": {
-"kind": "justetf",
-"date": "2026-08-31"
+"kind": "indice",
+"date": "2026-10-15",
+"from": "IE00BNC1G699",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -4069,96 +4264,128 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
 "kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"date": "2026-10-09",
+"from": "LU0846194776",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -4503,7 +4730,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -4667,7 +4894,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -4881,7 +5108,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -5021,7 +5248,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -5079,7 +5306,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -5349,7 +5576,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -5712,7 +5939,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -5766,7 +5993,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -5820,7 +6047,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -5913,96 +6140,128 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
 "kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"date": "2026-10-09",
+"from": "LU0846194776",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -6059,7 +6318,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -6459,7 +6718,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -6647,7 +6906,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -6815,7 +7074,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -7082,96 +7341,128 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
 "kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"date": "2026-10-09",
+"from": "LU0846194776",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -7193,50 +7484,116 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.3006
-},
-{
-"label": "Technologie",
-"weight": 0.1814
+"weight": 0.275
 },
 {
 "label": "Industrie",
-"weight": 0.1513
+"weight": 0.2076
 },
 {
-"label": "Consommation cyclique",
-"weight": 0.0908
+"label": "Technologies de l’information",
+"weight": 0.2042
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0727
+},
+{
+"label": "Consommation de base",
+"weight": 0.0705
+},
+{
+"label": "Santé",
+"weight": 0.0669
+},
+{
+"label": "Matériaux",
+"weight": 0.0574
+},
+{
+"label": "Services de communication",
+"weight": 0.0243
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0158
+},
+{
+"label": "Immobilier",
+"weight": 0.005
 },
 {
 "label": "Autres",
-"weight": 0.2759
+"weight": 0.0006
 }
 ],
 "countries": [
 {
+"label": "Allemagne",
+"weight": 0.2911
+},
+{
 "label": "France",
-"weight": 0.3896
+"weight": 0.2667
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1806
+"weight": 0.229
 },
 {
-"label": "Allemagne",
-"weight": 0.1286
+"label": "Italie",
+"weight": 0.0424
 },
 {
 "label": "Espagne",
-"weight": 0.0907
+"weight": 0.0423
+},
+{
+"label": "Belgique",
+"weight": 0.0307
+},
+{
+"label": "Irlande",
+"weight": 0.0301
+},
+{
+"label": "Finlande",
+"weight": 0.0261
+},
+{
+"label": "Chine",
+"weight": 0.0144
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0065
+},
+{
+"label": "Portugal",
+"weight": 0.0064
+},
+{
+"label": "Suisse",
+"weight": 0.0059
+},
+{
+"label": "Autriche",
+"weight": 0.0041
+},
+{
+"label": "Luxembourg",
+"weight": 0.0029
 },
 {
 "label": "Autres",
-"weight": 0.2105
+"weight": 0.0015
 }
 ],
 "comp": {
-"kind": "justetf",
-"date": "2026-08-31"
+"kind": "indice",
+"date": "2026-10-15",
+"from": "IE00BNC1G699",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -7440,7 +7797,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -7498,7 +7855,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -7736,7 +8093,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -7864,7 +8221,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -7929,7 +8286,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -8238,7 +8595,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -8397,7 +8754,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -8463,7 +8820,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -8632,7 +8989,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -8859,7 +9216,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -9187,7 +9544,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -9374,7 +9731,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -9582,50 +9939,116 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.3006
-},
-{
-"label": "Technologie",
-"weight": 0.1814
+"weight": 0.275
 },
 {
 "label": "Industrie",
-"weight": 0.1513
+"weight": 0.2076
 },
 {
-"label": "Consommation cyclique",
-"weight": 0.0908
+"label": "Technologies de l’information",
+"weight": 0.2042
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0727
+},
+{
+"label": "Consommation de base",
+"weight": 0.0705
+},
+{
+"label": "Santé",
+"weight": 0.0669
+},
+{
+"label": "Matériaux",
+"weight": 0.0574
+},
+{
+"label": "Services de communication",
+"weight": 0.0243
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0158
+},
+{
+"label": "Immobilier",
+"weight": 0.005
 },
 {
 "label": "Autres",
-"weight": 0.2759
+"weight": 0.0006
 }
 ],
 "countries": [
 {
+"label": "Allemagne",
+"weight": 0.2911
+},
+{
 "label": "France",
-"weight": 0.3896
+"weight": 0.2667
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1806
+"weight": 0.229
 },
 {
-"label": "Allemagne",
-"weight": 0.1286
+"label": "Italie",
+"weight": 0.0424
 },
 {
 "label": "Espagne",
-"weight": 0.0907
+"weight": 0.0423
+},
+{
+"label": "Belgique",
+"weight": 0.0307
+},
+{
+"label": "Irlande",
+"weight": 0.0301
+},
+{
+"label": "Finlande",
+"weight": 0.0261
+},
+{
+"label": "Chine",
+"weight": 0.0144
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0065
+},
+{
+"label": "Portugal",
+"weight": 0.0064
+},
+{
+"label": "Suisse",
+"weight": 0.0059
+},
+{
+"label": "Autriche",
+"weight": 0.0041
+},
+{
+"label": "Luxembourg",
+"weight": 0.0029
 },
 {
 "label": "Autres",
-"weight": 0.2105
+"weight": 0.0015
 }
 ],
 "comp": {
-"kind": "justetf",
-"date": "2026-08-31"
+"kind": "indice",
+"date": "2026-10-15",
+"from": "IE00BNC1G699",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -9958,7 +10381,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -10395,7 +10818,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -10634,7 +11057,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -10772,7 +11195,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -10838,7 +11261,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -11101,7 +11524,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -11816,7 +12239,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -12678,96 +13101,128 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
 "kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"date": "2026-10-09",
+"from": "LU0846194776",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -12940,7 +13395,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -13005,7 +13460,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -13145,7 +13600,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -13583,7 +14038,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -13751,7 +14206,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -13994,7 +14449,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -14060,7 +14515,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -14231,7 +14686,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -14807,7 +15262,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -14872,7 +15327,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -14997,7 +15452,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -15182,7 +15637,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -15323,7 +15778,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -15480,7 +15935,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -15608,7 +16063,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -15674,7 +16129,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -15728,7 +16183,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -15972,7 +16427,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -16038,7 +16493,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -16218,7 +16673,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -16272,7 +16727,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -16326,7 +16781,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -16392,7 +16847,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -16553,7 +17008,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -16651,84 +17106,104 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.4193
+"weight": 0.2666
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1821
 },
 {
 "label": "Industrie",
-"weight": 0.15
-},
-{
-"label": "Énergie",
-"weight": 0.1026
-},
-{
-"label": "Services aux collectivités",
-"weight": 0.0967
-},
-{
-"label": "Consommation discrétionnaire",
-"weight": 0.0714
+"weight": 0.1626
 },
 {
 "label": "Consommation de base",
-"weight": 0.0593
+"weight": 0.1043
 },
 {
-"label": "Services de communication",
-"weight": 0.0546
+"label": "Matériaux",
+"weight": 0.08
 },
 {
 "label": "Santé",
-"weight": 0.0461
+"weight": 0.0749
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.068
+},
+{
+"label": "Services de communication",
+"weight": 0.0361
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0194
+},
+{
+"label": "Immobilier",
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0008
 }
 ],
 "countries": [
 {
-"label": "France",
-"weight": 0.2836
-},
-{
 "label": "Allemagne",
-"weight": 0.2349
+"weight": 0.3157
 },
 {
-"label": "Italie",
-"weight": 0.1527
-},
-{
-"label": "Espagne",
-"weight": 0.1182
+"label": "France",
+"weight": 0.2134
 },
 {
 "label": "Pays-Bas",
-"weight": 0.0976
+"weight": 0.2058
+},
+{
+"label": "Italie",
+"weight": 0.0828
+},
+{
+"label": "Espagne",
+"weight": 0.0592
 },
 {
 "label": "Finlande",
-"weight": 0.0359
+"weight": 0.056
 },
 {
 "label": "Irlande",
-"weight": 0.0312
-},
-{
-"label": "Autriche",
-"weight": 0.0192
+"weight": 0.0252
 },
 {
 "label": "Belgique",
-"weight": 0.0139
+"weight": 0.0234
+},
+{
+"label": "Singapour",
+"weight": 0.0078
+},
+{
+"label": "Autriche",
+"weight": 0.0068
 },
 {
 "label": "Portugal",
-"weight": 0.0128
+"weight": 0.0032
+},
+{
+"label": "Autres",
+"weight": 0.0008
 }
 ],
 "comp": {
 "kind": "indice",
-"date": "2026-09-30",
-"from": "FR0010717090",
-"fromName": "Amundi MSCI EMU High Dividend UCITS ETF Acc"
+"date": "2026-10-15",
+"from": "IE000VCBWFL8",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -16794,7 +17269,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -17024,7 +17499,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -17222,7 +17697,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -17343,96 +17818,128 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
 "kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"date": "2026-10-09",
+"from": "LU0846194776",
+"fromName": "Xtrackers · positions du fonds"
 }
 },
 {
@@ -17498,7 +18005,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -17660,7 +18167,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -17726,7 +18233,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -17749,96 +18256,127 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
-"kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"kind": "fiche",
+"date": "2026-10-09",
+"from": "LU1127514245"
 }
 },
 {
@@ -17861,96 +18399,127 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
-"kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"kind": "fiche",
+"date": "2026-10-09",
+"from": "LU1127516455"
 }
 },
 {
@@ -17973,96 +18542,127 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
-"kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"kind": "fiche",
+"date": "2026-10-09",
+"from": "LU1215828218"
 }
 },
 {
@@ -18085,96 +18685,127 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.2699
+"weight": 0.262
 },
 {
 "label": "Industrie",
-"weight": 0.1968
+"weight": 0.1943
 },
 {
 "label": "Technologies de l’information",
-"weight": 0.166
+"weight": 0.1705
 },
 {
 "label": "Consommation discrétionnaire",
-"weight": 0.0749
+"weight": 0.0752
 },
 {
 "label": "Services aux collectivités",
-"weight": 0.0654
+"weight": 0.0626
 },
 {
 "label": "Santé",
-"weight": 0.0574
+"weight": 0.0565
 },
 {
 "label": "Consommation de base",
-"weight": 0.0524
+"weight": 0.0432
 },
 {
 "label": "Énergie",
-"weight": 0.0407
-},
-{
-"label": "Matériaux",
-"weight": 0.0397
+"weight": 0.042
 },
 {
 "label": "Services de communication",
-"weight": 0.0314
+"weight": 0.0295
+},
+{
+"label": "Matériaux",
+"weight": 0.0278
 },
 {
 "label": "Immobilier",
-"weight": 0.0054
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0313
 }
 ],
 "countries": [
 {
 "label": "France",
-"weight": 0.2717
+"weight": 0.2578
 },
 {
 "label": "Allemagne",
-"weight": 0.2499
+"weight": 0.2501
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1728
+"weight": 0.1742
 },
 {
 "label": "Espagne",
-"weight": 0.1155
+"weight": 0.1113
 },
 {
 "label": "Italie",
-"weight": 0.0944
+"weight": 0.0892
 },
 {
 "label": "Finlande",
-"weight": 0.0341
+"weight": 0.0345
 },
 {
 "label": "Belgique",
-"weight": 0.0317
+"weight": 0.0241
 },
 {
 "label": "Irlande",
-"weight": 0.0124
+"weight": 0.0168
 },
 {
 "label": "Autriche",
-"weight": 0.0112
+"weight": 0.0105
+},
+{
+"label": "Chine",
+"weight": 0.0067
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
 },
 {
 "label": "Portugal",
-"weight": 0.0063
+"weight": 0.0057
+},
+{
+"label": "Singapour",
+"weight": 0.0046
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0038
+},
+{
+"label": "Suisse",
+"weight": 0.0026
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.0012
 }
 ],
 "comp": {
-"kind": "indice",
-"date": "2026-09-30",
-"from": "LU1646360971",
-"fromName": "Amundi Core MSCI EMU UCITS ETF Dist"
+"kind": "fiche",
+"date": "2026-10-09",
+"from": "LU1920015366"
 }
 },
 {
@@ -18197,50 +18828,115 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.3006
-},
-{
-"label": "Technologie",
-"weight": 0.1814
+"weight": 0.275
 },
 {
 "label": "Industrie",
-"weight": 0.1513
+"weight": 0.2076
 },
 {
-"label": "Consommation cyclique",
-"weight": 0.0908
+"label": "Technologies de l’information",
+"weight": 0.2042
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0727
+},
+{
+"label": "Consommation de base",
+"weight": 0.0705
+},
+{
+"label": "Santé",
+"weight": 0.0669
+},
+{
+"label": "Matériaux",
+"weight": 0.0574
+},
+{
+"label": "Services de communication",
+"weight": 0.0243
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0158
+},
+{
+"label": "Immobilier",
+"weight": 0.005
 },
 {
 "label": "Autres",
-"weight": 0.2759
+"weight": 0.0006
 }
 ],
 "countries": [
 {
+"label": "Allemagne",
+"weight": 0.2911
+},
+{
 "label": "France",
-"weight": 0.3896
+"weight": 0.2667
 },
 {
 "label": "Pays-Bas",
-"weight": 0.1806
+"weight": 0.229
 },
 {
-"label": "Allemagne",
-"weight": 0.1286
+"label": "Italie",
+"weight": 0.0424
 },
 {
 "label": "Espagne",
-"weight": 0.0907
+"weight": 0.0423
+},
+{
+"label": "Belgique",
+"weight": 0.0307
+},
+{
+"label": "Irlande",
+"weight": 0.0301
+},
+{
+"label": "Finlande",
+"weight": 0.0261
+},
+{
+"label": "Chine",
+"weight": 0.0144
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0065
+},
+{
+"label": "Portugal",
+"weight": 0.0064
+},
+{
+"label": "Suisse",
+"weight": 0.0059
+},
+{
+"label": "Autriche",
+"weight": 0.0041
+},
+{
+"label": "Luxembourg",
+"weight": 0.0029
 },
 {
 "label": "Autres",
-"weight": 0.2105
+"weight": 0.0015
 }
 ],
 "comp": {
-"kind": "justetf",
-"date": "2026-08-31"
+"kind": "fiche",
+"date": "2026-10-15",
+"from": "IE00BNC1G699"
 }
 },
 {
@@ -18263,84 +18959,103 @@
 "sectors": [
 {
 "label": "Finance",
-"weight": 0.4193
+"weight": 0.2666
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1821
 },
 {
 "label": "Industrie",
-"weight": 0.15
-},
-{
-"label": "Énergie",
-"weight": 0.1026
-},
-{
-"label": "Services aux collectivités",
-"weight": 0.0967
-},
-{
-"label": "Consommation discrétionnaire",
-"weight": 0.0714
+"weight": 0.1626
 },
 {
 "label": "Consommation de base",
-"weight": 0.0593
+"weight": 0.1043
 },
 {
-"label": "Services de communication",
-"weight": 0.0546
+"label": "Matériaux",
+"weight": 0.08
 },
 {
 "label": "Santé",
-"weight": 0.0461
+"weight": 0.0749
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.068
+},
+{
+"label": "Services de communication",
+"weight": 0.0361
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0194
+},
+{
+"label": "Immobilier",
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0008
 }
 ],
 "countries": [
 {
-"label": "France",
-"weight": 0.2836
-},
-{
 "label": "Allemagne",
-"weight": 0.2349
+"weight": 0.3157
 },
 {
-"label": "Italie",
-"weight": 0.1527
-},
-{
-"label": "Espagne",
-"weight": 0.1182
+"label": "France",
+"weight": 0.2134
 },
 {
 "label": "Pays-Bas",
-"weight": 0.0976
+"weight": 0.2058
+},
+{
+"label": "Italie",
+"weight": 0.0828
+},
+{
+"label": "Espagne",
+"weight": 0.0592
 },
 {
 "label": "Finlande",
-"weight": 0.0359
+"weight": 0.056
 },
 {
 "label": "Irlande",
-"weight": 0.0312
-},
-{
-"label": "Autriche",
-"weight": 0.0192
+"weight": 0.0252
 },
 {
 "label": "Belgique",
-"weight": 0.0139
+"weight": 0.0234
+},
+{
+"label": "Singapour",
+"weight": 0.0078
+},
+{
+"label": "Autriche",
+"weight": 0.0068
 },
 {
 "label": "Portugal",
-"weight": 0.0128
+"weight": 0.0032
+},
+{
+"label": "Autres",
+"weight": 0.0008
 }
 ],
 "comp": {
-"kind": "indice",
-"date": "2026-09-30",
-"from": "FR0010717090",
-"fromName": "Amundi MSCI EMU High Dividend UCITS ETF Acc"
+"kind": "fiche",
+"date": "2026-10-15",
+"from": "IE000VCBWFL8"
 }
 },
 {
@@ -18406,7 +19121,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -18472,7 +19187,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -18610,7 +19325,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {
@@ -18676,7 +19391,7 @@
 ],
 "comp": {
 "kind": "justetf",
-"date": "2026-08-31"
+"date": "2026-09-30"
 }
 },
 {

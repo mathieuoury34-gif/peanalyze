@@ -12,6 +12,9 @@ import { emptySeed } from '../data/seed';
 import type { AppData, PriceRefresh } from '../domain/types';
 import { MAX_ETFS } from '../data/prices';
 import { lang, setLang, t } from '../i18n';
+import { checkReminder, enableNotifications, notificationPermission, notificationsSupported } from '../data/reminder';
+import { reminderState } from '../domain/reminder';
+import { Switch } from '../ui/kit';
 import { setThemePref, themePref, type ThemePref } from '../theme';
 
 const PEA_CEILING = 150000;
@@ -54,6 +57,7 @@ export function SettingsScreen() {
   const [testMsg, setTestMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [openDate, setOpenDate] = useState(s.peaOpeningDate ? dateFr(s.peaOpeningDate) : '');
   const [fee, setFee] = useState(toInput(s.feePerOrder));
+  const [notif, setNotif] = useState<NotificationPermission | 'unsupported'>(notificationPermission());
   const [busy, setBusy] = useState('');
   const [reset, setReset] = useState(false);
   const [theme, setTheme] = useState<ThemePref>(themePref());
@@ -203,6 +207,33 @@ export function SettingsScreen() {
               <input className="input num" type="text" inputMode="decimal" value={fee} onChange={(e) => { setFee(e.target.value); const v = parseNum(e.target.value); if (isFinite(v) && v >= 0) update((d) => { d.settings.feePerOrder = v; }); }} />
               <span className="hint">{t('Utilisé par l’assistant du mois et pour pré-remplir les achats.')}</span>
             </label>
+          </div>
+        </Section>
+
+        <Section id="t001-rappel" title={t('Rappel mensuel')}>
+          <div className="card g16" style={{ borderRadius: 'var(--radius-12)' }}>
+            <label className="field">
+              <span className="lbl">{t('Me rappeler d’investir le')}</span>
+              <select className="input" value={s.reminderDay || 0} onChange={(e) => { const v = Number(e.target.value); update((d) => { d.settings.reminderDay = v || undefined; }); void checkReminder(); }} data-component="Select">
+                <option value={0}>{t('Jamais')}</option>
+                {Array.from({ length: 28 }, (_, i) => i + 1).map((d) => <option key={d} value={d}>{d === 1 ? t('1er du mois') : t('{d} du mois', { d })}</option>)}
+              </select>
+              <span className="hint">{s.reminderDay ? t('Un bandeau s’affiche sur l’écran Portefeuille à partir de ce jour, tant qu’aucun achat n’est enregistré dans le mois. {n}', { n: (() => { const r = reminderState(getData(), new Date().toISOString().slice(0, 10)); return r?.due ? t('Le rappel est actif en ce moment.') : t('Prochain rappel : {d}.', { d: dateFr(r?.nextDate ?? '') }); })() }) : t('Aucun rappel.')}</span>
+            </label>
+            {s.reminderDay ? (
+              <div className="stack" style={{ gap: 'var(--space-6)' }}>
+                <div className="between" style={{ minHeight: 44, gap: 'var(--space-12)' }}>
+                  <span id="t001-notif">{t('Aussi par notification')}</span>
+                  <Switch checked={notif === 'granted'} disabled={!notificationsSupported() || notif === 'denied'} labelledBy="t001-notif"
+                    onChange={async (on) => { if (!on) { showToast(t('Désactivez les notifications dans les réglages du navigateur pour ce site.')); return; } setNotif(await enableNotifications()); void checkReminder(); }} />
+                </div>
+                <span className="t-caption c-moderate">
+                  {!notificationsSupported() ? t('Ce navigateur ne gère pas les notifications : seul le bandeau est disponible.')
+                    : notif === 'denied' ? t('Notifications bloquées pour ce site : autorisez-les dans les réglages du navigateur.')
+                    : t('La notification s’affiche quand vous ouvrez l’app, et en tâche de fond si votre navigateur le permet (Chrome ou Edge, app installée). Sans serveur, un téléphone qui n’ouvre jamais l’app peut ne rien recevoir.')}
+                </span>
+              </div>
+            ) : null}
           </div>
         </Section>
 

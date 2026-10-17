@@ -1,11 +1,11 @@
 // Simulateur › Plans › un plan : ventes, argent disponible, stratégie visée, ordres et effets avant / après
 import { useMemo, useState } from 'react';
-import { Segmented, Sheet, SubHeader, Empty, showToast } from '../ui/kit';
+import { Segmented, Sheet, SubHeader, Empty, Switch, showToast } from '../ui/kit';
 import { Icon } from '../ui/icons';
 import { back, navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
-import { eur, eurSigned, num, pct, pts, NBSP } from '../domain/format';
-import { computePlan, currentStrategy, instrumentOf, planTargets, sellQuantity, CONVERGED_PTS, MAX_CONVERGE_MONTHS, type PlanResult, type PlanWarning } from '../domain/plan';
+import { dateFr, eur, eurSigned, num, pct, pctSigned, pts, todayIso, NBSP } from '../domain/format';
+import { computePlan, currentStrategy, instrumentOf, planBacktest, planTargets, sellQuantity, CONVERGED_PTS, MAX_CONVERGE_MONTHS, type PlanResult, type PlanWarning } from '../domain/plan';
 import type { AppData, Plan } from '../domain/types';
 import { catKey } from '../data/seed';
 import { getData, newId, replaceData, update } from '../data/store';
@@ -19,8 +19,8 @@ export function PlanScreen({ id }: { id: string }) {
   if (!plan) {
     return (
       <div className="screen">
-        <SubHeader title={t('Plan')} fallback="/simulateur" />
-        <main className="content"><Empty icon="inbox" title={t('Plan introuvable')} text={t('Ce plan a été supprimé.')} action={<button type="button" className="btn btn-primary" onClick={() => navigate('/simulateur', { replace: true })}>{t('Retour aux plans')}</button>} /></main>
+        <SubHeader title={t('Plan')} fallback="/simulateur/plans" />
+        <main className="content"><Empty icon="inbox" title={t('Plan introuvable')} text={t('Ce plan a été supprimé.')} action={<button type="button" className="btn btn-primary" onClick={() => navigate('/simulateur/plans', { replace: true })}>{t('Retour aux plans')}</button>} /></main>
       </div>
     );
   }
@@ -43,8 +43,11 @@ const warnText = (w: PlanWarning): string => {
 function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
   const { positions } = useCalc();
   const r = useMemo(() => computePlan(data, plan), [data, plan]);
+  const backtest = useMemo(() => planBacktest(data, r), [data, r]);
   const [nameText, setNameText] = useState(plan.name);
   const [targetSheet, setTargetSheet] = useState(false);
+  const [applyOpen, setApplyOpen] = useState(false);
+  const [alsoStrategy, setAlsoStrategy] = useState(plan.targets !== null);
   const [exp, setExp] = useState<'sec' | 'geo'>('sec');
   const patch = (fn: (p: Plan) => void) => update((d) => { const p = (d.plans ?? []).find((x) => x.id === plan.id); if (p) fn(p); });
   const held = positions.filter((p) => p.quantity > 0);
@@ -62,7 +65,7 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
   const remove = () => {
     const prev = getData();
     update((d) => { d.plans = (d.plans ?? []).filter((x) => x.id !== plan.id); });
-    back('/simulateur');
+    back('/simulateur/plans');
     showToast(t('Plan supprimé'), { undo: () => replaceData(prev) });
   };
   const duplicate = () => {
@@ -82,6 +85,26 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
     });
     showToast(t('Stratégie de l’app mise à jour'), { undo: () => replaceData(prev) });
   };
+  /** Écrit le plan dans le journal : versement, ventes, retrait, achats (au dernier cours, frais estimés), à corriger après exécution. */
+  const applyPlan = () => {
+    const prev = getData();
+    const date = todayIso();
+    for (const b of r.buys) {
+      if (data.etfs.some((e) => e.id === b.key)) continue;
+      const c = data.catalog.find((x) => catKey(x) === b.key);
+      if (c) addCatalogEtf(c);
+    }
+    update((d) => {
+      if (r.deposit > 0) d.deposits.push({ id: newId('d'), date, amount: r.deposit });
+      for (const x of r.sells) d.transactions.push({ id: newId('s'), date, etfId: x.key, unitPrice: x.price, quantity: -x.qty, grossAmount: -x.net, fees: x.fee, feeRefund: 0 });
+      if (r.withdraw > 0) d.deposits.push({ id: newId('w'), date, amount: -r.withdraw });
+      for (const b of r.buys) d.transactions.push({ id: newId('b'), date, etfId: b.key, unitPrice: b.price, quantity: b.qty, grossAmount: Math.round((b.cost + b.fee) * 100) / 100, fees: b.fee, feeRefund: 0 });
+      if (alsoStrategy && Object.keys(targets).length) for (const e of d.etfs) { const w = targets[e.id] || 0; e.inStrategy = w > 0; d.targetAllocation[e.id] = w; }
+    });
+    setApplyOpen(false);
+    navigate('/historique/journal', { replace: true });
+    showToast(t('Plan enregistré dans le journal : corrigez les montants après exécution chez le courtier'), { undo: () => replaceData(prev) });
+  };
   const copyOrders = async () => {
     const lines = [
       ...r.sells.map((s) => t('VENDRE {q} × {n} (≈ {p})', { q: s.qty, n: instrumentOf(data, s.key)?.name ?? s.key, p: eur(s.price) })),
@@ -95,7 +118,7 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
 
   return (
     <div className="screen" data-screen="T4-11">
-      <SubHeader title={t('Plan')} fallback="/simulateur" />
+      <SubHeader title={t('Plan')} fallback="/simulateur/plans" />
       <main className="content dgrid">
         <section className="card g8 dspan-12">
           <label className="field">
@@ -103,6 +126,17 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
             <input className="input" value={nameText} maxLength={60} onChange={(e) => setNameText(e.target.value)} onBlur={() => patch((p) => { p.name = nameText.trim() || t('Plan sans nom'); })} />
           </label>
         </section>
+
+        <details className="explain dspan-12" open={!plan.sells.length && !plan.deposit && plan.targets === null || undefined}>
+          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment lire ce plan ?')}</summary>
+          <ol>
+            <li>{t('1 · Choisissez ce que vous vendriez (rien, une partie ou tout d’un ETF).')}</li>
+            <li>{t('2 · Indiquez si vous ajoutez de l’argent (versement) ou si vous en retirez du PEA.')}</li>
+            <li>{t('3 · Choisissez la répartition que vous voulez atteindre (la stratégie actuelle ou une nouvelle cible).')}</li>
+            <li>{t('Le résultat en bref, plus bas, dit ce qu’il faudrait vendre et acheter, et ce que cela change. Rien n’est exécuté tant que vous ne touchez pas « Appliquer ce plan ».')}</li>
+          </ol>
+          <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=plans')}>{t('En savoir plus dans l’aide')}</button>
+        </details>
 
         <section aria-labelledby="t411-sell" className="card dspan-7">
           <h2 id="t411-sell">{t('1 · Ce que je vends')}</h2>
@@ -190,11 +224,19 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
         )}
 
         <section aria-label={t('Résultat')} className="stack-8 dspan-12">
+          <h2>{t('Le résultat en bref')}</h2>
           <div className="hero" style={{ gap: 'var(--space-4)' }} data-component="Card.hero">
             <span className="overline">{heroSells ? t('Vous récupérez (net de frais)') : t('Budget d’achat')}</span>
             <span className="t-display">{eur(heroSells ? r.saleNet : r.budget, 2)}</span>
             {heroSells && <span className="t-caption c-reverse-muted">{t('Budget total à réinvestir : {b}', { b: eur(r.budget) })}</span>}
           </div>
+          <ul className="card stack-8" data-testid="plan-summary">
+            <li>{r.sells.length ? t('Vous vendez : {l}.', { l: r.sells.map((x) => (x.all ? '' : x.qty + ' × ') + name(x.key)).join(', ') }) : t('Vous ne vendez rien.')}</li>
+            <li>{r.buys.length ? t('Vous achetez : {l}.', { l: r.buys.map((x) => x.qty + ' × ' + name(x.key)).join(', ') }) : t('Vous n’achetez rien.')}</li>
+            {r.gapBefore !== null && <li>{t('Votre portefeuille passe de {a} à {b} points d’écart avec la cible (0 = exactement dans la cible).', { a: num(r.gapBefore, 1), b: num(r.gapAfter!, 1) })}</li>}
+            {r.valueAfter > 0 && <li>{t('Frais de gestion moyens : {a} → {b} par an.', { a: pct(r.terBefore, 2), b: pct(r.terAfter, 2) })}</li>}
+            {r.feesTotal > 0 && <li>{t('Frais de courtage du plan : {f}.', { f: eur(r.feesTotal) })}</li>}
+          </ul>
         </section>
 
         <section aria-labelledby="t411-orders" className="card dspan-6">
@@ -285,6 +327,22 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
           </section>
         )}
 
+        {backtest && (
+          <section aria-labelledby="t411-past" className="card g8 dspan-12" data-testid="backtest">
+            <h2 id="t411-past">{t('Et sur le passé ?')}</h2>
+            <p className="c-neutral">{t('Si la répartition d’aujourd’hui et celle d’après le plan avaient été achetées le {d} puis conservées, voici ce qu’elles auraient donné jusqu’à aujourd’hui.', { d: dateFr(backtest.from) })}</p>
+            <div className="grid-2 dkpis">
+              <Kpi label={t('Performance')} value={pctSigned(backtest.before.ret) + ' → ' + pctSigned(backtest.after.ret)} sub={t('avant le plan → après le plan')} good={backtest.after.ret > backtest.before.ret} />
+              <Kpi label={t('Volatilité annuelle')} value={(backtest.before.vol === null ? '—' : pct(backtest.before.vol, 1)) + ' → ' + (backtest.after.vol === null ? '—' : pct(backtest.after.vol, 1))} sub={t('plus bas = variations plus calmes')} good={backtest.before.vol !== null && backtest.after.vol !== null && backtest.after.vol < backtest.before.vol} />
+              <Kpi label={t('Pire baisse')} value={pct(backtest.before.maxDd, 1) + ' → ' + pct(backtest.after.maxDd, 1)} sub={t('du sommet au creux suivant')} good={backtest.after.maxDd > backtest.before.maxDd} />
+            </div>
+            <p className="t-legal c-moderate">
+              {t('Sur {n} séances seulement ({d} → {e}) : une période courte ne dit rien de l’avenir, et le plan aurait pu paraître meilleur ou moins bon sur une autre année. Aucun frais ni versement n’est compté ici.', { n: backtest.sessions, d: dateFr(backtest.from), e: dateFr(backtest.to) })}
+              {Math.min(backtest.before.coverage, backtest.after.coverage) < 0.995 ? ' ' + t('Calcul sur les ETF dont l’historique de cours est connu ({p} de la répartition).', { p: pct(Math.min(backtest.before.coverage, backtest.after.coverage), 0) }) : ''}
+            </p>
+          </section>
+        )}
+
         <section aria-labelledby="t411-exp" className="card g8 dspan-12">
           <h2 id="t411-exp">{t('Exposition avant / après')}</h2>
           <Segmented label={t('Type de répartition')} value={exp} onChange={setExp} options={[['sec', t('Secteurs')], ['geo', t('Pays')]]} />
@@ -293,6 +351,7 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
 
         <section className="card g8 dspan-12" aria-label={t('Actions')}>
           <div className="stack-8">
+            <button type="button" className="btn btn-primary" disabled={r.sells.length + r.buys.length + (r.deposit > 0 ? 1 : 0) + (r.withdraw > 0 ? 1 : 0) === 0} onClick={() => setApplyOpen(true)}><Icon name="check" size={20} />{t('Appliquer ce plan')}</button>
             <button type="button" className="btn btn-secondary" disabled={Object.keys(targets).length === 0} onClick={adopt}><Icon name="check" size={20} />{t('Adopter cette cible dans l’app')}</button>
             <button type="button" className="btn btn-secondary" onClick={duplicate}><Icon name="list" size={20} />{t('Dupliquer ce plan')}</button>
           </div>
@@ -301,6 +360,26 @@ function PlanEditor({ plan, data }: { plan: Plan; data: AppData }) {
         </section>
       </main>
 
+      {applyOpen && (
+        <Sheet title={t('Appliquer ce plan')} onClose={() => setApplyOpen(false)}
+          footer={<button type="button" className="btn btn-primary block" onClick={applyPlan}>{t('Enregistrer dans le journal')}</button>}>
+          <div className="stack-12" style={{ padding: 'var(--space-12) 0' }}>
+            <p className="t-caption c-neutral">{t('Après avoir passé vos ordres chez le courtier, l’app note ces opérations dans le journal, datées d’aujourd’hui, au dernier cours connu. Vérifiez ensuite les montants exacts (Historique › Journal › Modifier).')}</p>
+            <ul className="stack-4 t-caption">
+              {r.deposit > 0 && <li>{t('Versement : +{v}', { v: eur(r.deposit) })}</li>}
+              {r.sells.map((x) => <li key={'s' + x.key}>{t('Vente : {q} × {n} → +{v}', { q: x.qty, n: name(x.key), v: eur(x.net) })}</li>)}
+              {r.withdraw > 0 && <li>{t('Retrait : −{v}', { v: eur(r.withdraw) })}</li>}
+              {r.buys.map((b) => <li key={'b' + b.key}>{t('Achat : {q} × {n} → −{v}', { q: b.qty, n: name(b.key), v: eur(b.cost + b.fee) })}</li>)}
+            </ul>
+            {Object.keys(targets).length > 0 && (
+              <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}>
+                <span id="apply-strat">{t('Mettre aussi à jour ma stratégie cible dans l’app')}</span>
+                <Switch checked={alsoStrategy} onChange={setAlsoStrategy} labelledBy="apply-strat" />
+              </div>
+            )}
+          </div>
+        </Sheet>
+      )}
       {targetSheet && <PlanTargetSheet data={data} plan={plan} onClose={() => setTargetSheet(false)} onSave={(tg) => { patch((p) => { p.targets = tg; }); setTargetSheet(false); }} />}
     </div>
   );

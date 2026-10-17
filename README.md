@@ -7,7 +7,7 @@ Application personnelle de suivi de PEA en ETF (Portefeuille, Historique, March�
 ## Structure
 | Dossier | Contenu |
 |---|---|
-| `src/domain/` | Règles de calcul (positions, PRU, TRI, expositions, assistant, simulateur, plans) et formatage français |
+| `src/domain/` | Règles de calcul (positions, PRU et plus-values réalisées, TRI, expositions, assistant, simulateur, plans, objectifs, analyse, rappel) et formatage français |
 | `src/data/` | Données (stockage local, `seed-data.json` et `catalog.json` : ETF, cours et catalogue publics), cours, synchronisation Firebase, export Excel (`excel-peanalyze.ts` + générateur `xlsx.ts`) et import (`excel.ts`) |
 | `src/ui/` | Composants de la planche Système, graphiques SVG, navigation |
 | `src/screens/` | Écrans T0 à T4 de la maquette |
@@ -35,4 +35,4 @@ Le dépôt et le site publiés ne contiennent **aucune opération personnelle** 
 - iPhone : Safari › Partager › *Sur l'écran d'accueil*.
 
 ## Export Excel
-Paramètres › Exporter en Excel produit le classeur officiel PEAnalyze (9 onglets : Tableau de bord, Portefeuille, Historique, Évolution, Mes ETF, Cours, Compositions, Catalogue, Simulateur). Les saisies (cellules en bleu) sont des valeurs, tout le reste est en formules et graphiques, recalculés à l'ouverture. Le même fichier peut être réimporté dans l'app : il restitue aussi la liste « Mes ETF » (choisie dans une liste déroulante du catalogue), l'allocation cible, les couleurs des ETF et la date d'ouverture du PEA.
+Paramètres › Exporter en Excel produit le classeur officiel PEAnalyze (11 onglets : Tableau de bord, Portefeuille, Historique, Évolution, Mes ETF, Cours, Compositions, Catalogue, Simulateur, Plans, Objectifs). Les saisies (cellules en bleu) sont des valeurs, tout le reste est en formules et graphiques, recalculés à l'ouverture. Le même fichier peut être réimporté dans l'app : il restitue aussi la liste « Mes ETF » (choisie dans une liste déroulante du catalogue), l'allocation cible, les couleurs des ETF, la date d'ouverture du PEA, les ventes et retraits, les plans, les objectifs, le jour du rappel mensuel et l'ETF de référence : plans et objectifs appartiennent au classeur (importer un autre fichier les remplace).

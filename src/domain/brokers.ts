@@ -35,6 +35,12 @@ export interface Broker {
   offer?: { text: string; until?: string };
   /** Frais de transfert entrant pris en charge par le courtier (€ au plus), tant que l'offre court. */
   transferRefund?: number;
+  /** Montant minimal transféré pour avoir droit au remboursement (€). */
+  transferRefundMin?: number;
+  /** false = le courtier n'accepte pas le transfert d'un PEA existant (il faudrait clôturer le PEA et perdre son ancienneté fiscale). */
+  transferIn?: boolean;
+  /** Disponibilité des ETF relevée : `all` = tout ETF éligible coté à Paris est proposé ; `isins` = ETF confirmés un par un. Sinon : à vérifier. */
+  availability?: { all?: boolean; isins?: string[]; source: string; date: string };
   /** Catalogue d'ETF éligibles au PEA : `limited` = sélection restreinte, à vérifier ETF par ETF. */
   catalogue?: { limited: boolean; note: string };
 }
@@ -45,16 +51,18 @@ const CHECKED = '2026-10-18';
 export const BROKERS: Broker[] = [
   {
     id: 'boursobank', name: 'BoursoBank (offre Découverte)', checked: CHECKED, url: 'https://www.boursobank.com/bourse',
-    note: 'Achats à 0 € sur une sélection d’ETF iShares (dont le WPEA) à partir de 100 € par ordre ; les ETF des autres émetteurs (Amundi, etc.) paient 0,5 %. Montant minimal : 200 € par ordre sur ETF. Aucun droit de garde.',
+    note: 'Achats à 0 € sur une sélection d’ETF iShares (dont le WPEA) à partir de 100 € par ordre ; les ETF des autres émetteurs (Amundi, etc.) paient 0,5 %. Montant minimal : 200 € par ordre sur ETF (certaines sources indiquent 100 € depuis le 05/10/2026 et la gratuité réservée aux ETF Amundi : à vérifier). Aucun droit de garde.',
     tiers: [{ upTo: 500, fixed: 1.99, pct: 0 }, { upTo: INF, fixed: 0, pct: 0.005 }],
     cap: { pct: 0.005, upTo: 500 }, minOrder: 200, freeBuy: { minOrder: 100, issuer: 'ishares' }, annualFixed: 0, annualPct: 0,
     transferRefund: 3000,
+    availability: { all: true, source: 'scoreinvest.fr : tous les ETF cotés sur Euronext Paris et Amsterdam', date: '2026-04-01' },
     offer: { text: 'Frais de transfert remboursés (jusqu’à 3 000 € TTC) pour un premier transfert de PEA, à demander dans les 3 mois. La prime peut être reprise si le PEA est clôturé ou si vous passez moins de 5 ordres en 12 mois. Dates de validité non indiquées par le courtier.' },
   },
   {
     id: 'traderepublic', name: 'Trade Republic', checked: CHECKED, url: 'https://traderepublic.com/fr-fr/pea',
     note: '1 € par ordre (2 € si vous choisissez le lieu d’exécution), plafonné à 0,5 % sous 200 €. Plans d’investissement programmés gratuits. Pas de droit de garde. Parts entières seulement sur le PEA ; le PEA entier doit être transféré.',
     tiers: [{ upTo: INF, fixed: 1, pct: 0 }], cap: { pct: 0.005, upTo: 200 }, scheduledFee: 0, annualFixed: 0, annualPct: 0,
+    availability: { isins: ['FR0011550185', 'FR0011871110', 'FR0011550193', 'FR0013412020', 'FR0013380607', 'IE0002XZSHO1'], source: 'liste des 216 ETF PEA de Trade Republic (quentinarioli.fr, relevé du 30/09/2026)', date: '2026-09-30' },
     offer: { text: 'Aucune offre de transfert relevée : les frais de sortie de l’ancien courtier ne sont pas remboursés systématiquement (des offres ponctuelles existent).' },
     catalogue: { limited: true, note: 'Environ 150 ETF éligibles au PEA seulement : vérifiez que les vôtres y sont.' },
   },
@@ -63,7 +71,9 @@ export const BROKERS: Broker[] = [
     note: 'Premier ordre du mois gratuit jusqu’à 500 €, puis 0,35 %. Offre Amundi : courtage remboursé sur les achats d’ETF Amundi de 500 € à 100 000 € jusqu’au 31/12/2026.',
     tiers: [{ upTo: INF, fixed: 0, pct: 0.0035 }], freeFirstPerMonth: { upTo: 500 },
     freeBuy: { minOrder: 500, issuer: 'amundi', until: '2026-12-31' }, annualFixed: 0, annualPct: 0,
-    offer: { text: 'Courtage remboursé sur les achats d’ETF Amundi de 500 € à 100 000 € (sélection d’ETF) ; 100 ordres offerts aux nouveaux clients PEA selon un comparateur, à vérifier. Aucune offre de transfert relevée.', until: '2026-12-31' },
+    transferRefund: 2000, transferRefundMin: 5000,
+    availability: { all: true, source: 'l-investisseur-long-terme.fr : catalogue aligné sur celui de la place', date: '2026-10-04' },
+    offer: { text: 'Frais de transfert entrant remboursés jusqu’à 2 000 € si au moins 5 000 € sont transférés ; courtage remboursé sur les achats d’ETF Amundi de 500 € à 100 000 € (sélection d’ETF) ; 100 ordres offerts aux nouveaux clients PEA selon un comparateur, à vérifier.', until: '2026-12-31' },
     catalogue: { limited: true, note: 'L’offre Amundi ne porte que sur une sélection d’ETF.' },
   },
   {
@@ -71,13 +81,15 @@ export const BROKERS: Broker[] = [
     note: 'Barème par paliers, très bas sur les gros ordres. Montant minimal : 80 € par ordre. ETF du programme d’investissement programmé à 0 €. 6 € de frais à la clôture.',
     tiers: [{ upTo: 198, fixed: 0, pct: 0.005 }, { upTo: 500, fixed: 0.99, pct: 0 }, { upTo: 1000, fixed: 1.9, pct: 0 }, { upTo: 2000, fixed: 2.9, pct: 0 }, { upTo: 4400, fixed: 3.8, pct: 0 }, { upTo: INF, fixed: 0, pct: 0.0009 }],
     minOrder: 80, scheduledFee: 0, annualFixed: 0, annualPct: 0,
+    availability: { all: true, source: 'seqooia.com : les 335 ETF éligibles PEA d’Euronext', date: '2026-10-06' },
     offer: { text: 'Premier ordre du mois sur un ETF Amundi remboursé (de 200 € à 100 000 €) selon un comparateur de janvier 2026 ; frais plafonnés à 0,99 € sur l’iShares WPEA. Conditions et dates à vérifier. Aucune offre de transfert relevée.' },
   },
   {
     id: 'xtb', name: 'XTB', checked: CHECKED, url: 'https://www.xtb.com/fr/pea',
     note: '0 % de commission jusqu’à 100 000 € par mois sur le PEA. Montant minimal : 10 € par ordre. Vérifiez que vos ETF sont disponibles.',
     tiers: [{ upTo: INF, fixed: 0, pct: 0 }], minOrder: 10, annualFixed: 0, annualPct: 0,
-    offer: { text: 'Aucune offre de transfert ni prime relevée sur les sites consultés.' },
+    transferIn: false,
+    offer: { text: 'XTB n’accepte pas encore le transfert d’un PEA existant (annoncé, sans date) : y aller supposerait de clôturer votre PEA actuel et de perdre son ancienneté fiscale. Aucune prime relevée.' },
     catalogue: { limited: true, note: 'Le catalogue ETF du PEA est à vérifier ETF par ETF.' },
   },
   {
@@ -95,8 +107,8 @@ export const BROKERS: Broker[] = [
     id: 'saxo', name: 'Saxo Banque (barème Classique)', checked: CHECKED, url: 'https://www.home.saxo/fr-fr/rates-and-conditions',
     note: '0,08 % par ordre, minimum 2 €.',
     tiers: [{ upTo: INF, fixed: 0, pct: 0.0008 }], minFee: 2, annualFixed: 0, annualPct: 0,
-    transferRefund: 150,
-    offer: { text: 'Transfert remboursé jusqu’à 150 € ; achats sans frais sur 150 ETF Amundi (comparateur de janvier 2026, conditions non détaillées : à vérifier).' },
+    transferRefund: 150, freeBuy: { minOrder: 1, issuer: 'amundi', until: '2026-12-31' },
+    offer: { text: 'Transfert remboursé jusqu’à 150 € pour les transferts réalisés avant le 31/12/2026 ; achats d’ETF Amundi sans courtage jusqu’au 31/12/2026 (la revente reste facturée).', until: '2026-12-31' },
   },
 ];
 
@@ -198,7 +210,15 @@ export function yearCost(b: Broker, orders: CostOrder[], portfolioValue: number,
 /** Une offre à date limite est-elle encore valable ? */
 export const offerActive = (b: Broker, today = new Date().toISOString().slice(0, 10)) => !!b.offer && (!b.offer.until || today <= b.offer.until);
 /** Frais de transfert que le courtier prend en charge aujourd'hui (€). */
-export const transferRefundOf = (b: Broker, today?: string) => (b.transferRefund && (!b.offer?.until || offerActive(b, today)) ? b.transferRefund : 0);
+export const transferRefundOf = (b: Broker, today?: string, balance = Infinity) =>
+  b.transferRefund && (!b.offer?.until || offerActive(b, today)) && balance >= (b.transferRefundMin ?? 0) ? b.transferRefund : 0;
+
+/** Disponibilité d'un ETF chez un courtier d'après les relevés (« yes » ou « unknown » : jamais « no » sans confirmation). */
+export function defaultAvailability(b: Broker, isin?: string): 'yes' | 'unknown' {
+  const a = b.availability;
+  if (!a) return 'unknown';
+  return a.all || (!!isin && !!a.isins?.includes(isin)) ? 'yes' : 'unknown';
+}
 
 // ---- fraîcheur des tarifs
 export const STALE_DAYS = 183;

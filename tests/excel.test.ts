@@ -39,7 +39,7 @@ test('classeur PEAnalyze : export puis réimport', async () => {
 
 test('classeur PEAnalyze : structure', async () => {
   const wb = buildPeanalyzeWorkbook(sample(), CATALOG_DATE);
-  assert.deepEqual(wb.sheets.map((s) => s.name), ['Tableau de bord', 'Portefeuille', 'Historique', 'Évolution', 'Mes ETF', 'Cours', 'Compositions', 'Catalogue', 'Simulateur', 'Plans', 'Objectifs']);
+  assert.deepEqual(wb.sheets.map((s) => s.name), ['Tableau de bord', 'Portefeuille', 'Historique', 'Évolution', 'Mes ETF', 'Cours', 'Compositions', 'Catalogue', 'Simulateur', 'Plans', 'Courtiers', 'Objectifs']);
   assert.equal(wb.sheets.reduce((n, s) => n + s.charts.length, 0), 8);
 });
 
@@ -118,4 +118,52 @@ test('changer de classeur remplace les plans et objectifs de l’application', a
   const back = await parseWorkbook(buf, mine);
   assert.deepEqual(back.plans, []);
   assert.deepEqual(back.goals, []);
+});
+
+test('changer de classeur : tout ce qui appartient au classeur est repris, et reste vide si le classeur est vide', async () => {
+  // classeur source : réglages simples, sans rappel, sans ETF de référence, sans date d'ouverture, sans courtier ni réponses
+  const src = sample();
+  src.settings.peaOpeningDate = '';
+  src.settings.reminderDay = 0;
+  src.settings.benchmarkId = undefined;
+  src.settings.brokerId = undefined;
+  src.settings.feePerOrder = 0;
+  src.settings.feePct = undefined;
+  src.settings.annualFee = undefined;
+  src.settings.annualPct = undefined;
+  src.settings.brokerEtf = undefined;
+  src.simulation = { initialCapital: 0, horizonYears: 10, annualRate: 0.05, dcaPhases: [{ fromYear: 1, monthly: 0 }] };
+  const buf = await buildPeanalyzeWorkbook(src, CATALOG_DATE).zip().generateAsync({ type: 'uint8array' });
+  // application déjà remplie avec les réglages d'un autre classeur
+  const mine = sample();
+  mine.settings.peaOpeningDate = '2024-05-02';
+  mine.settings.reminderDay = 12;
+  mine.settings.benchmarkId = 'ESE';
+  mine.settings.brokerId = 'fortuneo';
+  mine.settings.feePerOrder = 4;
+  mine.settings.feePct = 0.002;
+  mine.settings.annualFee = 30;
+  mine.settings.annualPct = 0.004;
+  mine.settings.brokerEtf = { saxo: { ESE: 'no' } };
+  mine.simulation = { initialCapital: 9999, horizonYears: 20, annualRate: 0.08, dcaPhases: [{ fromYear: 1, monthly: 700 }] };
+  const back = await parseWorkbook(buf, mine);
+  assert.equal(back.settings.peaOpeningDate, '');
+  assert.equal(back.settings.reminderDay, 0);
+  assert.equal(back.settings.benchmarkId, undefined);
+  assert.equal(back.settings.brokerId, undefined);
+  assert.equal(back.settings.feePerOrder, 0);
+  assert.equal(back.settings.feePct, undefined);
+  assert.equal(back.settings.annualFee, undefined);
+  assert.equal(back.settings.annualPct, undefined);
+  assert.equal(back.settings.brokerEtf, undefined);
+  assert.equal(back.simulation.initialCapital, 0);
+  assert.deepEqual(back.simulation.dcaPhases, [{ fromYear: 1, monthly: 0 }]);
+});
+test('les réponses « mes ETF chez ce courtier » font l’aller-retour par l’onglet Courtiers', async () => {
+  const d = sample();
+  d.settings.brokerEtf = { traderepublic: { ESE: 'yes', PUST: 'no' }, saxo: { ESE: 'no' } };
+  const back = await roundtrip(d);
+  assert.deepEqual(back.settings.brokerEtf, { traderepublic: { ESE: 'yes', PUST: 'no' }, saxo: { ESE: 'no' } });
+  const none = await roundtrip(sample());
+  assert.equal(none.settings.brokerEtf, undefined);
 });

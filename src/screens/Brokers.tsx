@@ -6,7 +6,7 @@ import { navigate, openSheet } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { holdingCost } from '../domain/analysis';
 import { auditFees, type AuditKind } from '../domain/feeAudit';
-import { CUSTOM_BROKER, brokerOf, offerActive } from '../domain/brokers';
+import { CUSTOM_BROKER, brokerOf, defaultAvailability, offerActive } from '../domain/brokers';
 import { update } from '../data/store';
 import { compareBrokers, plannedMonthly, scenarioOf, type Basis, type BrokerRow } from '../domain/brokerCompare';
 import { dateFr, eur, eurSigned, pct } from '../domain/format';
@@ -15,7 +15,7 @@ import { PF_NAV } from './Portfolio';
 import { OfferLine, TariffFreshness, brokerName, describeGrid } from './BrokerParts';
 import { MoneyField } from './PlanParts';
 
-function Row({ r, max, years, scheduledOn, etfName, mine }: { r: BrokerRow; max: number; years: number; scheduledOn: boolean; etfName: (id: string) => string; mine: Record<string, 'yes' | 'no'> }) {
+function Row({ r, max, years, scheduledOn, etfName, isinOf, mine }: { r: BrokerRow; max: number; years: number; scheduledOn: boolean; etfName: (id: string) => string; isinOf: (id: string) => string | undefined; mine: Record<string, 'yes' | 'no'> }) {
   const b = r.broker;
   const etfCount = r.etf.ok.length + r.etf.no.length + r.etf.unknown.length;
   const better = r.diff < -0.005, worse = r.diff > 0.005;
@@ -49,6 +49,9 @@ function Row({ r, max, years, scheduledOn, etfName, mine }: { r: BrokerRow; max:
           {r.paybackMonths === null && r.exitNet === 0 && ' · ' + t('rien à rentabiliser')}
         </span>
       )}
+      {r.noTransfer && (
+        <span className="t-caption" style={{ color: 'var(--critical-text)' }} data-testid="broker-no-transfer">{t('Ce courtier n’accepte pas le transfert d’un PEA existant : y aller supposerait de clôturer votre PEA et de perdre son ancienneté fiscale.')}</span>
+      )}
       {!r.current && etfCount > 0 && (
         <span className="t-caption" style={{ color: r.etf.no.length ? 'var(--critical-text)' : r.etf.unknown.length ? 'var(--warning-text)' : 'var(--success-text)' }} data-testid="broker-etf-status">
           {r.etf.no.length > 0
@@ -71,9 +74,10 @@ function Row({ r, max, years, scheduledOn, etfName, mine }: { r: BrokerRow; max:
           <div className="stack-8" style={{ paddingTop: 'var(--space-8)' }}>
             <span className="t-label">{t('Mes ETF chez ce courtier')}</span>
             <span className="t-caption c-moderate">{t('Cherchez chaque ETF (par son code ISIN) sur le site du courtier, puis notez ici s’il y est proposé sur le PEA.')}</span>
+            {b.availability && <span className="t-legal c-moderate">{t('Disponibilité relevée le {d} : {s}. Votre réponse l’emporte.', { d: dateFr(b.availability.date), s: t(b.availability.source) })}</span>}
             {[...r.etf.ok, ...r.etf.no, ...r.etf.unknown].map((id) => (
               <label key={id} className="between" style={{ gap: 'var(--space-8)', minHeight: 40 }}>
-                <span className="t-caption">{etfName(id)}</span>
+                <span className="t-caption">{etfName(id)}{isinOf(id) ? ' · ' + isinOf(id) : ''}</span>
                 <select className="input" style={{ width: 'auto', minWidth: 120 }} aria-label={etfName(id) + ' · ' + brokerName(b)} value={mine[id] ?? ''}
                   onChange={(e) => update((d) => {
                     const m = (d.settings.brokerEtf ||= {});
@@ -82,7 +86,7 @@ function Row({ r, max, years, scheduledOn, etfName, mine }: { r: BrokerRow; max:
                     if (!Object.keys(per).length) delete m[b.id];
                     if (!Object.keys(m).length) delete d.settings.brokerEtf;
                   })}>
-                  <option value="">{t('À vérifier')}</option>
+                  <option value="">{defaultAvailability(b, isinOf(id)) === 'yes' ? t('Relevé : disponible') : t('À vérifier')}</option>
                   <option value="yes">{t('Disponible')}</option>
                   <option value="no">{t('Absent')}</option>
                 </select>
@@ -168,7 +172,7 @@ export function BrokersScreen() {
   const cost = useMemo(() => holdingCost(data, positions), [data, positions]);
   const max = Math.max(1, ...rows.map((r) => r.cost.total));
   const cur = rows.find((r) => r.current);
-  const best = rows.find((r) => !r.current && r.diff < -0.005 && r.cost.belowMin === 0 && r.etf.no.length === 0); // un courtier qui refuse vos petits ordres ou n'a pas vos ETF ne compte pas
+  const best = rows.find((r) => !r.current && r.diff < -0.005 && r.cost.belowMin === 0 && r.etf.no.length === 0 && !r.noTransfer); // un courtier qui refuse vos petits ordres ou n'a pas vos ETF ne compte pas
   const etfName = (id: string) => data.etfs.find((e) => e.id === id)?.name ?? id;
 
   return (
@@ -207,7 +211,7 @@ export function BrokersScreen() {
             ) : (
               <p className="t-strong" data-testid="broker-verdict">{t('Sur cette base, aucun des courtiers connus ne coûte moins cher que le vôtre.')}</p>
             )}
-            <ul>{rows.map((r) => <Row key={r.broker.id} r={r} max={max} years={data.simulation.horizonYears} scheduledOn={scheduled} etfName={etfName} mine={data.settings.brokerEtf?.[r.broker.id] ?? {}} />)}</ul>
+            <ul>{rows.map((r) => <Row key={r.broker.id} r={r} max={max} years={data.simulation.horizonYears} scheduledOn={scheduled} etfName={etfName} isinOf={(id) => data.etfs.find((e) => e.id === id)?.isin} mine={data.settings.brokerEtf?.[r.broker.id] ?? {}} />)}</ul>
             {basis === 'real' && cost.brokerage12m > 0 && (
               <p className="t-caption c-neutral">{t('Pour comparaison : vos relevés montrent {a} de frais de courtage réellement payés sur 12 mois (remboursements déduits) ; la grille de votre courtier en donne {g}.', { a: eur(cost.brokerage12m), g: eur(cur.cost.brokerage) })}</p>
             )}

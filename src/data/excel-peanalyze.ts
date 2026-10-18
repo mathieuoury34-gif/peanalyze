@@ -92,6 +92,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
   const ca = page(wb, 'Catalogue', 'Catalogue des ETF éligibles au PEA', '', 15, PETROL);
   const si = page(wb, 'Simulateur', "Simulateur d'épargne", 'Capitalisation mensuelle, versements par phases, résultat en euros courants et constants.', 10);
   const pl = page(wb, 'Plans', 'Plans « et si… »', 'Scénarios du Simulateur › Plans : ventes envisagées, versement, retrait et stratégie visée. Ils appartiennent à ce classeur : importer un autre fichier remplace vos plans.', 14, PETROL);
+  const cb = page(wb, 'Courtiers', 'Mes ETF chez chaque courtier', 'Réponses que vous avez notées dans Portefeuille › Courtiers : l’ETF est-il proposé sur le PEA de ce courtier ? Elles appartiennent à ce classeur : importer un autre fichier remplace vos réponses.', 4, PETROL);
   const go = page(wb, 'Objectifs', "Objectifs d'épargne", 'Capital visé à une date : progression calculée sur la valorisation actuelle du portefeuille.', 10, PETROL);
 
   // ================================================================ Cours
@@ -493,6 +494,27 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     ws.freeze = 'A6';
     ws.validation('J6:J400', '"Vente,Cible"');
     ws.validation('L6:L400', '"Tout,Parts,%"');
+  }
+
+  // ================================================================ Courtiers : disponibilité de mes ETF notée par l'utilisateur
+  {
+    const ws = cb.ws;
+    cb.header(5, 1, ['Courtier', 'ETF', 'Disponible sur le PEA ?', 'Nom de l’ETF'], 30);
+    const rows: [string, string, 'yes' | 'no'][] = [];
+    for (const b of BROKERS) for (const [etf, st] of Object.entries(data.settings.brokerEtf?.[b.id] ?? {})) rows.push([b.id, etf, st]);
+    const n = Math.max(rows.length + 5, 12);
+    for (let i = 0; i < n; i++) {
+      const r = 6 + i, x = rows[i], bd = !!x;
+      cb.put(r, 1, x ? x[0] : null, { inp: true, border: bd });
+      cb.put(r, 2, x ? x[1] : null, { inp: true, b: true, h: 'center', border: bd });
+      cb.put(r, 3, x ? (x[2] === 'yes' ? 'Disponible' : 'Absent') : null, { inp: true, h: 'center', border: bd });
+      cb.put(r, 4, x ? f(`IFERROR(INDEX('Mes ETF'!$C$5:$C$${E_LAST},MATCH(B${r},'Mes ETF'!$A$5:$A$${E_LAST},0)),"")`) : null, { color: MODERATE, border: bd });
+    }
+    ws.validation(`A6:A${5 + n}`, `"${BROKERS.map((b) => b.id).join(',')}"`);
+    ws.validation(`C6:C${5 + n}`, '"Disponible,Absent"');
+    cb.put(7 + n, 1, 'Une ligne par couple courtier / ETF. Courtier : identifiant (boursobank, traderepublic, fortuneo, boursedirect, xtb, ca-initial, ca-integral, saxo). ETF : ticker de « Mes ETF ». Un ETF sans ligne est « à vérifier ».', { sz: 8, color: MODERATE, border: false });
+    cb.widths({ A: 18, B: 12, C: 22, D: 52 });
+    ws.freeze = 'A6';
   }
 
   // ================================================================ Objectifs

@@ -118,3 +118,43 @@ test('grille proposée : retrouve un pourcentage du montant', () => {
   assert.equal(fit.feePct, 0.005);
   assert.equal(fit.within, 6);
 });
+
+test('disponibilité des ETF : relevés par ISIN ou « tout Euronext », la réponse de l’utilisateur l’emporte, jamais « absent » sans confirmation', () => {
+  const d = fixture();
+  d.settings.feePerOrder = 5;
+  d.etfs[0].isin = 'FR0011550185'; // dans la liste Trade Republic
+  const pos = computePositions(d);
+  const sc = scenarioOf(d, pos, 'planned', 600, false);
+  const rows = compareBrokers(d, sc, '2026-10-18');
+  const tr = rows.find((r) => r.broker.id === 'traderepublic')!;
+  assert.ok(tr.etf.ok.includes('AAA'));
+  assert.ok(tr.etf.unknown.includes('BBB')); // ISIN absent de la liste : à vérifier, pas « absent »
+  assert.equal(tr.etf.no.length, 0);
+  const bd = rows.find((r) => r.broker.id === 'boursedirect')!;
+  assert.deepEqual(bd.etf.unknown, []); // « tous les ETF d’Euronext »
+  d.settings.brokerEtf = { boursedirect: { AAA: 'no' } };
+  const bd2 = compareBrokers(d, sc, '2026-10-18').find((r) => r.broker.id === 'boursedirect')!;
+  assert.deepEqual(bd2.etf.no, ['AAA']); // la réponse de l’utilisateur l’emporte
+});
+test('XTB refuse le transfert d’un PEA existant ; Fortuneo ne rembourse qu’à partir de 5 000 € transférés', () => {
+  const d = fixture();
+  d.settings.feePerOrder = 5;
+  const pos = computePositions(d);
+  const sc = scenarioOf(d, pos, 'planned', 600, false);
+  const rows = compareBrokers(d, sc, '2026-10-18');
+  assert.equal(rows.find((r) => r.broker.id === 'xtb')!.noTransfer, true);
+  assert.equal(rows.find((r) => r.broker.id === 'traderepublic')!.noTransfer, false);
+  // portefeuille de la fixture : 2 000 € < 5 000 € → pas de remboursement chez Fortuneo
+  assert.equal(rows.find((r) => r.broker.id === 'fortuneo')!.refund, 0);
+  const big = { ...sc, portfolioValue: 20000 };
+  const f = compareBrokers(d, big, '2026-10-18').find((r) => r.broker.id === 'fortuneo')!;
+  assert.equal(f.refund, f.exit);
+  assert.equal(transferRefundOf(B('fortuneo'), '2027-02-01', 20000), 0); // offre terminée
+});
+test('Saxo : achats d’ETF Amundi sans courtage jusqu’au 31/12/2026, vente facturée', () => {
+  const sx = B('saxo');
+  assert.equal(orderFee(sx, 300, { etfName: 'Amundi PEA Nasdaq-100', today: '2026-10-18' }), 0);
+  assert.equal(orderFee(sx, 300, { etfName: 'Amundi PEA Nasdaq-100', today: '2027-01-02' }), 2);
+  assert.equal(orderFee(sx, 300, { etfName: 'Amundi PEA Nasdaq-100', side: 'sell', today: '2026-10-18' }), 2);
+  assert.equal(orderFee(sx, 300, { etfName: 'BNP Paribas Easy S&P 500', today: '2026-10-18' }), 2);
+});

@@ -1,6 +1,6 @@
 // Comparaison de courtiers : mes ordres (réels ou prévus) rejoués avec la grille de chaque courtier. Fonctions pures, testées.
 import type { AppData, Position } from './types';
-import { BROKERS, brokerOf, transferOutCost, transferRefundOf, yearCost, type Broker, type CostOrder, type YearCost } from './brokers';
+import { BROKERS, brokerOf, defaultAvailability, transferOutCost, transferRefundOf, yearCost, type Broker, type CostOrder, type YearCost } from './brokers';
 import { valuationDate } from './calc';
 import { monthlyAt } from './goals';
 
@@ -78,7 +78,9 @@ export interface BrokerRow {
   exitNet: number;
   /** Mois pour rentabiliser les frais de sortie restants grâce à l'économie ; null si pas d'économie ou rien à rentabiliser. */
   paybackMonths: number | null;
-  /** Disponibilité de vos ETF chez ce courtier, d'après vos réponses (vide pour le courtier actuel). */
+  /** Le courtier refuse le transfert d'un PEA existant. */
+  noTransfer: boolean;
+  /** Disponibilité de vos ETF chez ce courtier : vos réponses d'abord, sinon les relevés (vide pour le courtier actuel). */
   etf: { ok: string[]; no: string[]; unknown: string[] };
   /** Capital supplémentaire à l'horizon du simulateur si l'économie annuelle est investie chaque mois. */
   gainAtHorizon: number;
@@ -102,14 +104,17 @@ export function compareBrokers(data: AppData, sc: Scenario, today?: string): Bro
     const cost = b.id === cur.id ? base : yearCost(b, sc.orders, sc.portfolioValue, today);
     const diff = cost.total - base.total;
     const exit = b.id === cur.id ? 0 : transferOutCost(sc.lines);
-    const refund = b.id === cur.id ? 0 : Math.min(exit, transferRefundOf(b, today));
+    const refund = b.id === cur.id ? 0 : Math.min(exit, transferRefundOf(b, today, sc.portfolioValue));
     const exitNet = exit - refund;
     const saving = -diff;
     const mine = data.settings.brokerEtf?.[b.id] ?? {};
     const etf = { ok: [] as string[], no: [] as string[], unknown: [] as string[] };
-    if (b.id !== cur.id) for (const id of sc.etfIds) (mine[id] === 'yes' ? etf.ok : mine[id] === 'no' ? etf.no : etf.unknown).push(id);
+    if (b.id !== cur.id) for (const id of sc.etfIds) {
+      const st = mine[id] ?? defaultAvailability(b, data.etfs.find((e) => e.id === id)?.isin);
+      (st === 'yes' ? etf.ok : st === 'no' ? etf.no : etf.unknown).push(id);
+    }
     return {
-      broker: b, current: b.id === cur.id, cost, diff, exit, refund, exitNet, etf,
+      broker: b, current: b.id === cur.id, cost, diff, exit, refund, exitNet, etf, noTransfer: b.id !== cur.id && b.transferIn === false,
       paybackMonths: saving > 0 && exitNet > 0 ? Math.ceil((exitNet / saving) * 12) : null,
       gainAtHorizon: saving > 0 ? savingsFutureValue(saving, rate, years) : -savingsFutureValue(-saving, rate, years),
     };

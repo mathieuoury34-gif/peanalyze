@@ -1,7 +1,7 @@
 // Import Excel : classeur PEAnalyze (export officiel de l'app, 9 onglets) ou fichier d'origine
 // « Suivi des investissements.xlsx » (6 feuilles). L'export est dans excel-peanalyze.ts.
 import JSZip from 'jszip';
-import type { AppData, Deposit, Etf, Goal, Plan, PlanSell, Transaction } from '../domain/types';
+import type { AppData, Deposit, Etf, Goal, Plan, PlanSell, Settings, Transaction } from '../domain/types';
 import { t } from '../i18n';
 import { BROKERS } from '../domain/brokers';
 
@@ -160,41 +160,67 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
     if (err instanceof Error && !/manquante/.test(err.message)) throw err; // onglet absent : on garde la stratégie de l'app
   }
 
-  // simulateur
+  // simulateur : une cellule vide donne un champ vide (aucune valeur de l'app n'est gardée) ; seuls les classeurs
+  // plus anciens, sans l'intitulé de la ligne, laissent le réglage de l'app en place
   try {
     const si = await L.sheet('Simulateur');
+    const labelled = (r: number) => typeof si.get('A' + r) === 'string' && String(si.get('A' + r)).trim() !== '';
     const od = si.get('B10');
     if (typeof od === 'number' && od > 0) next.settings.peaOpeningDate = serialToIso(od);
+    else if (labelled(10)) next.settings.peaOpeningDate = '';
     const cap = num(si.get('B5')), hz = num(si.get('B6')), rate = num(si.get('B7'));
-    if (isFinite(cap) && isFinite(hz) && isFinite(rate)) {
-      const phases = [];
-      for (let r = 6; r <= 15; r++) {
-        const y = num(si.get('D' + r)), m = num(si.get('E' + r));
-        if (isFinite(y) && isFinite(m)) phases.push({ fromYear: y, monthly: m });
-      }
-      next.simulation = { initialCapital: cap, horizonYears: hz, annualRate: rate, dcaPhases: phases.length ? phases : next.simulation.dcaPhases };
+    const phases = [];
+    for (let r = 6; r <= 15; r++) {
+      const y = num(si.get('D' + r)), m = num(si.get('E' + r));
+      if (isFinite(y) && isFinite(m)) phases.push({ fromYear: y, monthly: m });
     }
+    const sim = next.simulation;
+    next.simulation = {
+      initialCapital: isFinite(cap) ? cap : labelled(5) ? 0 : sim.initialCapital,
+      horizonYears: isFinite(hz) && hz > 0 ? hz : sim.horizonYears, // l'horizon et le rendement ne peuvent pas être « vides »
+      annualRate: isFinite(rate) ? rate : sim.annualRate,
+      dcaPhases: phases.length ? phases : typeof si.get('D5') === 'string' ? [{ fromYear: 1, monthly: 0 }] : sim.dcaPhases,
+    };
     // réglages rangés dans le classeur : rappel mensuel et ETF de référence (absents = désactivés)
     const rd = num(si.get('B11'));
     next.settings.reminderDay = isFinite(rd) && rd >= 1 && rd <= 28 ? Math.round(rd) : 0;
     const bm = String(si.get('B12') ?? '').trim().toUpperCase();
     next.settings.benchmarkId = bm && next.etfs.some((e) => e.id === bm) ? bm : undefined;
-    // courtier et grille saisie (absents : on garde les réglages de l'application)
-    const bk = String(si.get('B13') ?? '').trim().toLowerCase();
-    if (bk) next.settings.brokerId = BROKERS.some((b) => b.id === bk) ? bk : undefined;
-    const fx = num(si.get('B14')), fp = num(si.get('B15')), af = num(si.get('B16')), ap = num(si.get('B17'));
-    if (bk) {
-      if (isFinite(fx) && fx >= 0) next.settings.feePerOrder = fx;
+    // courtier et grille saisie : cellule vide = grille saisie à zéro (classeur sans ces lignes : réglages de l'app conservés)
+    if (labelled(13)) {
+      const bk = String(si.get('B13') ?? '').trim().toLowerCase();
+      next.settings.brokerId = BROKERS.some((b) => b.id === bk) ? bk : undefined;
+      const fx = num(si.get('B14')), fp = num(si.get('B15')), af = num(si.get('B16')), ap = num(si.get('B17'));
+      next.settings.feePerOrder = isFinite(fx) && fx > 0 ? fx : 0;
       next.settings.feePct = isFinite(fp) && fp > 0 ? fp : undefined;
       next.settings.annualFee = isFinite(af) && af > 0 ? af : undefined;
       next.settings.annualPct = isFinite(ap) && ap > 0 ? ap : undefined;
     }
   } catch { /* onglet absent */ }
 
+  // disponibilité de mes ETF chez chaque courtier : appartient au classeur (vide si l'onglet est absent)
+  next.settings.brokerEtf = await readBrokerEtf(L, next);
+
   // plans et objectifs appartiennent au classeur : ceux de l'application sont remplacés (vides si l'onglet est absent)
   next.plans = await readPlans(L);
   next.goals = await readGoals(L);
   return next;
+}
+
+/** Onglet « Courtiers » : courtier, ETF (ticker), Disponible / Absent. Les lignes inconnues sont ignorées. */
+async function readBrokerEtf(L: Awaited<ReturnType<typeof loader>>, next: AppData): Promise<Settings['brokerEtf']> {
+  let sh: Map<string, number | string>;
+  try { sh = await L.sheet('Courtiers'); } catch { return undefined; }
+  const out: Record<string, Record<string, 'yes' | 'no'>> = {};
+  for (let r = 6, blank = 0; r < 800 && blank < 30; r++) {
+    const b = String(sh.get('A' + r) ?? '').trim().toLowerCase(), etf = String(sh.get('B' + r) ?? '').trim().toUpperCase(), st = String(sh.get('C' + r) ?? '').trim().toLowerCase();
+    if (!b && !etf) { blank++; continue; }
+    blank = 0;
+    if (!BROKERS.some((x) => x.id === b) || !next.etfs.some((e) => e.id === etf)) continue;
+    const v = st.startsWith('disp') ? 'yes' : st.startsWith('abs') ? 'no' : null;
+    if (v) (out[b] ||= {})[etf] = v;
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 /** Onglet « Plans » : une ligne par plan (A–G) + détail des ventes et cibles (I–M). */
@@ -288,6 +314,14 @@ async function parseOriginal(L: Awaited<ReturnType<typeof loader>>, current: App
   next.transactions = transactions;
   next.plans = []; // le fichier d'origine ne contient ni plans ni objectifs : ceux de l'autre classeur ne restent pas
   next.goals = [];
+  // ni rappel, ETF de référence, courtier ou réponses sur les courtiers : ils redeviennent vides
+  next.settings.reminderDay = 0;
+  next.settings.benchmarkId = undefined;
+  next.settings.brokerId = undefined;
+  next.settings.feePct = undefined;
+  next.settings.annualFee = undefined;
+  next.settings.annualPct = undefined;
+  next.settings.brokerEtf = undefined;
   // Solde espèces toujours recalculé (virements − achats frais compris + remboursements) : jamais figé par l'import
   next.settings.cashBalance = null;
 

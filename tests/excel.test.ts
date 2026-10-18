@@ -88,6 +88,27 @@ test('ventes, retrait, plans, objectifs et réglages suivent le classeur', async
   assert.equal(back.settings.benchmarkId, 'ESE');
 });
 
+test('le courtier et la grille saisie font l’aller-retour par le classeur', async () => {
+  const d = sample();
+  d.settings.brokerId = 'traderepublic';
+  d.settings.feePerOrder = 1.92;
+  d.settings.feePct = 0.001;
+  d.settings.annualFee = 12;
+  d.settings.annualPct = 0.003;
+  const back = await roundtrip(d);
+  assert.equal(back.settings.brokerId, 'traderepublic');
+  assert.equal(back.settings.feePerOrder, 1.92);
+  assert.equal(back.settings.feePct, 0.001);
+  assert.equal(back.settings.annualFee, 12);
+  assert.equal(back.settings.annualPct, 0.003);
+  const custom = sample();
+  custom.settings.feePerOrder = 2.5;
+  const back2 = await roundtrip(custom);
+  assert.equal(back2.settings.brokerId, undefined);
+  assert.equal(back2.settings.feePerOrder, 2.5);
+  assert.equal(back2.settings.feePct, undefined);
+});
+
 test('changer de classeur remplace les plans et objectifs de l’application', async () => {
   const mine = buildSeed();
   mine.plans = [{ id: 'x', name: 'Plan de l’autre classeur', createdAt: '2026-01-01T00:00:00.000Z', sells: [], deposit: 0, withdraw: 0, monthly: 0, targets: null }];

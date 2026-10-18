@@ -13,7 +13,7 @@ import { ReminderBanner } from '../ui/ReminderBanner';
 import { t, tl, tn } from '../i18n';
 import { etfOrder } from '../etfColors';
 
-export const PF_NAV = () => [{ to: '/portefeuille', label: t('Synthèse') }, { to: '/portefeuille/repartitions', label: t('Répartitions') }, { to: '/portefeuille/analyse', label: t('Analyse') }];
+export const PF_NAV = () => [{ to: '/portefeuille', label: t('Synthèse') }, { to: '/portefeuille/repartitions', label: t('Répartitions') }, { to: '/portefeuille/analyse', label: t('Analyse') }, { to: '/portefeuille/courtiers', label: t('Courtiers') }];
 
 export function PortfolioScreen() {
   const { data, positions, summary, etf } = useCalc();

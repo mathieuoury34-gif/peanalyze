@@ -1,7 +1,8 @@
 // Plans (Simulateur › Plans) : calcul d'un scénario « et si je vendais… et que j'achetais… ».
 // Fonctions pures : rien n'est écrit dans le portefeuille réel.
 import type { AppData, CatalogEtf, CompMeta, Plan, PlanSell, WeightItem } from './types';
-import { assistant, cashBalance, compositionUsable, computePositions, displayHistory, ledger, normalizeLabel, priceAt, valuationDate, type ExposureRow } from './calc';
+import { assistant, cashBalance, compositionUsable, computePositions, displayHistory, ledger, normalizeLabel, priceAt, valuationDate, type ExposureRow, type OrderFee } from './calc';
+import { feeFnOf } from './brokers';
 import { drawdownOf, volatilityOf } from './analysis';
 import { catKey } from '../data/seed';
 
@@ -155,7 +156,7 @@ function compare(before: ExposureRow[], after: ExposureRow[]): ExposureCompare[]
 }
 
 /** Mois de versements réguliers (sans vendre) pour approcher la cible à moins de CONVERGED_PTS points. */
-export function monthsToConverge(holdings: Holding[], targets: Record<string, number>, monthly: number, fee: number, prices: Record<string, number> = {}): number | null {
+export function monthsToConverge(holdings: Holding[], targets: Record<string, number>, monthly: number, fee: OrderFee, prices: Record<string, number> = {}): number | null {
   const vals: Record<string, number> = {};
   const price: Record<string, number> = { ...prices };
   for (const h of holdings) { vals[h.key] = h.qty * h.price; price[h.key] = h.price; }
@@ -176,7 +177,7 @@ export function monthsToConverge(holdings: Holding[], targets: Record<string, nu
 }
 
 export function computePlan(data: AppData, plan: Plan): PlanResult {
-  const fee = data.settings.feePerOrder;
+  const fee = feeFnOf(data); // frais selon le courtier choisi, l'ETF et le montant de l'ordre
   const positions = computePositions(data);
   const targets = planTargets(data, plan);
   const hasTarget = Object.keys(targets).length > 0;
@@ -200,9 +201,10 @@ export function computePlan(data: AppData, plan: Plan): PlanResult {
     const qty = sellQuantity(s, h.qty);
     if (qty <= 0) continue;
     const gross = round2(qty * h.price);
-    const net = round2(gross - fee);
+    const sellFee = round2(fee(gross, { etfId: s.etfId, side: 'sell' }));
+    const net = round2(gross - sellFee);
     const cost = round2((i.costBasis / h.qty) * qty);
-    sells.push({ key: s.etfId, qty, price: h.price, gross, fee, net, cost, gain: round2(net - cost), all: qty === h.qty });
+    sells.push({ key: s.etfId, qty, price: h.price, gross, fee: sellFee, net, cost, gain: round2(net - cost), all: qty === h.qty });
   }
   if (plan.sells.length && !sells.length) warnings.add('nothingToSell');
   const saleGross = round2(sells.reduce((s, x) => s + x.gross, 0));
@@ -239,9 +241,9 @@ export function computePlan(data: AppData, plan: Plan): PlanResult {
 
   // achats : on comble d'abord les plus gros écarts, en parts entières, frais de courtage compris
   const res = hasTarget ? assistant(items, budget, 'rebalance', fee) : { parts: {} as Record<string, number>, total: 0, orders: 0, fees: 0, left: budget };
-  const buys: BuyLine[] = items.filter((x) => (res.parts[x.id] || 0) > 0).map((x) => ({ key: x.id, qty: res.parts[x.id], price: x.price, cost: round2(res.parts[x.id] * x.price), fee }));
+  const buys: BuyLine[] = items.filter((x) => (res.parts[x.id] || 0) > 0).map((x) => ({ key: x.id, qty: res.parts[x.id], price: x.price, cost: round2(res.parts[x.id] * x.price), fee: round2(fee(res.parts[x.id] * x.price, { etfId: x.id, side: 'buy' })) }));
   const buyCost = round2(buys.reduce((s, b) => s + b.cost, 0));
-  const buyFees = round2(buys.length * fee);
+  const buyFees = round2(buys.reduce((s, b) => s + b.fee, 0));
   const cashAfter = round2(budget - buyCost - buyFees);
   if (hasTarget && budget > 0 && cashAfter > Math.max(50, budget * 0.25)) warnings.add('unusedBudget');
 

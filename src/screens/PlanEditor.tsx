@@ -12,6 +12,7 @@ import { getData, newId, replaceData, update } from '../data/store';
 import { t, tl, tn } from '../i18n';
 import { addCatalogEtf } from './Markets';
 import { Dot, EtfPickerSheet, MoneyField, planDrafts, shortName } from './PlanParts';
+import { brokerLabel } from './BrokerParts';
 
 export function PlanScreen({ id }: { id: string }) {
   const { data } = useCalc();
@@ -286,7 +287,7 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
             </>
           )}
           <dl className="dl" style={{ gap: 'var(--space-6) var(--space-12)', paddingTop: 'var(--space-12)', borderTop: '1px solid var(--divider-minimal)' }}>
-            <dt>{t('Frais de courtage estimés')} <span className="t-caption">({tn(r.sells.length + r.buys.length, '{n} ordre × {f}', '{n} ordres × {f}', { f: eur(data.settings.feePerOrder) })})</span></dt><dd>{eur(r.feesTotal)}</dd>
+            <dt>{t('Frais de courtage estimés')} <span className="t-caption">({tn(r.sells.length + r.buys.length, '{n} ordre', '{n} ordres')} · {brokerLabel(data)})</span></dt><dd>{eur(r.feesTotal)}</dd>
             <dt>{t('Espèces restantes après le plan')}</dt><dd>{eur(r.cashAfter)}</dd>
           </dl>
           {(r.sells.length > 0 || r.buys.length > 0) && (

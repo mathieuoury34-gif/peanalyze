@@ -16,6 +16,7 @@ import { checkReminder, enableNotifications, notificationPermission, notificatio
 import { reminderState } from '../domain/reminder';
 import { Switch } from '../ui/kit';
 import { setThemePref, themePref, type ThemePref } from '../theme';
+import { BrokerPicker } from './BrokerParts';
 
 const PEA_CEILING = 150000;
 
@@ -56,7 +57,6 @@ export function SettingsScreen() {
   const [testing, setTesting] = useState(false);
   const [testMsg, setTestMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [openDate, setOpenDate] = useState(s.peaOpeningDate ? dateFr(s.peaOpeningDate) : '');
-  const [fee, setFee] = useState(toInput(s.feePerOrder));
   const [notif, setNotif] = useState<NotificationPermission | 'unsupported'>(notificationPermission());
   const [busy, setBusy] = useState('');
   const [reset, setReset] = useState(false);
@@ -202,11 +202,8 @@ export function SettingsScreen() {
               <span className="between"><span className="t-label">{t('Plafond des versements')}</span><span className="t-caption c-neutral">{eur(summary.totalDeposited, 0)} / {eur(PEA_CEILING, 0)}</span></span>
               <span className="hbar"><span style={{ width: Math.min(100, (summary.totalDeposited / PEA_CEILING) * 100) + '%' }} /></span>
             </div>
-            <label className="field">
-              <span className="lbl">{t('Frais estimés par ordre (€)')}</span>
-              <input className="input num" type="text" inputMode="decimal" value={fee} onChange={(e) => { setFee(e.target.value); const v = parseNum(e.target.value); if (isFinite(v) && v >= 0) update((d) => { d.settings.feePerOrder = v; }); }} />
-              <span className="hint">{t('Utilisé par l’assistant du mois et pour pré-remplir les achats.')}</span>
-            </label>
+            <BrokerPicker />
+            <button type="button" className="link" style={{ alignSelf: 'flex-start' }} onClick={() => navigate('/portefeuille/courtiers')}>{t('Comparer avec d’autres courtiers')}</button>
           </div>
         </Section>
 

@@ -137,6 +137,10 @@ export interface Settings {
   etfColors?: Record<string, string>; // couleur choisie par ETF (hex sans #) ; sinon défaut selon l'ordre de Mes ETF
   reminderDay?: number; // rappel mensuel « investir » : jour du mois (1–28), 0/absent = désactivé
   benchmarkId?: string; // ETF de référence pour la comparaison (Analyse) ; absent = 1er ETF suivi
+  brokerId?: string; // courtier choisi (grille de frais) ; absent ou 'custom' = grille saisie ci-dessous
+  feePct?: number; // grille saisie : frais en % du montant de l'ordre (0,005 = 0,5 %)
+  annualFee?: number; // grille saisie : tenue de compte / droits de garde fixes par an (€)
+  annualPct?: number; // grille saisie : droits de garde en % de la valeur du portefeuille par an
 }
 
 export interface AppData {

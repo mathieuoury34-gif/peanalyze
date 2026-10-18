@@ -2,6 +2,7 @@
 // Fonctions pures, testées dans tests/analysis.test.ts. Aucune ne modifie les données.
 import type { AppData, Etf, Position, Simulation } from './types';
 import { displayHistory, etfById, monthEnd, nextMonth, portfolioValueAt, priceAt, simulate, valuationDate, compositionUsable } from './calc';
+import { brokerOf, orderFee, type Broker } from './brokers';
 
 const round2 = (v: number) => Math.round(v * 100) / 100;
 
@@ -207,6 +208,7 @@ export interface HoldingCost {
   terPct: number; // frais courants pondérés par la valeur détenue
   terEur: number; // par an
   brokerage12m: number; // frais de courtage nets payés sur les 12 derniers mois
+  custody: number; // tenue de compte / droits de garde estimés par an (grille du courtier choisi)
   totalPerYear: number;
   totalPct: number; // du portefeuille
   ordersPerYear: number; // nombre d'ordres sur 12 mois
@@ -224,20 +226,34 @@ export function holdingCost(data: AppData, positions: Position[]): HoldingCost {
   const cut = new Date(Date.parse(vd + 'T00:00:00Z') - 365 * 864e5).toISOString().slice(0, 10);
   const recent = data.transactions.filter((t) => t.date > cut);
   const brokerage12m = recent.reduce((s, t) => s + t.fees - t.feeRefund, 0);
-  const total = terEur + brokerage12m;
+  const b = brokerOf(data.settings);
+  const custody = b.annualFixed + b.annualPct * securities;
+  const total = terEur + brokerage12m + custody;
   const base = securities || 1;
-  return { lines, terPct: securities > 0 ? terEur / securities : 0, terEur, brokerage12m, totalPerYear: total, totalPct: total / base, ordersPerYear: recent.length, securities };
+  return { lines, terPct: securities > 0 ? terEur / securities : 0, terEur, brokerage12m, custody, totalPerYear: total, totalPct: total / base, ordersPerYear: recent.length, securities };
 }
 
 /** Projection du Simulateur « nette de frais » : frais courants retirés du rendement, courtage retiré des versements. */
-export function adjustForCosts(data: AppData, cost: HoldingCost, ordersPerYear: number): Simulation {
+export function adjustForCosts(data: AppData, cost: HoldingCost, ordersPerYear: number, broker: Broker = brokerOf(data.settings)): Simulation {
   const sim = data.simulation;
-  const fee = data.settings.feePerOrder || 0;
+  const n = ordersPerYear > 0 ? ordersPerYear : 12 * Math.max(1, strategyCount(data));
   return {
     ...sim,
-    annualRate: sim.annualRate - cost.terPct,
-    dcaPhases: sim.dcaPhases.map((p) => ({ ...p, monthly: Math.max(0, p.monthly - (fee * ordersPerYear) / 12) })),
+    // droits de garde en % : retirés du rendement comme les frais courants ; frais fixes et courtage : pris sur les versements
+    annualRate: sim.annualRate - cost.terPct - broker.annualPct,
+    dcaPhases: sim.dcaPhases.map((p) => {
+      const perOrder = orderFee(broker, (p.monthly * 12) / n, { side: 'buy' }); // montant moyen d'un ordre de cette phase
+      return { ...p, monthly: Math.max(0, p.monthly - (perOrder * n + broker.annualFixed) / 12) };
+    }),
   };
+}
+
+const strategyCount = (data: AppData) => Object.values(data.targetAllocation).filter((w) => w > 0).length;
+
+/** Frais moyens d'un ordre selon le courtier, pour un versement mensuel réparti sur `ordersPerYear` ordres par an. */
+export function averageOrderFee(data: AppData, monthly: number, ordersPerYear: number, broker: Broker = brokerOf(data.settings)): number {
+  const n = ordersPerYear > 0 ? ordersPerYear : 12 * Math.max(1, strategyCount(data));
+  return orderFee(broker, (monthly * 12) / n, { side: 'buy' });
 }
 
 /** Effet des frais sur la projection du Simulateur : capital final sans et avec frais. */

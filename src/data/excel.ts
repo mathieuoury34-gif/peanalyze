@@ -3,6 +3,7 @@
 import JSZip from 'jszip';
 import type { AppData, Deposit, Etf, Goal, Plan, PlanSell, Transaction } from '../domain/types';
 import { t } from '../i18n';
+import { BROKERS } from '../domain/brokers';
 
 // libellés « Indice » utilisés dans l'Excel d'origine pour les ETF suivis
 const EXCEL_LABEL: Record<string, string> = {
@@ -178,6 +179,16 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
     next.settings.reminderDay = isFinite(rd) && rd >= 1 && rd <= 28 ? Math.round(rd) : 0;
     const bm = String(si.get('B12') ?? '').trim().toUpperCase();
     next.settings.benchmarkId = bm && next.etfs.some((e) => e.id === bm) ? bm : undefined;
+    // courtier et grille saisie (absents : on garde les réglages de l'application)
+    const bk = String(si.get('B13') ?? '').trim().toLowerCase();
+    if (bk) next.settings.brokerId = BROKERS.some((b) => b.id === bk) ? bk : undefined;
+    const fx = num(si.get('B14')), fp = num(si.get('B15')), af = num(si.get('B16')), ap = num(si.get('B17'));
+    if (bk) {
+      if (isFinite(fx) && fx >= 0) next.settings.feePerOrder = fx;
+      next.settings.feePct = isFinite(fp) && fp > 0 ? fp : undefined;
+      next.settings.annualFee = isFinite(af) && af > 0 ? af : undefined;
+      next.settings.annualPct = isFinite(ap) && ap > 0 ? ap : undefined;
+    }
   } catch { /* onglet absent */ }
 
   // plans et objectifs appartiennent au classeur : ceux de l'application sont remplacés (vides si l'onglet est absent)

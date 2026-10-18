@@ -4,6 +4,7 @@
 import type { AppData, Etf, Transaction } from '../domain/types';
 import { computePositions, exposure, MAX_HORIZON, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
 import { etfHexes } from '../etfColors';
+import { BROKERS } from '../domain/brokers';
 import { Workbook, colName as L, type Sheet, type Style, type Value } from './xlsx';
 
 // ------------------------------------------------------------------ charte (tokens.css)
@@ -434,6 +435,18 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     si.put(12, 1, 'ETF de référence (comparaison)', { color: NEUTRAL });
     si.put(12, 2, data.settings.benchmarkId || '', { inp: true, b: true, bg: TINT, h: 'right' });
     sw.validation('B12', `'Mes ETF'!$A$5:$A$${E_LAST}`);
+    // courtier : identifiant d'une grille connue ou « custom » (grille saisie ci-dessous)
+    si.put(13, 1, 'Courtier (custom = grille saisie ci-dessous)', { color: NEUTRAL });
+    si.put(13, 2, data.settings.brokerId || 'custom', { inp: true, b: true, bg: TINT, h: 'right' });
+    sw.validation('B13', `"${['custom', ...BROKERS.map((b) => b.id)].join(',')}"`);
+    si.put(14, 1, 'Grille saisie : frais fixes par ordre (€)', { color: NEUTRAL });
+    si.put(14, 2, data.settings.feePerOrder || 0, { fmt: '0.00', inp: true, b: true, bg: TINT, h: 'right' });
+    si.put(15, 1, 'Grille saisie : frais en % du montant', { color: NEUTRAL });
+    si.put(15, 2, data.settings.feePct || 0, { fmt: '0.00%', inp: true, b: true, bg: TINT, h: 'right' });
+    si.put(16, 1, 'Grille saisie : tenue de compte par an (€)', { color: NEUTRAL });
+    si.put(16, 2, data.settings.annualFee || 0, { fmt: '0.00', inp: true, b: true, bg: TINT, h: 'right' });
+    si.put(17, 1, 'Grille saisie : droits de garde (% par an)', { color: NEUTRAL });
+    si.put(17, 2, data.settings.annualPct || 0, { fmt: '0.00%', inp: true, b: true, bg: TINT, h: 'right' });
   }
 
   // ================================================================ Plans

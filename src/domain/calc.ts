@@ -326,15 +326,21 @@ export interface AssistantResult {
   left: number;
 }
 
-export function assistant(items: AssistantInput[], amount: number, mode: AssistantMode, fee: number): AssistantResult {
+/** Frais d'un ordre : un nombre = frais fixes par ordre ; une fonction = frais selon l'ETF et le montant de l'ordre. */
+export type OrderFee = number | ((amount: number, o?: { etfId?: string; side?: 'buy' | 'sell' }) => number);
+
+export function assistant(items: AssistantInput[], amount: number, mode: AssistantMode, feeSpec: OrderFee): AssistantResult {
+  const fee = typeof feeSpec === 'number' ? () => feeSpec : (a: number, id: string) => feeSpec(a, { etfId: id, side: 'buy' });
   const strat = items.filter((e) => e.target > 0 && e.price > 0);
   const parts: Record<string, number> = {};
   items.forEach((e) => (parts[e.id] = 0));
   amount = Math.max(0, amount || 0);
   let left: number;
   if (mode === 'target') {
-    left = amount - strat.length * fee;
-    const budget = Math.max(left, 0);
+    // les frais dépendent du montant de chaque ordre : deux passes d'estimation avant d'allouer le reste
+    let budget = amount;
+    for (let pass = 0; pass < 3; pass++) budget = Math.max(0, amount - strat.reduce((s, e) => s + fee(budget * e.target, e.id), 0));
+    left = amount - strat.reduce((s, e) => s + fee(budget * e.target, e.id), 0);
     const alloc: Record<string, number> = {};
     for (const e of strat) {
       alloc[e.id] = budget * e.target;
@@ -351,7 +357,7 @@ export function assistant(items: AssistantInput[], amount: number, mode: Assista
       parts[best.id] += 1;
       left -= best.price;
     }
-    for (const e of strat) if (!parts[e.id]) left += fee;
+    for (const e of strat) if (!parts[e.id]) left += fee(budget * e.target, e.id);
   } else {
     const total0 = items.reduce((s, e) => s + e.value, 0);
     left = amount;
@@ -359,22 +365,25 @@ export function assistant(items: AssistantInput[], amount: number, mode: Assista
     for (;;) {
       let best: AssistantInput | null = null, bg = 0;
       for (const e of strat) {
-        const cost = e.price + (parts[e.id] ? 0 : fee);
+        // coût d'une part de plus : son prix + la hausse des frais de l'ordre (le 1er achat porte les frais fixes)
+        const q = parts[e.id];
+        const cost = e.price + fee((q + 1) * e.price, e.id) - (q ? fee(q * e.price, e.id) : 0);
         if (cost > left + 1e-9) continue;
         const w = (e.value + parts[e.id] * e.price) / (total0 + spent + e.price);
         const g = e.target - w;
         if (g > bg) { bg = g; best = e; }
       }
       if (!best) break;
-      if (!parts[best.id]) left -= fee;
+      const q = parts[best.id];
+      left -= best.price + fee((q + 1) * best.price, best.id) - (q ? fee(q * best.price, best.id) : 0);
       parts[best.id] += 1;
-      left -= best.price;
       spent += best.price;
     }
   }
   const orders = strat.filter((e) => parts[e.id] > 0).length;
   const total = strat.reduce((s, e) => s + parts[e.id] * e.price, 0);
-  return { parts, total: round2(total), orders, fees: round2(orders * fee), left: round2(Math.max(left, 0)) };
+  const fees = strat.reduce((s, e) => s + (parts[e.id] > 0 ? fee(parts[e.id] * e.price, e.id) : 0), 0);
+  return { parts, total: round2(total), orders, fees: round2(fees), left: round2(Math.max(left, 0)) };
 }
 
 // ---------------------------------------------------------------- simulateur

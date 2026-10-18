@@ -9,6 +9,8 @@ import { assistant, type AssistantMode } from '../domain/calc';
 import { eur, num, parseNum, pct, pts, toInput, todayIso, NBSP } from '../domain/format';
 import { t, tn, tl } from '../i18n';
 import { getData, newId, replaceData, update } from '../data/store';
+import { feeFnOf } from '../domain/brokers';
+import { brokerLabel } from './BrokerParts';
 
 export function AssistantScreen() {
   const { data, positions, etf, summary } = useCalc();
@@ -16,7 +18,7 @@ export function AssistantScreen() {
   const [text, setText] = useState(() => toInput(Math.round((750 + cash) * 100) / 100, cash ? 2 : 0));
   const [mode, setMode] = useState<AssistantMode>('target');
   const amount = Math.max(0, parseNum(text) || 0);
-  const fee = data.settings.feePerOrder;
+  const fee = feeFnOf(data);
 
   const order = etfOrder(data);
   const all = positions.slice().sort((a, b) => order.indexOf(a.etfId) - order.indexOf(b.etfId));
@@ -39,7 +41,8 @@ export function AssistantScreen() {
     update((d) => {
       for (const p of added) {
         const q = res.parts[p.etfId];
-        d.transactions.push({ id: newId('b'), date, etfId: p.etfId, unitPrice: p.price, quantity: q, grossAmount: Math.round((p.price * q + fee) * 100) / 100, fees: fee, feeRefund: 0 });
+        const f = fee(p.price * q, { etfId: p.etfId, side: 'buy' });
+        d.transactions.push({ id: newId('b'), date, etfId: p.etfId, unitPrice: p.price, quantity: q, grossAmount: Math.round((p.price * q + f) * 100) / 100, fees: f, feeRefund: 0 });
       }
     });
     navigate('/historique/journal', { replace: true });
@@ -106,7 +109,7 @@ export function AssistantScreen() {
             </ul>
             <dl className="dl" style={{ gap: 'var(--space-6) var(--space-12)', paddingTop: 'var(--space-12)', borderTop: '1px solid var(--divider-minimal)' }}>
               <dt>{t('Total des titres')}</dt><dd className="t-amount-s">{eur(res.total)}</dd>
-              <dt>{t('Frais estimés')} <span className="t-caption">({tn(res.orders, '{n} ordre × {f}', '{n} ordres × {f}', { f: eur(fee) })})</span></dt><dd>{eur(res.fees)}</dd>
+              <dt>{t('Frais estimés')} <span className="t-caption">({tn(res.orders, '{n} ordre', '{n} ordres')} · {brokerLabel(data)})</span></dt><dd>{eur(res.fees)}</dd>
               <dt>{t('Reste non investi')}</dt><dd>{eur(res.left)}</dd>
             </dl>
           </section>

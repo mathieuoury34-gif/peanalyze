@@ -6,6 +6,7 @@ import { Icon } from '../ui/icons';
 import { back, navigate, openSheet, useRoute } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { computePositions, holdingAt, ledger, monthlySeries } from '../domain/calc';
+import { feeFnOf } from '../domain/brokers';
 import { dateFr, eur, eurSigned, monthLong, num, parseDateFr, parseNum, pct, pctSigned, toInput, todayIso, NBSP } from '../domain/format';
 import { getData, newId, replaceData, update } from '../data/store';
 import type { Deposit, Transaction } from '../domain/types';
@@ -318,7 +319,8 @@ export function PurchaseScreen() {
   const exec = isFinite(p) ? Math.round(p * qty * 100) / 100 : 0;
   // Montant brut laissé vide : estimation = cours × quantité + frais estimés par ordre (Paramètres › PEA)
   // Vente : « g » est la somme reçue (frais déduits) ; les frais = cours × quantité − somme reçue
-  const estimated = Math.round((sell ? Math.max(exec - data.settings.feePerOrder, 0) : exec + data.settings.feePerOrder) * 100) / 100;
+  const estFee = feeFnOf(data)(exec, { etfId, side: sell ? 'sell' : 'buy' });
+  const estimated = Math.round((sell ? Math.max(exec - estFee, 0) : exec + estFee) * 100) / 100;
   const grossAuto = !gross.trim();
   const g = grossAuto ? estimated : parseNum(gross);
   const fees = isFinite(g) ? Math.round((sell ? exec - g : g - exec) * 100) / 100 : 0;
@@ -402,10 +404,10 @@ export function PurchaseScreen() {
               onChange={(e) => setGross(e.target.value)} aria-invalid={err} data-component="AmountField" />
             <span className="hint">{sell
               ? (grossAuto
-                ? t('Laissé vide, la vente est enregistrée à {v} (cours × quantité − {f} de frais estimés). Saisissez la somme réellement créditée si elle est différente.', { v: eur(estimated), f: eur(data.settings.feePerOrder) })
+                ? t('Laissé vide, la vente est enregistrée à {v} (cours × quantité − {f} de frais estimés). Saisissez la somme réellement créditée si elle est différente.', { v: eur(estimated), f: eur(estFee) })
                 : t('Somme créditée par le courtier, frais déduits'))
               : grossAuto
-                ? t('Laissé vide, l’achat est enregistré à {v} (cours × quantité + {f} de frais estimés). Saisissez le débit réel du courtier s’il est différent.', { v: eur(estimated), f: eur(data.settings.feePerOrder) })
+                ? t('Laissé vide, l’achat est enregistré à {v} (cours × quantité + {f} de frais estimés). Saisissez le débit réel du courtier s’il est différent.', { v: eur(estimated), f: eur(estFee) })
                 : t('Débit affiché par le courtier, frais inclus')}</span>
             {err && <span role="alert" className="err">{sell ? t('La somme reçue ne peut pas dépasser cours × quantité.') : t("Le montant brut doit être supérieur ou égal au cours d'exécution.")}</span>}
           </label>

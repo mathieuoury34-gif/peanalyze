@@ -202,7 +202,8 @@ export function CompareLinesChart({ points, labelA, labelB }: { points: { date: 
   ));
   const h = hover === null ? n - 1 : hover;
   const hx = X(h);
-  const tipLeft = Math.min(Math.max(hx - 64, 0), W - 128);
+  const tipW = Math.min(190, W); // les légendes peuvent être longues : largeur bornée, texte à la ligne
+  const tipLeft = Math.min(Math.max(hx - tipW / 2, 0), W - tipW);
   const last = points[n - 1];
   return (
     <div ref={ref} className="chart" data-component="CompareLinesChart" style={{ height: 186 }}>
@@ -218,7 +219,7 @@ export function CompareLinesChart({ points, labelA, labelB }: { points: { date: 
       <span aria-hidden="true" className="marker-dot" style={{ background: 'var(--chart-value)', border: '2px solid var(--bg-surface)', left: hx - 5, top: Y(points[h].a) - 5 }} />
       <span aria-hidden="true" className="marker-dot" style={{ background: 'var(--chart-2)', border: '2px solid var(--bg-surface)', left: hx - 5, top: Y(points[h].b) - 5 }} />
       <div className="hit" style={{ width: W, height: B }} onPointerMove={(ev) => setHover(hoverFromEvent(ev, n))} onPointerDown={(ev) => setHover(hoverFromEvent(ev, n))} />
-      <div role="status" className="tip" data-component="ChartTooltip" style={{ minWidth: 128, left: tipLeft, top: Y(points[h].a) > 80 ? 8 : 90 }}>
+      <div role="status" className="tip" data-component="ChartTooltip" style={{ width: tipW, whiteSpace: 'normal', left: tipLeft, top: Y(points[h].a) > 80 ? 8 : 90 }}>
         <span className="t-caption-strong" style={{ color: 'var(--text-reverse)' }}>{dateFr(points[h].date)}</span>
         <span className="t-caption" style={{ color: 'var(--text-reverse)' }}>{labelA} {eur(points[h].a)}</span>
         <span className="t-caption c-reverse-muted">{labelB} {eur(points[h].b)}</span>

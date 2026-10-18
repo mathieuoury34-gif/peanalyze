@@ -9,6 +9,7 @@ import { CatalogueScreen, CompareScreen, EtfDetailScreen, ManageEtfsScreen, MyEt
 import { AddSheet, DepositScreen, JournalScreen, OverviewScreen, PurchaseScreen } from './screens/History';
 import { SimulatorScreen } from './screens/Simulator';
 import { AnalysisScreen } from './screens/Analysis';
+import { BrokersScreen } from './screens/Brokers';
 import { GoalsScreen } from './screens/Goals';
 import { PlansScreen } from './screens/Plans';
 import { PlanScreen } from './screens/PlanEditor';
@@ -25,6 +26,7 @@ function Screen() {
       if (b === 'repartitions') return <RepartitionsScreen />;
       if (b === 'assistant') return <AssistantScreen />;
       if (b === 'analyse') return <AnalysisScreen />;
+      if (b === 'courtiers') return <BrokersScreen />;
       return <PortfolioScreen />;
     case 'marches':
       if (b === 'catalogue') return <CatalogueScreen compare={compare} setCompare={setCompare} />;

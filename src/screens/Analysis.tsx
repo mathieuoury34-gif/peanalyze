@@ -14,6 +14,7 @@ import { t, tl } from '../i18n';
 import { PF_NAV } from './Portfolio';
 import { addCatalogEtf } from './Markets';
 import { EtfPickerSheet } from './PlanParts';
+import { brokerLabel } from './BrokerParts';
 
 function Kpi({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'bad' }) {
   return (
@@ -202,9 +203,10 @@ export function AnalysisScreen() {
               <h2 id="t305-cost">{t('Ce que vos ETF vous coûtent')}</h2>
               <span className="t-caption c-moderate">{t('Frais courants des ETF (prélevés dans le cours, jamais facturés) + frais de courtage de vos ordres.')}</span>
             </div>
-            <div className="grid-3">
+            <div className={cost.custody > 0 ? 'grid-2' : 'grid-3'}>
               <Kpi label={t('Frais courants')} value={eur(cost.terEur, 2)} sub={t('{p} par an en moyenne', { p: pct(cost.terPct, 2) })} />
               <Kpi label={t('Courtage, 12 mois')} value={eur(cost.brokerage12m, 2)} sub={cost.ordersPerYear ? t('{n} ordres, remboursements déduits', { n: cost.ordersPerYear }) : t('aucun ordre sur la période')} />
+              {cost.custody > 0 && <Kpi label={t('Tenue de compte et garde')} value={eur(cost.custody, 2)} sub={t('estimés d’après la grille de {b}', { b: brokerLabel(data) })} />}
               <Kpi label={t('Total par an')} value={eur(cost.totalPerYear, 2)} sub={t('{p} de vos titres', { p: pct(cost.totalPct, 2) })} />
             </div>
             <ul>
@@ -222,6 +224,16 @@ export function AnalysisScreen() {
               </p>
             )}
             <Note>{t('Les frais courants sont estimés sur la valeur détenue aujourd’hui ; le courtage compte vos ordres des 12 derniers mois.')}</Note>
+            <details className="explain" data-testid="cost-explain">
+              <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment c’est calculé ?')}</summary>
+              <ol>
+                <li>{t('Frais courants : pour chaque ETF détenu, ses frais annuels (catalogue) × sa valeur aujourd’hui. Ils sont déjà déduits du cours : vous ne les voyez jamais sur un relevé.')}</li>
+                <li>{t('Courtage : la somme des frais de vos ordres enregistrés dans l’Historique sur les 12 derniers mois, moins les remboursements. Ce sont vos frais réels, pas une estimation.')}</li>
+                <li>{t('Tenue de compte et droits de garde : absents de l’Historique, ils sont estimés avec la grille de votre courtier (Paramètres › PEA).')}</li>
+                <li>{t('Effet sur le capital final : le simulateur est rejoué en retirant les frais courants (et les droits de garde en %) du rendement, et le courtage de vos versements : nombre d’ordres de l’année × frais moyens d’un ordre, selon le courtier et le montant de chaque ordre.')}</li>
+              </ol>
+              <button type="button" className="link" onClick={() => navigate('/portefeuille/courtiers')}>{t('Comparer avec d’autres courtiers')}</button>
+            </details>
           </section>
         )}
       </main>

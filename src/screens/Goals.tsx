@@ -6,7 +6,7 @@ import { Icon } from '../ui/icons';
 import { navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { goalProgress, type GoalProgress } from '../domain/goals';
-import { dateFr, eur, pct } from '../domain/format';
+import { dateFr, eur, num, pct } from '../domain/format';
 import type { Goal } from '../domain/types';
 import { newId, update } from '../data/store';
 import { t, tn } from '../i18n';
@@ -18,6 +18,11 @@ const addMonths = (iso: string, n: number) => {
   d.setUTCDate(Math.min(+iso.slice(8, 10), last));
   return d.toISOString().slice(0, 10);
 };
+
+function phasesText(p: GoalProgress): string {
+  if (!p.phasesUsed.length) return t('aucun versement avant l’échéance');
+  return p.phasesUsed.map((x, i) => (i === 0 ? t('{m} par mois', { m: eur(x.monthly, 0) }) : t('puis {m} dès l’année {y}', { m: eur(x.monthly, 0), y: x.fromYear }))).join(', ');
+}
 
 function remainingText(p: GoalProgress): string {
   if (p.reached) return t('Objectif atteint');
@@ -78,12 +83,17 @@ export function GoalsScreen() {
                     <div className="stack-8" style={{ borderTop: '1px solid var(--divider-minimal)', paddingTop: 'var(--space-12)' }}>
                       <div className="between"><span className="c-neutral">{t('À épargner par mois, avec {r} de rendement', { r: pct(data.simulation.annualRate, 1) })}</span><strong className="t-amount-s" data-testid="req-return">{eur(p.requiredWithReturn, 0)}</strong></div>
                       <div className="between"><span className="c-neutral">{t('À épargner par mois, sans rendement')}</span><strong className="t-amount-s">{eur(p.requiredPlain ?? 0, 0)}</strong></div>
-                      {p.plannedMonthly > 0 && (
-                        <p className="t-caption" style={{ color: p.onTrack ? 'var(--success-text)' : 'var(--warning-text)' }}>
-                          {p.onTrack
-                            ? t('À votre rythme prévu ({m} par mois), vous atteindriez environ {v} : objectif tenu.', { m: eur(p.plannedMonthly, 0), v: eur(p.projected, 0) })
-                            : t('À votre rythme prévu ({m} par mois), vous atteindriez environ {v} : il manquerait {d}.', { m: eur(p.plannedMonthly, 0), v: eur(p.projected, 0), d: eur(g.target - p.projected, 0) })}
-                        </p>
+                      <p className="t-legal c-moderate">{t('Ces deux montants sont des versements constants, dès aujourd’hui ; ils ne suivent pas vos phases de versement.')}</p>
+                      {data.simulation.dcaPhases.length > 0 && (
+                        <div className="stack-4" data-testid="goal-phases">
+                          <p className="t-caption" style={{ color: p.onTrack ? 'var(--success-text)' : 'var(--warning-text)' }}>
+                            {p.onTrack
+                              ? t('Avec vos phases de versement ({p}), vous atteindriez environ {v} : objectif tenu.', { p: phasesText(p), v: eur(p.projected, 0) })
+                              : t('Avec vos phases de versement ({p}), vous atteindriez environ {v} : il manquerait {d}.', { p: phasesText(p), v: eur(p.projected, 0), d: eur(g.target - p.projected, 0) })}
+                            {p.scaleNeeded !== null && p.scaleNeeded > 1 && ' ' + t('Pour y arriver en gardant la même progression, il faudrait multiplier tous ces versements par {k} (soit {m} par mois au départ).', { k: num(p.scaleNeeded, 2), m: eur(p.plannedMonthly * p.scaleNeeded, 0) })}
+                          </p>
+                          {p.phasesLater.length > 0 && <p className="t-caption c-moderate">{tn(p.phasesLater.length, 'La phase qui débute à l’année {y} arrive après l’échéance : elle n’entre pas dans ce calcul.', 'Les phases qui débutent à partir de l’année {y} arrivent après l’échéance : elles n’entrent pas dans ce calcul.', { y: p.phasesLater[0].fromYear })}</p>}
+                        </div>
                       )}
                     </div>
                   )}

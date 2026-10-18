@@ -7,7 +7,9 @@ import { Icon } from '../ui/icons';
 import { useCalc } from '../ui/useCalc';
 import { navigate } from '../ui/router';
 import { deflate, MAX_HORIZON, monthlySeries, simulate } from '../domain/calc';
-import { adjustForCosts, holdingCost } from '../domain/analysis';
+import { adjustForCosts, averageOrderFee, holdingCost } from '../domain/analysis';
+import { brokerOf } from '../domain/brokers';
+import { brokerLabel } from './BrokerParts';
 import { eur, num, parseNum, pct } from '../domain/format';
 import { update } from '../data/store';
 import type { Simulation } from '../domain/types';
@@ -126,7 +128,7 @@ export function SimulatorScreen() {
             <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id="t401-fees">{t('Déduire mes frais (frais courants et courtage)')}</span><Switch checked={fees && cost.securities > 0} disabled={cost.securities <= 0} onChange={setFees} labelledBy="t401-fees" /></div>
             {fees && cost.securities > 0 && (
               <p className="t-caption c-neutral" style={{ paddingBottom: 'var(--space-8)' }} data-testid="fees-note">
-                {t('Frais retenus : {p} par an sur le rendement (frais courants de vos ETF) et {n} ordres par an à {f} chacun, pris sur vos versements. Rendement net utilisé : {r}.', { p: pct(cost.terPct, 2), n: cost.ordersPerYear, f: eur(data.settings.feePerOrder || 0), r: pct(sim.annualRate - cost.terPct, 2) })}
+                {t('Frais retenus : {p} par an sur le rendement (frais courants de vos ETF{g}) et {n} ordres par an à environ {f} chacun ({b}), pris sur vos versements. Rendement net utilisé : {r}.', { p: pct(cost.terPct, 2), g: brokerOf(data.settings).annualPct > 0 ? t(' et droits de garde') : '', n: cost.ordersPerYear || 12 * Math.max(1, Object.values(data.targetAllocation).filter((w) => w > 0).length), f: eur(averageOrderFee(data, sim.dcaPhases[0]?.monthly ?? 0, cost.ordersPerYear)), b: brokerLabel(data), r: pct(sim.annualRate - cost.terPct - brokerOf(data.settings).annualPct, 2) })}
               </p>
             )}
             <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id="t401-const">{t('Afficher en euros constants (inflation {p})', { p: pct(INFLATION, 0) })}</span><Switch checked={constant} onChange={setConstant} labelledBy="t401-const" /></div>

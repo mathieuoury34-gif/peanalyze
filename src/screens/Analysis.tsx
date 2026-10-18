@@ -15,6 +15,7 @@ import { PF_NAV } from './Portfolio';
 import { addCatalogEtf } from './Markets';
 import { EtfPickerSheet } from './PlanParts';
 import { brokerLabel } from './BrokerParts';
+import { auditFees } from '../domain/feeAudit';
 
 function Kpi({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: 'good' | 'bad' }) {
   return (
@@ -51,6 +52,7 @@ export function AnalysisScreen() {
   const pairs = useMemo(() => overlapPairs(data, positions), [data, positions]);
   const risk = useMemo(() => riskAnalysis(data, positions), [data, positions]);
   const cost = useMemo(() => holdingCost(data, positions), [data, positions]);
+  const auditCount = useMemo(() => auditFees(data).flagged.length, [data]);
   const projection = useMemo(() => (cost.securities > 0 ? simulationWithCosts(data, cost, cost.ordersPerYear) : null), [data, cost]);
   const held = positions.filter((p) => p.quantity > 0);
   const cov = exposureCoverage(data, positions);
@@ -224,6 +226,12 @@ export function AnalysisScreen() {
               </p>
             )}
             <Note>{t('Les frais courants sont estimés sur la valeur détenue aujourd’hui ; le courtage compte vos ordres des 12 derniers mois.')}</Note>
+            {auditCount > 0 && (
+              <p className="t-caption" style={{ color: 'var(--warning-text)' }} data-testid="cost-audit-link">
+                {t('{k} ordres de votre journal s’écartent de la grille de votre courtier.', { k: auditCount })}{' '}
+                <button type="button" className="link" onClick={() => navigate('/portefeuille/courtiers')}>{t('Voir les écarts')}</button>
+              </p>
+            )}
             <details className="explain" data-testid="cost-explain">
               <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment c’est calculé ?')}</summary>
               <ol>

@@ -1,0 +1,11 @@
+{
+  "_comment": "Pages tarifaires surveillées par le robot (scripts/watch-brokers.py). Clé = id du courtier de src/domain/brokers.ts. Une page qui change de chiffres (€, %) déclenche une alerte dans l'application et une issue GitHub : les grilles doivent alors être revérifiées à la main.",
+  "boursobank": "https://www.boursobank.com/bourse/tarifs",
+  "traderepublic": "https://traderepublic.com/fr-fr/pea",
+  "fortuneo": "https://www.fortuneo.fr/bourse/tarifs",
+  "boursedirect": "https://www.boursedirect.fr/fr/tarifs",
+  "xtb": "https://www.xtb.com/fr/pea",
+  "ca-initial": "https://www.credit-agricole.fr/particulier/epargne/bourse.html",
+  "ca-integral": "https://www.credit-agricole.fr/particulier/epargne/bourse.html",
+  "saxo": "https://www.home.saxo/fr-fr/rates-and-conditions"
+}

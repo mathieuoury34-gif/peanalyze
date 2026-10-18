@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { useCalc } from '../ui/useCalc';
 import { dateFr, eur, num, parseNum, pct, toInput } from '../domain/format';
-import { BROKERS, CUSTOM_BROKER, brokerOf, type Broker, type FeeTier } from '../domain/brokers';
+import { BROKERS, CUSTOM_BROKER, brokerOf, offerActive, tariffAlert, type Broker, type FeeTier } from '../domain/brokers';
+import { useBrokerWatch } from '../data/brokerWatch';
 import type { AppData } from '../domain/types';
 import { update } from '../data/store';
 import { t } from '../i18n';
@@ -31,6 +32,7 @@ export function describeGrid(b: Broker): string[] {
   if (b.scheduledFee !== undefined) out.push(t('Investissement programmé : {c}', { c: eur(b.scheduledFee) }));
   if (b.annualFixed > 0) out.push(t('Tenue de compte : {a} par an', { a: eur(b.annualFixed) }));
   if (b.annualPct > 0) out.push(t('Droits de garde : {p} de la valeur par an', { p: pct(b.annualPct, 2) }));
+  if (b.inactivity) out.push(t('Abonnement : {a} par an, offert à partir de {n} ordres par an', { a: eur(b.inactivity.fee, 0), n: b.inactivity.minOrders }));
   if (b.minOrder) out.push(t('Montant minimal par ordre : {a}', { a: eur(b.minOrder, 0) }));
   return out;
 }
@@ -47,6 +49,35 @@ export function PercentField({ label, value, onChange, hint }: { label: string; 
       </span>
       {hint && <span className="t-caption c-moderate">{hint}</span>}
     </label>
+  );
+}
+
+/** Date lisible du relevé et alerte : plus de 6 mois, ou page tarifaire modifiée depuis (d'après le robot). */
+export function TariffFreshness({ b }: { b: Broker }) {
+  const watch = useBrokerWatch();
+  if (!b.checked) return null;
+  const a = tariffAlert(b, watch?.items[b.id]);
+  const months = Math.floor((a.days ?? 0) / 30.4);
+  return (
+    <div className="stack-4" data-testid="tariff-freshness">
+      <p className="t-legal c-moderate">{t('Tarifs indicatifs relevés le {d} sur des sites comparateurs, pas chez le courtier : vérifiez sur sa brochure tarifaire.', { d: dateFr(b.checked) })} <a href={b.url} target="_blank" rel="noopener noreferrer">{t('Site du courtier')}</a></p>
+      {a.stale && <p className="t-caption" style={{ color: 'var(--warning-text)' }} data-testid="tariff-stale">{t('Ces tarifs datent de {n} mois : ils ont sans doute changé, revérifiez-les avant de décider.', { n: months })}</p>}
+      {a.changedOn && <p className="t-caption" style={{ color: 'var(--warning-text)' }} data-testid="tariff-changed">{t('Le robot a vu la page tarifaire de ce courtier changer le {d} : revérifiez la grille.', { d: dateFr(a.changedOn) })}</p>}
+      {watch?.items[b.id]?.checkedAt && !a.changedOn && <p className="t-legal c-moderate">{t('Page tarifaire surveillée : aucun changement de chiffres vu depuis le {d}.', { d: dateFr(watch.items[b.id].checkedAt!) })}</p>}
+    </div>
+  );
+}
+
+/** Offre en cours du courtier (primes, transfert remboursé) ou offre terminée. */
+export function OfferLine({ b }: { b: Broker }) {
+  if (!b.offer) return null;
+  const live = offerActive(b);
+  return (
+    <p className="t-caption c-neutral" data-testid="broker-offer">
+      <span className="t-strong">{live ? t('Offre :') : t('Offre terminée :')}</span>{' '}{t(b.offer.text)}
+      {b.offer.until && live && ' ' + t('Valable jusqu’au {d}.', { d: dateFr(b.offer.until) })}
+      {b.offer.until && !live && ' ' + t('Terminée le {d}.', { d: dateFr(b.offer.until) })}
+    </p>
   );
 }
 
@@ -77,7 +108,8 @@ export function BrokerPicker() {
         <div className="stack-4" data-testid="broker-grid">
           <ul className="stack-4 t-caption c-neutral">{describeGrid(b).map((l) => <li key={l}>{l}</li>)}</ul>
           <p className="t-caption c-moderate">{t(b.note)}</p>
-          <p className="t-legal c-moderate">{t('Tarifs indicatifs relevés le {d} sur des sites comparateurs, pas chez le courtier : vérifiez sur sa brochure tarifaire.', { d: dateFr(b.checked) })} <a href={b.url} target="_blank" rel="noopener noreferrer">{t('Site du courtier')}</a></p>
+          <OfferLine b={b} />
+          <TariffFreshness b={b} />
         </div>
       )}
     </div>

@@ -140,6 +140,7 @@ export interface Settings {
   brokerId?: string; // courtier choisi (grille de frais) ; absent ou 'custom' = grille saisie ci-dessous
   feePct?: number; // grille saisie : frais en % du montant de l'ordre (0,005 = 0,5 %)
   annualFee?: number; // grille saisie : tenue de compte / droits de garde fixes par an (€)
+  brokerEtf?: Record<string, Record<string, 'yes' | 'no'>>; // courtier → ETF → disponible / absent, d'après la vérification de l'utilisateur ; absent = à vérifier
   annualPct?: number; // grille saisie : droits de garde en % de la valeur du portefeuille par an
 }
 

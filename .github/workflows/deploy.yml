@@ -3,6 +3,7 @@
 #  - après la clôture d'Euronext : cours de tous les ETF suivis
 #  - toutes les heures : historique des ETF qui viennent d'être ajoutés à « Mes ETF »
 #  - le 3 et le 10 de chaque mois : répartitions sectorielle et géographique (fiches mensuelles officielles, sans API de cours)
+#  - le 1er de chaque mois : veille des pages tarifaires des courtiers (alerte dans l'app + issue GitHub si les chiffres changent)
 # Le site n'est republié que si le code ou les cours ont changé.
 name: Publier PEAnalyze
 on:
@@ -13,21 +14,23 @@ on:
     - cron: '50 16 * * 1-5'  # clôture (17 h 30 à Paris)
     - cron: '17 * * * *'     # passage horaire : nouveaux ETF
     - cron: '30 6 3,10 * *'  # fiches mensuelles des émetteurs : répartitions
+    - cron: '0 7 1 * *'      # veille des tarifs des courtiers
   workflow_dispatch:
     inputs:
       mode:
-        description: 'midday, close, sync ou compositions'
+        description: 'midday, close, sync, compositions ou brokers'
         default: 'close'
 permissions:
   contents: write
   pages: write
+  issues: write
   id-token: write
 concurrency:
   group: pages
   cancel-in-progress: false
 jobs:
   prices:
-    if: ${{ github.event_name != 'push' && github.event.schedule != '30 6 3,10 * *' && inputs.mode != 'compositions' }}
+    if: ${{ github.event_name != 'push' && github.event.schedule != '30 6 3,10 * *' && github.event.schedule != '0 7 1 * *' && inputs.mode != 'compositions' && inputs.mode != 'brokers' }}
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.robot.outputs.changed }}
@@ -72,10 +75,40 @@ jobs:
           git add public/compositions.json
           git commit -m "Répartitions du $(date -u +%d/%m/%Y)"
           git push
+  brokers:
+    if: ${{ github.event.schedule == '0 7 1 * *' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'brokers') }}
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.robot.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pdfplumber
+      - name: Surveiller les pages tarifaires des courtiers
+        id: robot
+        run: python3 scripts/watch-brokers.py
+      - name: Prévenir si des tarifs ont changé
+        if: steps.robot.outputs.changes != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHANGES: ${{ steps.robot.outputs.changes }}
+        run: |
+          gh issue create --title "Tarifs de courtiers à revérifier ($(date -u +%d/%m/%Y))" \
+            --body "Le robot a vu changer les chiffres (€, %) de la page tarifaire de : $CHANGES. Relire la brochure du courtier, corriger src/domain/brokers.ts (grille, offre, champ checked), puis fermer cette issue. Tant que la date « checked » n'a pas été mise à jour, l'application affiche « tarifs à revérifier »." || true
+      - name: Enregistrer brokers-watch.json
+        if: steps.robot.outputs.changed == 'true'
+        run: |
+          git config user.name "peanalyze-bot"
+          git config user.email "peanalyze-bot@users.noreply.github.com"
+          git add public/brokers-watch.json
+          git commit -m "Veille des tarifs du $(date -u +%d/%m/%Y)"
+          git push
   build:
-    needs: [prices, compositions]
+    needs: [prices, compositions, brokers]
     # code envoyé, cours ou répartitions modifiés ; si un robot échoue, rien n'est republié
-    if: ${{ !cancelled() && (github.event_name == 'push' || needs.prices.outputs.changed == 'true' || needs.compositions.outputs.changed == 'true') }}
+    if: ${{ !cancelled() && (github.event_name == 'push' || needs.prices.outputs.changed == 'true' || needs.compositions.outputs.changed == 'true' || needs.brokers.outputs.changed == 'true') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

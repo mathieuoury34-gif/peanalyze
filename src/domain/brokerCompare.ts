@@ -1,6 +1,6 @@
 // Comparaison de courtiers : mes ordres (réels ou prévus) rejoués avec la grille de chaque courtier. Fonctions pures, testées.
 import type { AppData, Position } from './types';
-import { BROKERS, brokerOf, transferOutCost, yearCost, type Broker, type CostOrder, type YearCost } from './brokers';
+import { BROKERS, brokerOf, transferOutCost, transferRefundOf, yearCost, type Broker, type CostOrder, type YearCost } from './brokers';
 import { valuationDate } from './calc';
 import { monthlyAt } from './goals';
 
@@ -13,10 +13,20 @@ export interface Scenario {
   portfolioValue: number;
   lines: number;
   basis: Basis;
+  /** ETF concernés : ceux que l'on détient et ceux de la stratégie. */
+  etfIds: string[];
 }
 
 const nameOf = (data: AppData, id: string) => data.etfs.find((e) => e.id === id)?.name ?? data.catalog.find((c) => c.ticker === id)?.name ?? '';
 const monthAdd = (ym: string, n: number) => { const d = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7) - 1 + n, 1)); return d.toISOString().slice(0, 7); };
+
+/** Les ETF qui comptent pour un changement de courtier : détenus aujourd'hui ou visés par la stratégie. */
+export function concerned(data: AppData, positions: Position[]): string[] {
+  const ids = new Set<string>();
+  for (const p of positions) if (p.quantity > 0) ids.add(p.etfId);
+  for (const [id, w] of Object.entries(data.targetAllocation)) if (w > 0) ids.add(id);
+  return [...ids].filter((id) => data.etfs.some((e) => e.id === id));
+}
 
 /** Versement mensuel prévu : phase en cours du simulateur, sinon moyenne des virements des 12 derniers mois. */
 export function plannedMonthly(data: AppData): number {
@@ -38,7 +48,7 @@ export function scenarioOf(data: AppData, positions: Position[], basis: Basis, m
     const recent = data.transactions.filter((t) => t.date > cut && t.quantity !== 0);
     const orders: CostOrder[] = recent.map((t) => ({ date: t.date, amount: Math.abs(t.unitPrice * t.quantity), side: t.quantity > 0 ? 'buy' : 'sell', etfName: nameOf(data, t.etfId), scheduled: scheduled && t.quantity > 0 }));
     const invested = recent.filter((t) => t.quantity > 0).reduce((s, t) => s + t.unitPrice * t.quantity, 0);
-    return { orders, monthly: invested / 12, portfolioValue, lines: held.length, basis };
+    return { orders, monthly: invested / 12, portfolioValue, lines: held.length, basis, etfIds: concerned(data, positions) };
   }
   const strat = Object.entries(data.targetAllocation).filter(([, w]) => w > 0);
   const weights = strat.length ? strat : held.length ? held.map((p): [string, number] => [p.etfId, 1]) : [['', 1] as [string, number]];
@@ -51,7 +61,7 @@ export function scenarioOf(data: AppData, positions: Position[], basis: Basis, m
       if (amount > 0) orders.push({ date: monthAdd(first, m) + '-05', amount, side: 'buy', etfName: nameOf(data, id), scheduled });
     }
   }
-  return { orders, monthly, portfolioValue, lines: Math.max(held.length, weights.length), basis };
+  return { orders, monthly, portfolioValue, lines: Math.max(held.length, weights.length), basis, etfIds: concerned(data, positions) };
 }
 
 export interface BrokerRow {
@@ -62,8 +72,14 @@ export interface BrokerRow {
   diff: number;
   /** Frais de sortie du courtier actuel si l'on change (transfert), 0 pour le courtier actuel. */
   exit: number;
-  /** Mois pour rentabiliser les frais de sortie grâce à l'économie ; null si pas d'économie ou pas de frais. */
+  /** Part des frais de sortie prise en charge par l'offre du nouveau courtier (€). */
+  refund: number;
+  /** Frais de sortie restant à votre charge. */
+  exitNet: number;
+  /** Mois pour rentabiliser les frais de sortie restants grâce à l'économie ; null si pas d'économie ou rien à rentabiliser. */
   paybackMonths: number | null;
+  /** Disponibilité de vos ETF chez ce courtier, d'après vos réponses (vide pour le courtier actuel). */
+  etf: { ok: string[]; no: string[]; unknown: string[] };
   /** Capital supplémentaire à l'horizon du simulateur si l'économie annuelle est investie chaque mois. */
   gainAtHorizon: number;
 }
@@ -86,10 +102,15 @@ export function compareBrokers(data: AppData, sc: Scenario, today?: string): Bro
     const cost = b.id === cur.id ? base : yearCost(b, sc.orders, sc.portfolioValue, today);
     const diff = cost.total - base.total;
     const exit = b.id === cur.id ? 0 : transferOutCost(sc.lines);
+    const refund = b.id === cur.id ? 0 : Math.min(exit, transferRefundOf(b, today));
+    const exitNet = exit - refund;
     const saving = -diff;
+    const mine = data.settings.brokerEtf?.[b.id] ?? {};
+    const etf = { ok: [] as string[], no: [] as string[], unknown: [] as string[] };
+    if (b.id !== cur.id) for (const id of sc.etfIds) (mine[id] === 'yes' ? etf.ok : mine[id] === 'no' ? etf.no : etf.unknown).push(id);
     return {
-      broker: b, current: b.id === cur.id, cost, diff, exit,
-      paybackMonths: saving > 0 && exit > 0 ? Math.ceil((exit / saving) * 12) : null,
+      broker: b, current: b.id === cur.id, cost, diff, exit, refund, exitNet, etf,
+      paybackMonths: saving > 0 && exitNet > 0 ? Math.ceil((exitNet / saving) * 12) : null,
       gainAtHorizon: saving > 0 ? savingsFutureValue(saving, rate, years) : -savingsFutureValue(-saving, rate, years),
     };
   }).sort((a, b) => a.cost.total - b.cost.total || (a.current ? -1 : 1));

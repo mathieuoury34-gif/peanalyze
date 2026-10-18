@@ -156,6 +156,11 @@ ul { list-style: none; margin: 0; padding: 0; }
 .seg { display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; gap: var(--space-4); padding: var(--space-4); border-radius: var(--radius-full); background: var(--bg-grey-minimal); }
 .seg > * { display: flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 var(--space-8); border: 0; border-radius: var(--radius-full); background: transparent; color: var(--text); font: var(--type-button); text-decoration: none; cursor: pointer; text-align: center; }
 .seg > [aria-current="page"], .seg > [aria-pressed="true"] { background: var(--brand-primary); color: var(--text-reverse); }
+/* quatre onglets ou plus sur téléphone : texte plus petit, colonnes à la largeur du libellé */
+@media (max-width: 480px) {
+  .seg:has(> :nth-child(4)) { grid-auto-columns: minmax(max-content, 1fr); gap: 2px; }
+  .seg:has(> :nth-child(4)) > * { font-size: 13px; padding: 0 var(--space-6); white-space: nowrap; }
+}
 .seg > *:hover { color: var(--text); }
 .seg > [aria-current="page"]:hover, .seg > [aria-pressed="true"]:hover { color: var(--text-reverse); }
 
@@ -174,12 +179,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 .var-chip.flat { color: var(--text-neutral); background: var(--bg-surface-minimal); }
 .warn-chip { font: var(--type-chip); color: var(--warning-text); background: var(--warning-bg); padding: var(--space-2) var(--space-8); border-radius: var(--radius-full); white-space: nowrap; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); height: var(--button-height); padding: var(--button-padding); border: 1px solid transparent; border-radius: var(--button-radius); font: var(--type-button); text-decoration: none; cursor: pointer; white-space: nowrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); min-height: var(--button-height); padding: var(--button-padding); border: 1px solid transparent; border-radius: var(--button-radius); font: var(--type-button); text-decoration: none; cursor: pointer; white-space: normal; text-align: center; line-height: 1.25; padding-top: var(--space-8); padding-bottom: var(--space-8); }
 /* Boutons de grille ou libellés longs (surtout en anglais, sur téléphone) : le texte passe à la ligne au lieu de déborder */
 .grid-2 > .btn, .btn.wrap { white-space: normal; height: auto; min-height: var(--button-height); padding-top: var(--space-8); padding-bottom: var(--space-8); text-align: center; line-height: 1.25; }
 .btn svg { flex: none; }
 @media (max-width: 480px) { .grid-2.btns { grid-template-columns: minmax(0, 1fr); } }
 .btn.block { display: flex; width: 100%; }
+.btn { max-width: 100%; }
 .btn-primary { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--text-reverse); }
 .btn-primary:hover { background: var(--brand-primary-hover); border-color: var(--brand-primary-hover); color: var(--text-reverse); }
 .btn-primary:disabled { background: var(--bg-disabled); border-color: var(--bg-disabled); color: var(--text-disabled); cursor: not-allowed; }

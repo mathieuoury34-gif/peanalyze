@@ -89,7 +89,7 @@ export function AnalysisScreen() {
               </label>
             )}
             <p className="t-caption c-moderate">{t('Seuls les ETF de « Mes ETF » dont les cours sont suivis peuvent servir de référence. Pour comparer à un autre indice (MSCI World, S&P 500…), choisissez-le dans le catalogue : il est ajouté à Mes ETF et son historique est chargé au prochain passage du robot des cours.')}</p>
-            <button type="button" className="btn btn-secondary" style={{ alignSelf: 'flex-start' }} onClick={() => setPickRef(true)}><Icon name="search" size={20} />{t('Choisir un autre ETF de référence')}</button>
+            <button type="button" className="btn btn-secondary wrap" style={{ alignSelf: 'flex-start', maxWidth: '100%' }} onClick={() => setPickRef(true)}><Icon name="search" size={20} />{t('Choisir un autre ETF de référence')}</button>
             {bench ? (
               <>
                 <p className="t-strong" data-testid="bench-verdict">

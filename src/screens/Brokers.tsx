@@ -150,7 +150,7 @@ function FeeAuditCard() {
               w: fit.within, n: fit.n, x: fit.withinNow,
             })}
           </p>
-          <button type="button" className="btn btn-secondary" style={{ alignSelf: 'flex-start' }} onClick={apply}>
+          <button type="button" className="btn btn-secondary wrap" style={{ alignSelf: 'flex-start', maxWidth: '100%' }} onClick={apply}>
             {b.id === CUSTOM_BROKER ? t('Ajuster ma grille sur mes frais réels') : t('Utiliser cette grille à la place de {b}', { b: brokerName(b) })}
           </button>
           <span className="t-legal c-moderate">{t('La grille est recalculée sur les ordres qui ont payé des frais. Rien n’est modifié sans votre clic ; vos ordres déjà enregistrés gardent leurs frais.')}</span>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>PEAnalyze</title>
   <meta name="description" content="Suivi personnel de PEA en ETF : portefeuille, historique, marchés et simulateur.">
-  <meta name="theme-color" content="#FFFFFF">
+  <meta name="theme-color" content="#0F1519">
   <meta name="color-scheme" content="light dark">
   <script>window.__t0=Date.now();try{var t=localStorage.getItem('peanalyze:theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;}catch(e){}</script>
   <meta name="mobile-web-app-capable" content="yes">
@@ -22,11 +22,10 @@
     html{background:#FFFFFF}
     html[data-theme="dark"]{background:#0F1519}
     body{margin:0}
-    .splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#FFFFFF;transition:opacity .35s ease}
-    html[data-theme="dark"] .splash{background:#0F1519}
+    /* toujours sombre, comme le fond du splash Android (manifest) : aucun éclair blanc au lancement, quel que soit le thème */
+    .splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#0F1519;transition:opacity .35s ease}
     .splash.out{opacity:0;pointer-events:none}
-    .splash .mark{width:88px;height:88px;border-radius:24px;background:#007461;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,116,97,.28);animation:splash-pulse 1.5s ease-in-out infinite}
-    html[data-theme="dark"] .splash .mark{background:#00806A}
+    .splash .mark{width:88px;height:88px;border-radius:24px;background:#00806A;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,128,106,.28);animation:splash-pulse 1.5s ease-in-out infinite}
     .splash path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:splash-draw 1.5s ease-in-out infinite}
     @keyframes splash-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
     @keyframes splash-draw{0%{stroke-dashoffset:40}60%,100%{stroke-dashoffset:0}}

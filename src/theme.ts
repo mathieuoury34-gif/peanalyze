@@ -28,9 +28,17 @@ function apply(): void {
   if (typeof document === 'undefined') return;
   const t = resolvedTheme();
   document.documentElement.dataset.theme = t;
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--bg-page').trim() || (t === 'dark' ? '#0F1519' : '#FFFFFF'));
+  refreshThemeColor();
   listeners.forEach((l) => l());
+}
+
+/** Couleur de la barre d'état : sombre tant que l'écran de lancement (toujours sombre) est affiché, puis celle du thème. */
+export function refreshThemeColor(): void {
+  if (typeof document === 'undefined') return;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) return;
+  const splashing = !!document.getElementById('splash') && !document.getElementById('splash')!.classList.contains('out');
+  meta.setAttribute('content', splashing ? '#0F1519' : getComputedStyle(document.documentElement).getPropertyValue('--bg-page').trim() || (resolvedTheme() === 'dark' ? '#0F1519' : '#FFFFFF'));
 }
 
 export function setThemePref(p: ThemePref): void {

@@ -1,1 +1,45 @@
-{"updatedAt":"","items":{}}
+{
+  "updatedAt": "2026-11-01",
+  "items": {
+    "boursobank": {
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "checkedAt": "",
+      "triedAt": "2026-11-01"
+    },
+    "traderepublic": {
+      "error": "ValueError: page sans tarifs lisibles (0 chiffres)",
+      "checkedAt": "",
+      "triedAt": "2026-11-01"
+    },
+    "fortuneo": {
+      "hash": "10f0a296afca326a",
+      "count": 12,
+      "checkedAt": "2026-11-01"
+    },
+    "boursedirect": {
+      "error": "URLError: <urlopen error timed out>",
+      "checkedAt": "",
+      "triedAt": "2026-11-01"
+    },
+    "xtb": {
+      "hash": "d8f8aecabd519ee9",
+      "count": 13,
+      "checkedAt": "2026-11-01"
+    },
+    "ca-initial": {
+      "hash": "baaa561b47a2e34f",
+      "count": 3,
+      "checkedAt": "2026-11-01"
+    },
+    "ca-integral": {
+      "hash": "baaa561b47a2e34f",
+      "count": 3,
+      "checkedAt": "2026-11-01"
+    },
+    "saxo": {
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "checkedAt": "",
+      "triedAt": "2026-11-01"
+    }
+  }
+}

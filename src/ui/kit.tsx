@@ -1,11 +1,12 @@
 // Composants partagés (planche Système)
-import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { Icon, Logo } from './icons';
 import { back, closeSheet, navigate, tabOf, useRoute, type Tab } from './router';
 import { useData } from '../data/store';
 import { refreshPrices, usePriceStatus } from '../data/prices';
 import { valuationDate } from '../domain/calc';
-import { dateFr, dateLong, dateShort, dateTimeFr, arrow, pctSigned, MONTHS_TITLE } from '../domain/format';
+import { dateFr, dateLong, dateShort, dateTimeFr, arrow, parseDateFr, pctSigned, todayIso, MONTHS_TITLE } from '../domain/format';
 import { t, t as tr } from '../i18n';
 
 // ------------------------------------------------------------------ mesure
@@ -272,8 +273,8 @@ export function Empty({ icon = 'inbox', title, text, action }: { icon?: string; 
   );
 }
 
-/** Calendrier (DatePicker) : mois navigable, en-tête vert. */
-export function DatePicker({ value, onChange, label = t('Date') }: { value: string; onChange: (iso: string) => void; label?: string }) {
+/** Calendrier (DatePicker) : mois navigable, en-tête vert. Les jours hors de min/max sont grisés. */
+export function DatePicker({ value, onChange, label = t('Date'), min, max }: { value: string; onChange: (iso: string) => void; label?: string; min?: string; max?: string }) {
   const [view, setView] = useState(value.slice(0, 7));
   const y = +view.slice(0, 4), m = +view.slice(5, 7);
   const first = new Date(Date.UTC(y, m - 1, 1));
@@ -302,12 +303,98 @@ export function DatePicker({ value, onChange, label = t('Date') }: { value: stri
           {Array.from({ length: offset }, (_, i) => <button key={'b' + i} type="button" disabled tabIndex={-1} />)}
           {Array.from({ length: days }, (_, i) => {
             const iso = view + '-' + String(i + 1).padStart(2, '0');
+            const off = (!!min && iso < min) || (!!max && iso > max); // hors période : grisé et sans effet
             return (
-              <button key={iso} type="button" aria-pressed={iso === value} className={iso === today ? 'today' : undefined} onClick={() => onChange(iso)}>{i + 1}</button>
+              <button key={iso} type="button" aria-pressed={iso === value} aria-disabled={off || undefined} className={(iso === today ? 'today' : '') + (off ? ' off' : '') || undefined} onClick={() => { if (!off) onChange(iso); }}>{i + 1}</button>
             );
           })}
         </div>
       </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------ champ date : chiffres + calendrier en surimpression
+/** Met en forme la saisie en « jj/mm/aaaa » (les barres s'ajoutent toutes seules ; elles ne reviennent pas quand on efface). */
+export function formatDateInput(raw: string, prev = ''): string {
+  const d = raw.replace(/\D/g, '').slice(0, 8);
+  const add = raw.length >= prev.length;
+  let o = d.slice(0, 2);
+  if (d.length > 2) o += '/' + d.slice(2, 4); else if (add && d.length === 2) o += '/';
+  if (d.length > 4) o += '/' + d.slice(4); else if (add && d.length === 4) o += '/';
+  return o;
+}
+
+/** Le calendrier s'ouvre PAR-DESSUS l'écran (fenêtre centrée sur un voile), jamais inséré dans la page. */
+function CalendarOverlay({ value, label, min, max, onPick, onClose }: { value: string; label: string; min?: string; max?: string; onPick: (iso: string) => void; onClose: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const prev = document.activeElement as HTMLElement | null;
+    ref.current?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.stopPropagation(); onClose(); } };
+    window.addEventListener('keydown', onKey, true); // avant la feuille éventuelle : Échap ne ferme que le calendrier
+    return () => { window.removeEventListener('keydown', onKey, true); prev?.focus?.(); };
+  }, [onClose]);
+  return createPortal(
+    <div className="cal-layer">
+      <div className="cal-backdrop" onClick={onClose} aria-hidden="true" />
+      <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={label} className="cal-pop" data-component="DatePicker.overlay">
+        <DatePicker value={value} label={label} min={min} max={max} onChange={onPick} />
+        <button type="button" className="btn btn-secondary block" onClick={onClose}>{t('Fermer')}</button>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+/**
+ * Champ date : saisie en chiffres (jj/mm/aaaa) et, si `calendar`, bouton qui ouvre un calendrier en surimpression.
+ * onChange reçoit la date ISO dès qu'elle est complète et valide (ou '' si le champ est vidé) ;
+ * onValidity signale si le champ contient une date complète et valide (à utiliser pour activer « Enregistrer »).
+ */
+export function DateField({ value, onChange, onValidity, label, calendarLabel, calendar = true, min, max, hint }: {
+  value: string; onChange: (iso: string) => void; onValidity?: (ok: boolean) => void; label: string; calendarLabel?: string;
+  calendar?: boolean; min?: string; max?: string; hint?: ReactNode;
+}) {
+  const uid = useId();
+  const [txt, setTxt] = useState(dateFr(value));
+  const [problem, setProblem] = useState('');
+  const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
+  useEffect(() => { setTxt(dateFr(value)); setProblem(''); }, [value]);
+  const range = () => t('Date hors de la période possible : du {a} au {b}.', { a: min ? dateFr(min) : '…', b: max ? dateFr(max) : '…' });
+  const check = (s: string, final: boolean): { iso: string; problem: string } => {
+    if (!s) return { iso: '', problem: '' };
+    if (s.length < 10) return { iso: '', problem: final ? t('Date invalide (jj/mm/aaaa).') : '' };
+    const iso = parseDateFr(s);
+    if (!iso) return { iso: '', problem: t('Date invalide (jj/mm/aaaa).') };
+    if ((min && iso < min) || (max && iso > max)) return { iso: '', problem: range() };
+    return { iso, problem: '' };
+  };
+  const apply = (s: string, final = false) => {
+    const r = check(s, final);
+    setProblem(r.problem);
+    onValidity?.(!!r.iso);
+    if (r.iso || !s) onChange(r.iso);
+  };
+  return (
+    <div className="field" data-component="DateField">
+      <span id={uid} className="lbl">{label}</span>
+      <span className="input-wrap">
+        <input className={'input' + (problem ? ' invalid' : '')} type="text" inputMode="numeric" autoComplete="off" placeholder={t('jj/mm/aaaa')} value={txt} aria-labelledby={uid}
+          aria-invalid={problem ? true : undefined} style={calendar ? { paddingRight: 52 } : undefined} data-component="DatePicker.field"
+          onChange={(e) => { const s = formatDateInput(e.target.value, txt); setTxt(s); apply(s); }} onBlur={() => apply(txt, true)} />
+        {calendar && (
+          <button type="button" className="icon-btn cal-btn" aria-label={t('Ouvrir le calendrier')} aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>
+            <Icon name="calendar" size={20} />
+          </button>
+        )}
+      </span>
+      {problem ? <span className="err">{problem}</span> : hint ? <span className="hint">{hint}</span> : null}
+      {open && (
+        <CalendarOverlay value={parseDateFr(txt) || value || todayIso()} label={calendarLabel || label} min={min} max={max} onClose={close}
+          onPick={(iso) => { setOpen(false); setTxt(dateFr(iso)); setProblem(''); onValidity?.(true); onChange(iso); }} />
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 // Onglet Marchés : T1-01 Mes ETF, T1-02 Détail, T1-03 Catalogue, T1-04 Comparateur, gestion de la liste
 import { Fragment, useMemo, useState } from 'react';
 import { etfHexes, PALETTE } from '../etfColors';
-import { AppHeader, EtfDot, PriceErrorBanner, Sheet, SubHeader, SubNav, VarChip, showToast } from '../ui/kit';
+import { AppHeader, DateField, EtfDot, PriceErrorBanner, Sheet, SubHeader, SubNav, VarChip, showToast } from '../ui/kit';
 import { Donut, HBarList, PriceChart, Sparkline } from '../ui/charts';
 import { CheckFilled, Icon } from '../ui/icons';
 import { closeSheet, navigate, openSheet, useRoute } from '../ui/router';
@@ -140,10 +140,7 @@ export function EtfDetailScreen({ id }: { id: string }) {
             ))}
           </div>
           {period === 'Perso' && (
-            <label className="field">
-              <span className="lbl t-caption">{t('Début de la période')}</span>
-              <input className="input" type="date" value={from} min={h[0]?.[0]} max={h[h.length - 1]?.[0]} onChange={(ev) => setFrom(ev.target.value)} />
-            </label>
+            <DateField value={from} onChange={(v) => v && setFrom(v)} label={t('Début de la période')} min={h[0]?.[0]} max={h[h.length - 1]?.[0]} />
           )}
           <PriceChart history={h} start={s} buys={buys} pru={p && p.quantity > 0 ? p.pru : undefined} color={color(e.id)} emptyText={emptyText}
             label={t('Cours de l’ETF {i} du {a} au {b}, de {x} à {y}', { i: e.index, a: h[s] ? dateFr(h[s][0]) : '', b: h.length ? dateFr(h[h.length - 1][0]) : '', x: eur(first), y: eur(e.lastPrice) })} />

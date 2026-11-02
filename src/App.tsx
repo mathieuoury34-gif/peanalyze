@@ -3,6 +3,7 @@ import { useEtfColors } from './etfColors';
 import { hideSplash } from './splash';
 import { HOME, navigate, useRoute } from './ui/router';
 import { TabBar, ToastHost } from './ui/kit';
+import { ErrorBoundary } from './ui/ErrorBoundary';
 import { PortfolioScreen, RepartitionsScreen } from './screens/Portfolio';
 import { AssistantScreen, TargetSheet } from './screens/Assistant';
 import { CatalogueScreen, CompareScreen, EtfDetailScreen, ManageEtfsScreen, MyEtfsScreen } from './screens/Markets';
@@ -72,11 +73,13 @@ export function App() {
   return (
     <>
       <div className="app-main">
-        <Screen />
+        <ErrorBoundary resetKey={route.path}><Screen /></ErrorBoundary>
       </div>
       {!fullScreen && <TabBar />}
-      {sheet === 'ajouter' && <AddSheet />}
-      {sheet === 'cible' && <TargetSheet />}
+      <ErrorBoundary quiet resetKey={route.key}>
+        {sheet === 'ajouter' && <AddSheet />}
+        {sheet === 'cible' && <TargetSheet />}
+      </ErrorBoundary>
       <ToastHost />
     </>
   );

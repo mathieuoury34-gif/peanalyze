@@ -1,6 +1,6 @@
 // Simulateur › Objectifs : un capital à atteindre à une date, jauge de progression et versement mensuel nécessaire
 import { useState } from 'react';
-import { AppHeader, DatePicker, Empty, PriceErrorBanner, Sheet, SubNav } from '../ui/kit';
+import { AppHeader, DateField, Empty, PriceErrorBanner, Sheet, SubNav } from '../ui/kit';
 import { Donut } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { navigate } from '../ui/router';
@@ -116,7 +116,8 @@ function GoalSheet({ goal, onClose }: { goal: Goal | null; onClose: () => void }
   const [name, setName] = useState(goal?.name ?? '');
   const [target, setTarget] = useState(goal?.target ?? 0);
   const [date, setDate] = useState(goal?.date ?? addMonths(new Date().toISOString().slice(0, 10), 60));
-  const valid = name.trim().length > 0 && target > 0 && /^\d{4}-\d{2}-\d{2}$/.test(date);
+  const [dateOk, setDateOk] = useState(true);
+  const valid = name.trim().length > 0 && target > 0 && dateOk && /^\d{4}-\d{2}-\d{2}$/.test(date);
   const save = () => {
     const g: Goal = { id: goal?.id ?? newId('goal'), name: name.trim(), target: Math.round(target * 100) / 100, date, createdAt: goal?.createdAt ?? new Date().toISOString() };
     update((d) => { d.goals = goal ? (d.goals ?? []).map((x) => (x.id === goal.id ? g : x)) : [...(d.goals ?? []), g]; });
@@ -133,7 +134,7 @@ function GoalSheet({ goal, onClose }: { goal: Goal | null; onClose: () => void }
           <input className="input" type="text" value={name} placeholder={t('Apport pour la maison')} onChange={(e) => setName(e.target.value)} />
         </label>
         <MoneyField label={t('Capital à atteindre')} value={target} onChange={setTarget} />
-        <DatePicker value={date} onChange={setDate} label={t('Échéance')} />
+        <DateField value={date} onChange={setDate} onValidity={setDateOk} label={t('Échéance')} />
         {goal && <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start', color: 'var(--critical-text)' }} onClick={remove}><Icon name="trash" size={20} />{t('Supprimer cet objectif')}</button>}
       </div>
     </Sheet>

@@ -143,6 +143,8 @@ export const EN: Record<string, string> = {
   "Nouveau virement": "New transfer",
   "jj/mm/aaaa": "dd/mm/yyyy",
   "Date invalide (jj/mm/aaaa).": "Invalid date (dd/mm/yyyy).",
+  "Date hors de la période possible : du {a} au {b}.": "Date outside the available period: from {a} to {b}.",
+  "Ouvrir le calendrier": "Open the calendar",
   "Montant (€)": "Amount (€)",
   "Le virement s'ajoute au montant total épargné et au solde espèces. Enregistrez ensuite vos achats pour l'investir.": "The transfer is added to the total amount saved and to the cash balance. Then record your purchases to invest it.",
   "Total épargné après ce virement": "Total saved after this transfer",
@@ -941,4 +943,8 @@ export const EN: Record<string, string> = {
   "Ce courtier n’accepte pas le transfert d’un PEA existant : y aller supposerait de clôturer votre PEA et de perdre son ancienneté fiscale.": "This broker does not accept the transfer of an existing PEA: going there would mean closing your PEA and losing its tax seniority.",
   "Disponibilité relevée le {d} : {s}. Votre réponse l’emporte.": "Availability noted on {d}: {s}. Your answer takes precedence.",
   "Relevé : disponible": "Noted: available",
+  "Un problème est survenu": "Something went wrong",
+  "Cet écran n’a pas pu s’afficher. Vos données ne sont pas perdues : réessayez, ou rechargez l’application.": "This screen could not be displayed. Your data is safe: try again, or reload the app.",
+  "Recharger l’application": "Reload the app",
+  "Un problème est survenu : l’action a été annulée.": "Something went wrong: the action was cancelled.",
 };

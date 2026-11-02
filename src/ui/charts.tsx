@@ -12,6 +12,12 @@ function hoverFromEvent(ev: React.PointerEvent<HTMLDivElement>, n: number): numb
   return Math.round(ratio * (n - 1));
 }
 
+/** Index du curseur borné au nombre de points affichés : après un changement d'échelle ou d'horizon, l'ancien index peut être hors limites. */
+export function hoverIndex(hover: number | null, n: number): number {
+  if (n <= 0) return 0;
+  return hover === null || !isFinite(hover) ? n - 1 : Math.min(Math.max(Math.trunc(hover), 0), n - 1);
+}
+
 function kEur(v: number): string {
   if (lang === 'en') return '€' + (v >= 1000 ? (v / 1000).toLocaleString('en-GB', { maximumFractionDigits: 1 }) + 'k' : String(Math.round(v)));
   return (v >= 1000 ? (v / 1000).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + NBSP + 'k' : String(Math.round(v))) + NBSP + '€';
@@ -149,7 +155,7 @@ export function AreaComparisonChart({ points }: { points: { month: string; depos
   const xTicks = picks.map((i, k) => (
     <span key={k} className="tick" style={{ top: 166, ...(k === 0 ? { left: 0 } : k === picks.length - 1 ? { right: AXIS } : { left: X(i) - 30, width: 60, textAlign: 'center' as const }) }}>{monthShort(points[i].month)}</span>
   ));
-  const h = hover === null ? n - 1 : hover;
+  const h = hoverIndex(hover, n); // le curseur mémorisé peut dépasser le nombre de points après un changement d'échelle
   const hx = X(h);
   const tipLeft = Math.min(Math.max(hx - 64, 0), W - 128);
   return (
@@ -200,7 +206,7 @@ export function CompareLinesChart({ points, labelA, labelB }: { points: { date: 
   const xTicks = picks.map((i, k) => (
     <span key={k} className="tick" style={{ top: 166, ...(k === 0 ? { left: 0 } : k === picks.length - 1 ? { right: AXIS } : { left: X(i) - 30, width: 60, textAlign: 'center' as const }) }}>{monthShort(points[i].date.slice(0, 7))}</span>
   ));
-  const h = hover === null ? n - 1 : hover;
+  const h = hoverIndex(hover, n); // le curseur mémorisé peut dépasser le nombre de points après un changement d'échelle
   const hx = X(h);
   const tipW = Math.min(190, W); // les légendes peuvent être longues : largeur bornée, texte à la ligne
   const tipLeft = Math.min(Math.max(hx - tipW / 2, 0), W - tipW);
@@ -294,7 +300,7 @@ export function StackedAreaChart({ years, real, label }: { years: { year: number
   // graduations : début, milieu (seulement s'il est distinct des extrémités) et fin ; clés uniques (évite des étiquettes fantômes)
   const half = Math.round(horizon / 2);
   const xTicks = ([[0, { left: 0 }], ...(half > 0 && half < horizon ? [[half, { left: X(half) - 30, width: 60, textAlign: 'center' }]] : []), [horizon, { right: AXIS }]] as [number, React.CSSProperties][]);
-  const h = hover === null ? n - 1 : hover;
+  const h = hoverIndex(hover, n); // le curseur mémorisé peut dépasser le nombre de points après un changement d'échelle
   const hp = years[h];
   const hx = X(hp.year);
   const tipLeft = Math.min(Math.max(hx - 70, 0), W - 140);

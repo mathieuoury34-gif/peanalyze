@@ -1,10 +1,10 @@
 // T0-01 Paramètres + T0-03 Connexion
 import { useRef, useState } from 'react';
-import { SubHeader, showToast } from '../ui/kit';
+import { DateField, SubHeader, showToast } from '../ui/kit';
 import { Icon, Logo } from '../ui/icons';
 import { navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
-import { dateFr, dateTimeFr, eur, num, parseDateFr, parseNum, toInput, NBSP } from '../domain/format';
+import { dateFr, dateTimeFr, eur, num, parseNum, toInput, NBSP } from '../domain/format';
 import { getData, replaceData, setPrefs, update } from '../data/store';
 import { refreshPrices, testSource } from '../data/prices';
 import { signIn, signOut, syncNow, useSync } from '../data/sync';
@@ -56,7 +56,6 @@ export function SettingsScreen() {
   const [csv, setCsv] = useState(s.csvUrl);
   const [testing, setTesting] = useState(false);
   const [testMsg, setTestMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  const [openDate, setOpenDate] = useState(s.peaOpeningDate ? dateFr(s.peaOpeningDate) : '');
   const [notif, setNotif] = useState<NotificationPermission | 'unsupported'>(notificationPermission());
   const [busy, setBusy] = useState('');
   const [reset, setReset] = useState(false);
@@ -192,12 +191,8 @@ export function SettingsScreen() {
 
         <Section id="t001-pea" title={t('PEA')}>
           <div className="card g16" style={{ borderRadius: 'var(--radius-12)' }}>
-            <label className="field">
-              <span className="lbl">{t("Date d'ouverture du PEA")}</span>
-              <input className={'input' + (openDate && !parseDateFr(openDate) ? ' invalid' : '')} type="text" inputMode="numeric" placeholder={t('jj/mm/aaaa')} value={openDate}
-                onChange={(e) => { setOpenDate(e.target.value); const iso = parseDateFr(e.target.value); if (iso || !e.target.value) update((d) => { d.settings.peaOpeningDate = iso; }); }} data-component="DatePicker.field" />
-              <span className="hint">{firstDeposit ? t('Premier versement enregistré le {d}.', { d: dateFr(firstDeposit) }) : ''}{fiveYears ? ' ' + t('Fiscalité allégée à partir du {d} (5 ans).', { d: dateFr(fiveYears) }) : ''}</span>
-            </label>
+            <DateField value={s.peaOpeningDate || ''} onChange={(iso) => update((d) => { d.settings.peaOpeningDate = iso; })} label={t("Date d'ouverture du PEA")} calendar={false}
+              hint={<>{firstDeposit ? t('Premier versement enregistré le {d}.', { d: dateFr(firstDeposit) }) : ''}{fiveYears ? ' ' + t('Fiscalité allégée à partir du {d} (5 ans).', { d: dateFr(fiveYears) }) : ''}</>} />
             <div className="stack" style={{ gap: 'var(--space-6)' }}>
               <span className="between"><span className="t-label">{t('Plafond des versements')}</span><span className="t-caption c-neutral">{eur(summary.totalDeposited, 0)} / {eur(PEA_CEILING, 0)}</span></span>
               <span className="hbar"><span style={{ width: Math.min(100, (summary.totalDeposited / PEA_CEILING) * 100) + '%' }} /></span>

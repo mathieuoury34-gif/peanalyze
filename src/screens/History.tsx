@@ -1,13 +1,13 @@
 // Onglet Historique : T2-01 Vue d'ensemble, T2-02 Journal, T2-03 Ajouter, T2-04 Achat, T2-05 Virement
 import { useMemo, useRef, useState } from 'react';
-import { AppHeader, DatePicker, Empty, EtfDot, Fab, Hero, PriceErrorBanner, Sheet, SubHeader, SubNav, ChipGroup, showToast } from '../ui/kit';
+import { AppHeader, DateField, Empty, EtfDot, Fab, Hero, PriceErrorBanner, Sheet, SubHeader, SubNav, ChipGroup, showToast } from '../ui/kit';
 import { AreaComparisonChart } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { back, navigate, openSheet, useRoute } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
 import { computePositions, holdingAt, ledger, monthlySeries } from '../domain/calc';
 import { feeFnOf } from '../domain/brokers';
-import { dateFr, eur, eurSigned, monthLong, num, parseDateFr, parseNum, pct, pctSigned, toInput, todayIso, NBSP } from '../domain/format';
+import { dateFr, eur, eurSigned, monthLong, num, parseNum, pct, pctSigned, toInput, todayIso, NBSP } from '../domain/format';
 import { getData, newId, replaceData, update } from '../data/store';
 import type { Deposit, Transaction } from '../domain/types';
 import { Segmented } from '../ui/kit';
@@ -309,7 +309,7 @@ export function PurchaseScreen() {
   const [etfId, setEtfId] = useState(initialEtf);
   const [etfOpen, setEtfOpen] = useState(false);
   const [date, setDate] = useState(editing?.date || todayIso());
-  const [calOpen, setCalOpen] = useState(false);
+  const [dateOk, setDateOk] = useState(true);
   const [price, setPrice] = useState(editing ? toInput(editing.unitPrice, editing.unitPrice % 0.01 > 1e-9 ? 4 : 2) : toInput(etf(initialEtf)?.lastPrice ?? 0));
   const [qty, setQty] = useState(editing ? Math.abs(editing.quantity) : 1);
   const [gross, setGross] = useState(editing ? toInput(Math.abs(editing.grossAmount)) : '');
@@ -328,7 +328,7 @@ export function PurchaseScreen() {
   const held = cur ? holdingAt(data.transactions, etfId, date, editing?.id) : { quantity: 0, costBasis: 0, realized: 0 };
   const tooMany = sell && qty > held.quantity;
   const gainEst = sell && isFinite(g) && held.quantity > 0 ? Math.round((g + r - (held.costBasis / held.quantity) * Math.min(qty, held.quantity)) * 100) / 100 : 0;
-  const valid = !!cur && isFinite(p) && p > 0 && qty > 0 && isFinite(g) && g > 0 && !err && r >= 0 && !tooMany;
+  const valid = !!date && dateOk && !!cur && isFinite(p) && p > 0 && qty > 0 && isFinite(g) && g > 0 && !err && r >= 0 && !tooMany;
   const missing = !cur ? (sell ? t('Aucun ETF détenu à vendre.') : t('Choisissez un ETF (ajoutez-le d’abord à « Mes ETF » depuis le catalogue).'))
     : tooMany ? t('Vous ne détenez que {n} parts à cette date.', { n: held.quantity })
     : !(isFinite(p) && p > 0) ? t('Indiquez le cours unitaire.')
@@ -376,14 +376,7 @@ export function PurchaseScreen() {
               </ul>
             )}
           </div>
-          <div className="field">
-            <span id="t204-date" className="lbl">{t('Date')}</span>
-            <button type="button" className="select-btn" style={{ gridTemplateColumns: '1fr 20px' }} aria-labelledby="t204-date" aria-expanded={calOpen} onClick={() => setCalOpen(!calOpen)} data-component="DatePicker.field">
-              <span>{dateFr(date)}</span>
-              <Icon name="calendar" size={20} style={{ color: 'var(--primary-fg)' }} />
-            </button>
-            {calOpen && <DatePicker value={date} label={sell ? t('Date de la vente') : t("Date de l'achat")} onChange={(d) => { setDate(d); setCalOpen(false); }} />}
-          </div>
+          <DateField value={date} onChange={setDate} onValidity={setDateOk} label={t('Date')} calendarLabel={sell ? t('Date de la vente') : t("Date de l'achat")} />
           <div className="grid-2" style={{ gap: 'var(--space-12)' }}>
             <label className="field">
               <span className="lbl">{t('Cours unitaire (€)')}</span>
@@ -445,12 +438,12 @@ export function DepositScreen() {
   const { data, summary } = useCalc();
   const editId = route.query.get('edit');
   const editing = editId ? data.deposits.find((d) => d.id === editId) : undefined;
-  const [date, setDate] = useState(dateFr(editing?.date || todayIso()));
+  const [iso, setIso] = useState(editing?.date || todayIso());
+  const [dateOk, setDateOk] = useState(true);
   const [amount, setAmount] = useState(editing ? toInput(Math.abs(editing.amount)) : '');
   const [out, setOut] = useState(editing ? editing.amount < 0 : route.query.get('type') === 'retrait');
-  const iso = parseDateFr(date);
   const v = parseNum(amount);
-  const valid = !!iso && isFinite(v) && v > 0;
+  const valid = !!iso && dateOk && isFinite(v) && v > 0;
   const base = summary.totalDeposited - (editing?.amount || 0);
   const signed = out ? -v : v;
 
@@ -473,14 +466,7 @@ export function DepositScreen() {
       <form onSubmit={save} className="stack grow">
         <div className="stack form-narrow grow" style={{ gap: 'var(--space-20)', padding: 'var(--space-20) var(--screen-margin)' }}>
           {!editing && <Segmented label={t('Type d’opération')} value={out ? 'out' : 'in'} onChange={(m) => setOut(m === 'out')} options={[['in', t('Versement')], ['out', t('Retrait')]]} />}
-          <label className="field">
-            <span className="lbl">{t('Date')}</span>
-            <span className="input-wrap">
-              <input className={'input' + (date && !iso ? ' invalid' : '')} type="text" inputMode="numeric" placeholder={t('jj/mm/aaaa')} value={date} onChange={(e) => setDate(e.target.value)} style={{ paddingRight: 48 }} data-component="DatePicker.field" />
-              <span className="icon-right"><Icon name="calendar" size={20} /></span>
-            </span>
-            {date && !iso && <span className="err">{t('Date invalide (jj/mm/aaaa).')}</span>}
-          </label>
+          <DateField value={iso} onChange={setIso} onValidity={setDateOk} label={t('Date')} calendar={false} />
           <label className="field">
             <span className="lbl">{t('Montant (€)')}</span>
             <input className="input num large" type="text" inputMode="decimal" value={amount} placeholder={toInput(0)} onChange={(e) => setAmount(e.target.value)} data-component="AmountField" />

@@ -243,6 +243,11 @@ select.input { appearance: auto; }
 .datepicker .months button:hover { background: var(--bg-hover); }
 .datepicker .months button[aria-pressed="true"] { font: var(--type-chip); background: var(--brand-primary); color: var(--text-reverse); }
 .datepicker .months button.off { opacity: .35; cursor: not-allowed; }
+.datepicker { touch-action: pan-y; }
+.datepicker .grid.slide-next { animation: pea-slide-next .18s ease-out; }
+.datepicker .grid.slide-prev { animation: pea-slide-prev .18s ease-out; }
+@keyframes pea-slide-next { from { transform: translateX(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes pea-slide-prev { from { transform: translateX(-28px); opacity: 0; } to { transform: none; opacity: 1; } }
 .datepicker .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-2); text-align: center; font: var(--type-caption); }
 .datepicker .grid > span { color: var(--text-moderate); padding: var(--space-4) 0; }
 .datepicker .grid button { height: 36px; border: 0; border-radius: var(--radius-full); cursor: pointer; font: var(--type-caption); background: transparent; color: var(--text); }
@@ -422,3 +427,11 @@ select.input { appearance: auto; }
   img, svg, a, button { -webkit-user-drag: none; -webkit-touch-callout: none; }
   input, textarea, select, [contenteditable="true"] { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 }
+
+/* champ date : calendrier en surimpression (au-dessus des feuilles, 21, et des messages, 30) */
+.cal-layer { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; padding: var(--space-16); }
+.cal-backdrop { position: absolute; inset: 0; background: var(--bg-overlay); animation: pea-fade .15s ease-out; }
+.cal-pop { position: relative; width: min(100%, 340px); max-height: calc(100dvh - 32px); overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-12); outline: none; animation: pea-fade .15s ease-out; }
+.cal-actions { display: flex; gap: var(--space-8); justify-content: flex-end; }
+.cal-actions .btn-secondary { flex: 1; }
+.cal-actions .btn-tertiary { padding: 0 var(--space-12); background: var(--bg-surface); border-radius: var(--radius-full); }

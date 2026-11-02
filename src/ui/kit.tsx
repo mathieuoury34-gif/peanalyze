@@ -1,5 +1,6 @@
 // Composants partagés (planche Système)
-import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { Icon, Logo } from './icons';
 import { back, closeSheet, navigate, tabOf, useRoute, type Tab } from './router';
 import { useData } from '../data/store';
@@ -272,22 +273,43 @@ export function Empty({ icon = 'inbox', title, text, action }: { icon?: string; 
   );
 }
 
-/** Calendrier (DatePicker) : mois navigable, en-tête vert. Les jours hors de min/max sont grisés. */
+/** Balayage horizontal (doigt ou souris) : appelle onNext (vers la gauche) ou onPrev (vers la droite) ; le clic qui suit un balayage est ignoré. */
+function useSwipe(onNext: () => void, onPrev: () => void) {
+  const start = useRef<{ x: number; y: number; t: number } | null>(null);
+  const swiped = useRef(false);
+  return {
+    onPointerDown: (e: React.PointerEvent) => { start.current = { x: e.clientX, y: e.clientY, t: Date.now() }; swiped.current = false; },
+    onPointerUp: (e: React.PointerEvent) => {
+      const s0 = start.current; start.current = null;
+      if (!s0) return;
+      const dx = e.clientX - s0.x, dy = e.clientY - s0.y;
+      if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx) * 0.7 || Date.now() - s0.t > 800) return;
+      swiped.current = true;
+      if (dx < 0) onNext(); else onPrev();
+    },
+    onPointerCancel: () => { start.current = null; },
+    onClickCapture: (e: React.MouseEvent) => { if (swiped.current) { swiped.current = false; e.stopPropagation(); e.preventDefault(); } },
+  };
+}
+
+/** Calendrier (DatePicker) : mois navigable, glissable à gauche/droite, en-tête vert. Les jours hors de min/max sont grisés. */
 export function DatePicker({ value, selected = value, onChange, label = t('Date'), min, max }: { value: string; selected?: string; onChange: (iso: string) => void; label?: string; min?: string; max?: string }) {
   const [view, setView] = useState(value.slice(0, 7));
   const [months, setMonths] = useState(false); // vue « choisir le mois et l'année »
+  const [dir, setDir] = useState<'next' | 'prev'>('next'); // sens du dernier changement de mois (animation)
   const y = +view.slice(0, 4), m = +view.slice(5, 7);
   const first = new Date(Date.UTC(y, m - 1, 1));
   const offset = (first.getUTCDay() + 6) % 7;
   const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
   const MONTHS = MONTHS_TITLE;
-  const shift = (k: number) => { let mm = m + k, yy = y; if (mm < 1) { mm = 12; yy--; } if (mm > 12) { mm = 1; yy++; } setView(yy + '-' + String(mm).padStart(2, '0')); };
+  const shift = (k: number) => { setDir(k > 0 ? 'next' : 'prev'); let mm = m + k, yy = y; if (mm < 1) { mm = 12; yy--; } if (mm > 12) { mm = 1; yy++; } setView(yy + '-' + String(mm).padStart(2, '0')); };
   const today = new Date().toISOString().slice(0, 10);
   const long = (() => {
     return selected ? dateLong(selected) : t('Choisir une date');
   })();
+  const swipe = useSwipe(() => !months && shift(1), () => !months && shift(-1));
   return (
-    <div className="datepicker" data-component="DatePicker">
+    <div className="datepicker" data-component="DatePicker" {...swipe}>
       <div className="head">
         <span className="overline">{label}</span>
         <span className="t-h2">{long}</span>
@@ -309,7 +331,7 @@ export function DatePicker({ value, selected = value, onChange, label = t('Date'
             })}
           </div>
         ) : (
-        <div className="grid">
+        <div className={'grid slide-' + dir} key={view}>
           {t('L,M,M,J,V,S,D').split(',').map((d, i) => <span key={i}>{d}</span>)}
           {Array.from({ length: offset }, (_, i) => <button key={'b' + i} type="button" disabled tabIndex={-1} />)}
           {Array.from({ length: days }, (_, i) => {
@@ -326,10 +348,35 @@ export function DatePicker({ value, selected = value, onChange, label = t('Date'
   );
 }
 
-// ------------------------------------------------------------------ champ date : bouton → calendrier inséré juste en dessous
+// ------------------------------------------------------------------ champ date : bouton → calendrier en surimpression
+/** Le calendrier s'ouvre PAR-DESSUS l'écran (fenêtre centrée sur un voile) : rien dans la page ne bouge. */
+function CalendarOverlay({ value, label, min, max, onPick, onClear, onClose }: { value: string; label: string; min?: string; max?: string; onPick: (iso: string) => void; onClear?: () => void; onClose: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const prev = document.activeElement as HTMLElement | null;
+    ref.current?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.stopPropagation(); onClose(); } };
+    window.addEventListener('keydown', onKey, true); // avant la feuille éventuelle : Échap ne ferme que le calendrier
+    return () => { window.removeEventListener('keydown', onKey, true); prev?.focus?.(); };
+  }, [onClose]);
+  return createPortal(
+    <div className="cal-layer">
+      <div className="cal-backdrop" onClick={onClose} aria-hidden="true" />
+      <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={label} className="cal-pop" data-component="DatePicker.overlay">
+        <DatePicker value={value || max || min || todayIso()} selected={value} label={label} min={min} max={max} onChange={onPick} />
+        <div className="cal-actions">
+          {onClear && value && <button type="button" className="btn btn-tertiary" onClick={onClear}>{t('Effacer la date')}</button>}
+          <button type="button" className="btn btn-secondary" onClick={onClose}>{t('Fermer')}</button>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 /**
- * Champ date (comme dans Apogée) : un bouton qui affiche la date ; toucher n'importe où sur le champ déplie le calendrier
- * juste en dessous (retoucher le champ le replie). Aucune saisie au clavier : la date se choisit uniquement dans le calendrier.
+ * Champ date : un bouton qui affiche la date ; toucher n'importe où sur le champ ouvre le calendrier par-dessus l'écran.
+ * Aucune saisie au clavier : la date se choisit uniquement dans le calendrier (glisser pour changer de mois).
  * min/max grisent les jours impossibles ; `clearable` ajoute « Effacer la date » (onChange reçoit alors '').
  */
 export function DateField({ value, onChange, label, calendarLabel, min, max, hint, clearable }: {
@@ -337,17 +384,18 @@ export function DateField({ value, onChange, label, calendarLabel, min, max, hin
 }) {
   const uid = useId();
   const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
   return (
     <div className="field" data-component="DateField">
       <span id={uid} className="lbl">{label}</span>
-      <button type="button" className="select-btn" style={{ gridTemplateColumns: '1fr 20px' }} aria-expanded={open} aria-labelledby={uid + ' ' + uid + 'v'}
-        onClick={() => setOpen(!open)} data-component="DatePicker.field">
+      <button type="button" className="select-btn" style={{ gridTemplateColumns: '1fr 20px' }} aria-haspopup="dialog" aria-expanded={open} aria-labelledby={uid + ' ' + uid + 'v'}
+        onClick={() => setOpen(true)} data-component="DatePicker.field">
         <span id={uid + 'v'} className={value ? undefined : 'c-moderate'}>{value ? dateFr(value) : t('Choisir une date')}</span>
         <Icon name="calendar" size={20} style={{ color: 'var(--primary-fg)' }} />
       </button>
-      {open && <DatePicker value={value || max || min || todayIso()} selected={value} label={calendarLabel || label} min={min} max={max} onChange={(iso) => { setOpen(false); onChange(iso); }} />}
-      {open && clearable && value && <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} onClick={() => { setOpen(false); onChange(''); }}>{t('Effacer la date')}</button>}
       {hint ? <span className="hint">{hint}</span> : null}
+      {open && <CalendarOverlay value={value} label={calendarLabel || label} min={min} max={max} onClose={close}
+        onPick={(iso) => { setOpen(false); onChange(iso); }} onClear={clearable ? () => { setOpen(false); onChange(''); } : undefined} />}
     </div>
   );
 }

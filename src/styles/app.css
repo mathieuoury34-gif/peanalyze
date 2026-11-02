@@ -236,6 +236,13 @@ select.input { appearance: auto; }
 .datepicker .head .overline { color: var(--text-reverse-muted); }
 .datepicker .body { padding: var(--space-8) var(--space-12) var(--space-12); }
 .datepicker .month { display: flex; align-items: center; justify-content: space-between; font: var(--type-amount-s); padding: var(--space-4) 0 var(--space-8); }
+.datepicker .month-title { display: inline-flex; align-items: center; gap: var(--space-4); min-height: var(--touch-min); padding: 0 var(--space-12); border: 0; border-radius: var(--radius-full); background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.datepicker .month-title:hover { background: var(--bg-hover); }
+.datepicker .months { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); padding-bottom: var(--space-4); }
+.datepicker .months button { height: 44px; border: 0; border-radius: var(--radius-12); cursor: pointer; font: var(--type-caption); background: transparent; color: var(--text); }
+.datepicker .months button:hover { background: var(--bg-hover); }
+.datepicker .months button[aria-pressed="true"] { font: var(--type-chip); background: var(--brand-primary); color: var(--text-reverse); }
+.datepicker .months button.off { opacity: .35; cursor: not-allowed; }
 .datepicker .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-2); text-align: center; font: var(--type-caption); }
 .datepicker .grid > span { color: var(--text-moderate); padding: var(--space-4) 0; }
 .datepicker .grid button { height: 36px; border: 0; border-radius: var(--radius-full); cursor: pointer; font: var(--type-caption); background: transparent; color: var(--text); }
@@ -415,9 +422,3 @@ select.input { appearance: auto; }
   img, svg, a, button { -webkit-user-drag: none; -webkit-touch-callout: none; }
   input, textarea, select, [contenteditable="true"] { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
 }
-
-/* champ date : calendrier en surimpression (au-dessus des feuilles, 21, et des messages, 30) */
-.cal-btn { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); }
-.cal-layer { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; padding: var(--space-16); }
-.cal-backdrop { position: absolute; inset: 0; background: var(--bg-overlay); animation: pea-fade .15s ease-out; }
-.cal-pop { position: relative; width: min(100%, 340px); max-height: calc(100dvh - 32px); overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-12); outline: none; animation: pea-fade .15s ease-out; }

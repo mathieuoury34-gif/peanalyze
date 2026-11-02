@@ -1,12 +1,11 @@
 // Composants partagés (planche Système)
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
-import { createPortal } from 'react-dom';
+import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { Icon, Logo } from './icons';
 import { back, closeSheet, navigate, tabOf, useRoute, type Tab } from './router';
 import { useData } from '../data/store';
 import { refreshPrices, usePriceStatus } from '../data/prices';
 import { valuationDate } from '../domain/calc';
-import { dateFr, dateLong, dateShort, dateTimeFr, arrow, parseDateFr, pctSigned, todayIso, MONTHS_TITLE } from '../domain/format';
+import { dateFr, dateLong, dateShort, dateTimeFr, arrow, pctSigned, todayIso, MONTHS_TITLE } from '../domain/format';
 import { t, t as tr } from '../i18n';
 
 // ------------------------------------------------------------------ mesure
@@ -274,8 +273,9 @@ export function Empty({ icon = 'inbox', title, text, action }: { icon?: string; 
 }
 
 /** Calendrier (DatePicker) : mois navigable, en-tête vert. Les jours hors de min/max sont grisés. */
-export function DatePicker({ value, onChange, label = t('Date'), min, max }: { value: string; onChange: (iso: string) => void; label?: string; min?: string; max?: string }) {
+export function DatePicker({ value, selected = value, onChange, label = t('Date'), min, max }: { value: string; selected?: string; onChange: (iso: string) => void; label?: string; min?: string; max?: string }) {
   const [view, setView] = useState(value.slice(0, 7));
+  const [months, setMonths] = useState(false); // vue « choisir le mois et l'année »
   const y = +view.slice(0, 4), m = +view.slice(5, 7);
   const first = new Date(Date.UTC(y, m - 1, 1));
   const offset = (first.getUTCDay() + 6) % 7;
@@ -284,7 +284,7 @@ export function DatePicker({ value, onChange, label = t('Date'), min, max }: { v
   const shift = (k: number) => { let mm = m + k, yy = y; if (mm < 1) { mm = 12; yy--; } if (mm > 12) { mm = 1; yy++; } setView(yy + '-' + String(mm).padStart(2, '0')); };
   const today = new Date().toISOString().slice(0, 10);
   const long = (() => {
-    return dateLong(value);
+    return selected ? dateLong(selected) : t('Choisir une date');
   })();
   return (
     <div className="datepicker" data-component="DatePicker">
@@ -294,10 +294,21 @@ export function DatePicker({ value, onChange, label = t('Date'), min, max }: { v
       </div>
       <div className="body">
         <div className="month">
-          <button type="button" className="icon-btn" aria-label={t('Mois précédent')} onClick={() => shift(-1)}><Icon name="back" size={20} /></button>
-          <span>{MONTHS[m - 1]} {y}</span>
-          <button type="button" className="icon-btn" aria-label={t('Mois suivant')} onClick={() => shift(1)}><Icon name="next" size={20} /></button>
+          <button type="button" className="icon-btn" aria-label={months ? t('Année précédente') : t('Mois précédent')} onClick={() => (months ? setView(String(y - 1) + view.slice(4)) : shift(-1))}><Icon name="back" size={20} /></button>
+          <button type="button" className="month-title" aria-expanded={months} aria-label={t('Choisir le mois et l’année')} onClick={() => setMonths(!months)}>
+            {months ? y : MONTHS[m - 1] + ' ' + y}<Icon name="down" size={16} />
+          </button>
+          <button type="button" className="icon-btn" aria-label={months ? t('Année suivante') : t('Mois suivant')} onClick={() => (months ? setView(String(y + 1) + view.slice(4)) : shift(1))}><Icon name="next" size={20} /></button>
         </div>
+        {months ? (
+          <div className="months">
+            {MONTHS.map((mn, i) => {
+              const key = y + '-' + String(i + 1).padStart(2, '0');
+              const off = (!!min && key < min.slice(0, 7)) || (!!max && key > max.slice(0, 7));
+              return <button key={key} type="button" aria-pressed={key === view} aria-disabled={off || undefined} className={off ? 'off' : undefined} onClick={() => { if (!off) { setView(key); setMonths(false); } }}>{mn}</button>;
+            })}
+          </div>
+        ) : (
         <div className="grid">
           {t('L,M,M,J,V,S,D').split(',').map((d, i) => <span key={i}>{d}</span>)}
           {Array.from({ length: offset }, (_, i) => <button key={'b' + i} type="button" disabled tabIndex={-1} />)}
@@ -305,96 +316,38 @@ export function DatePicker({ value, onChange, label = t('Date'), min, max }: { v
             const iso = view + '-' + String(i + 1).padStart(2, '0');
             const off = (!!min && iso < min) || (!!max && iso > max); // hors période : grisé et sans effet
             return (
-              <button key={iso} type="button" aria-pressed={iso === value} aria-disabled={off || undefined} className={(iso === today ? 'today' : '') + (off ? ' off' : '') || undefined} onClick={() => { if (!off) onChange(iso); }}>{i + 1}</button>
+              <button key={iso} type="button" aria-pressed={iso === selected} aria-disabled={off || undefined} className={(iso === today ? 'today' : '') + (off ? ' off' : '') || undefined} onClick={() => { if (!off) onChange(iso); }}>{i + 1}</button>
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );
 }
 
-// ------------------------------------------------------------------ champ date : chiffres + calendrier en surimpression
-/** Met en forme la saisie en « jj/mm/aaaa » (les barres s'ajoutent toutes seules ; elles ne reviennent pas quand on efface). */
-export function formatDateInput(raw: string, prev = ''): string {
-  const d = raw.replace(/\D/g, '').slice(0, 8);
-  const add = raw.length >= prev.length;
-  let o = d.slice(0, 2);
-  if (d.length > 2) o += '/' + d.slice(2, 4); else if (add && d.length === 2) o += '/';
-  if (d.length > 4) o += '/' + d.slice(4); else if (add && d.length === 4) o += '/';
-  return o;
-}
-
-/** Le calendrier s'ouvre PAR-DESSUS l'écran (fenêtre centrée sur un voile), jamais inséré dans la page. */
-function CalendarOverlay({ value, label, min, max, onPick, onClose }: { value: string; label: string; min?: string; max?: string; onPick: (iso: string) => void; onClose: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const prev = document.activeElement as HTMLElement | null;
-    ref.current?.focus();
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.stopPropagation(); onClose(); } };
-    window.addEventListener('keydown', onKey, true); // avant la feuille éventuelle : Échap ne ferme que le calendrier
-    return () => { window.removeEventListener('keydown', onKey, true); prev?.focus?.(); };
-  }, [onClose]);
-  return createPortal(
-    <div className="cal-layer">
-      <div className="cal-backdrop" onClick={onClose} aria-hidden="true" />
-      <div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={label} className="cal-pop" data-component="DatePicker.overlay">
-        <DatePicker value={value} label={label} min={min} max={max} onChange={onPick} />
-        <button type="button" className="btn btn-secondary block" onClick={onClose}>{t('Fermer')}</button>
-      </div>
-    </div>,
-    document.body,
-  );
-}
-
+// ------------------------------------------------------------------ champ date : bouton → calendrier inséré juste en dessous
 /**
- * Champ date : saisie en chiffres (jj/mm/aaaa) et, si `calendar`, bouton qui ouvre un calendrier en surimpression.
- * onChange reçoit la date ISO dès qu'elle est complète et valide (ou '' si le champ est vidé) ;
- * onValidity signale si le champ contient une date complète et valide (à utiliser pour activer « Enregistrer »).
+ * Champ date (comme dans Apogée) : un bouton qui affiche la date ; toucher n'importe où sur le champ déplie le calendrier
+ * juste en dessous (retoucher le champ le replie). Aucune saisie au clavier : la date se choisit uniquement dans le calendrier.
+ * min/max grisent les jours impossibles ; `clearable` ajoute « Effacer la date » (onChange reçoit alors '').
  */
-export function DateField({ value, onChange, onValidity, label, calendarLabel, calendar = true, min, max, hint }: {
-  value: string; onChange: (iso: string) => void; onValidity?: (ok: boolean) => void; label: string; calendarLabel?: string;
-  calendar?: boolean; min?: string; max?: string; hint?: ReactNode;
+export function DateField({ value, onChange, label, calendarLabel, min, max, hint, clearable }: {
+  value: string; onChange: (iso: string) => void; label: string; calendarLabel?: string; min?: string; max?: string; hint?: ReactNode; clearable?: boolean;
 }) {
   const uid = useId();
-  const [txt, setTxt] = useState(dateFr(value));
-  const [problem, setProblem] = useState('');
   const [open, setOpen] = useState(false);
-  const close = useCallback(() => setOpen(false), []);
-  useEffect(() => { setTxt(dateFr(value)); setProblem(''); }, [value]);
-  const range = () => t('Date hors de la période possible : du {a} au {b}.', { a: min ? dateFr(min) : '…', b: max ? dateFr(max) : '…' });
-  const check = (s: string, final: boolean): { iso: string; problem: string } => {
-    if (!s) return { iso: '', problem: '' };
-    if (s.length < 10) return { iso: '', problem: final ? t('Date invalide (jj/mm/aaaa).') : '' };
-    const iso = parseDateFr(s);
-    if (!iso) return { iso: '', problem: t('Date invalide (jj/mm/aaaa).') };
-    if ((min && iso < min) || (max && iso > max)) return { iso: '', problem: range() };
-    return { iso, problem: '' };
-  };
-  const apply = (s: string, final = false) => {
-    const r = check(s, final);
-    setProblem(r.problem);
-    onValidity?.(!!r.iso);
-    if (r.iso || !s) onChange(r.iso);
-  };
   return (
     <div className="field" data-component="DateField">
       <span id={uid} className="lbl">{label}</span>
-      <span className="input-wrap">
-        <input className={'input' + (problem ? ' invalid' : '')} type="text" inputMode="numeric" autoComplete="off" placeholder={t('jj/mm/aaaa')} value={txt} aria-labelledby={uid}
-          aria-invalid={problem ? true : undefined} style={calendar ? { paddingRight: 52 } : undefined} data-component="DatePicker.field"
-          onChange={(e) => { const s = formatDateInput(e.target.value, txt); setTxt(s); apply(s); }} onBlur={() => apply(txt, true)} />
-        {calendar && (
-          <button type="button" className="icon-btn cal-btn" aria-label={t('Ouvrir le calendrier')} aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>
-            <Icon name="calendar" size={20} />
-          </button>
-        )}
-      </span>
-      {problem ? <span className="err">{problem}</span> : hint ? <span className="hint">{hint}</span> : null}
-      {open && (
-        <CalendarOverlay value={parseDateFr(txt) || value || todayIso()} label={calendarLabel || label} min={min} max={max} onClose={close}
-          onPick={(iso) => { setOpen(false); setTxt(dateFr(iso)); setProblem(''); onValidity?.(true); onChange(iso); }} />
-      )}
+      <button type="button" className="select-btn" style={{ gridTemplateColumns: '1fr 20px' }} aria-expanded={open} aria-labelledby={uid + ' ' + uid + 'v'}
+        onClick={() => setOpen(!open)} data-component="DatePicker.field">
+        <span id={uid + 'v'} className={value ? undefined : 'c-moderate'}>{value ? dateFr(value) : t('Choisir une date')}</span>
+        <Icon name="calendar" size={20} style={{ color: 'var(--primary-fg)' }} />
+      </button>
+      {open && <DatePicker value={value || max || min || todayIso()} selected={value} label={calendarLabel || label} min={min} max={max} onChange={(iso) => { setOpen(false); onChange(iso); }} />}
+      {open && clearable && value && <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} onClick={() => { setOpen(false); onChange(''); }}>{t('Effacer la date')}</button>}
+      {hint ? <span className="hint">{hint}</span> : null}
     </div>
   );
 }

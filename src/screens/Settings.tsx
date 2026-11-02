@@ -4,7 +4,7 @@ import { DateField, SubHeader, showToast } from '../ui/kit';
 import { Icon, Logo } from '../ui/icons';
 import { navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
-import { dateFr, dateTimeFr, eur, num, parseNum, toInput, NBSP } from '../domain/format';
+import { dateFr, dateTimeFr, eur, num, parseNum, toInput, todayIso, NBSP } from '../domain/format';
 import { getData, replaceData, setPrefs, update } from '../data/store';
 import { refreshPrices, testSource } from '../data/prices';
 import { signIn, signOut, syncNow, useSync } from '../data/sync';
@@ -191,7 +191,7 @@ export function SettingsScreen() {
 
         <Section id="t001-pea" title={t('PEA')}>
           <div className="card g16" style={{ borderRadius: 'var(--radius-12)' }}>
-            <DateField value={s.peaOpeningDate || ''} onChange={(iso) => update((d) => { d.settings.peaOpeningDate = iso; })} label={t("Date d'ouverture du PEA")} calendar={false}
+            <DateField value={s.peaOpeningDate || ''} onChange={(iso) => update((d) => { d.settings.peaOpeningDate = iso; })} label={t("Date d'ouverture du PEA")} clearable max={todayIso()}
               hint={<>{firstDeposit ? t('Premier versement enregistré le {d}.', { d: dateFr(firstDeposit) }) : ''}{fiveYears ? ' ' + t('Fiscalité allégée à partir du {d} (5 ans).', { d: dateFr(fiveYears) }) : ''}</>} />
             <div className="stack" style={{ gap: 'var(--space-6)' }}>
               <span className="between"><span className="t-label">{t('Plafond des versements')}</span><span className="t-caption c-neutral">{eur(summary.totalDeposited, 0)} / {eur(PEA_CEILING, 0)}</span></span>

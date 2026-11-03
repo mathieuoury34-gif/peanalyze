@@ -1,4 +1,833 @@
 {
-"items": {},
-"updatedAt": "2026-10-17T08:51:59Z"
+"items": {
+"IE000VCBWFL8": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.3182
+},
+{
+"label": "France",
+"weight": 0.2166
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2006
+},
+{
+"label": "Italie",
+"weight": 0.079
+},
+{
+"label": "Espagne",
+"weight": 0.0598
+},
+{
+"label": "Finlande",
+"weight": 0.0531
+},
+{
+"label": "Belgique",
+"weight": 0.0291
+},
+{
+"label": "Irlande",
+"weight": 0.0249
+},
+{
+"label": "Singapour",
+"weight": 0.0078
+},
+{
+"label": "Autriche",
+"weight": 0.0072
+},
+{
+"label": "Portugal",
+"weight": 0.0032
+},
+{
+"label": "Autres",
+"weight": 0.0007
+}
+],
+"date": "2026-10-30",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2622
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1783
+},
+{
+"label": "Industrie",
+"weight": 0.1616
+},
+{
+"label": "Consommation de base",
+"weight": 0.1026
+},
+{
+"label": "Santé",
+"weight": 0.0861
+},
+{
+"label": "Matériaux",
+"weight": 0.0789
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0688
+},
+{
+"label": "Services de communication",
+"weight": 0.0358
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0199
+},
+{
+"label": "Immobilier",
+"weight": 0.0052
+},
+{
+"label": "Autres",
+"weight": 0.0007
+}
+],
+"title": "Xtrackers · positions du fonds"
+},
+"IE00BNC1G699": {
+"countries": [
+{
+"label": "Allemagne",
+"weight": 0.2956
+},
+{
+"label": "France",
+"weight": 0.264
+},
+{
+"label": "Pays-Bas",
+"weight": 0.2251
+},
+{
+"label": "Italie",
+"weight": 0.0422
+},
+{
+"label": "Espagne",
+"weight": 0.0418
+},
+{
+"label": "Belgique",
+"weight": 0.0334
+},
+{
+"label": "Irlande",
+"weight": 0.0306
+},
+{
+"label": "Finlande",
+"weight": 0.0265
+},
+{
+"label": "Chine",
+"weight": 0.0136
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.0067
+},
+{
+"label": "Portugal",
+"weight": 0.0064
+},
+{
+"label": "Suisse",
+"weight": 0.0058
+},
+{
+"label": "Autriche",
+"weight": 0.0038
+},
+{
+"label": "Luxembourg",
+"weight": 0.0032
+},
+{
+"label": "Autres",
+"weight": 0.001
+}
+],
+"date": "2026-10-30",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2716
+},
+{
+"label": "Industrie",
+"weight": 0.2037
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.2011
+},
+{
+"label": "Santé",
+"weight": 0.0762
+},
+{
+"label": "Consommation de base",
+"weight": 0.0729
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0712
+},
+{
+"label": "Matériaux",
+"weight": 0.0575
+},
+{
+"label": "Services de communication",
+"weight": 0.0247
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.016
+},
+{
+"label": "Immobilier",
+"weight": 0.0048
+}
+],
+"title": "Xtrackers · positions du fonds"
+},
+"LU0846194776": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2644
+},
+{
+"label": "Allemagne",
+"weight": 0.2583
+},
+{
+"label": "Pays-Bas",
+"weight": 0.163
+},
+{
+"label": "Espagne",
+"weight": 0.1075
+},
+{
+"label": "Italie",
+"weight": 0.0895
+},
+{
+"label": "Finlande",
+"weight": 0.0329
+},
+{
+"label": "Belgique",
+"weight": 0.0264
+},
+{
+"label": "Irlande",
+"weight": 0.0165
+},
+{
+"label": "Autriche",
+"weight": 0.0106
+},
+{
+"label": "Chine",
+"weight": 0.0064
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
+},
+{
+"label": "Portugal",
+"weight": 0.0056
+},
+{
+"label": "Singapour",
+"weight": 0.0041
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.004
+},
+{
+"label": "Suisse",
+"weight": 0.0027
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.001
+}
+],
+"date": "2026-10-30",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2565
+},
+{
+"label": "Industrie",
+"weight": 0.1899
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1568
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0768
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0657
+},
+{
+"label": "Santé",
+"weight": 0.0653
+},
+{
+"label": "Consommation de base",
+"weight": 0.047
+},
+{
+"label": "Énergie",
+"weight": 0.0447
+},
+{
+"label": "Services de communication",
+"weight": 0.0313
+},
+{
+"label": "Matériaux",
+"weight": 0.0286
+},
+{
+"label": "Immobilier",
+"weight": 0.0053
+},
+{
+"label": "Autres",
+"weight": 0.0319
+}
+],
+"title": "Xtrackers · positions du fonds"
+},
+"LU1127514245": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2644
+},
+{
+"label": "Allemagne",
+"weight": 0.2583
+},
+{
+"label": "Pays-Bas",
+"weight": 0.163
+},
+{
+"label": "Espagne",
+"weight": 0.1075
+},
+{
+"label": "Italie",
+"weight": 0.0895
+},
+{
+"label": "Finlande",
+"weight": 0.0329
+},
+{
+"label": "Belgique",
+"weight": 0.0264
+},
+{
+"label": "Irlande",
+"weight": 0.0165
+},
+{
+"label": "Autriche",
+"weight": 0.0106
+},
+{
+"label": "Chine",
+"weight": 0.0064
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
+},
+{
+"label": "Portugal",
+"weight": 0.0056
+},
+{
+"label": "Singapour",
+"weight": 0.0041
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.004
+},
+{
+"label": "Suisse",
+"weight": 0.0027
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.001
+}
+],
+"date": "2026-10-30",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2565
+},
+{
+"label": "Industrie",
+"weight": 0.1899
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1568
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0768
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0657
+},
+{
+"label": "Santé",
+"weight": 0.0653
+},
+{
+"label": "Consommation de base",
+"weight": 0.047
+},
+{
+"label": "Énergie",
+"weight": 0.0447
+},
+{
+"label": "Services de communication",
+"weight": 0.0313
+},
+{
+"label": "Matériaux",
+"weight": 0.0286
+},
+{
+"label": "Immobilier",
+"weight": 0.0053
+},
+{
+"label": "Autres",
+"weight": 0.0319
+}
+],
+"title": "Xtrackers · positions du fonds"
+},
+"LU1127516455": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2644
+},
+{
+"label": "Allemagne",
+"weight": 0.2583
+},
+{
+"label": "Pays-Bas",
+"weight": 0.163
+},
+{
+"label": "Espagne",
+"weight": 0.1075
+},
+{
+"label": "Italie",
+"weight": 0.0895
+},
+{
+"label": "Finlande",
+"weight": 0.0329
+},
+{
+"label": "Belgique",
+"weight": 0.0264
+},
+{
+"label": "Irlande",
+"weight": 0.0165
+},
+{
+"label": "Autriche",
+"weight": 0.0106
+},
+{
+"label": "Chine",
+"weight": 0.0064
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
+},
+{
+"label": "Portugal",
+"weight": 0.0056
+},
+{
+"label": "Singapour",
+"weight": 0.0041
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.004
+},
+{
+"label": "Suisse",
+"weight": 0.0027
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.001
+}
+],
+"date": "2026-10-30",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2565
+},
+{
+"label": "Industrie",
+"weight": 0.1899
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1568
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0768
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0657
+},
+{
+"label": "Santé",
+"weight": 0.0653
+},
+{
+"label": "Consommation de base",
+"weight": 0.047
+},
+{
+"label": "Énergie",
+"weight": 0.0447
+},
+{
+"label": "Services de communication",
+"weight": 0.0313
+},
+{
+"label": "Matériaux",
+"weight": 0.0286
+},
+{
+"label": "Immobilier",
+"weight": 0.0053
+},
+{
+"label": "Autres",
+"weight": 0.0319
+}
+],
+"title": "Xtrackers · positions du fonds"
+},
+"LU1215828218": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2644
+},
+{
+"label": "Allemagne",
+"weight": 0.2583
+},
+{
+"label": "Pays-Bas",
+"weight": 0.163
+},
+{
+"label": "Espagne",
+"weight": 0.1075
+},
+{
+"label": "Italie",
+"weight": 0.0895
+},
+{
+"label": "Finlande",
+"weight": 0.0329
+},
+{
+"label": "Belgique",
+"weight": 0.0264
+},
+{
+"label": "Irlande",
+"weight": 0.0165
+},
+{
+"label": "Autriche",
+"weight": 0.0106
+},
+{
+"label": "Chine",
+"weight": 0.0064
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
+},
+{
+"label": "Portugal",
+"weight": 0.0056
+},
+{
+"label": "Singapour",
+"weight": 0.0041
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.004
+},
+{
+"label": "Suisse",
+"weight": 0.0027
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.001
+}
+],
+"date": "2026-10-30",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2565
+},
+{
+"label": "Industrie",
+"weight": 0.1899
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1568
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0768
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0657
+},
+{
+"label": "Santé",
+"weight": 0.0653
+},
+{
+"label": "Consommation de base",
+"weight": 0.047
+},
+{
+"label": "Énergie",
+"weight": 0.0447
+},
+{
+"label": "Services de communication",
+"weight": 0.0313
+},
+{
+"label": "Matériaux",
+"weight": 0.0286
+},
+{
+"label": "Immobilier",
+"weight": 0.0053
+},
+{
+"label": "Autres",
+"weight": 0.0319
+}
+],
+"title": "Xtrackers · positions du fonds"
+},
+"LU1920015366": {
+"countries": [
+{
+"label": "France",
+"weight": 0.2644
+},
+{
+"label": "Allemagne",
+"weight": 0.2583
+},
+{
+"label": "Pays-Bas",
+"weight": 0.163
+},
+{
+"label": "Espagne",
+"weight": 0.1075
+},
+{
+"label": "Italie",
+"weight": 0.0895
+},
+{
+"label": "Finlande",
+"weight": 0.0329
+},
+{
+"label": "Belgique",
+"weight": 0.0264
+},
+{
+"label": "Irlande",
+"weight": 0.0165
+},
+{
+"label": "Autriche",
+"weight": 0.0106
+},
+{
+"label": "Chine",
+"weight": 0.0064
+},
+{
+"label": "Luxembourg",
+"weight": 0.0064
+},
+{
+"label": "Portugal",
+"weight": 0.0056
+},
+{
+"label": "Singapour",
+"weight": 0.0041
+},
+{
+"label": "Royaume-Uni",
+"weight": 0.004
+},
+{
+"label": "Suisse",
+"weight": 0.0027
+},
+{
+"label": "Corée du Sud",
+"weight": 0.0008
+},
+{
+"label": "Autres",
+"weight": 0.001
+}
+],
+"date": "2026-10-30",
+"sectors": [
+{
+"label": "Finance",
+"weight": 0.2565
+},
+{
+"label": "Industrie",
+"weight": 0.1899
+},
+{
+"label": "Technologies de l’information",
+"weight": 0.1568
+},
+{
+"label": "Consommation discrétionnaire",
+"weight": 0.0768
+},
+{
+"label": "Services aux collectivités",
+"weight": 0.0657
+},
+{
+"label": "Santé",
+"weight": 0.0653
+},
+{
+"label": "Consommation de base",
+"weight": 0.047
+},
+{
+"label": "Énergie",
+"weight": 0.0447
+},
+{
+"label": "Services de communication",
+"weight": 0.0313
+},
+{
+"label": "Matériaux",
+"weight": 0.0286
+},
+{
+"label": "Immobilier",
+"weight": 0.0053
+},
+{
+"label": "Autres",
+"weight": 0.0319
+}
+],
+"title": "Xtrackers · positions du fonds"
+}
+},
+"updatedAt": "2026-11-03T07:45:23Z"
 }

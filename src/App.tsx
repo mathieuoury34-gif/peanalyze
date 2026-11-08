@@ -13,6 +13,7 @@ import { AnalysisScreen } from './screens/Analysis';
 import { BrokersScreen } from './screens/Brokers';
 import { GoalsScreen } from './screens/Goals';
 import { PlansScreen } from './screens/Plans';
+import { WithdrawalsScreen } from './screens/Withdrawals';
 import { PlanScreen } from './screens/PlanEditor';
 import { LoadingScreen, LoginScreen, SettingsScreen } from './screens/Settings';
 import { HelpScreen } from './screens/Help';
@@ -40,6 +41,7 @@ function Screen() {
       if (b === 'virement') return <DepositScreen key={route.key} />;
       return <OverviewScreen />;
     case 'simulateur':
+      if (b === 'retraits') return <WithdrawalsScreen />;
       if (b === 'plans') return <PlansScreen />;
       if (b === 'objectifs') return <GoalsScreen />;
       if (b === 'plan' && c) return <PlanScreen id={c} />;

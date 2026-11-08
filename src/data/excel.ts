@@ -176,11 +176,34 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
     }
     const sim = next.simulation;
     next.simulation = {
+      ...sim,
       initialCapital: isFinite(cap) ? cap : labelled(5) ? 0 : sim.initialCapital,
       horizonYears: isFinite(hz) && hz > 0 ? hz : sim.horizonYears, // l'horizon et le rendement ne peuvent pas être « vides »
       annualRate: isFinite(rate) ? rate : sim.annualRate,
       dcaPhases: phases.length ? phases : typeof si.get('D5') === 'string' ? [{ fromYear: 1, monthly: 0 }] : sim.dcaPhases,
     };
+    // inflation et retraits (blocs absents d'un ancien classeur : réglages de l'application conservés).
+    // Un réglage égal à sa valeur par défaut n'est pas enregistré : les données restent identiques à celles d'avant.
+    const sm = next.simulation as unknown as Record<string, unknown>;
+    const keep = (k: string, v: unknown, dflt: unknown) => { if (v === undefined || v === dflt || (Array.isArray(v) && !v.length)) delete sm[k]; else sm[k] = v; };
+    const inf = num(si.get('B8'));
+    if (isFinite(inf) && inf >= 0 && inf < 1) keep('inflation', inf, 0.02);
+    if (typeof si.get('J18') === 'string') {
+      const yes = (v: unknown) => /^(o|y|1|t)/i.test(String(v ?? '').trim());
+      const wph: { fromYear: number; amount: number }[] = [];
+      for (let r = 6; r <= 15; r++) {
+        const y = num(si.get('J' + r)), a = num(si.get('K' + r));
+        if (isFinite(y) && y >= 1 && isFinite(a) && a >= 0) wph.push({ fromYear: Math.round(y), amount: a });
+      }
+      keep('withdrawals', wph, undefined);
+      keep('withdrawMode', /%/.test(String(si.get('K18') ?? '')) ? 'percent' : 'amount', 'amount');
+      keep('withdrawIndexed', yes(si.get('K19')), false);
+      keep('keepDca', yes(si.get('K20')), false);
+      keep('withdrawTax', yes(si.get('K21')), false);
+      const tx = num(si.get('K22')), vo = num(si.get('K23'));
+      keep('withdrawTaxRate', isFinite(tx) && tx >= 0 && tx < 1 ? tx : undefined, 0.186);
+      keep('volatility', isFinite(vo) && vo > 0 && vo < 1 ? vo : undefined, 0.15);
+    }
     // réglages rangés dans le classeur : rappel mensuel et ETF de référence (absents = désactivés)
     const rd = num(si.get('B11'));
     next.settings.reminderDay = isFinite(rd) && rd >= 1 && rd <= 28 ? Math.round(rd) : 0;
@@ -271,7 +294,10 @@ async function readGoals(L: Awaited<ReturnType<typeof loader>>): Promise<Goal[]>
     blank = 0;
     if (!isFinite(target) || target <= 0 || !isFinite(d) || d <= 0) continue;
     const id = sh.get('A' + r), created = sh.get('E' + r);
-    goals.push({ id: typeof id === 'string' && id ? id : 'goal-' + r, name: name.trim(), target: round2(target), date: serialToIso(d), createdAt: typeof created === 'string' && created ? created : new Date().toISOString() });
+    const inc = num(sh.get('L' + r)), incY = num(sh.get('M' + r));
+    const g: Goal = { id: typeof id === 'string' && id ? id : 'goal-' + r, name: name.trim(), target: round2(target), date: serialToIso(d), createdAt: typeof created === 'string' && created ? created : new Date().toISOString() };
+    if (isFinite(inc) && inc > 0 && isFinite(incY) && incY >= 1) { g.monthlyIncome = round2(inc); g.incomeYears = Math.round(incY); }
+    goals.push(g);
   }
   return goals;
 }

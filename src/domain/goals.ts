@@ -1,8 +1,10 @@
 // Objectifs d'épargne : un capital à atteindre à une date. Fonctions pures, testées dans tests/goals.test.ts.
 import type { AppData, DcaPhase, Goal } from './types';
 import { computeSummary, valuationDate } from './calc';
+import { DEFAULT_INFLATION, requiredCapital } from './withdraw';
 
 export interface GoalProgress {
+  target: number; // capital visé (pour un objectif de revenu : capital nécessaire, recalculé avec le rendement du simulateur)
   current: number; // valorisation actuelle du PEA
   ratio: number; // 0–1 atteint
   remaining: number;
@@ -54,7 +56,17 @@ export function projectedWithPhases(current: number, phases: DcaPhase[], n: numb
   return v;
 }
 
-export function goalProgress(data: AppData, goal: Goal, current = computeSummary(data).totalValue): GoalProgress {
+/** Un objectif de revenu (« X €/mois pendant N ans ») vise le capital qui permet ces retraits, au rendement du simulateur. */
+export const isIncomeGoal = (g: Goal): boolean => (g.monthlyIncome ?? 0) > 0 && (g.incomeYears ?? 0) > 0;
+
+export function goalTarget(data: AppData, goal: Goal): number {
+  if (!isIncomeGoal(goal)) return goal.target;
+  const sim = data.simulation;
+  return Math.round(requiredCapital(goal.monthlyIncome!, goal.incomeYears!, sim.annualRate, !!sim.withdrawIndexed, sim.inflation ?? DEFAULT_INFLATION));
+}
+
+export function goalProgress(data: AppData, rawGoal: Goal, current = computeSummary(data).totalValue): GoalProgress {
+  const goal: Goal = { ...rawGoal, target: goalTarget(data, rawGoal) };
   const vd = valuationDate(data);
   const months = goal.date <= vd ? 0 : monthsBetween(vd, goal.date);
   const rate = data.simulation.annualRate;
@@ -71,7 +83,7 @@ export function goalProgress(data: AppData, goal: Goal, current = computeSummary
   const grown = projectedWithPhases(current, [], months, rate);
   const scaleNeeded = months > 0 && contrib > 0 && projected < goal.target ? Math.max(0, (goal.target - grown) / contrib) : null;
   return {
-    current, ratio: goal.target > 0 ? Math.min(1, current / goal.target) : 0, remaining, months,
+    target: goal.target, current, ratio: goal.target > 0 ? Math.min(1, current / goal.target) : 0, remaining, months,
     reached: current >= goal.target, overdue,
     requiredWithReturn: months > 0 ? requiredMonthly(current, goal.target, months, rate) : null,
     requiredPlain: months > 0 ? remaining / months : null,

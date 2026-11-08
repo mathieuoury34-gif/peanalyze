@@ -1,11 +1,11 @@
 // Simulateur › Objectifs : un capital à atteindre à une date, jauge de progression et versement mensuel nécessaire
 import { useState } from 'react';
-import { AppHeader, DateField, Empty, PriceErrorBanner, Sheet, SubNav } from '../ui/kit';
+import { AppHeader, DateField, Empty, PriceErrorBanner, Segmented, Sheet, SubNav } from '../ui/kit';
 import { Donut } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
-import { goalProgress, type GoalProgress } from '../domain/goals';
+import { goalProgress, goalTarget, isIncomeGoal, type GoalProgress } from '../domain/goals';
 import { dateFr, eur, num, pct } from '../domain/format';
 import type { Goal } from '../domain/types';
 import { newId, update } from '../data/store';
@@ -65,7 +65,7 @@ export function GoalsScreen() {
                   <div className="between" style={{ alignItems: 'flex-start', gap: 'var(--space-8)' }}>
                     <div className="stack-4" style={{ minWidth: 0 }}>
                       <h2 className="ellipsis">{g.name}</h2>
-                      <span className="t-caption c-moderate">{eur(g.target, 0)} · {dateFr(g.date)} · {remainingText(p)}</span>
+                      <span className="t-caption c-moderate">{isIncomeGoal(g) ? t('{m} par mois pendant {n}', { m: eur(g.monthlyIncome!, 0), n: tn(g.incomeYears!, '{n} an', '{n} ans') }) + ' · ' : ''}{eur(p.target, 0)} · {dateFr(g.date)} · {remainingText(p)}</span>
                     </div>
                     <button type="button" className="icon-btn neutral" aria-label={t('Modifier l’objectif {n}', { n: g.name })} onClick={() => setEdit(g)}><Icon name="pencil" size={20} /></button>
                   </div>
@@ -75,7 +75,7 @@ export function GoalsScreen() {
                     </Donut>
                     <div className="stack-4">
                       <span className="t-amount-m">{eur(p.current, 0)}</span>
-                      <span className="t-caption c-moderate">{t('sur {a} visés', { a: eur(g.target, 0) })}</span>
+                      <span className="t-caption c-moderate">{isIncomeGoal(g) ? t('sur {a} nécessaires', { a: eur(p.target, 0) }) : t('sur {a} visés', { a: eur(p.target, 0) })}</span>
                       {!p.reached && <span className="t-caption c-neutral">{t('Reste {a}', { a: eur(p.remaining, 0) })}</span>}
                     </div>
                   </div>
@@ -89,7 +89,7 @@ export function GoalsScreen() {
                           <p className="t-caption" style={{ color: p.onTrack ? 'var(--success-text)' : 'var(--warning-text)' }}>
                             {p.onTrack
                               ? t('Avec vos phases de versement ({p}), vous atteindriez environ {v} : objectif tenu.', { p: phasesText(p), v: eur(p.projected, 0) })
-                              : t('Avec vos phases de versement ({p}), vous atteindriez environ {v} : il manquerait {d}.', { p: phasesText(p), v: eur(p.projected, 0), d: eur(g.target - p.projected, 0) })}
+                              : t('Avec vos phases de versement ({p}), vous atteindriez environ {v} : il manquerait {d}.', { p: phasesText(p), v: eur(p.projected, 0), d: eur(p.target - p.projected, 0) })}
                             {p.scaleNeeded !== null && p.scaleNeeded > 1 && ' ' + t('Pour y arriver en gardant la même progression, il faudrait multiplier tous ces versements par {k} (soit {m} par mois au départ).', { k: num(p.scaleNeeded, 2), m: eur(p.plannedMonthly * p.scaleNeeded, 0) })}
                           </p>
                           {p.phasesLater.length > 0 && <p className="t-caption c-moderate">{tn(p.phasesLater.length, 'La phase qui débute à l’année {y} arrive après l’échéance : elle n’entre pas dans ce calcul.', 'Les phases qui débutent à partir de l’année {y} arrivent après l’échéance : elles n’entrent pas dans ce calcul.', { y: p.phasesLater[0].fromYear })}</p>}
@@ -97,6 +97,7 @@ export function GoalsScreen() {
                       )}
                     </div>
                   )}
+                  {isIncomeGoal(g) && <p className="t-legal c-moderate">{t('Capital nécessaire pour retirer ce revenu à partir de l’échéance, au rendement du simulateur ({r}), avant prélèvements sociaux. Il change si vous modifiez le rendement.', { r: pct(data.simulation.annualRate, 1) })}</p>}
                   {p.overdue && <p className="t-caption" style={{ color: 'var(--warning-text)' }}>{t('L’échéance est passée : il manque {a}. Vous pouvez la repousser en modifiant l’objectif.', { a: eur(p.remaining, 0) })}</p>}
                 </section>
               );
@@ -113,27 +114,45 @@ export function GoalsScreen() {
 
 function GoalSheet({ goal, onClose }: { goal: Goal | null; onClose: () => void }) {
   const { data } = useCalc();
+  const [kind, setKind] = useState<'capital' | 'income'>(goal && isIncomeGoal(goal) ? 'income' : 'capital');
   const [name, setName] = useState(goal?.name ?? '');
   const [target, setTarget] = useState(goal?.target ?? 0);
+  const [income, setIncome] = useState(goal?.monthlyIncome ?? 0);
+  const [incomeYears, setIncomeYears] = useState(goal?.incomeYears ?? 25);
   const [date, setDate] = useState(goal?.date ?? addMonths(new Date().toISOString().slice(0, 10), 60));
-  const valid = name.trim().length > 0 && target > 0 && /^\d{4}-\d{2}-\d{2}$/.test(date);
+  const needed = kind === 'income' ? goalTarget(data, { id: '', name: '', target: 0, date, createdAt: '', monthlyIncome: income, incomeYears }) : 0;
+  const valid = name.trim().length > 0 && /^\d{4}-\d{2}-\d{2}$/.test(date) && (kind === 'income' ? income > 0 && incomeYears > 0 && needed > 0 : target > 0);
   const save = () => {
-    const g: Goal = { id: goal?.id ?? newId('goal'), name: name.trim(), target: Math.round(target * 100) / 100, date, createdAt: goal?.createdAt ?? new Date().toISOString() };
+    const base = { id: goal?.id ?? newId('goal'), name: name.trim(), date, createdAt: goal?.createdAt ?? new Date().toISOString() };
+    const g: Goal = kind === 'income'
+      ? { ...base, target: needed, monthlyIncome: Math.round(income * 100) / 100, incomeYears: Math.round(incomeYears) }
+      : { ...base, target: Math.round(target * 100) / 100 };
     update((d) => { d.goals = goal ? (d.goals ?? []).map((x) => (x.id === goal.id ? g : x)) : [...(d.goals ?? []), g]; });
     onClose();
   };
   const remove = () => { update((d) => { d.goals = (d.goals ?? []).filter((x) => x.id !== goal!.id); }); onClose(); };
-  void data;
   return (
     <Sheet title={goal ? t('Modifier l’objectif') : t('Nouvel objectif')} onClose={onClose} full
       footer={<button type="button" className="btn btn-primary block" disabled={!valid} onClick={save}><Icon name="check" size={20} />{t('Enregistrer')}</button>}>
       <div className="stack" style={{ paddingBottom: 'var(--space-16)', gap: 'var(--space-16)' }}>
         <label className="field">
           <span className="lbl">{t('Nom de l’objectif')}</span>
-          <input className="input" type="text" value={name} placeholder={t('Apport pour la maison')} onChange={(e) => setName(e.target.value)} />
+          <input className="input" type="text" value={name} placeholder={kind === 'income' ? t('Revenu à la retraite') : t('Apport pour la maison')} onChange={(e) => setName(e.target.value)} />
         </label>
-        <MoneyField label={t('Capital à atteindre')} value={target} onChange={setTarget} />
-        <DateField value={date} onChange={setDate} label={t('Échéance')} />
+        <Segmented label={t('Type d’objectif')} value={kind} onChange={setKind} options={[['capital', t('Capital à atteindre')], ['income', t('Revenu mensuel')]]} />
+        {kind === 'capital' ? <MoneyField label={t('Capital à atteindre')} value={target} onChange={setTarget} /> : (
+          <>
+            <MoneyField label={t('Revenu mensuel visé (par mois)')} value={income} onChange={setIncome} />
+            <label className="field">
+              <span className="lbl">{t('Pendant combien d’années ?')}</span>
+              <input className="input num" type="number" min={1} max={60} value={incomeYears} onChange={(e) => setIncomeYears(Math.min(60, Math.max(0, Math.round(Number(e.target.value) || 0))))} />
+            </label>
+            <div role="note" className="note"><Icon name="info" size={20} /><span>{needed > 0
+              ? t('Capital nécessaire à l’échéance : {c}. Calculé pour retirer {m} par mois pendant {n}, au rendement du simulateur ({r}), avant prélèvements sociaux.', { c: eur(needed, 0), m: eur(income, 0), n: tn(incomeYears, '{n} an', '{n} ans'), r: pct(data.simulation.annualRate, 1) })
+              : t('Indiquez le revenu mensuel et la durée : l’app calcule le capital nécessaire à l’échéance.')}</span></div>
+          </>
+        )}
+        <DateField value={date} onChange={setDate} label={kind === 'income' ? t('Début du revenu') : t('Échéance')} />
         {goal && <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start', color: 'var(--critical-text)' }} onClick={remove}><Icon name="trash" size={20} />{t('Supprimer cet objectif')}</button>}
       </div>
     </Sheet>

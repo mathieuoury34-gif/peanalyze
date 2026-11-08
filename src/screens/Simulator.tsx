@@ -15,11 +15,10 @@ import { update } from '../data/store';
 import type { Simulation } from '../domain/types';
 import { t, tn } from '../i18n';
 
-const INFLATION = 0.02;
-
 export function SimulatorScreen() {
   const { data, positions } = useCalc();
   const sim = data.simulation;
+  const INFLATION = sim.inflation ?? 0.02;
   const [capText, setCapText] = useState(num(sim.initialCapital, 0));
   const [real, setReal] = useState(false);
   const [constant, setConstant] = useState(false);
@@ -133,6 +132,14 @@ export function SimulatorScreen() {
             )}
             <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id="t401-const">{t('Afficher en euros constants (inflation {p})', { p: pct(INFLATION, 0) })}</span><Switch checked={constant} onChange={setConstant} labelledBy="t401-const" /></div>
           </div>
+        </section>
+
+        <section aria-labelledby="t401-wd" className="card g8 dspan-12">
+          <h2 id="t401-wd">{t('Et après ? Les retraits')}</h2>
+          <p className="t-caption c-neutral">{sim.withdrawals?.length
+            ? tn(sim.withdrawals.length, 'Vous avez prévu {n} phase de retrait.', 'Vous avez prévu {n} phases de retrait.') + ' ' + t('Voyez combien de temps votre capital tient, avec des scénarios de marché aléatoires.')
+            : t('Simulez des retraits mensuels à partir d’une certaine année : courbe du capital, durée, scénarios aléatoires et calculette.')}</p>
+          <button type="button" className="btn btn-secondary" style={{ alignSelf: 'flex-start' }} onClick={() => navigate('/simulateur/retraits')}>{t('Simuler mes retraits')}<Icon name="next" size={20} /></button>
         </section>
 
         <button type="button" className="btn btn-secondary block" aria-expanded={table} onClick={() => setTable(!table)}>

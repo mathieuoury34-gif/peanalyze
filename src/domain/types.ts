@@ -87,11 +87,26 @@ export interface DcaPhase {
   monthly: number;
 }
 
+/** Phase de retrait : à partir de l'année `fromYear` du simulateur, on retire `amount` (€ par mois, ou % du capital par an en mode « percent »). */
+export interface WithdrawPhase {
+  fromYear: number;
+  amount: number;
+}
+
 export interface Simulation {
   initialCapital: number;
   horizonYears: number;
   annualRate: number; // 0,085 = 8,5 %
   dcaPhases: DcaPhase[];
+  // --- retraits (tous facultatifs : absents = pas de retrait ; valeurs par défaut dans domain/withdraw.ts)
+  withdrawals?: WithdrawPhase[];
+  withdrawMode?: 'amount' | 'percent'; // montant fixe en €/mois (défaut) ou % du capital restant par an
+  withdrawIndexed?: boolean; // montants revalorisés de l'inflation chaque année (défaut : non)
+  inflation?: number; // 0,02 = 2 %
+  keepDca?: boolean; // continuer les versements pendant les retraits (défaut : non)
+  withdrawTax?: boolean; // déduire les prélèvements sociaux sur la part de gains des retraits (défaut : non)
+  withdrawTaxRate?: number; // défaut 0,186
+  volatility?: number; // volatilité annuelle pour le Monte Carlo, défaut 0,15
 }
 
 /** Vente envisagée dans un plan : tout l'ETF, un nombre de parts ou une fraction des parts. */
@@ -120,6 +135,10 @@ export interface Goal {
   target: number; // capital visé (€)
   date: string; // ISO, échéance
   createdAt: string; // ISO date-heure
+  // Objectif de revenu (facultatif) : « X €/mois pendant N ans à partir de l'échéance ». `target` est alors le capital nécessaire,
+  // recalculé à chaque affichage avec le rendement du simulateur (la valeur enregistrée sert de repli).
+  monthlyIncome?: number;
+  incomeYears?: number;
 }
 
 export type PriceRefresh = 'open' | 'hour' | 'manual';

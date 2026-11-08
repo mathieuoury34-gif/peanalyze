@@ -11,7 +11,7 @@ import { t, tl } from '../i18n';
 /** Plans neufs pas encore enregistrés (en mémoire seulement) : ils disparaissent si l'on quitte l'écran sans enregistrer. */
 export const planDrafts = new Map<string, Plan>();
 
-export const SIM_NAV = () => [{ to: '/simulateur', label: t('Épargne') }, { to: '/simulateur/plans', label: t('Plans') }, { to: '/simulateur/objectifs', label: t('Objectifs') }];
+export const SIM_NAV = () => [{ to: '/simulateur', label: t('Épargne') }, { to: '/simulateur/retraits', label: t('Retraits') }, { to: '/simulateur/plans', label: t('Plans') }, { to: '/simulateur/objectifs', label: t('Objectifs') }];
 
 const FALLBACK = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)', 'var(--chart-6)', 'var(--chart-7)', 'var(--chart-8)'];
 /** Couleur d'un ETF dans les graphiques : celle de l'app s'il est suivi, sinon une couleur de secours stable. */

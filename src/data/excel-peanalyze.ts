@@ -2,6 +2,7 @@
 // Les données saisies (virements, achats, ETF, cours, compositions, simulateur) sont des valeurs ;
 // tout le reste est en formules, pour que le fichier reste vivant dans Excel.
 import type { AppData, Etf, Transaction } from '../domain/types';
+import { goalTarget } from '../domain/goals';
 import { computePositions, exposure, MAX_HORIZON, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
 import { etfHexes } from '../etfColors';
 import { BROKERS } from '../domain/brokers';
@@ -370,7 +371,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     const ws = si.ws;
     const sim = data.simulation;
     si.section(4, 1, 'Paramètres');
-    const params: [string, number, string][] = [['Capital initial', sim.initialCapital, EUR0], ['Horizon (années)', sim.horizonYears, '0'], ['Rendement annuel', sim.annualRate, PCT1], ['Inflation (euros constants)', 0.02, PCT1]];
+    const params: [string, number, string][] = [['Capital initial', sim.initialCapital, EUR0], ['Horizon (années)', sim.horizonYears, '0'], ['Rendement annuel', sim.annualRate, PCT1], ['Inflation (euros constants)', sim.inflation ?? 0.02, PCT1]];
     params.forEach(([lab, v, fmt], i) => {
       si.put(5 + i, 1, lab, { color: NEUTRAL });
       si.put(5 + i, 2, v, { fmt, inp: true, b: true, bg: TINT });
@@ -389,6 +390,24 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       si.put(r, 5, phases[i] ? phases[i].monthly : null, { fmt: EUR0, inp: true });
     }
     si.put(16, 4, "Classez les phases par année croissante ; une phase s'applique jusqu'à la suivante.", { sz: 8, color: MODERATE, border: false });
+    // retraits : phases (année, montant) et réglages — relus à l'import
+    si.section(4, 10, 'Retraits par phase');
+    si.header(5, 10, ["À partir de l'année", 'Retrait (€/mois ou %/an)'], 28);
+    const wph = (sim.withdrawals ?? []).slice().sort((a, b) => a.fromYear - b.fromYear);
+    for (let i = 0; i < 10; i++) {
+      const r = 6 + i;
+      si.put(r, 10, wph[i] ? wph[i].fromYear : null, { fmt: '0', inp: true, h: 'center' });
+      si.put(r, 11, wph[i] ? wph[i].amount : null, { fmt: '#,##0.##', inp: true });
+    }
+    si.section(17, 10, 'Réglages des retraits');
+    const yn = (b?: boolean) => (b ? 'Oui' : 'Non');
+    const wset: [string, string | number, string?][] = [['Type de retrait', (sim.withdrawMode ?? 'amount') === 'percent' ? '% du capital' : 'Montant fixe'], ['Indexer sur l’inflation', yn(sim.withdrawIndexed)],
+      ['Continuer les versements', yn(sim.keepDca)], ['Prélèvements sociaux déduits', yn(sim.withdrawTax)], ['Taux des prélèvements sociaux', sim.withdrawTaxRate ?? 0.186, PCT1], ['Volatilité (Monte Carlo)', sim.volatility ?? 0.15, PCT1]];
+    wset.forEach(([lab, v, fmt], i) => {
+      si.put(18 + i, 10, lab, { color: NEUTRAL });
+      si.put(18 + i, 11, v, { inp: true, b: true, bg: TINT, h: 'right', ...(fmt ? { fmt } : {}) });
+    });
+    si.put(25, 10, "Retraits : montant en €/mois, ou en % du capital par an si le type est « % du capital ». Une phase s'applique jusqu'à la suivante.", { sz: 8, color: MODERATE, border: false });
     si.section(4, 7, "Résultat à l'horizon");
     const res: [string, string, string][] = [['Capital final', 'INDEX(D21:D71,MATCH(B6,A21:A71,0))', EUR0], ['Total versé', 'INDEX(C21:C71,MATCH(B6,A21:A71,0))', EUR0],
       ['Intérêts composés', 'H5-H6', EUR0], ['Capital final en euros constants', 'INDEX(F21:F71,MATCH(B6,A21:A71,0))', EUR0]];
@@ -415,7 +434,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       si.put(r, 6, f(`IF(D${r}="","",D${r}/(1+$B$8)^A${r})`), { fmt: EUR0, color: NEUTRAL });
     }
     ws.cf('A21:A71', { type: 'expression', formula: 'A21>$B$6', dxf: { font: { color: DIVIDER } } });
-    si.widths({ A: 28, B: 14, C: 13, D: 16, E: 16, F: 16, G: 30, H: 14 });
+    si.widths({ A: 28, B: 14, C: 13, D: 16, E: 16, F: 16, G: 30, H: 14, I: 3, J: 28, K: 22 });
     const hz = Math.min(MAX_HORIZON, Math.max(1, Math.round(sim.horizonYears)));
     const rr = (c: string) => `Simulateur!$${c}$21:$${c}$${21 + hz}`;
     ws.chart({
@@ -521,14 +540,16 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
   {
     const ws = go.ws;
     const goals = data.goals || [];
-    go.header(5, 1, ['Réf.', 'Objectif', 'Capital visé', 'Échéance', 'Créé le', 'Valorisation actuelle', 'Atteint', 'Reste à atteindre', 'Mois restants', 'Mensuel requis (sans rendement)', 'Mensuel requis (rendement du simulateur)'], 42);
+    go.header(5, 1, ['Réf.', 'Objectif', 'Capital visé', 'Échéance', 'Créé le', 'Valorisation actuelle', 'Atteint', 'Reste à atteindre', 'Mois restants', 'Mensuel requis (sans rendement)', 'Mensuel requis (rendement du simulateur)', 'Revenu mensuel visé', 'Durée du revenu (ans)'], 42);
     const nG = Math.max(goals.length + 5, 10);
     for (let i = 0; i < nG; i++) {
       const r = 6 + i, g = goals[i], bd = !!g;
       go.put(r, 1, g ? g.id : null, { color: MODERATE, sz: 8, border: bd });
       go.put(r, 2, g ? g.name : null, { inp: true, b: true, border: bd });
-      go.put(r, 3, g ? g.target : null, { fmt: EUR0, inp: true, border: bd });
+      go.put(r, 3, g ? goalTarget(data, g) : null, { fmt: EUR0, inp: true, border: bd });
       go.put(r, 4, g ? new Date(+g.date.slice(0, 4), +g.date.slice(5, 7) - 1, +g.date.slice(8, 10)) : null, { fmt: DATE, inp: true, border: bd });
+      go.put(r, 12, g?.monthlyIncome ?? null, { fmt: EUR0, inp: true, border: bd });
+      go.put(r, 13, g?.incomeYears ?? null, { fmt: '0', inp: true, h: 'center', border: bd });
       go.put(r, 5, g ? g.createdAt : null, { color: MODERATE, sz: 8, border: bd });
       const on = `OR(C${r}="",D${r}="")`;
       go.put(r, 6, f(`IF(${on},"",Valorisation)`), { fmt: EUR, border: bd });
@@ -539,8 +560,8 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       go.put(r, 11, f(`IF(${on},"",IF(H${r}=0,0,IF(I${r}=0,"",IF(Simulateur!$B$9=0,H${r}/I${r},MAX(0,(C${r}-F${r}*(1+Simulateur!$B$9)^I${r})*Simulateur!$B$9/((1+Simulateur!$B$9)^I${r}-1))))))`), { fmt: EUR, b: true, border: bd });
     }
     ws.cf(`G6:G${5 + nG}`, { type: 'dataBar', color: '9FD0C7' });
-    go.put(7 + nG, 1, 'Ajoutez un objectif : nom, capital visé et échéance (cellules bleues). Les colonnes suivantes se calculent. « Avec rendement » reprend le rendement annuel du Simulateur.', { sz: 8, color: MODERATE, border: false });
-    go.widths({ A: 12, B: 28, C: 14, D: 12, E: 18, F: 15, G: 9, H: 15, I: 9, J: 17, K: 20 });
+    go.put(7 + nG, 1, 'Ajoutez un objectif : nom, capital visé et échéance (cellules bleues). Les colonnes suivantes se calculent. « Avec rendement » reprend le rendement annuel du Simulateur. Objectif de revenu : renseignez le revenu mensuel et la durée ; le capital visé est alors celui que calcule l’application.', { sz: 8, color: MODERATE, border: false });
+    go.widths({ A: 12, B: 28, C: 14, D: 12, E: 18, F: 15, G: 9, H: 15, I: 9, J: 17, K: 20, L: 16, M: 14 });
     ws.freeze = 'A6';
   }
 

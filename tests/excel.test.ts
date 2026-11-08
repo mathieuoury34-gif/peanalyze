@@ -167,3 +167,28 @@ test('les réponses « mes ETF chez ce courtier » font l’aller-retour par l�
   const none = await roundtrip(sample());
   assert.equal(none.settings.brokerEtf, undefined);
 });
+
+test('classeur PEAnalyze : retraits, indexation et réglages font l’aller-retour', async () => {
+  const d = sample();
+  d.simulation = { ...d.simulation, inflation: 0.025, withdrawals: [{ fromYear: 8, amount: 1200 }, { fromYear: 11, amount: 1500.5 }], withdrawIndexed: true, keepDca: true, withdrawTax: true, withdrawTaxRate: 0.172, volatility: 0.2 };
+  const back = await roundtrip(d);
+  assert.deepEqual(back.simulation, d.simulation);
+  d.simulation = { initialCapital: 10, horizonYears: 30, annualRate: 0.05, dcaPhases: [{ fromYear: 1, monthly: 100 }], withdrawMode: 'percent', withdrawals: [{ fromYear: 10, amount: 4 }] };
+  const b2 = await roundtrip(d);
+  assert.deepEqual(b2.simulation, d.simulation);
+});
+
+test('classeur PEAnalyze : objectif de revenu mensuel', async () => {
+  const d = sample();
+  d.goals = [
+    { id: 'g1', name: 'Maison', target: 40000, date: '2030-06-01', createdAt: '2026-11-01T10:00:00.000Z' },
+    { id: 'g2', name: 'Retraite', target: 1, date: '2056-06-01', createdAt: '2026-11-01T10:00:00.000Z', monthlyIncome: 2000, incomeYears: 25 },
+  ];
+  const back = await roundtrip(d);
+  const [a, b] = back.goals;
+  assert.equal(a.monthlyIncome, undefined);
+  assert.equal(a.target, 40000);
+  assert.equal(b.monthlyIncome, 2000);
+  assert.equal(b.incomeYears, 25);
+  assert.ok(b.target > 100000); // le capital calculé est enregistré dans la colonne « Capital visé »
+});

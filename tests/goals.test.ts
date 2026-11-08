@@ -61,3 +61,24 @@ test('objectif : les phases postérieures à l’échéance sont écartées, les
   const contrib = projectedWithPhases(0, d.simulation.dcaPhases, long.months, 0.05);
   assert.ok(Math.abs(grown + k * contrib - 500000) < 0.5);
 });
+
+test('objectif de revenu : le capital visé est celui qui finance les retraits, au rendement du simulateur', async () => {
+  const { goalTarget, isIncomeGoal } = await import('../src/domain/goals');
+  const { requiredCapital, balanceAfter } = await import('../src/domain/withdraw');
+  const d = fixture();
+  d.simulation = { initialCapital: 0, horizonYears: 30, annualRate: 0.05, dcaPhases: [{ fromYear: 1, monthly: 500 }] };
+  const g = { id: 'r', name: 'Retraite', target: 1, date: '2046-10-09', createdAt: '', monthlyIncome: 2000, incomeYears: 25 };
+  assert.ok(isIncomeGoal(g));
+  const c = goalTarget(d, g);
+  assert.equal(c, Math.round(requiredCapital(2000, 25, 0.05)));
+  // avec ce capital, 2 000 €/mois pendant 25 ans ne laissent presque rien (arrondi à l'euro)
+  assert.ok(Math.abs(balanceAfter({ capital: c, rate: 0.05, monthly: 2000, years: 25, target: 0, indexed: false, inflation: 0.02, tax: false, taxRate: 0.186 })) < 40);
+  assert.equal(goalProgress(d, g, 10000).target, c);
+  // un objectif sans revenu garde son capital ; une indexation sur l'inflation augmente le capital nécessaire
+  assert.equal(goalTarget(d, { ...g, monthlyIncome: undefined }), 1);
+  d.simulation.withdrawIndexed = true;
+  assert.ok(goalTarget(d, g) > c);
+  // plus le rendement est élevé, moins il faut de capital
+  d.simulation = { ...d.simulation, annualRate: 0.07, withdrawIndexed: false };
+  assert.ok(goalTarget(d, g) < c);
+});

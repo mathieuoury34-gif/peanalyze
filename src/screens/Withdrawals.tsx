@@ -1,6 +1,6 @@
 // Onglet Simulateur › Retraits : phases de retrait, courbe du capital, scénarios aléatoires (Monte Carlo) et calculette à 4 variables.
-import { useDeferredValue, useEffect, useMemo, useState } from 'react';
-import { AppHeader, PriceErrorBanner, Segmented, SubNav, Switch } from '../ui/kit';
+import { useDeferredValue, useEffect, useId, useMemo, useState } from 'react';
+import { AppHeader, InfoTip, PriceErrorBanner, Segmented, SubNav, Switch } from '../ui/kit';
 import { SIM_NAV } from './PlanParts';
 import { WithdrawChart } from '../ui/WithdrawChart';
 import { Icon } from '../ui/icons';
@@ -39,13 +39,21 @@ function SwitchRow({ id, label, checked, onChange, disabled }: { id: string; lab
   return <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id={id}>{label}</span><Switch checked={checked} onChange={onChange} labelledBy={id} disabled={disabled} /></div>;
 }
 
-function Slider({ label, value, min, max, step, shown, onChange, lo, hi }: { label: string; value: number; min: number; max: number; step: number; shown: string; onChange: (v: number) => void; lo: string; hi: string }) {
+function Slider({ label, value, min, max, step, shown, onChange, lo, hi, fine }: { label: string; value: number; min: number; max: number; step: number; shown: string; onChange: (v: number) => void; lo: string; hi: string; fine?: number }) {
+  // `fine` : pas des boutons − / + (réglage précis) ; la valeur reste au pas près (évite les erreurs d'arrondi des décimales)
+  const sid = useId();
+  const nudge = (d: number) => onChange(Math.round(Math.min(max, Math.max(min, value + d)) * 1000) / 1000);
+  const btn = { width: 'var(--touch-min)', height: 'var(--touch-min)', flexShrink: 0, border: '1px solid var(--divider-minimal)', borderRadius: 'var(--radius-full)', background: 'transparent', color: 'var(--primary-fg)', font: 'var(--type-h2, var(--type-body-strong))', cursor: 'pointer' } as const;
   return (
-    <label className="stack" style={{ gap: 'var(--space-2)' }}>
-      <span className="between"><span className="t-label">{label}</span><span className="t-amount-m c-primary">{shown}</span></span>
-      <input className="range" type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} data-component="Slider" />
+    <div className="stack" style={{ gap: 'var(--space-2)' }}>
+      <span className="between"><span className="t-label" id={sid}>{label}</span><span className="t-amount-m c-primary">{shown}</span></span>
+      <span className="row" style={{ gap: 'var(--space-8)' }}>
+        {fine && <button type="button" style={btn} aria-label={t('Diminuer')} disabled={value <= min} onClick={() => nudge(-fine)}>−</button>}
+        <input className="range" style={{ flex: 1, minWidth: 0 }} type="range" aria-labelledby={sid} min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} data-component="Slider" />
+        {fine && <button type="button" style={btn} aria-label={t('Augmenter')} disabled={value >= max} onClick={() => nudge(fine)}>+</button>}
+      </span>
       <span className="between t-legal c-moderate"><span>{lo}</span><span>{hi}</span></span>
-    </label>
+    </div>
   );
 }
 
@@ -78,12 +86,7 @@ function VolatilitySlider() {
   const v = data.simulation.volatility ?? DEFAULT_VOLATILITY;
   const setVol = (pc: number) => update((d) => { d.simulation.volatility = Math.round(Math.min(60, Math.max(1, pc)) * 10) / 1000; }); // au dixième de point
   const shown = pct(v, Math.round(v * 1000) % 10 ? 1 : 0);
-  return (
-    <div className="stack" style={{ gap: 'var(--space-8)' }}>
-      <Slider label={t('Volatilité annuelle (scénarios aléatoires)')} value={Math.min(30, Math.max(5, Math.round(v * 1000) / 10))} min={5} max={30} step={0.1} shown={shown} lo={pct(0.05, 0)} hi={pct(0.3, 0)} onChange={setVol} />
-      <NumField label={t('Volatilité précise (%)')} value={Math.round(v * 1000) / 10} onChange={(x) => x > 0 && setVol(x)} decimals={1} suffix="%" max={60} />
-    </div>
-  );
+  return <Slider label={t('Volatilité annuelle (scénarios aléatoires)')} value={Math.min(30, Math.max(5, Math.round(v * 1000) / 10))} min={5} max={30} step={0.1} fine={0.1} shown={shown} lo={pct(0.05, 0)} hi={pct(0.3, 0)} onChange={setVol} />;
 }
 
 // ------------------------------------------------------------------ ma simulation
@@ -95,6 +98,7 @@ function SimTab() {
   const [showMc, setShowMc] = useState(true);
   const [table, setTable] = useState(false);
   const [adv, setAdv] = useState(false);
+  const [advChart, setAdvChart] = useState(false);
   const cost = useMemo(() => holdingCost(data, positions), [data, positions]);
   const set = (patch: Partial<Simulation>) => update((d) => { d.simulation = { ...d.simulation, ...patch }; });
   const phases = sim.withdrawals ?? [];
@@ -135,8 +139,7 @@ function SimTab() {
   return (
     <>
       <section aria-labelledby="t406-ph" className="card g8 dspan-5 dstart">
-        <h2 id="t406-ph" style={{ marginBottom: 'var(--space-4)' }}>{t('Phases de retrait')}</h2>
-        <p className="t-caption c-neutral">{t('Capital de départ {c}, versements, horizon et rendement : voir l’onglet Épargne.', { c: eur(sim.initialCapital, 0) })}</p>
+        <div className="between"><h2 id="t406-ph">{t('Phases de retrait')}</h2><InfoTip><span>{t('Capital de départ {c}, versements, horizon et rendement : voir l’onglet Épargne.', { c: eur(sim.initialCapital, 0) })}</span></InfoTip></div>
         {phases.length === 0 && <p className="t-caption c-neutral">{t('Aucun retrait pour l’instant : ajoutez une phase pour voir la courbe.')}</p>}
         <ul>
           {phases.map((p, i) => {
@@ -166,27 +169,25 @@ function SimTab() {
           })}
         </ul>
         <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} onClick={addPhase}><Icon name="plus" size={20} />{t('Ajouter une phase de retrait')}</button>
-        <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} aria-expanded={adv} onClick={() => setAdv(!adv)}>{t('Options avancées')}<Icon name={adv ? 'up' : 'down'} size={20} /></button>
+        <div className="between"><button type="button" className="btn btn-tertiary" aria-expanded={adv} onClick={() => setAdv(!adv)}>{t('Options avancées')}<Icon name={adv ? 'up' : 'down'} size={20} /></button><InfoTip label={t('Explication des options')}><span>{t('Les versements s’arrêtent au début du premier retrait régulier (mensuel ou en %) ; une somme unique ne les arrête pas. Le montant de chaque phase vaut à son année de début, puis suit l’inflation chaque année si l’indexation est activée. Prélèvements sociaux : appliqués à la part de gains de chaque retrait, pour un PEA de plus de 5 ans (18,6 % depuis janvier 2026) ; les retraits avant 5 ans ferment le PEA et ne sont pas simulés ici.')}</span></InfoTip></div>
         {adv && (
           <div className="stack" style={{ gap: 'var(--space-12)' }}>
             <SwitchRow id="t406-idx" label={t('Indexer mes retraits mensuels sur l’inflation ({p})', { p: pct(infl, 0) })} checked={!!sim.withdrawIndexed && hasMonthly} disabled={!hasMonthly} onChange={(v) => set({ withdrawIndexed: v })} />
             <SwitchRow id="t406-dca" label={t('Continuer mes versements pendant les retraits')} checked={!!sim.keepDca} onChange={(v) => set({ keepDca: v })} />
             <SwitchRow id="t406-tax" label={t('Déduire les prélèvements sociaux ({p})', { p: pct(taxRate, 1) })} checked={!!sim.withdrawTax} onChange={(v) => set({ withdrawTax: v })} />
-            <p className="t-legal c-moderate">{t('Les versements s’arrêtent au début du premier retrait régulier (mensuel ou en %) ; une somme unique ne les arrête pas. Le montant de chaque phase vaut à son année de début, puis suit l’inflation chaque année si l’indexation est activée. Prélèvements sociaux : appliqués à la part de gains de chaque retrait, pour un PEA de plus de 5 ans (18,6 % depuis janvier 2026) ; les retraits avant 5 ans ferment le PEA et ne sont pas simulés ici.')}</p>
           </div>
         )}
       </section>
 
       {phases.length === 0 && (
         <section aria-labelledby="t406-empty" className="card g12 dspan-7 dstart">
-          <h2 id="t406-empty">{t('Ce que vous pouvez simuler')}</h2>
+          <div className="between"><h2 id="t406-empty">{t('Ce que vous pouvez simuler')}</h2><InfoTip><span>{t('Vous pouvez les enchaîner : une somme unique, puis un pourcentage ensuite, en gardant ou non vos versements mensuels. La courbe, le taux de réussite et les scénarios aléatoires apparaissent dès la première phase.')}</span></InfoTip></div>
           <p className="t-body">{t('Chaque phase de retrait commence à l’année de votre choix et peut être de trois types :')}</p>
           <ul className="stack-8">
             <li className="t-body"><strong>{t('€ par mois')}</strong> — {t('par exemple 1 500 € par mois à partir de l’année 20.')}</li>
             <li className="t-body"><strong>{t('% du capital par an')}</strong> — {t('par exemple 4 % : le retrait suit la valeur du capital.')}</li>
             <li className="t-body"><strong>{t('Somme unique')}</strong> — {t('par exemple 100 000 € l’année 10 pour un apport immobilier.')}</li>
           </ul>
-          <p className="t-caption c-neutral">{t('Vous pouvez les enchaîner : une somme unique, puis un pourcentage ensuite, en gardant ou non vos versements mensuels. La courbe, le taux de réussite et les scénarios aléatoires apparaissent dès la première phase.')}</p>
         </section>
       )}
       {phases.length > 0 && (
@@ -233,15 +234,21 @@ function SimTab() {
               {band && <span><span style={{ width: 12, height: 12, borderRadius: 'var(--radius-2)', background: 'var(--chart-value)', opacity: 0.35 }} />{t('Scénarios aléatoires (10 % à 90 %)')}</span>}
               <span><span style={{ width: 0, height: 12, borderLeft: '2px dashed var(--text-moderate)' }} />{t('Début des retraits')}</span>
             </div>
-            <div className="stack" style={{ borderTop: '1px solid var(--divider-minimal)', paddingTop: 'var(--space-4)' }}>
-              <SwitchRow id="t406-mc" label={t('Afficher les scénarios aléatoires (Monte Carlo)')} checked={showMc} onChange={setShowMc} />
-              <SwitchRow id="t406-fees" label={t('Déduire mes frais (frais courants et courtage)')} checked={fees && cost.securities > 0} disabled={cost.securities <= 0} onChange={setFees} />
-              <SwitchRow id="t406-const" label={t('Afficher en euros constants (inflation {p})', { p: pct(infl, 0) })} checked={constant} onChange={setConstant} />
-            </div>
+            <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} aria-expanded={advChart} onClick={() => setAdvChart(!advChart)}>{t('Options avancées')}<Icon name={advChart ? 'up' : 'down'} size={20} /></button>
+            {advChart && (
+              <div className="stack" style={{ gap: 'var(--space-12)' }}>
+                <SwitchRow id="t406-mc" label={t('Afficher les scénarios aléatoires (Monte Carlo)')} checked={showMc} onChange={setShowMc} />
+                <SwitchRow id="t406-fees" label={t('Déduire mes frais (frais courants et courtage)')} checked={fees && cost.securities > 0} disabled={cost.securities <= 0} onChange={setFees} />
+                <SwitchRow id="t406-const" label={t('Afficher en euros constants (inflation {p})', { p: pct(infl, 0) })} checked={constant} onChange={setConstant} />
+              </div>
+            )}
           </section>
 
           <section aria-labelledby="t406-mcs" className="card g12 dspan-4 dstart">
-            <h2 id="t406-mcs">{t('Scénarios aléatoires')}</h2>
+            <div className="between"><h2 id="t406-mcs">{t('Scénarios aléatoires')}</h2><InfoTip>
+              {mc && kinds.includes('lump') && mc.successRate < 1 && <span>{t('Une somme unique est due à une date précise (prélèvements sociaux compris si activés) : si le marché a été mauvais avant cette date, le capital ne la couvre pas en entier, ce qui compte comme un échec. Retarder la date, baisser la somme ou continuer les versements améliore ce taux.')}</span>}
+              <span>{t('Chaque scénario tire des rendements mensuels au hasard autour de votre rendement annuel (médiane) avec la volatilité choisie ; 15 % correspond à peu près à un ETF actions mondial. Les rendements sont supposés indépendants d’un mois à l’autre : les vraies crises durent plus longtemps. Les résultats sont les mêmes à chaque affichage.')}</span>
+            </InfoTip></div>
             <VolatilitySlider />
             {mc && (
               <p className="t-body">
@@ -251,8 +258,6 @@ function SimTab() {
                 {mc.medianDepletionYear !== null && hasFixed ? ' ' + t('Quand le capital s’épuise, c’est en général vers l’année {y}.', { y: mc.medianDepletionYear }) : ''}
               </p>
             )}
-            {mc && kinds.includes('lump') && mc.successRate < 1 && <p className="t-caption c-neutral">{t('Une somme unique est due à une date précise (prélèvements sociaux compris si activés) : si le marché a été mauvais avant cette date, le capital ne la couvre pas en entier, ce qui compte comme un échec. Retarder la date, baisser la somme ou continuer les versements améliore ce taux.')}</p>}
-            <p className="t-legal c-moderate">{t('Chaque scénario tire des rendements mensuels au hasard autour de votre rendement annuel (médiane) avec la volatilité choisie ; 15 % correspond à peu près à un ETF actions mondial. Les rendements sont supposés indépendants d’un mois à l’autre : les vraies crises durent plus longtemps. Les résultats sont les mêmes à chaque affichage.')}</p>
           </section>
 
           <button type="button" className="btn btn-secondary block dspan-12" aria-expanded={table} onClick={() => setTable(!table)}>{t('Tableau année par année')}<Icon name={table ? 'up' : 'down'} size={20} /></button>
@@ -294,6 +299,7 @@ function CalcTab() {
   const [taxPct, setTaxPct] = useState((sim.withdrawTaxRate ?? DEFAULT_TAX_RATE) * 100);
   const [showMc, setShowMc] = useState(true);
   const [adv, setAdv] = useState(false);
+  const [advChart, setAdvChart] = useState(false);
   const vol = sim.volatility ?? DEFAULT_VOLATILITY;
 
   // capital de départ : saisi, valeur actuelle du PEA, ou capital simulé au moment où les retraits commencent
@@ -394,7 +400,7 @@ function CalcTab() {
       </section>
 
       <section aria-labelledby="t406-cchart" className="card">
-        <h2 id="t406-cchart">{t('Évolution du capital')}</h2>
+        <div className="between"><h2 id="t406-cchart">{t('Évolution du capital')}</h2><InfoTip><span>{t('Retraits en fin de mois, rendement composé constant (sauf scénarios aléatoires), hors frais. Le taux de réussite est la part des scénarios où tous les retraits sont payés jusqu’à la fin de la durée.')}</span></InfoTip></div>
         {ready && outCap > 0 && outMonthly > 0 ? (
           <WithdrawChart points={res.years} band={band} startYear={null} depletedYear={depletedYear} label={t('Capital de {c} avec {m} retirés par mois pendant {n} ans', { c: eur(outCap, 0), m: eur(outMonthly, 0), n: horizon })} />
         ) : <p className="t-caption c-moderate">{t('Renseignez un capital et un retrait pour tracer la courbe.')}</p>}
@@ -403,11 +409,13 @@ function CalcTab() {
           <span><span style={{ width: 16, height: 3, borderRadius: 'var(--radius-full)', background: 'var(--chart-6)' }} />{t('Retraits cumulés')}</span>
           {band && <span><span style={{ width: 12, height: 12, borderRadius: 'var(--radius-2)', background: 'var(--chart-value)', opacity: 0.35 }} />{t('Scénarios aléatoires (10 % à 90 %)')}</span>}
         </div>
-        <div className="stack" style={{ borderTop: '1px solid var(--divider-minimal)', paddingTop: 'var(--space-4)' }}>
-          <SwitchRow id="t406-c-mc" label={t('Afficher les scénarios aléatoires (Monte Carlo)')} checked={showMc} onChange={setShowMc} />
-        </div>
-        <VolatilitySlider />
-        <p className="t-legal c-moderate">{t('Retraits en fin de mois, rendement composé constant (sauf scénarios aléatoires), hors frais. Le taux de réussite est la part des scénarios où tous les retraits sont payés jusqu’à la fin de la durée.')}</p>
+        <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} aria-expanded={advChart} onClick={() => setAdvChart(!advChart)}>{t('Options avancées')}<Icon name={advChart ? 'up' : 'down'} size={20} /></button>
+        {advChart && (
+          <div className="stack" style={{ gap: 'var(--space-12)' }}>
+            <SwitchRow id="t406-c-mc" label={t('Afficher les scénarios aléatoires (Monte Carlo)')} checked={showMc} onChange={setShowMc} />
+            <VolatilitySlider />
+          </div>
+        )}
       </section>
       </div>
     </>

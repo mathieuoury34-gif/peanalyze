@@ -258,6 +258,27 @@ export function VarChip({ ratio, suffix }: { ratio: number; suffix?: string }) {
   return <span className={'var-chip' + (r < 0 ? ' down' : r === 0 ? ' flat' : '')}>{arrow(ratio)} {pctSigned(ratio)}{suffix}</span>;
 }
 
+/** Bouton « i » : un appui affiche le texte explicatif dans une bulle (fermée par un appui ailleurs ou Échap). */
+export function InfoTip({ children, label, align = 'end' }: { children: ReactNode; label?: string; align?: 'start' | 'end' }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: Event) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('pointerdown', away); document.addEventListener('keydown', esc);
+    return () => { document.removeEventListener('pointerdown', away); document.removeEventListener('keydown', esc); };
+  }, [open]);
+  return (
+    <span ref={ref} style={{ position: 'relative', display: 'inline-flex', flexShrink: 0 }}>
+      <button type="button" className="icon-btn neutral" style={{ width: 32, height: 32 }} aria-label={label ?? tr('Explication')} aria-expanded={open} onClick={() => setOpen(!open)}><Icon name="info" size={18} /></button>
+      {open && (
+        <span role="note" style={{ position: 'absolute', top: '100%', [align === 'end' ? 'right' : 'left']: 0, zIndex: 40, width: 'min(320px, calc(100vw - 48px))', display: 'flex', flexDirection: 'column', gap: 'var(--space-8)', padding: 'var(--space-12)', borderRadius: 'var(--radius-12)', background: 'var(--bg-surface-minimal)', border: '1px solid var(--divider-minimal)', boxShadow: 'var(--shadow-m)', font: 'var(--type-caption)', color: 'var(--text-neutral)', textAlign: 'left', fontWeight: 400 }}>{children}</span>
+      )}
+    </span>
+  );
+}
+
 export function Switch({ checked, onChange, labelledBy, label, disabled }: { checked: boolean; onChange: (v: boolean) => void; labelledBy?: string; label?: string; disabled?: boolean }) {
   return <button type="button" role="switch" className="switch" aria-checked={checked} aria-labelledby={labelledBy} aria-label={label} disabled={disabled} onClick={() => onChange(!checked)} data-component="Toggle" />;
 }

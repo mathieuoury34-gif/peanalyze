@@ -44,7 +44,7 @@ export function WithdrawChart({ points, band, startYear, depletedYear, label }: 
   const h = hoverIndex(hover, n); // l'index mémorisé peut dépasser le nombre de points après un changement d'horizon
   const hp = points[h];
   const hx = X(hp.year);
-  const tipLeft = Math.min(Math.max(hx - 80, 0), Math.max(W - 160, 0));
+  const tipLeft = Math.min(Math.max(hx - 90, 0), Math.max(W - 190, 0)); // reste dans la zone du tracé, sans masquer les graduations
   const bandPath = bandOk
     ? points.map((p, i) => (i ? 'L' : 'M') + X(p.year).toFixed(1) + ',' + Y(band!.p90[i]).toFixed(1)).join(' ') + ' ' +
       points.map((_, i) => 'L' + X(points[n - 1 - i].year).toFixed(1) + ',' + Y(band!.p10[n - 1 - i]).toFixed(1)).join(' ') + ' Z'
@@ -71,7 +71,7 @@ export function WithdrawChart({ points, band, startYear, depletedYear, label }: 
       <div className="hit" style={{ width: W, height: B }}
         onPointerMove={(ev) => { const r = ev.currentTarget.getBoundingClientRect(); setHover(Math.round(Math.min(Math.max((ev.clientX - r.left) / r.width, 0), 1) * (n - 1))); }}
         onPointerDown={(ev) => { const r = ev.currentTarget.getBoundingClientRect(); setHover(Math.round(Math.min(Math.max((ev.clientX - r.left) / r.width, 0), 1) * (n - 1))); }} />
-      <div role="status" className="tip" data-component="ChartTooltip" style={{ minWidth: 160, top: 12, left: tipLeft }}>
+      <div role="status" className="tip" data-component="ChartTooltip" style={{ minWidth: 180, top: 12, left: tipLeft }}>
         <span className="t-caption-strong" style={{ color: 'var(--text-reverse)' }}>{t('Année {y}', { y: hp.year })}</span>
         <span className="t-amount-s" style={{ color: 'var(--text-reverse)' }}>{eur(hp.value, 0)}</span>
         <span className="t-caption" style={{ color: 'var(--brand-light-green)' }}>{t('Retraits cumulés {v}', { v: eur(hp.withdrawn, 0) })}</span>

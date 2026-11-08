@@ -25,10 +25,10 @@ function NumField({ label, value, onChange, suffix, decimals = 0, result, hint, 
       <span className="lbl">{label}</span>
       <span className="input-wrap">
         <input className="input num" type="text" inputMode="decimal" value={text} readOnly={result || !onChange} aria-readonly={result || undefined}
-          style={{ paddingRight: suffix ? 56 : undefined, ...(result ? { background: 'var(--bg-hover)', font: 'var(--type-body-strong)', color: 'var(--primary-fg)' } : {}) }}
+          style={{ paddingRight: suffix ? 48 : undefined, ...(result ? { background: 'var(--bg-hover)', font: 'var(--type-body-strong)', color: 'var(--primary-fg)' } : {}) }}
           onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
           onChange={(e) => { setText(e.target.value); const v = parseNum(e.target.value); onChange?.(isFinite(v) && v >= 0 ? Math.min(v, max ?? Infinity) : 0); }} />
-        {suffix && <span className="suffix" aria-hidden="true">{suffix}</span>}
+        {suffix && <span className="suffix" aria-hidden="true" style={{ font: 'var(--type-body)', color: 'var(--text-moderate)' }}>{suffix}</span>}
       </span>
       {hint && <span className="t-caption c-moderate">{hint}</span>}
     </label>
@@ -118,14 +118,14 @@ function SimTab() {
   const ok = mc && mode === 'amount';
   return (
     <>
-      <section aria-labelledby="t406-par" className="card g16 dspan-5">
+      <section aria-labelledby="t406-par" className="card g16 dspan-5 dstart">
         <h2 id="t406-par">{t('Paramètres')}</h2>
         <p className="t-caption c-neutral">{t('Capital de départ {c} et versements : voir l’onglet Épargne.', { c: eur(sim.initialCapital, 0) })}</p>
         <Slider label={t('Horizon de placement')} value={ys} min={1} max={MAX_HORIZON} step={1} shown={tn(ys, '{n} an', '{n} ans')} lo={t('{n} an', { n: 1 })} hi={t('{n} ans', { n: MAX_HORIZON })} onChange={(v) => set({ horizonYears: v })} />
         <Slider label={t("Taux d'intérêt annuel")} value={Math.round(sim.annualRate * 1000) / 10} min={0} max={15} step={0.1} shown={pct(sim.annualRate, Math.round(sim.annualRate * 1000) % 10 ? 1 : 0)} lo={pct(0, 0)} hi={pct(0.15, 0)} onChange={(v) => set({ annualRate: v / 100 })} />
       </section>
 
-      <section aria-labelledby="t406-ph" className="card g8 dspan-7">
+      <section aria-labelledby="t406-ph" className="card g8 dspan-7 dstart">
         <h2 id="t406-ph" style={{ marginBottom: 'var(--space-4)' }}>{t('Phases de retrait')}</h2>
         <Segmented label={t('Type de retrait')} value={mode} onChange={(m) => set({ withdrawMode: m, withdrawals: phases.map((p) => ({ ...p, amount: m === 'percent' ? 4 : 1000 })) })} options={[['amount', t('Montant fixe (€/mois)')], ['percent', t('% du capital par an')]]} />
         {phases.length === 0 && <p className="t-caption c-neutral">{t('Aucun retrait pour l’instant : ajoutez une phase pour voir la courbe.')}</p>}
@@ -182,12 +182,15 @@ function SimTab() {
                 <span className="row t-caption c-moderate" style={{ gap: 'var(--space-6)' }}>{ok ? t('Taux de réussite') : t('Capital médian final')}</span>
                 <span className="value" style={{ color: ok ? (mc!.successRate >= 0.9 ? 'var(--success-text)' : mc!.successRate >= 0.75 ? 'var(--warning-text)' : 'var(--critical-text)') : undefined }}>{ok ? pct(mc!.successRate, 0) : mc ? eur(mc.p50[mc.p50.length - 1] * f(ys), 0) : '–'}</span>
               </div>
-              {sim.withdrawTax && <div className="kpi" style={{ paddingBottom: 'var(--space-12)' }} data-component="KpiCard"><span className="t-caption c-moderate">{t('Prélèvements sociaux payés')}</span><span className="value">{eur(last.tax, 0)}</span></div>}
+              <div className="kpi" style={{ paddingBottom: 'var(--space-12)' }} data-component="KpiCard">
+                <span className="t-caption c-moderate">{sim.withdrawTax ? t('Prélèvements sociaux payés') : t('Versements cumulés')}</span>
+                <span className="value">{eur(sim.withdrawTax ? last.tax : last.deposited, 0)}</span>
+              </div>
               {mc && <div className="kpi" style={{ paddingBottom: 'var(--space-12)' }} data-component="KpiCard"><span className="t-caption c-moderate">{t('Mauvais scénario (10 %)')}</span><span className="value">{eur(mc.p10[mc.p10.length - 1] * f(ys), 0)}</span></div>}
             </div>
           </section>
 
-          <section aria-labelledby="t406-chart" className="card dspan-12">
+          <section aria-labelledby="t406-chart" className="card dspan-8 dstart">
             <h2 id="t406-chart">{t('Évolution du capital')}</h2>
             <WithdrawChart points={points} band={band} startYear={res.startYear} depletedYear={depletedYear} label={t('Capital simulé sur {n} ans avec retraits : {v} à l’horizon, {w} retirés au total', { n: ys, v: eur(last.value, 0), w: eur(last.withdrawn, 0) })} />
             <div className="legend">
@@ -203,7 +206,7 @@ function SimTab() {
             </div>
           </section>
 
-          <section aria-labelledby="t406-mcs" className="card g12 dspan-12">
+          <section aria-labelledby="t406-mcs" className="card g12 dspan-4 dstart">
             <h2 id="t406-mcs">{t('Scénarios aléatoires')}</h2>
             <VolatilitySlider />
             {mc && (
@@ -255,6 +258,7 @@ function CalcTab() {
   const [tax, setTax] = useState(!!sim.withdrawTax);
   const [taxPct, setTaxPct] = useState((sim.withdrawTaxRate ?? DEFAULT_TAX_RATE) * 100);
   const [showMc, setShowMc] = useState(true);
+  const [adv, setAdv] = useState(false);
   const vol = sim.volatility ?? DEFAULT_VOLATILITY;
 
   // capital de départ : saisi, valeur actuelle du PEA, ou capital simulé au moment où les retraits commencent
@@ -297,7 +301,7 @@ function CalcTab() {
   }
   return (
     <>
-      <section aria-labelledby="t406-calc" className="card g16 dspan-5">
+      <section aria-labelledby="t406-calc" className="card g16 dspan-5 dstart">
         <h2 id="t406-calc">{t('Que cherchez-vous ?')}</h2>
         <div role="group" aria-label={t('Variable à calculer')} className="chips g6">
           {UNKNOWNS.map(([k, l]) => <button key={k} type="button" className="chip" aria-pressed={unk === k} onClick={() => setUnk(k)}>{t(l)}</button>)}
@@ -319,17 +323,20 @@ function CalcTab() {
             </>
           )}
         {unk === 'years' ? <NumField label={t('Durée')} value={sol.value} result decimals={1} suffix={t('ans')} hint={sol.status === 'durable' ? t('Plus de {n} ans', { n: MAX_CALC_YEARS }) : yearsText(sol.value)} /> : <NumField label={t('Durée (années)')} value={years} onChange={setYears} suffix={t('ans')} max={MAX_CALC_YEARS} />}
-        <details className="explain">
-          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center' }}>{t('Options avancées')}</summary>
+        <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} aria-expanded={adv} onClick={() => setAdv(!adv)}>{t('Options avancées')}<Icon name={adv ? 'up' : 'down'} size={20} /></button>
+        {adv && (
+          <div className="stack" style={{ gap: 'var(--space-12)' }}>
           <NumField label={t('Capital restant visé à la fin (€)')} value={target} onChange={setTarget} suffix="€" hint={unk === 'years' ? t('La durée se termine quand le capital passe sous cette somme.') : undefined} />
-          <SwitchRow id="t406-c-idx" label={t('Indexer le retrait sur l’inflation')} checked={idx} onChange={setIdx} />
-          {idx && <NumField label={t('Inflation annuelle (%)')} value={infl} onChange={setInfl} decimals={1} suffix="%" max={30} />}
-          <SwitchRow id="t406-c-tax" label={t('Déduire les prélèvements sociaux')} checked={tax} onChange={setTax} />
-          {tax && <NumField label={t('Taux des prélèvements sociaux (%)')} value={taxPct} onChange={setTaxPct} decimals={1} suffix="%" max={50} hint={basis === undefined ? t('Capital supposé sans gain : seuls les gains futurs sont taxés.') : undefined} />}
-        </details>
+            <SwitchRow id="t406-c-idx" label={t('Indexer le retrait sur l’inflation')} checked={idx} onChange={setIdx} />
+            {idx && <NumField label={t('Inflation annuelle (%)')} value={infl} onChange={setInfl} decimals={1} suffix="%" max={30} />}
+            <SwitchRow id="t406-c-tax" label={t('Déduire les prélèvements sociaux')} checked={tax} onChange={setTax} />
+            {tax && <NumField label={t('Taux des prélèvements sociaux (%)')} value={taxPct} onChange={setTaxPct} decimals={1} suffix="%" max={50} hint={basis === undefined ? t('Capital supposé sans gain : seuls les gains futurs sont taxés.') : undefined} />}
+          </div>
+        )}
       </section>
 
-      <section aria-label={t('Résultat')} className="stack-8 dspan-7 drow">
+      <div className="dspan-7 dstart stack-12">
+      <section aria-label={t('Résultat')} className="stack-8">
         <div className="hero" style={{ gap: 'var(--space-4)' }} data-component="Card.hero">
           <span className="overline">{t('Résultat')}</span>
           <span className="t-display" style={{ fontSize: 'clamp(22px, 7vw, 32px)', lineHeight: 1.2 }}>{headline}</span>
@@ -349,7 +356,7 @@ function CalcTab() {
         )}
       </section>
 
-      <section aria-labelledby="t406-cchart" className="card dspan-12">
+      <section aria-labelledby="t406-cchart" className="card">
         <h2 id="t406-cchart">{t('Évolution du capital')}</h2>
         {outCap > 0 && outMonthly > 0 ? (
           <WithdrawChart points={res.years} band={band} startYear={null} depletedYear={depletedYear} label={t('Capital de {c} avec {m} retirés par mois pendant {n} ans', { c: eur(outCap, 0), m: eur(outMonthly, 0), n: horizon })} />
@@ -365,6 +372,7 @@ function CalcTab() {
         <VolatilitySlider />
         <p className="t-legal c-moderate">{t('Retraits en fin de mois, rendement composé constant (sauf scénarios aléatoires), hors frais. Le taux de réussite est la part des scénarios où tous les retraits sont payés jusqu’à la fin de la durée.')}</p>
       </section>
+      </div>
     </>
   );
 }

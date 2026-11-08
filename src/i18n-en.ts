@@ -957,6 +957,8 @@ export const EN: Record<string, string> = {
   "Mode": "Mode",
   "Ma simulation": "My simulation",
   "Calculette": "Calculator",
+  "Une somme unique est due à une date précise (prélèvements sociaux compris si activés) : si le marché a été mauvais avant cette date, le capital ne la couvre pas en entier, ce qui compte comme un échec. Retarder la date, baisser la somme ou continuer les versements améliore ce taux.": "A one-off sum is due on a specific date (social charges included if enabled): if the market did badly before that date, the capital does not cover it in full, which counts as a failure. Pushing the date back, lowering the sum or keeping your contributions improves this rate.",
+  "Volatilité précise (%)": "Exact volatility (%)",
   "Vous pouvez les enchaîner : une somme unique, puis un pourcentage ensuite, en gardant ou non vos versements mensuels. La courbe, le taux de réussite et les scénarios aléatoires apparaissent dès la première phase.": "You can chain them: a one-off sum, then a percentage afterwards, with or without keeping your monthly contributions. The curve, success rate and random scenarios appear from the first phase.",
   "par exemple 100 000 € l’année 10 pour un apport immobilier.": "for example €100,000 in year 10 for a property down payment.",
   "par exemple 4 % : le retrait suit la valeur du capital.": "for example 4%: the withdrawal follows the value of your capital.",

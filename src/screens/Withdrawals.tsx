@@ -76,8 +76,14 @@ export function WithdrawalsScreen() {
 function VolatilitySlider() {
   const { data } = useCalc();
   const v = data.simulation.volatility ?? DEFAULT_VOLATILITY;
-  return <Slider label={t('Volatilité annuelle (scénarios aléatoires)')} value={Math.round(v * 100)} min={5} max={30} step={1} shown={pct(v, 0)} lo={pct(0.05, 0)} hi={pct(0.3, 0)}
-    onChange={(x) => update((d) => { d.simulation.volatility = x / 100; })} />;
+  const setVol = (pc: number) => update((d) => { d.simulation.volatility = Math.round(Math.min(60, Math.max(1, pc)) * 10) / 1000; }); // au dixième de point
+  const shown = pct(v, Math.round(v * 1000) % 10 ? 1 : 0);
+  return (
+    <div className="stack" style={{ gap: 'var(--space-8)' }}>
+      <Slider label={t('Volatilité annuelle (scénarios aléatoires)')} value={Math.min(30, Math.max(5, Math.round(v * 1000) / 10))} min={5} max={30} step={0.1} shown={shown} lo={pct(0.05, 0)} hi={pct(0.3, 0)} onChange={setVol} />
+      <NumField label={t('Volatilité précise (%)')} value={Math.round(v * 1000) / 10} onChange={(x) => x > 0 && setVol(x)} decimals={1} suffix="%" max={60} />
+    </div>
+  );
 }
 
 // ------------------------------------------------------------------ ma simulation
@@ -245,6 +251,7 @@ function SimTab() {
                 {mc.medianDepletionYear !== null && hasFixed ? ' ' + t('Quand le capital s’épuise, c’est en général vers l’année {y}.', { y: mc.medianDepletionYear }) : ''}
               </p>
             )}
+            {mc && kinds.includes('lump') && mc.successRate < 1 && <p className="t-caption c-neutral">{t('Une somme unique est due à une date précise (prélèvements sociaux compris si activés) : si le marché a été mauvais avant cette date, le capital ne la couvre pas en entier, ce qui compte comme un échec. Retarder la date, baisser la somme ou continuer les versements améliore ce taux.')}</p>}
             <p className="t-legal c-moderate">{t('Chaque scénario tire des rendements mensuels au hasard autour de votre rendement annuel (médiane) avec la volatilité choisie ; 15 % correspond à peu près à un ETF actions mondial. Les rendements sont supposés indépendants d’un mois à l’autre : les vraies crises durent plus longtemps. Les résultats sont les mêmes à chaque affichage.')}</p>
           </section>
 

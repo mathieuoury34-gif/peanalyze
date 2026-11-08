@@ -1,7 +1,7 @@
 // T3-02 Assistant du mois + T3-03 Allocation cible
 import { etfOrder } from '../etfColors';
 import { useState } from 'react';
-import { EtfDot, Segmented, Sheet, SubHeader, Switch, showToast } from '../ui/kit';
+import { EtfDot, InfoTip, RangeBar, Segmented, Sheet, SubHeader, Switch, showToast } from '../ui/kit';
 import { Icon } from '../ui/icons';
 import { navigate, closeSheet } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
@@ -54,8 +54,7 @@ export function AssistantScreen() {
       <SubHeader title={t('Planifier mes achats')} fallback="/portefeuille" />
       <main className="content flush-top">
         <section className="bleed stack-12 form-narrow" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-20)' }}>
-          <details className="explain" open={!data.transactions.length || undefined}>
-            <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment ça marche ?')}</summary>
+          <div><InfoTip wide align="start" caption={t('Comment ça marche ?')}>
             <ol>
               <li>{t('Indiquez le montant que vous allez investir ce mois-ci (votre virement sur le PEA).')}</li>
               <li>{t('L’app calcule combien de parts entières de chaque ETF de votre stratégie acheter, frais de courtage compris.')}</li>
@@ -63,7 +62,7 @@ export function AssistantScreen() {
             </ol>
             <span>{t('C’est un simple calcul à partir de votre allocation cible, pas un conseil en investissement.')}</span>
             <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=assistant')}>{t('En savoir plus dans l’aide')}</button>
-          </details>
+          </InfoTip></div>
           <label className="field">
             <span className="lbl">{t('Montant à investir ce mois-ci')}</span>
             <span className="input-wrap">
@@ -197,9 +196,8 @@ export function TargetSheet() {
                 <span className="grow t-strong">{tl(e.index)} <span className="t-caption c-moderate">· {e.id}</span></span>
                 <span className="t-amount-m right" style={{ minWidth: 52, color: on ? 'var(--text)' : 'var(--text-moderate)' }}>{on ? vals[e.id] : 0}{NBSP}%</span>
               </span>
-              <input className="range" type="range" min={0} max={100} step={1} value={on ? vals[e.id] : 0}
-                aria-label={t('Cible {i}', { i: e.index })} data-component="Slider"
-                onChange={(ev) => { const v = Number(ev.target.value); setVals({ ...vals, [e.id]: v }); setInStrat({ ...inStrat, [e.id]: v > 0 }); }} />
+              <RangeBar min={0} max={100} step={1} value={on ? vals[e.id] : 0} ariaLabel={t('Cible {i}', { i: e.index })}
+                onChange={(v) => { setVals({ ...vals, [e.id]: v }); setInStrat({ ...inStrat, [e.id]: v > 0 }); }} />
               <span className="between">
                 <span id={id} className="t-caption c-neutral">{t('Dans ma stratégie')}</span>
                 <Switch checked={on} labelledBy={id} onChange={(v) => { setInStrat({ ...inStrat, [e.id]: v }); if (v && !vals[e.id]) setVals({ ...vals, [e.id]: 5 }); }} />

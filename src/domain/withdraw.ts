@@ -3,7 +3,7 @@
 //
 // Conventions (les mêmes que `simulate` dans calc.ts) : rendement annuel composé converti en taux mensuel équivalent,
 // versements ET retraits en fin de mois, après le rendement du mois. Année 1 = les 12 premiers mois.
-import type { DcaPhase, Simulation, WithdrawKind, WithdrawPhase } from './types';
+import type { CalcPrefs, DcaPhase, Simulation, ViewPrefs, WithdrawKind, WithdrawPhase } from './types';
 
 export const DEFAULT_INFLATION = 0.02;
 export const DEFAULT_VOLATILITY = 0.15;
@@ -265,3 +265,39 @@ export function monteCarlo(cfg: WithdrawConfig, vol = DEFAULT_VOLATILITY, paths 
     medianDepletionYear: depYears.length ? depYears[Math.floor(depYears.length / 2)] : null, depletedShare: paths ? depYears.length / paths : 0,
   };
 }
+
+// ---------------------------------------------------------------- saisies enregistrées de la Calculatrice
+/** Valeur par défaut d'une saisie de la Calculatrice (certaines suivent les réglages de la simulation). */
+export function calcDefault<K extends keyof CalcPrefs>(sim: Simulation, key: K): Required<CalcPrefs>[K] {
+  const d: Required<CalcPrefs> = {
+    unk: 'monthly', src: 'sim', capFree: 300000, rate: Math.round(sim.annualRate * 1000) / 10, wMode: 'eur', wEur: 1500, wPct: 4, years: 25, target: 0,
+    idx: !!sim.withdrawIndexed, infl: (sim.inflation ?? DEFAULT_INFLATION) * 100, tax: !!sim.withdrawTax, taxPct: (sim.withdrawTaxRate ?? DEFAULT_TAX_RATE) * 100,
+  };
+  return d[key];
+}
+
+const same = (a: unknown, b: unknown) => (typeof a === 'number' && typeof b === 'number' ? Math.abs(a - b) < 1e-9 : a === b);
+
+/** Valeur effective d'une saisie : celle enregistrée, sinon le défaut. */
+export function calcValue<K extends keyof CalcPrefs>(sim: Simulation, key: K): Required<CalcPrefs>[K] {
+  const v = sim.calc?.[key];
+  return (v === undefined ? calcDefault(sim, key) : v) as Required<CalcPrefs>[K];
+}
+
+/** Enregistre une saisie sur la simulation (modifie `sim`) ; une valeur égale au défaut n'est pas conservée. */
+export function setCalcValue<K extends keyof CalcPrefs>(sim: Simulation, key: K, v: Required<CalcPrefs>[K]) {
+  const c: CalcPrefs = { ...(sim.calc ?? {}) };
+  if (same(v, calcDefault(sim, key))) delete c[key]; else (c as Record<string, unknown>)[key] = v;
+  if (Object.keys(c).length) sim.calc = c; else delete sim.calc;
+}
+
+/** Idem pour l'affichage de l'onglet Retraits : seules les valeurs « allumées » sont conservées. */
+export function setViewValue<K extends keyof ViewPrefs>(sim: Simulation, key: K, v: ViewPrefs[K] | false) {
+  const c: ViewPrefs = { ...(sim.view ?? {}) };
+  if (v === false || v === undefined) delete c[key]; else (c as Record<string, unknown>)[key] = v;
+  if (Object.keys(c).length) sim.view = c; else delete sim.view;
+}
+
+/** Libellés utilisés dans le classeur Excel pour les choix de la Calculatrice. */
+export const CALC_UNK_LABEL: Record<NonNullable<CalcPrefs['unk']>, string> = { monthly: 'Retrait mensuel', years: 'Durée', capital: 'Capital', rate: 'Rendement' };
+export const CALC_SRC_LABEL: Record<NonNullable<CalcPrefs['src']>, string> = { free: 'Saisi', pea: 'Mon PEA', sim: 'Fin d’épargne' };

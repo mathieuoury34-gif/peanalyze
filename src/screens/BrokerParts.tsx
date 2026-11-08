@@ -8,6 +8,7 @@ import type { AppData } from '../domain/types';
 import { update } from '../data/store';
 import { t } from '../i18n';
 import { MoneyField } from './PlanParts';
+import { InfoTip } from '../ui/kit';
 
 export const brokerName = (b: Broker) => (b.id === CUSTOM_BROKER ? t(b.name) : b.name);
 export const brokerLabel = (data: AppData) => brokerName(brokerOf(data.settings));
@@ -60,10 +61,15 @@ export function TariffFreshness({ b }: { b: Broker }) {
   const months = Math.floor((a.days ?? 0) / 30.4);
   return (
     <div className="stack-4" data-testid="tariff-freshness">
-      <p className="t-legal c-moderate">{t('Tarifs indicatifs relevés le {d} sur des sites comparateurs, pas chez le courtier : vérifiez sur sa brochure tarifaire.', { d: dateFr(b.checked) })} <a href={b.url} target="_blank" rel="noopener noreferrer">{t('Site du courtier')}</a></p>
+      <div className="row" style={{ gap: 'var(--space-6)' }}>
+        <span className="t-legal c-moderate">{t('Tarifs relevés le {d}', { d: dateFr(b.checked) })}</span>
+        <InfoTip wide align="start">
+          <span>{t('Tarifs indicatifs relevés le {d} sur des sites comparateurs, pas chez le courtier : vérifiez sur sa brochure tarifaire.', { d: dateFr(b.checked) })} <a href={b.url} target="_blank" rel="noopener noreferrer">{t('Site du courtier')}</a></span>
+          {watch?.items[b.id]?.checkedAt && !a.changedOn && <span>{t('Page tarifaire surveillée : aucun changement de chiffres vu depuis le {d}.', { d: dateFr(watch.items[b.id].checkedAt!) })}</span>}
+        </InfoTip>
+      </div>
       {a.stale && <p className="t-caption" style={{ color: 'var(--warning-text)' }} data-testid="tariff-stale">{t('Ces tarifs datent de {n} mois : ils ont sans doute changé, revérifiez-les avant de décider.', { n: months })}</p>}
       {a.changedOn && <p className="t-caption" style={{ color: 'var(--warning-text)' }} data-testid="tariff-changed">{t('Le robot a vu la page tarifaire de ce courtier changer le {d} : revérifiez la grille.', { d: dateFr(a.changedOn) })}</p>}
-      {watch?.items[b.id]?.checkedAt && !a.changedOn && <p className="t-legal c-moderate">{t('Page tarifaire surveillée : aucun changement de chiffres vu depuis le {d}.', { d: dateFr(watch.items[b.id].checkedAt!) })}</p>}
     </div>
   );
 }

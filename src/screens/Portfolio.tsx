@@ -1,6 +1,6 @@
 // T3-01 Synthèse (écran de lancement) + T3-04 Répartitions
 import { useState } from 'react';
-import { AppHeader, EtfDot, Fab, Hero, PriceErrorBanner, Segmented, SubNav, useWidth } from '../ui/kit';
+import { AppHeader, EtfDot, Fab, Hero, InfoTip, PriceErrorBanner, Segmented, SubNav, useWidth } from '../ui/kit';
 import { DoubleDonut, Donut, HBarList } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { navigate, openSheet } from '../ui/router';
@@ -206,7 +206,11 @@ export function RepartitionsScreen() {
         <div className="form-narrow"><Segmented label={t('Type de répartition')} value={tab} onChange={setTab} options={[['sec', t('Secteurs')], ['geo', t('Pays')]]} /></div>
         {tab === 'sec' ? (
           <section aria-labelledby="t304-sec" className="card g16 form-narrow">
-            <h2 id="t304-sec">{t('Secteurs du portefeuille')}</h2>
+            <div className="between"><h2 id="t304-sec">{t('Secteurs du portefeuille')}</h2><InfoTip wide>
+              <span>{t('Répartition calculée en pondérant la composition de chaque ETF par son poids dans le portefeuille.')}</span>
+              {cov.missing.length > 0 && <span data-testid="coverage-note">{t('Calcul sur {p} du portefeuille : la composition de {l} n’est pas encore vérifiée (source indicative, non comparable) et n’est pas comptée.', { p: pct(cov.covered, 0), l: cov.missing.map((m) => m.name).join(', ') })}</span>}
+              {grey.length > 0 && <span>{t('Le donut regroupe en gris les plus petits secteurs ({l}).', { l: grey.join(', ') })}</span>}
+            </InfoTip></div>
             <Donut slices={donut} label={t('Secteurs : {l}', { l: sectorList.map((s) => tl(s.label) + ' ' + pct(s.weight)).join(', ') })}>
               {top && <><span className="t-amount-l">{pct(top.weight)}</span><span className="t-caption c-moderate">{tl(top.label).split(' ')[0]}</span></>}
             </Donut>
@@ -219,23 +223,15 @@ export function RepartitionsScreen() {
                 </li>
               ))}
             </ul>
-            {grey.length > 0 && <p className="t-legal c-moderate">{t('Le donut regroupe en gris les plus petits secteurs ({l}).', { l: grey.join(', ') })}</p>}
           </section>
         ) : (
           <section aria-labelledby="t304-geo" className="card form-narrow">
-            <h2 id="t304-geo">{t('Pays du portefeuille')}</h2>
+            <div className="between"><h2 id="t304-geo">{t('Pays du portefeuille')}</h2><InfoTip wide>
+              <span>{t('Répartition calculée en pondérant la composition de chaque ETF par son poids dans le portefeuille.')}</span>
+              {cov.missing.length > 0 && <span data-testid="coverage-note">{t('Calcul sur {p} du portefeuille : la composition de {l} n’est pas encore vérifiée (source indicative, non comparable) et n’est pas comptée.', { p: pct(cov.covered, 0), l: cov.missing.map((m) => m.name).join(', ') })}</span>}
+            </InfoTip></div>
             <HBarList rows={countries} />
           </section>
-        )}
-        <p className="row t-caption c-neutral form-narrow" style={{ alignItems: 'flex-start' }}>
-          <Icon name="info" size={18} />
-          {t('Répartition calculée en pondérant la composition de chaque ETF par son poids dans le portefeuille.')}
-        </p>
-        {cov.missing.length > 0 && (
-          <p className="row t-caption c-neutral form-narrow" style={{ alignItems: 'flex-start' }} data-testid="coverage-note">
-            <Icon name="info" size={18} />
-            {t('Calcul sur {p} du portefeuille : la composition de {l} n’est pas encore vérifiée (source indicative, non comparable) et n’est pas comptée.', { p: pct(cov.covered, 0), l: cov.missing.map((m) => m.name).join(', ') })}
-          </p>
         )}
       </main>
       <Fab onClick={() => openSheet('ajouter')} />

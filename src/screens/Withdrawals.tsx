@@ -1,6 +1,6 @@
 // Onglet Simulateur › Retraits : phases de retrait, courbe du capital, scénarios aléatoires (Monte Carlo) et calculette à 4 variables.
 import { useDeferredValue, useEffect, useId, useMemo, useState } from 'react';
-import { AppHeader, InfoTip, PriceErrorBanner, Segmented, SubNav, Switch } from '../ui/kit';
+import { AppHeader, InfoTip, PriceErrorBanner, RangeField, Segmented, SubNav, Switch } from '../ui/kit';
 import { SIM_NAV } from './PlanParts';
 import { WithdrawChart } from '../ui/WithdrawChart';
 import { Icon } from '../ui/icons';
@@ -10,8 +10,8 @@ import { MAX_HORIZON } from '../domain/calc';
 import { adjustForCosts, holdingCost } from '../domain/analysis';
 import { eur, num, parseNum, pct, toInput } from '../domain/format';
 import { update } from '../data/store';
-import { calcConfig, configFromSim, DEFAULT_INFLATION, DEFAULT_TAX_RATE, DEFAULT_VOLATILITY, kindOf, MAX_CALC_YEARS, monteCarlo, run, solve, type CalcInput, type Unknown } from '../domain/withdraw';
-import type { Simulation, WithdrawKind, WithdrawPhase } from '../domain/types';
+import { calcConfig, calcValue, configFromSim, DEFAULT_INFLATION, DEFAULT_TAX_RATE, DEFAULT_VOLATILITY, kindOf, MAX_CALC_YEARS, monteCarlo, run, setCalcValue, setViewValue, solve, type CalcInput, type Unknown } from '../domain/withdraw';
+import type { CalcPrefs, Simulation, ViewPrefs, WithdrawKind, WithdrawPhase } from '../domain/types';
 import { lang, t, tn } from '../i18n';
 
 /** Champ numérique : garde le texte tapé, se resynchronise quand la valeur change de l'extérieur (résultat de la calculette). */
@@ -39,41 +39,24 @@ function SwitchRow({ id, label, checked, onChange, disabled }: { id: string; lab
   return <div className="between" style={{ minHeight: 52, gap: 'var(--space-12)' }}><span id={id}>{label}</span><Switch checked={checked} onChange={onChange} labelledBy={id} disabled={disabled} /></div>;
 }
 
-function Slider({ label, value, min, max, step, shown, onChange, lo, hi, fine }: { label: string; value: number; min: number; max: number; step: number; shown: string; onChange: (v: number) => void; lo: string; hi: string; fine?: number }) {
-  // `fine` : pas des boutons − / + (réglage précis) ; la valeur reste au pas près (évite les erreurs d'arrondi des décimales)
-  const sid = useId();
-  const nudge = (d: number) => onChange(Math.round(Math.min(max, Math.max(min, value + d)) * 1000) / 1000);
-  const btn = { width: 'var(--touch-min)', height: 'var(--touch-min)', flexShrink: 0, border: '1px solid var(--divider-minimal)', borderRadius: 'var(--radius-full)', background: 'transparent', color: 'var(--primary-fg)', font: 'var(--type-h2, var(--type-body-strong))', cursor: 'pointer' } as const;
-  return (
-    <div className="stack" style={{ gap: 'var(--space-2)' }}>
-      <span className="between"><span className="t-label" id={sid}>{label}</span><span className="t-amount-m c-primary">{shown}</span></span>
-      <span className="row" style={{ gap: 'var(--space-8)' }}>
-        {fine && <button type="button" style={btn} aria-label={t('Diminuer')} disabled={value <= min} onClick={() => nudge(-fine)}>−</button>}
-        <input className="range" style={{ flex: 1, minWidth: 0 }} type="range" aria-labelledby={sid} min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} data-component="Slider" />
-        {fine && <button type="button" style={btn} aria-label={t('Augmenter')} disabled={value >= max} onClick={() => nudge(fine)}>+</button>}
-      </span>
-      <span className="between t-legal c-moderate"><span>{lo}</span><span>{hi}</span></span>
-    </div>
-  );
-}
-
 const yearsText = (y: number) => { const m = Math.round(y * 12), a = Math.floor(m / 12), r = m % 12; return [a ? tn(a, '{n} an', '{n} ans') : '', r ? (lang === 'en' && r === 1 ? '1 month' : t('{n} mois', { n: r })) : ''].filter(Boolean).join(' ') || t('moins d’un mois'); };
 
 export function WithdrawalsScreen() {
-  const [tab, setTab] = useState<'sim' | 'calc'>('sim');
+  const { data } = useCalc();
+  const tab = data.simulation.view?.tab === 'calc' ? 'calc' : 'sim';
+  const setTab = (v: 'sim' | 'calc') => update((d) => setViewValue(d.simulation, 'tab', v === 'calc' ? 'calc' : false));
   return (
     <div className="screen" data-screen="T4-06">
       <AppHeader title={t('Simulateur')} />
       <PriceErrorBanner />
       <SubNav items={SIM_NAV()} label={t('Sections du simulateur')} />
       <main className="content dgrid dtop">
-        <details className="explain dspan-12">
-          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment fonctionnent les retraits ?')}</summary>
-          <span>{t('Une fois votre capital constitué, vous pouvez en retirer chaque mois une somme fixe (ou une part du capital restant). « Ma simulation » trace l’évolution du capital avec vos phases de retrait ; « Calculette » trouve la valeur manquante parmi la durée, le retrait, le capital et le rendement.')}</span>
+        <div className="dspan-12"><InfoTip wide align="start" caption={t('Comment fonctionnent les retraits ?')}>
+          <span>{t('Une fois votre capital constitué, vous pouvez en retirer chaque mois une somme fixe (ou une part du capital restant). « Ma simulation » trace l’évolution du capital avec vos phases de retrait ; « Calculatrice » trouve la valeur manquante parmi la durée, le retrait, le capital et le rendement.')}</span>
           <span>{t('Le rendement est supposé constant, sauf dans les scénarios aléatoires (Monte Carlo) qui testent aussi la mauvaise surprise : une baisse juste après le début des retraits. Projection indicative, pas une promesse.')}</span>
           <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=retraits')}>{t('En savoir plus dans l’aide')}</button>
-        </details>
-        <div className="dspan-12"><Segmented label={t('Mode')} value={tab} onChange={setTab} options={[['sim', t('Ma simulation')], ['calc', t('Calculette')]]} /></div>
+        </InfoTip></div>
+        <div className="dspan-12"><Segmented label={t('Mode')} value={tab} onChange={setTab} options={[['sim', t('Ma simulation')], ['calc', t('Calculatrice')]]} /></div>
         {tab === 'sim' ? <SimTab /> : <CalcTab />}
       </main>
     </div>
@@ -86,16 +69,27 @@ function VolatilitySlider() {
   const v = data.simulation.volatility ?? DEFAULT_VOLATILITY;
   const setVol = (pc: number) => update((d) => { d.simulation.volatility = Math.round(Math.min(60, Math.max(1, pc)) * 10) / 1000; }); // au dixième de point
   const shown = pct(v, Math.round(v * 1000) % 10 ? 1 : 0);
-  return <Slider label={t('Volatilité annuelle (scénarios aléatoires)')} value={Math.min(30, Math.max(5, Math.round(v * 1000) / 10))} min={5} max={30} step={0.1} fine={0.1} shown={shown} lo={pct(0.05, 0)} hi={pct(0.3, 0)} onChange={setVol} />;
+  return <RangeField label={t('Volatilité annuelle (scénarios aléatoires)')} value={Math.min(30, Math.max(5, Math.round(v * 1000) / 10))} min={5} max={30} step={0.1} shown={shown} lo={pct(0.05, 0)} hi={pct(0.3, 0)} onChange={setVol} />;
+}
+
+/** Saisie de la Calculatrice conservée dans les données de l'appli (et le classeur Excel). */
+function useCalcField<K extends keyof CalcPrefs>(key: K): [Required<CalcPrefs>[K], (v: Required<CalcPrefs>[K]) => void] {
+  const { data } = useCalc();
+  return [calcValue(data.simulation, key), (v) => update((d) => setCalcValue(d.simulation, key, v))];
+}
+/** Réglage d'affichage (interrupteur) conservé de la même façon. */
+function useViewFlag(key: Exclude<keyof ViewPrefs, 'tab'>): [boolean, (v: boolean) => void] {
+  const { data } = useCalc();
+  return [!!data.simulation.view?.[key], (v) => update((d) => setViewValue(d.simulation, key, v ? true : false))];
 }
 
 // ------------------------------------------------------------------ ma simulation
 function SimTab() {
   const { data, positions } = useCalc();
   const sim = data.simulation;
-  const [constant, setConstant] = useState(false);
-  const [fees, setFees] = useState(false);
-  const [showMc, setShowMc] = useState(true);
+  const [constant, setConstant] = useViewFlag('constant');
+  const [fees, setFees] = useViewFlag('fees');
+  const [showMc, setShowMc] = useViewFlag('mcSim');
   const [table, setTable] = useState(false);
   const [adv, setAdv] = useState(false);
   const [advChart, setAdvChart] = useState(false);
@@ -284,20 +278,20 @@ const UNKNOWNS: [Unknown, string][] = [['monthly', 'Retrait'], ['years', 'Durée
 function CalcTab() {
   const { data, summary } = useCalc();
   const sim = data.simulation;
-  const [unk, setUnk] = useState<Unknown>('monthly');
-  const [src, setSrc] = useState<'free' | 'pea' | 'sim'>('sim');
-  const [capFree, setCapFree] = useState(300000);
-  const [rate, setRate] = useState(Math.round(sim.annualRate * 1000) / 10);
-  const [wMode, setWMode] = useState<'eur' | 'pct'>('eur');
-  const [wEur, setWEur] = useState(1500);
-  const [wPct, setWPct] = useState(4);
-  const [years, setYears] = useState(25);
-  const [target, setTarget] = useState(0);
-  const [idx, setIdx] = useState(!!sim.withdrawIndexed);
-  const [infl, setInfl] = useState((sim.inflation ?? DEFAULT_INFLATION) * 100);
-  const [tax, setTax] = useState(!!sim.withdrawTax);
-  const [taxPct, setTaxPct] = useState((sim.withdrawTaxRate ?? DEFAULT_TAX_RATE) * 100);
-  const [showMc, setShowMc] = useState(true);
+  const [unk, setUnk] = useCalcField('unk');
+  const [src, setSrc] = useCalcField('src');
+  const [capFree, setCapFree] = useCalcField('capFree');
+  const [rate, setRate] = useCalcField('rate');
+  const [wMode, setWMode] = useCalcField('wMode');
+  const [wEur, setWEur] = useCalcField('wEur');
+  const [wPct, setWPct] = useCalcField('wPct');
+  const [years, setYears] = useCalcField('years');
+  const [target, setTarget] = useCalcField('target');
+  const [idx, setIdx] = useCalcField('idx');
+  const [infl, setInfl] = useCalcField('infl');
+  const [tax, setTax] = useCalcField('tax');
+  const [taxPct, setTaxPct] = useCalcField('taxPct');
+  const [showMc, setShowMc] = useViewFlag('mcCalc');
   const [adv, setAdv] = useState(false);
   const [advChart, setAdvChart] = useState(false);
   const vol = sim.volatility ?? DEFAULT_VOLATILITY;

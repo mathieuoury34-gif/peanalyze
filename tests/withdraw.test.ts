@@ -169,3 +169,19 @@ test('calculette : durée vide ou nulle → pas de résultat (et non un nombre d
   }
   assert.equal(solve('years', base({ years: 0 })).status, 'ok');
 });
+
+test('saisies de la Calculatrice : valeur par défaut non enregistrée, valeur modifiée conservée', async () => {
+  const { calcValue, setCalcValue, setViewValue } = await import('../src/domain/withdraw');
+  const sim: any = { initialCapital: 0, horizonYears: 30, annualRate: 0.085, dcaPhases: [] };
+  assert.equal(calcValue(sim, 'rate'), 8.5);
+  assert.equal(calcValue(sim, 'years'), 25);
+  setCalcValue(sim, 'years', 30);
+  assert.deepEqual(sim.calc, { years: 30 });
+  assert.equal(calcValue(sim, 'years'), 30);
+  setCalcValue(sim, 'years', 25);
+  assert.equal(sim.calc, undefined);
+  setViewValue(sim, 'mcCalc', true);
+  assert.deepEqual(sim.view, { mcCalc: true });
+  setViewValue(sim, 'mcCalc', false);
+  assert.equal(sim.view, undefined);
+});

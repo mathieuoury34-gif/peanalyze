@@ -1,6 +1,6 @@
 // Portefeuille › Analyse : comparaison à un ETF de référence, recoupements entre ETF, risque et coût de détention
 import { useMemo, useState } from 'react';
-import { AppHeader, EtfDot, Fab, PriceErrorBanner, SubNav, showToast } from '../ui/kit';
+import { AppHeader, EtfDot, Fab, InfoTip, PillLink, PriceErrorBanner, SubNav, showToast } from '../ui/kit';
 import { CompareLinesChart } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { navigate, openSheet } from '../ui/router';
@@ -25,10 +25,6 @@ function Kpi({ label, value, sub, tone }: { label: string; value: string; sub?: 
       {sub && <span className="t-caption c-moderate">{sub}</span>}
     </div>
   );
-}
-
-function Note({ children }: { children: React.ReactNode }) {
-  return <p className="row t-caption c-neutral" style={{ alignItems: 'flex-start' }}><Icon name="info" size={18} />{children}</p>;
 }
 
 const LEVEL: Record<OverlapPair['level'], () => string> = {
@@ -76,9 +72,16 @@ export function AnalysisScreen() {
         {/* ------------------------------------------------ 1. référence */}
         {held.length > 0 && (
           <section aria-labelledby="t305-ref" className="card g16 dspan-12" data-testid="bench">
-            <div className="stack-4">
+            <div className="between">
               <h2 id="t305-ref">{t('Face à un ETF de référence')}</h2>
-              <span className="t-caption c-moderate">{t('Que serait devenu votre argent s’il avait été placé dans un seul ETF, aux mêmes dates ?')}</span>
+              <InfoTip wide>
+                <span>{t('Que serait devenu votre argent s’il avait été placé dans un seul ETF, aux mêmes dates ?')}</span>
+                <span>{t('Seuls les ETF de « Mes ETF » dont les cours sont suivis peuvent servir de référence. Pour comparer à un autre indice (MSCI World, S&P 500…), choisissez-le dans le catalogue : il est ajouté à Mes ETF et son historique est chargé au prochain passage du robot des cours.')}</span>
+                {bench && <span>
+                  {t('Comparaison du {a} au {b} : mêmes virements et retraits, rejoués aux mêmes dates au cours de clôture. Vos espèces en attente et vos frais de courtage sont comptés pour vous, pas pour la référence.', { a: dateFr(bench.from), b: dateFr(bench.to) })}
+                  {bench.shortened ? ' ' + t('L’historique de cours disponible est plus court que votre histoire : la comparaison démarre à sa première date, avec la valeur que vous aviez ce jour-là.') : ''}
+                </span>}
+              </InfoTip>
             </div>
             {(candidates.length > 0 || chosen) && (
               <label className="field">
@@ -88,7 +91,6 @@ export function AnalysisScreen() {
                 </select>
               </label>
             )}
-            <p className="t-caption c-moderate">{t('Seuls les ETF de « Mes ETF » dont les cours sont suivis peuvent servir de référence. Pour comparer à un autre indice (MSCI World, S&P 500…), choisissez-le dans le catalogue : il est ajouté à Mes ETF et son historique est chargé au prochain passage du robot des cours.')}</p>
             <button type="button" className="btn btn-secondary wrap" style={{ alignSelf: 'flex-start', maxWidth: '100%' }} onClick={() => setPickRef(true)}><Icon name="search" size={20} />{t('Choisir un autre ETF de référence')}</button>
             {bench ? (
               <>
@@ -106,10 +108,6 @@ export function AnalysisScreen() {
                   <Kpi label={t('Mon portefeuille')} value={eur(bench.mineEnd, 0)} sub={`${eurSigned(bench.mineGain, 0)} · ${pctSigned(bench.mineGainPct)}`} tone={bench.mineGain >= 0 ? 'good' : 'bad'} />
                   <Kpi label={name(bench.benchId)} value={eur(bench.benchEnd, 0)} sub={`${eurSigned(bench.benchGain, 0)} · ${pctSigned(bench.benchGainPct)}`} tone={bench.benchGain >= 0 ? 'good' : 'bad'} />
                 </div>
-                <Note>
-                  {t('Comparaison du {a} au {b} : mêmes virements et retraits, rejoués aux mêmes dates au cours de clôture. Vos espèces en attente et vos frais de courtage sont comptés pour vous, pas pour la référence.', { a: dateFr(bench.from), b: dateFr(bench.to) })}
-                  {bench.shortened ? ' ' + t('L’historique de cours disponible est plus court que votre histoire : la comparaison démarre à sa première date, avec la valeur que vous aviez ce jour-là.') : ''}
-                </Note>
               </>
             ) : (
               <p className="c-neutral">{chosen && displayHistory(chosen).length < 2 ? t('L’historique de cours de {r} n’est pas encore chargé : il arrive au prochain passage du robot des cours (en général sous 24 h).', { r: name(chosen.id) }) : candidates.length ? t('Pas assez d’historique de cours pour comparer : revenez après quelques semaines de cours.') : t('Aucun ETF suivi n’a encore d’historique de cours : actualisez les cours depuis les réglages.')}</p>
@@ -120,9 +118,9 @@ export function AnalysisScreen() {
         {/* ------------------------------------------------ 2. recoupements */}
         {held.length > 0 && (
           <section aria-labelledby="t305-dup" className="card g16 dspan-6" data-testid="overlap">
-            <div className="stack-4">
+            <div className="between">
               <h2 id="t305-dup">{t('Doublons et recoupements')}</h2>
-              <span className="t-caption c-moderate">{t('Deux ETF peuvent acheter en partie les mêmes entreprises : vous payez alors des frais deux fois pour la même exposition.')}</span>
+              <InfoTip wide><span>{t('Deux ETF peuvent acheter en partie les mêmes entreprises : vous payez alors des frais deux fois pour la même exposition.')}</span><span>{t('Recoupement = part commune des compositions (pays et secteurs) de deux ETF. Un S&P 500 dans un MSCI World, par exemple, recoupe à peu près le poids des États-Unis dans le MSCI World.')}</span></InfoTip>
             </div>
             {held.length < 2 ? (
               <p className="c-neutral">{t('Vous ne détenez qu’un ETF : il n’y a pas de recoupement possible.')}</p>
@@ -152,20 +150,23 @@ export function AnalysisScreen() {
                 <span className="t-label c-neutral">{t('Exposition cumulée')}</span>
                 {topCountry && <span>{t('Premier pays : {l} ({p} du portefeuille).', { l: tl(topCountry.label), p: pct(topCountry.weight, 0) })}</span>}
                 {topSector && <span>{t('Premier secteur : {l} ({p}).', { l: tl(topSector.label), p: pct(topSector.weight, 0) })}</span>}
-                <button type="button" className="link" style={{ alignSelf: 'flex-start' }} onClick={() => navigate('/portefeuille/repartitions')}>{t('Voir les répartitions')}</button>
+                <PillLink onClick={() => navigate('/portefeuille/repartitions')}>{t('Voir les répartitions')}</PillLink>
                 {cov.missing.length > 0 && <span className="t-caption c-moderate">{t('Calcul sur {p} du portefeuille (compositions vérifiées).', { p: pct(cov.covered, 0) })}</span>}
               </div>
             )}
-            <Note>{t('Recoupement = part commune des compositions (pays et secteurs) de deux ETF. Un S&P 500 dans un MSCI World, par exemple, recoupe à peu près le poids des États-Unis dans le MSCI World.')}</Note>
           </section>
         )}
 
         {/* ------------------------------------------------ 3. risque */}
         {held.length > 0 && (
           <section aria-labelledby="t305-risk" className="card g16 dspan-6" data-testid="risk">
-            <div className="stack-4">
+            <div className="between">
               <h2 id="t305-risk">{t('Risque')}</h2>
-              <span className="t-caption c-moderate">{t('À quel point la valeur de vos ETF bouge, et à quel point vous dépendez d’une seule ligne.')}</span>
+              <InfoTip wide>
+                <span>{t('À quel point la valeur de vos ETF bouge, et à quel point vous dépendez d’une seule ligne.')}</span>
+                <span>{risk.volatility === null ? t('Pas assez de séances de cours depuis votre premier achat pour mesurer la volatilité (20 au minimum).') : t('Mesuré sur {n} séances depuis le {d}, avec les parts que vous déteniez chaque jour (vos virements ne comptent pas comme performance). Repère : les actions mondiales varient d’environ 15 % par an et ont déjà perdu plus de 30 % lors des grandes crises. Le passé ne prédit pas l’avenir.', { n: risk.days, d: dateFr(risk.since) })}</span>
+                <span>{t('Lignes équivalentes : si toutes vos lignes pesaient pareil, vous en auriez ce nombre. Plus il est proche du nombre de lignes détenues, plus le portefeuille est équilibré.')}</span>
+              </InfoTip>
             </div>
             <div className="grid-2">
               <Kpi label={t('Volatilité annuelle')} value={risk.volatility === null ? '—' : pct(risk.volatility, 1)} sub={t('Amplitude habituelle des variations')} />
@@ -174,11 +175,6 @@ export function AnalysisScreen() {
               <Kpi label={t('Plus grosse ligne')} value={pct(risk.largestWeight, 0)} sub={risk.largestId ? name(risk.largestId) : ''} tone={risk.largestWeight > 0.6 ? 'bad' : undefined} />
               <Kpi label={t('Lignes équivalentes')} value={num(risk.effectiveLines, 1)} sub={t('sur {n} détenues', { n: held.length })} />
             </div>
-            {risk.volatility === null ? (
-              <Note>{t('Pas assez de séances de cours depuis votre premier achat pour mesurer la volatilité (20 au minimum).')}</Note>
-            ) : (
-              <Note>{t('Mesuré sur {n} séances depuis le {d}, avec les parts que vous déteniez chaque jour (vos virements ne comptent pas comme performance). Repère : les actions mondiales varient d’environ 15 % par an et ont déjà perdu plus de 30 % lors des grandes crises. Le passé ne prédit pas l’avenir.', { n: risk.days, d: dateFr(risk.since) })}</Note>
-            )}
             {risk.lines.length > 0 && (
               <div className="stack-4">
                 <span className="t-label c-neutral">{t('Par ETF, sur 12 mois')}</span>
@@ -194,16 +190,25 @@ export function AnalysisScreen() {
                 </ul>
               </div>
             )}
-            <Note>{t('Lignes équivalentes : si toutes vos lignes pesaient pareil, vous en auriez ce nombre. Plus il est proche du nombre de lignes détenues, plus le portefeuille est équilibré.')}</Note>
           </section>
         )}
 
         {/* ------------------------------------------------ 4. coût */}
         {held.length > 0 && (
           <section aria-labelledby="t305-cost" className="card g16 dspan-12" data-testid="cost">
-            <div className="stack-4">
+            <div className="between">
               <h2 id="t305-cost">{t('Ce que vos ETF vous coûtent')}</h2>
-              <span className="t-caption c-moderate">{t('Frais courants des ETF (prélevés dans le cours, jamais facturés) + frais de courtage de vos ordres.')}</span>
+              <InfoTip wide label={t('Comment c’est calculé ?')}>
+                <span>{t('Frais courants des ETF (prélevés dans le cours, jamais facturés) + frais de courtage de vos ordres.')}</span>
+                <span>{t('Les frais courants sont estimés sur la valeur détenue aujourd’hui ; le courtage compte vos ordres des 12 derniers mois.')}</span>
+              <ol>
+                <li>{t('Frais courants : pour chaque ETF détenu, ses frais annuels (catalogue) × sa valeur aujourd’hui. Ils sont déjà déduits du cours : vous ne les voyez jamais sur un relevé.')}</li>
+                <li>{t('Courtage : la somme des frais de vos ordres enregistrés dans l’Historique sur les 12 derniers mois, moins les remboursements. Ce sont vos frais réels, pas une estimation.')}</li>
+                <li>{t('Tenue de compte et droits de garde : absents de l’Historique, ils sont estimés avec la grille de votre courtier (Paramètres › PEA).')}</li>
+                <li>{t('Effet sur le capital final : le simulateur est rejoué en retirant les frais courants (et les droits de garde en %) du rendement, et le courtage de vos versements : nombre d’ordres de l’année × frais moyens d’un ordre, selon le courtier et le montant de chaque ordre.')}</li>
+              </ol>
+              <button type="button" className="link" onClick={() => navigate('/portefeuille/courtiers')}>{t('Comparer avec d’autres courtiers')}</button>
+              </InfoTip>
             </div>
             <div className={cost.custody > 0 ? 'grid-2' : 'grid-3'}>
               <Kpi label={t('Frais courants')} value={eur(cost.terEur, 2)} sub={t('{p} par an en moyenne', { p: pct(cost.terPct, 2) })} />
@@ -220,28 +225,17 @@ export function AnalysisScreen() {
               ))}
             </ul>
             {projection && projection.lost > 0.5 && (
-              <p>
-                {t('Sur {h} ans, avec votre projection du simulateur, ces frais retireraient environ {a} au capital final ({p}).', { h: data.simulation.horizonYears, a: eur(projection.lost, 0), p: pct(projection.lost / projection.without, 1) })}
-                {' '}<button type="button" className="link" onClick={() => navigate('/simulateur')}>{t('Voir le simulateur')}</button>
-              </p>
+              <div className="stack-8">
+                <p>{t('Sur {h} ans, avec votre projection du simulateur, ces frais retireraient environ {a} au capital final ({p}).', { h: data.simulation.horizonYears, a: eur(projection.lost, 0), p: pct(projection.lost / projection.without, 1) })}</p>
+                <PillLink onClick={() => navigate('/simulateur')}>{t('Voir le simulateur')}</PillLink>
+              </div>
             )}
-            <Note>{t('Les frais courants sont estimés sur la valeur détenue aujourd’hui ; le courtage compte vos ordres des 12 derniers mois.')}</Note>
             {auditCount > 0 && (
-              <p className="t-caption" style={{ color: 'var(--warning-text)' }} data-testid="cost-audit-link">
-                {t('{k} ordres de votre journal s’écartent de la grille de votre courtier.', { k: auditCount })}{' '}
-                <button type="button" className="link" onClick={() => navigate('/portefeuille/courtiers')}>{t('Voir les écarts')}</button>
-              </p>
+              <div className="stack-8" data-testid="cost-audit-link">
+                <p className="t-caption" style={{ color: 'var(--warning-text)' }}>{t('{k} ordres de votre journal s’écartent de la grille de votre courtier.', { k: auditCount })}</p>
+                <PillLink tone="warning" onClick={() => navigate('/portefeuille/courtiers')}>{t('Voir les écarts')}</PillLink>
+              </div>
             )}
-            <details className="explain" data-testid="cost-explain">
-              <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment c’est calculé ?')}</summary>
-              <ol>
-                <li>{t('Frais courants : pour chaque ETF détenu, ses frais annuels (catalogue) × sa valeur aujourd’hui. Ils sont déjà déduits du cours : vous ne les voyez jamais sur un relevé.')}</li>
-                <li>{t('Courtage : la somme des frais de vos ordres enregistrés dans l’Historique sur les 12 derniers mois, moins les remboursements. Ce sont vos frais réels, pas une estimation.')}</li>
-                <li>{t('Tenue de compte et droits de garde : absents de l’Historique, ils sont estimés avec la grille de votre courtier (Paramètres › PEA).')}</li>
-                <li>{t('Effet sur le capital final : le simulateur est rejoué en retirant les frais courants (et les droits de garde en %) du rendement, et le courtage de vos versements : nombre d’ordres de l’année × frais moyens d’un ordre, selon le courtier et le montant de chaque ordre.')}</li>
-              </ol>
-              <button type="button" className="link" onClick={() => navigate('/portefeuille/courtiers')}>{t('Comparer avec d’autres courtiers')}</button>
-            </details>
           </section>
         )}
       </main>

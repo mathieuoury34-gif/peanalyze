@@ -182,6 +182,24 @@ test('classeur PEAnalyze : retraits, indexation et réglages font l’aller-reto
   assert.deepEqual(b3.simulation, d.simulation);
 });
 
+test('classeur PEAnalyze : saisies de la Calculatrice et affichage font l’aller-retour', async () => {
+  const d = sample();
+  d.simulation = { initialCapital: 10, horizonYears: 30, annualRate: 0.07, dcaPhases: [{ fromYear: 1, monthly: 100 }],
+    calc: { unk: 'years', src: 'free', capFree: 450000, rate: 5.5, wMode: 'pct', wEur: 2100, wPct: 3.5, years: 31.5, target: 20000, idx: true, infl: 2.5, tax: true, taxPct: 17.2 },
+    view: { tab: 'calc', mcSim: true, mcCalc: true, constant: true, fees: true } };
+  const back = await roundtrip(d);
+  assert.deepEqual(back.simulation, d.simulation);
+  // valeurs par défaut : rien n'est enregistré
+  const plain = sample();
+  const b2 = await roundtrip(plain);
+  assert.equal(b2.simulation.calc, undefined);
+  assert.equal(b2.simulation.view, undefined);
+  // la valeur par défaut suit la simulation : rendement 7 % saisi = défaut, donc absent
+  d.simulation = { ...d.simulation, calc: { rate: 7, idx: false }, view: undefined };
+  const b3 = await roundtrip(d);
+  assert.equal(b3.simulation.calc, undefined);
+});
+
 test('classeur PEAnalyze : objectif de revenu mensuel', async () => {
   const d = sample();
   d.goals = [

@@ -4,7 +4,8 @@ import JSZip from 'jszip';
 import type { AppData, Deposit, Etf, Goal, Plan, PlanSell, Settings, Transaction } from '../domain/types';
 import { t } from '../i18n';
 import { BROKERS } from '../domain/brokers';
-import type { WithdrawPhase } from '../domain/types';
+import type { CalcPrefs, Simulation, WithdrawPhase } from '../domain/types';
+import { setCalcValue, setViewValue } from '../domain/withdraw';
 
 // libellés « Indice » utilisés dans l'Excel d'origine pour les ETF suivis
 const EXCEL_LABEL: Record<string, string> = {
@@ -210,6 +211,36 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
       const tx = num(si.get('K22')), vo = num(si.get('K23'));
       keep('withdrawTaxRate', isFinite(tx) && tx >= 0 && tx < 1 ? tx : undefined, 0.186);
       keep('volatility', isFinite(vo) && vo > 0 && vo < 1 ? vo : undefined, 0.15);
+    }
+    // Calculatrice de retraits : saisies et affichage (bloc absent d'un ancien classeur : valeurs de l'app conservées).
+    // Une valeur égale à son défaut n'est pas enregistrée, comme pour les retraits ci-dessus.
+    if (typeof si.get('J27') === 'string') {
+      const yes = (v: unknown) => /^(o|y|1|t)/i.test(String(v ?? '').trim());
+      const txt = (r: number) => String(si.get('K' + r) ?? '').trim().toLowerCase();
+      const n = (r: number, lo: number, hi: number, scale = 1) => { const v = num(si.get('K' + r)); return isFinite(v) && v >= lo && v <= hi ? Math.round(v * scale * 1e6) / 1e6 : undefined; };
+      const sim2: Simulation = { ...next.simulation };
+      delete sim2.calc; delete sim2.view;
+      const put = <K extends keyof CalcPrefs>(k: K, v: Required<CalcPrefs>[K] | undefined) => { if (v !== undefined) setCalcValue(sim2, k, v); };
+      const t28 = txt(28), t29 = txt(29);
+      put('unk', /dur/.test(t28) ? 'years' : /cap/.test(t28) ? 'capital' : /rend/.test(t28) ? 'rate' : 'monthly');
+      put('src', /pea/.test(t29) ? 'pea' : /saisi/.test(t29) ? 'free' : 'sim');
+      put('capFree', n(30, 0, 1e12));
+      put('rate', n(31, 0, 0.5, 100));
+      put('wMode', /%/.test(txt(32)) ? 'pct' : 'eur');
+      put('wEur', n(33, 0, 1e9));
+      put('wPct', n(34, 0, 1, 100));
+      put('years', n(35, 0, 100));
+      put('target', n(36, 0, 1e12));
+      put('idx', yes(si.get('K37')));
+      put('infl', n(38, 0, 0.99, 100));
+      put('tax', yes(si.get('K39')));
+      put('taxPct', n(40, 0, 0.99, 100));
+      setViewValue(sim2, 'mcSim', yes(si.get('K41')) ? true : false);
+      setViewValue(sim2, 'mcCalc', yes(si.get('K42')) ? true : false);
+      setViewValue(sim2, 'constant', yes(si.get('K43')) ? true : false);
+      setViewValue(sim2, 'fees', yes(si.get('K44')) ? true : false);
+      setViewValue(sim2, 'tab', /calcul/.test(txt(45)) ? 'calc' : false);
+      next.simulation = sim2;
     }
     // réglages rangés dans le classeur : rappel mensuel et ETF de référence (absents = désactivés)
     const rd = num(si.get('B11'));

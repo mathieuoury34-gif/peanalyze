@@ -258,10 +258,57 @@ export function VarChip({ ratio, suffix }: { ratio: number; suffix?: string }) {
   return <span className={'var-chip' + (r < 0 ? ' down' : r === 0 ? ' flat' : '')}>{arrow(ratio)} {pctSigned(ratio)}{suffix}</span>;
 }
 
-/** Bouton « i » : un appui affiche le texte explicatif dans une bulle (fermée par un appui ailleurs ou Échap). */
-export function InfoTip({ children, label, align = 'end' }: { children: ReactNode; label?: string; align?: 'start' | 'end' }) {
+/** Curseur avec boutons − (à gauche) et + (à droite) pour régler au pas près. */
+export function RangeBar({ value, min, max, step, onChange, ariaLabel, labelledBy, fine = step, disabled }: { value: number; min: number; max: number; step: number; onChange: (v: number) => void; ariaLabel?: string; labelledBy?: string; fine?: number; disabled?: boolean }) {
+  const round = (v: number) => Math.round(v * 1000) / 1000;
+  const nudge = (d: number) => onChange(round(Math.min(max, Math.max(min, value + d))));
+  const btn = { width: 'var(--touch-min)', height: 'var(--touch-min)', flexShrink: 0, border: '1px solid var(--divider-minimal)', borderRadius: 'var(--radius-full)', background: 'transparent', color: 'var(--primary-fg)', font: 'var(--type-h2)', lineHeight: 1, cursor: 'pointer', padding: 0 } as const;
+  return (
+    <span className="row" style={{ gap: 'var(--space-8)' }}>
+      <button type="button" style={btn} aria-label={tr('Diminuer')} disabled={disabled || value <= min} onClick={() => nudge(-fine)}>−</button>
+      <input className="range" style={{ flex: 1, minWidth: 0 }} type="range" min={min} max={max} step={step} value={Math.min(max, Math.max(min, value))} disabled={disabled}
+        aria-label={ariaLabel} aria-labelledby={labelledBy} onChange={(e) => onChange(Number(e.target.value))} data-component="Slider" />
+      <button type="button" style={btn} aria-label={tr('Augmenter')} disabled={disabled || value >= max} onClick={() => nudge(fine)}>+</button>
+    </span>
+  );
+}
+
+/** Curseur avec son libellé, sa valeur affichée et ses bornes. */
+export function RangeField({ label, value, min, max, step, shown, onChange, lo, hi, fine }: { label: string; value: number; min: number; max: number; step: number; shown: string; onChange: (v: number) => void; lo: string; hi: string; fine?: number }) {
+  const sid = useId();
+  return (
+    <div className="stack" style={{ gap: 'var(--space-2)' }}>
+      <span className="between"><span className="t-label" id={sid}>{label}</span><span className="t-amount-m c-primary">{shown}</span></span>
+      <RangeBar value={value} min={min} max={max} step={step} fine={fine} onChange={onChange} labelledBy={sid} />
+      <span className="between t-legal c-moderate"><span>{lo}</span><span>{hi}</span></span>
+    </div>
+  );
+}
+
+/** Bouton d'action secondaire en pastille teintée avec une flèche (« Voir les répartitions », « Voir le simulateur »…). */
+export function PillLink({ children, onClick, icon = 'next', tone, testId }: { children: ReactNode; onClick: () => void; icon?: 'next' | 'settings' | 'search'; tone?: 'warning'; testId?: string }) {
+  return (
+    <button type="button" className={'pill-link' + (tone ? ' ' + tone : '')} onClick={onClick} data-testid={testId}>
+      <span>{children}</span><Icon name={icon} size={18} />
+    </button>
+  );
+}
+
+/** Bouton « i » : un appui affiche le texte explicatif dans une bulle (fermée par un appui ailleurs ou Échap).
+ *  `caption` : bouton avec un libellé visible (« Comment ça marche ? ») au lieu de l'icône seule.
+ *  La bulle s'ouvre vers le haut ou vers le bas, à gauche ou à droite, selon la place disponible. */
+export function InfoTip({ children, label, caption, align = 'end', wide }: { children: ReactNode; label?: string; caption?: string; align?: 'start' | 'end'; wide?: boolean }) {
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<{ up: boolean; h: 'start' | 'end' }>({ up: false, h: align });
   const ref = useRef<HTMLSpanElement>(null);
+  const width = wide ? 440 : 320;
+  useLayoutEffect(() => {
+    if (!open || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    const w = Math.min(width, window.innerWidth - 48), below = window.innerHeight - r.bottom - 88;
+    const h: 'start' | 'end' = align === 'end' ? (r.right - w < 8 ? 'start' : 'end') : (r.left + w > window.innerWidth - 8 ? 'end' : 'start');
+    setPos({ up: below < 240 && r.top > below, h });
+  }, [open, align, width]);
   useEffect(() => {
     if (!open) return;
     const away = (e: Event) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };
@@ -269,11 +316,14 @@ export function InfoTip({ children, label, align = 'end' }: { children: ReactNod
     document.addEventListener('pointerdown', away); document.addEventListener('keydown', esc);
     return () => { document.removeEventListener('pointerdown', away); document.removeEventListener('keydown', esc); };
   }, [open]);
+  const text = label ?? caption ?? tr('Explication');
   return (
     <span ref={ref} style={{ position: 'relative', display: 'inline-flex', flexShrink: 0 }}>
-      <button type="button" className="icon-btn neutral" style={{ width: 32, height: 32 }} aria-label={label ?? tr('Explication')} aria-expanded={open} onClick={() => setOpen(!open)}><Icon name="info" size={18} /></button>
+      {caption
+        ? <button type="button" aria-expanded={open} onClick={() => setOpen(!open)} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-6)', minHeight: 32, padding: '0 var(--space-10) 0 var(--space-8)', border: '1px solid var(--divider-minimal)', borderRadius: 'var(--radius-full)', background: 'transparent', color: 'var(--text-neutral)', font: 'var(--type-caption-strong)', cursor: 'pointer' }}><Icon name="info" size={18} />{caption}</button>
+        : <button type="button" className="icon-btn neutral" style={{ width: 32, height: 32 }} aria-label={text} aria-expanded={open} onClick={() => setOpen(!open)}><Icon name="info" size={18} /></button>}
       {open && (
-        <span role="note" style={{ position: 'absolute', top: '100%', [align === 'end' ? 'right' : 'left']: 0, zIndex: 40, width: 'min(320px, calc(100vw - 48px))', display: 'flex', flexDirection: 'column', gap: 'var(--space-8)', padding: 'var(--space-12)', borderRadius: 'var(--radius-12)', background: 'var(--bg-surface-minimal)', border: '1px solid var(--divider-minimal)', boxShadow: 'var(--shadow-m)', font: 'var(--type-caption)', color: 'var(--text-neutral)', textAlign: 'left', fontWeight: 400 }}>{children}</span>
+        <span role="note" style={{ position: 'absolute', [pos.up ? 'bottom' : 'top']: '100%', [pos.h === 'end' ? 'right' : 'left']: 0, zIndex: 40, width: `min(${width}px, calc(100vw - 48px))`, display: 'flex', flexDirection: 'column', gap: 'var(--space-8)', padding: 'var(--space-12)', borderRadius: 'var(--radius-12)', background: 'var(--bg-surface-minimal)', border: '1px solid var(--divider-minimal)', boxShadow: 'var(--shadow-m)', font: 'var(--type-caption)', color: 'var(--text-neutral)', textAlign: 'left', fontWeight: 400, whiteSpace: 'normal' }}>{children}</span>
       )}
     </span>
   );

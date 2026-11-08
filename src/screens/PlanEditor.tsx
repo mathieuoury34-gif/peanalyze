@@ -1,6 +1,6 @@
 // Simulateur › Plans › un plan : ventes, argent disponible, stratégie visée, ordres et effets avant / après
 import { useEffect, useMemo, useState } from 'react';
-import { Segmented, Sheet, SubHeader, Empty, Switch, showToast } from '../ui/kit';
+import { InfoTip, RangeBar, Segmented, Sheet, SubHeader, Empty, Switch, showToast } from '../ui/kit';
 import { Icon } from '../ui/icons';
 import { back, navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
@@ -147,8 +147,7 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
           </label>
         </section>
 
-        <details className="explain dspan-12" open={!plan.sells.length && !plan.deposit && plan.targets === null || undefined}>
-          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment lire ce plan ?')}</summary>
+        <div className="dspan-12"><InfoTip wide align="start" caption={t('Comment lire ce plan ?')}>
           <ol>
             <li>{t('1 · Choisissez ce que vous vendriez (rien, une partie ou tout d’un ETF).')}</li>
             <li>{t('2 · Indiquez si vous ajoutez de l’argent (versement) ou si vous en retirez du PEA.')}</li>
@@ -156,7 +155,7 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
             <li>{t('Le résultat en bref, plus bas, dit ce qu’il faudrait vendre et acheter, et ce que cela change. Rien n’est exécuté tant que vous ne touchez pas « Appliquer ce plan ».')}</li>
           </ol>
           <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=plans')}>{t('En savoir plus dans l’aide')}</button>
-        </details>
+        </InfoTip></div>
 
         <section aria-labelledby="t411-sell" className="card dspan-7">
           <h2 id="t411-sell">{t('1 · Ce que je vends')}</h2>
@@ -260,7 +259,7 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
         </section>
 
         <section aria-labelledby="t411-orders" className="card dspan-6">
-          <h2 id="t411-orders">{t('Ordres à passer chez le courtier')}</h2>
+          <div className="between"><h2 id="t411-orders">{t('Ordres à passer chez le courtier')}</h2><InfoTip wide><span>{t('Les ventes sont comptées avec les mêmes frais par ordre que les achats ; les cours d’exécution réels peuvent différer.')}</span></InfoTip></div>
           {r.sells.length === 0 && r.buys.length === 0 && <p className="c-neutral">{t('Aucun ordre : ajoutez une vente, un versement ou une stratégie.')}</p>}
           {r.sells.length > 0 && (
             <>
@@ -293,11 +292,10 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
           {(r.sells.length > 0 || r.buys.length > 0) && (
             <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} onClick={copyOrders}><Icon name="list" size={20} />{t('Copier les ordres')}</button>
           )}
-          <p className="t-legal c-moderate">{t('Les ventes sont comptées avec les mêmes frais par ordre que les achats ; les cours d’exécution réels peuvent différer.')}</p>
         </section>
 
         <section aria-labelledby="t411-viz" className="card dspan-6">
-          <h2 id="t411-viz">{t('Répartition avant / après')}</h2>
+          <div className="between"><h2 id="t411-viz">{t('Répartition avant / après')}</h2><InfoTip wide><span>{t('Pour chaque ETF : part avant → après le plan / cible, puis écart à la cible en points.')}</span></InfoTip></div>
           {([[t('Avant'), 'wBefore'], [t('Après'), 'wAfter'], [t('Cible'), 'wTarget']] as const).map(([lab, f]) => (
             <div key={lab} style={{ display: 'grid', gridTemplateColumns: '52px 1fr', gap: 'var(--space-8)', alignItems: 'center' }}>
               <span className="t-caption c-neutral">{lab}</span>
@@ -319,7 +317,6 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
               );
             })}
           </ul>
-          <p className="t-legal c-moderate">{t('Pour chaque ETF : part avant → après le plan / cible, puis écart à la cible en points.')}</p>
         </section>
 
         <section aria-label={t('Ce que ça change')} className="stack-8 dspan-12">
@@ -336,14 +333,13 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
 
         {r.hasTarget && (
           <section aria-labelledby="t411-slow" className="card dspan-12">
-            <h2 id="t411-slow">{t('Et sans vendre ?')}</h2>
+            <div className="between"><h2 id="t411-slow">{t('Et sans vendre ?')}</h2><InfoTip wide><span>{t('Estimation à cours constants : les nouveaux versements comblent d’abord les plus gros écarts, sans aucune vente.')}</span></InfoTip></div>
             <MoneyField label={t('Mon versement mensuel')} value={plan.monthly} onChange={(v) => patch((p) => { p.monthly = v; })} />
             <p>
               {r.convergeMonths === -1 && t('Votre portefeuille est déjà à moins de {p} points de la cible : inutile de vendre.', { p: CONVERGED_PTS })}
               {r.convergeMonths === null && t('Sans vendre, avec {m} par mois, il faudrait plus de {y} ans pour approcher la cible à {p} points près.', { m: eur(plan.monthly, 0), y: MAX_CONVERGE_MONTHS / 12, p: CONVERGED_PTS })}
               {r.convergeMonths !== null && r.convergeMonths > 0 && t('Sans vendre, avec {m} par mois dirigés vers les ETF en retard, il faudrait environ {d} pour approcher la cible à {p} points près.', { m: eur(plan.monthly, 0), d: r.convergeMonths >= 24 ? tn(Math.round(r.convergeMonths / 12), '{n} an', '{n} ans') : tn(r.convergeMonths, '{n} mois', '{n} mois'), p: CONVERGED_PTS })}
             </p>
-            <p className="t-legal c-moderate">{t('Estimation à cours constants : les nouveaux versements comblent d’abord les plus gros écarts, sans aucune vente.')}</p>
           </section>
         )}
 
@@ -378,7 +374,7 @@ function PlanEditor({ saved, initial, data }: { saved: Plan | undefined; initial
             <button type="button" className="btn btn-secondary" onClick={duplicate}><Icon name="list" size={20} />{t('Dupliquer ce plan')}</button>
           </div>
           <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start', color: 'var(--critical-text)' }} onClick={remove}><Icon name="trash" size={20} />{t('Supprimer ce plan')}</button>
-          <p className="t-legal c-moderate">{t('Un plan est un calcul, pas un conseil en investissement : il ne passe aucun ordre. Une fois vos ordres exécutés chez le courtier, enregistrez vos achats dans le journal.')}</p>
+          <InfoTip wide align="start" caption={t('Précisions')}><span>{t('Un plan est un calcul, pas un conseil en investissement : il ne passe aucun ordre. Une fois vos ordres exécutés chez le courtier, enregistrez vos achats dans le journal.')}</span></InfoTip>
         </section>
       </main>
 
@@ -438,8 +434,7 @@ function ExposureCompare({ r }: { r: PlanResult['sectors'] }) {
           })}
         </ul>
       )}
-      <p className="t-legal c-moderate">{t('La barre montre la part après le plan ; le trait noir, la part avant.')}</p>
-      {partial && <p className="t-legal c-moderate">{t('Calculé sur les ETF dont la répartition officielle est connue ({a} avant, {b} après).', { a: pct(r.coverageBefore, 0), b: pct(r.coverageAfter, 0) })}</p>}
+      <InfoTip wide align="start" caption={t('Précisions')}><span>{t('La barre montre la part après le plan ; le trait noir, la part avant.')}</span>{partial && <span>{t('Calculé sur les ETF dont la répartition officielle est connue ({a} avant, {b} après).', { a: pct(r.coverageBefore, 0), b: pct(r.coverageAfter, 0) })}</span>}</InfoTip>
     </>
   );
 }
@@ -476,8 +471,7 @@ function PlanTargetSheet({ data, plan, onSave, onClose }: { data: AppData; plan:
                 <span className="grow t-strong">{shortName(data, k)} <span className="t-caption c-moderate">· {k}</span></span>
                 <span className="t-amount-m right" style={{ minWidth: 52, color: vals[k] ? 'var(--text)' : 'var(--text-moderate)' }}>{vals[k] || 0}{NBSP}%</span>
               </span>
-              <input className="range" type="range" min={0} max={100} step={1} value={vals[k] || 0} aria-label={t('Cible {i}', { i: shortName(data, k) })} data-component="Slider"
-                onChange={(ev) => setVals({ ...vals, [k]: Number(ev.target.value) })} />
+              <RangeBar min={0} max={100} step={1} value={vals[k] || 0} ariaLabel={t('Cible {i}', { i: shortName(data, k) })} onChange={(v) => setVals({ ...vals, [k]: v })} />
             </li>
           ))}
         </ul>

@@ -1,6 +1,6 @@
 // Onglet Historique : T2-01 Vue d'ensemble, T2-02 Journal, T2-03 Ajouter, T2-04 Achat, T2-05 Virement
 import { useMemo, useRef, useState } from 'react';
-import { AppHeader, DateField, Empty, EtfDot, Fab, Hero, PriceErrorBanner, Sheet, SubHeader, SubNav, ChipGroup, showToast } from '../ui/kit';
+import { AppHeader, DateField, Empty, EtfDot, Fab, Hero, InfoTip, PriceErrorBanner, Sheet, SubHeader, SubNav, ChipGroup, showToast } from '../ui/kit';
 import { AreaComparisonChart } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { back, navigate, openSheet, useRoute } from '../ui/router';
@@ -18,7 +18,6 @@ const NAV = [{ to: '/historique', label: t('Vue d’ensemble') }, { to: '/histor
 // ------------------------------------------------------------------ T2-01
 export function OverviewScreen() {
   const { data, summary } = useCalc();
-  const [info, setInfo] = useState<string | null>(null);
   const [period, setPeriod] = useState<'6M' | '1A' | 'Tout'>('Tout');
   const series = useMemo(() => monthlySeries(data), [data]);
   const n = series.length;
@@ -34,7 +33,6 @@ export function OverviewScreen() {
     ['ret', t('Rendement global'), pctSigned(summary.globalReturnPct), true, t('Plus-value latente ÷ montant total épargné.')],
     ['irr', t('Rendement annualisé (TRI)'), irr === null ? '—' : pctSigned(irr), true, t('Taux de rendement interne (XIRR) qui tient compte de la date de chaque virement.') + (ageMonths && ageMonths < 24 ? ' ' + t('Élevé car le PEA a {n} mois : il se stabilisera avec le temps.', { n: ageMonths }) : '')],
   ];
-  const cur = kpis.find((k) => k[0] === info);
   const gainColor = (v: number) => (v >= 0 ? 'var(--success-text)' : 'var(--critical-text)');
 
   if (!data.deposits.length && !data.transactions.length) {
@@ -57,25 +55,17 @@ export function OverviewScreen() {
         <Hero className="dspan-5" label={t('Valorisation totale')} value={eur(summary.totalValue)} chip={`${summary.unrealizedPnl >= 0 ? '▲' : '▼'} ${eurSigned(summary.unrealizedPnl)} · ${pctSigned(summary.globalReturnPct)}`} />
         <div className="stack-8 dspan-7">
           <section aria-label={t('Indicateurs')} className="grid-2 kpi-grid">
-            {kpis.map(([id, label, value, gain]) => {
+            {kpis.map(([id, label, value, gain, expl]) => {
               const raw = id === 'pnl' ? summary.unrealizedPnl : id === 'ret' ? summary.globalReturnPct : id === 'irr' ? irr ?? 0 : 1;
               return (
                 <div key={id} className="kpi" data-component="KpiCard">
                   <span className="label">{label}</span>
                   <span className="value" style={{ color: gain ? gainColor(raw) : 'var(--text)' }}>{value}</span>
-                  <button type="button" className="icon-btn info" aria-label={t('Explication : {l}', { l: label })} aria-expanded={info === id} onClick={() => setInfo(info === id ? null : id)} style={{ color: 'var(--text-neutral)' }}>
-                    <Icon name="info" size={18} />
-                  </button>
+                  <span className="info"><InfoTip label={t('Explication : {l}', { l: label })}><span>{expl}</span></InfoTip></span>
                 </div>
               );
             })}
           </section>
-          {cur && (
-            <div role="note" className="note">
-              <Icon name="info" size={20} />
-              <span><strong>{cur[1]}</strong> — {cur[4]}</span>
-            </div>
-          )}
         </div>
 
         <section aria-labelledby="t201-chart" className="card dspan-7">
@@ -465,13 +455,9 @@ export function DepositScreen() {
         <div className="stack form-narrow grow" style={{ gap: 'var(--space-20)', padding: 'var(--space-20) var(--screen-margin)' }}>
           {!editing && <Segmented label={t('Type d’opération')} value={out ? 'out' : 'in'} onChange={(m) => setOut(m === 'out')} options={[['in', t('Versement')], ['out', t('Retrait')]]} />}
           <DateField value={iso} onChange={setIso} label={t('Date')} />
-          <label className="field">
-            <span className="lbl">{t('Montant (€)')}</span>
-            <input className="input num large" type="text" inputMode="decimal" value={amount} placeholder={toInput(0)} onChange={(e) => setAmount(e.target.value)} data-component="AmountField" />
-          </label>
-          <div role="note" className="note">
-            <Icon name="info" size={20} />
-            <span>{out ? t('Le retrait diminue le montant total épargné et le solde espèces. Il doit correspondre à de l’argent réellement sorti du PEA (la somme doit être disponible en espèces : vendez d’abord si besoin).') : t("Le virement s'ajoute au montant total épargné et au solde espèces. Enregistrez ensuite vos achats pour l'investir.")}</span>
+          <div className="field">
+            <span className="between"><span className="lbl">{t('Montant (€)')}</span><InfoTip><span>{out ? t('Le retrait diminue le montant total épargné et le solde espèces. Il doit correspondre à de l’argent réellement sorti du PEA (la somme doit être disponible en espèces : vendez d’abord si besoin).') : t("Le virement s'ajoute au montant total épargné et au solde espèces. Enregistrez ensuite vos achats pour l'investir.")}</span></InfoTip></span>
+            <input className="input num large" type="text" inputMode="decimal" aria-label={t('Montant (€)')} value={amount} placeholder={toInput(0)} onChange={(e) => setAmount(e.target.value)} data-component="AmountField" />
           </div>
           <dl className="dl calc-box" style={{ display: 'grid' }}>
             <dt>{out ? t('Total épargné après ce retrait') : t('Total épargné après ce virement')}</dt>

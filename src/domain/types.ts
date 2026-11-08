@@ -113,6 +113,34 @@ export interface Simulation {
   withdrawTax?: boolean; // déduire les prélèvements sociaux sur la part de gains des retraits (défaut : non)
   withdrawTaxRate?: number; // défaut 0,186
   volatility?: number; // volatilité annuelle pour le Monte Carlo, défaut 0,15
+  calc?: CalcPrefs; // saisies de la Calculatrice (seules les valeurs différentes du défaut sont enregistrées)
+  view?: ViewPrefs; // affichage de l'onglet Retraits (idem)
+}
+
+/** Saisies de la Calculatrice de retraits. Montants en €, taux en % (8,5 = 8,5 %), durée en années. */
+export interface CalcPrefs {
+  unk?: 'years' | 'monthly' | 'capital' | 'rate'; // variable cherchée (défaut : retrait mensuel)
+  src?: 'free' | 'pea' | 'sim'; // source du capital (défaut : fin d'épargne)
+  capFree?: number; // capital saisi (défaut 300 000)
+  rate?: number; // rendement annuel (défaut : celui de la simulation)
+  wMode?: 'eur' | 'pct'; // retrait saisi en €/mois ou en % du capital par an
+  wEur?: number; // défaut 1 500
+  wPct?: number; // défaut 4
+  years?: number; // défaut 25
+  target?: number; // capital à laisser, défaut 0
+  idx?: boolean; // indexé sur l'inflation (défaut : réglage de la simulation)
+  infl?: number; // %, défaut : réglage de la simulation
+  tax?: boolean; // prélèvements sociaux déduits (défaut : réglage de la simulation)
+  taxPct?: number; // %, défaut : réglage de la simulation
+}
+
+/** Réglages d'affichage de l'onglet Retraits (tous faux / « simulation » par défaut). */
+export interface ViewPrefs {
+  tab?: 'calc'; // onglet affiché : absent = « Ma simulation »
+  mcSim?: boolean; // scénarios aléatoires affichés sur « Ma simulation »
+  mcCalc?: boolean; // idem sur la Calculatrice
+  constant?: boolean; // euros constants
+  fees?: boolean; // frais déduits
 }
 
 /** Vente envisagée dans un plan : tout l'ETF, un nombre de parts ou une fraction des parts. */

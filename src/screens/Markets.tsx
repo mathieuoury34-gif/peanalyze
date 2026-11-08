@@ -1,7 +1,7 @@
 // Onglet Marchés : T1-01 Mes ETF, T1-02 Détail, T1-03 Catalogue, T1-04 Comparateur, gestion de la liste
 import { Fragment, useMemo, useState } from 'react';
 import { etfHexes, PALETTE } from '../etfColors';
-import { AppHeader, DateField, EtfDot, PriceErrorBanner, Sheet, SubHeader, SubNav, VarChip, showToast } from '../ui/kit';
+import { AppHeader, DateField, EtfDot, InfoTip, PriceErrorBanner, Sheet, SubHeader, SubNav, VarChip, showToast } from '../ui/kit';
 import { Donut, HBarList, PriceChart, Sparkline } from '../ui/charts';
 import { CheckFilled, Icon } from '../ui/icons';
 import { closeSheet, navigate, openSheet, useRoute } from '../ui/router';
@@ -354,7 +354,7 @@ export function CatalogueScreen({ compare, setCompare }: { compare: string[]; se
             })}
           </ul>
         ) : <p className="center c-moderate" style={{ padding: 'var(--space-24) var(--space-16)' }}>{t('Aucun ETF ne correspond à ces filtres.')}</p>}
-        <p className="t-legal c-moderate" style={{ padding: '0 var(--space-4)' }}>{t('Liste des ETF éligibles au PEA (source justETF, relevé du {d}). Frais, encours et prix d’une part indicatifs ; vérifiez auprès de votre courtier avant d’acheter.', { d: CATALOG_DATE.split('-').reverse().join('/') })}</p>
+        <div className="row" style={{ justifyContent: 'flex-end' }}><InfoTip wide label={t('À propos de cette liste')}><span>{t('Liste des ETF éligibles au PEA (source justETF, relevé du {d}). Frais, encours et prix d’une part indicatifs ; vérifiez auprès de votre courtier avant d’acheter.', { d: CATALOG_DATE.split('-').reverse().join('/') })}</span></InfoTip></div>
       </main>
       {infoEtf && <CatalogInfoSheet c={infoEtf} mine={!!infoEtf.ticker && data.myEtfIds.includes(infoEtf.ticker)} onToggleMine={() => toggleMine(infoEtf)} />}
       {compare.length >= 2 && (
@@ -499,8 +499,7 @@ export function ManageEtfsScreen() {
     <div className="screen">
       <SubHeader title={t('Mes ETF')} fallback="/marches" />
       <main className="content gap-12 form-narrow">
-        <p className="t-caption c-neutral row" style={{ gap: 'var(--space-6)', alignItems: 'flex-start' }}><Icon name="info" size={16} /><span>{t('Touchez la pastille d’un ETF pour changer sa couleur. Elle le suit quand vous le déplacez ; un nouvel ETF reçoit la première couleur libre. Cet ordre est aussi celui des graphiques.')}</span></p>
-        <p className="t-caption c-neutral">{t('Ordre d’affichage dans l’onglet Marchés. Un ETF détenu reste dans le portefeuille même s’il est retiré de cette liste.')}</p>
+        <div className="row"><InfoTip wide align="start" caption={t('Comment ça marche ?')}><span>{t('Touchez la pastille d’un ETF pour changer sa couleur. Elle le suit quand vous le déplacez ; un nouvel ETF reçoit la première couleur libre. Cet ordre est aussi celui des graphiques.')}</span><span>{t('Ordre d’affichage dans l’onglet Marchés. Un ETF détenu reste dans le portefeuille même s’il est retiré de cette liste.')}</span></InfoTip></div>
         <p className="t-caption c-neutral">{t('{n} / {m} ETF suivis par le robot des cours ({f} par jour). Un ETF retiré n’est plus actualisé.', { n: new Set([...data.myEtfIds, ...held]).size, m: MAX_ETFS[data.settings.priceFreq === 1 ? 1 : 2], f: data.settings.priceFreq === 1 ? t('1 actualisation') : t('2 actualisations') })}</p>
         <ul className="tile-list" style={{ padding: '0 var(--space-12)' }}>
           {list.map((e, i) => (

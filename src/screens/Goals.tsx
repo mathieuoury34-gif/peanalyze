@@ -1,6 +1,6 @@
 // Simulateur › Objectifs : un capital à atteindre à une date, jauge de progression et versement mensuel nécessaire
 import { useState } from 'react';
-import { AppHeader, DateField, Empty, PriceErrorBanner, Segmented, Sheet, SubNav } from '../ui/kit';
+import { InfoTip, AppHeader, DateField, Empty, PriceErrorBanner, Segmented, Sheet, SubNav } from '../ui/kit';
 import { Donut } from '../ui/charts';
 import { Icon } from '../ui/icons';
 import { navigate } from '../ui/router';
@@ -45,11 +45,10 @@ export function GoalsScreen() {
       <PriceErrorBanner />
       <SubNav items={SIM_NAV()} label={t('Sections du simulateur')} />
       <main className="content dgrid">
-        <details className="explain dspan-12" open={!goals.length || undefined}>
-          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('À quoi servent les objectifs ?')}</summary>
+        <div className="dspan-12"><InfoTip wide align="start" caption={t('À quoi servent les objectifs ?')}>
           <span>{t('Un objectif est un capital à atteindre à une date : un apport, un projet, une étape. L’app compare ce capital à la valeur actuelle de votre PEA et calcule le versement mensuel qui vous y amènerait, avec le rendement annuel du simulateur ou sans aucun rendement.')}</span>
           <span>{t('C’est un calcul indicatif : la bourse peut faire mieux ou moins bien que le rendement supposé.')}</span>
-        </details>
+        </InfoTip></div>
 
         {goals.length === 0 ? (
           <div className="dspan-12">
@@ -75,15 +74,14 @@ export function GoalsScreen() {
                     </Donut>
                     <div className="stack-4">
                       <span className="t-amount-m">{eur(p.current, 0)}</span>
-                      <span className="t-caption c-moderate">{isIncomeGoal(g) ? t('sur {a} nécessaires', { a: eur(p.target, 0) }) : t('sur {a} visés', { a: eur(p.target, 0) })}</span>
+                      <span className="t-caption c-moderate row" style={{ gap: 'var(--space-4)' }}>{isIncomeGoal(g) ? t('sur {a} nécessaires', { a: eur(p.target, 0) }) : t('sur {a} visés', { a: eur(p.target, 0) })}{isIncomeGoal(g) && <InfoTip align="start"><span>{t('Capital nécessaire pour retirer ce revenu à partir de l’échéance, au rendement du simulateur ({r}), avant prélèvements sociaux. Il change si vous modifiez le rendement.', { r: pct(data.simulation.annualRate, 1) })}</span></InfoTip>}</span>
                       {!p.reached && <span className="t-caption c-neutral">{t('Reste {a}', { a: eur(p.remaining, 0) })}</span>}
                     </div>
                   </div>
                   {!p.reached && p.requiredWithReturn !== null && (
                     <div className="stack-8" style={{ borderTop: '1px solid var(--divider-minimal)', paddingTop: 'var(--space-12)' }}>
                       <div className="between"><span className="c-neutral">{t('À épargner par mois, avec {r} de rendement', { r: pct(data.simulation.annualRate, 1) })}</span><strong className="t-amount-s" data-testid="req-return">{eur(p.requiredWithReturn, 0)}</strong></div>
-                      <div className="between"><span className="c-neutral">{t('À épargner par mois, sans rendement')}</span><strong className="t-amount-s">{eur(p.requiredPlain ?? 0, 0)}</strong></div>
-                      <p className="t-legal c-moderate">{t('Ces deux montants sont des versements constants, dès aujourd’hui ; ils ne suivent pas vos phases de versement.')}</p>
+                      <div className="between"><span className="c-neutral row" style={{ gap: 'var(--space-4)' }}>{t('À épargner par mois, sans rendement')}<InfoTip align="start"><span>{t('Ces deux montants sont des versements constants, dès aujourd’hui ; ils ne suivent pas vos phases de versement.')}</span></InfoTip></span><strong className="t-amount-s">{eur(p.requiredPlain ?? 0, 0)}</strong></div>
                       {data.simulation.dcaPhases.length > 0 && (
                         <div className="stack-4" data-testid="goal-phases">
                           <p className="t-caption" style={{ color: p.onTrack ? 'var(--success-text)' : 'var(--warning-text)' }}>
@@ -97,7 +95,6 @@ export function GoalsScreen() {
                       )}
                     </div>
                   )}
-                  {isIncomeGoal(g) && <p className="t-legal c-moderate">{t('Capital nécessaire pour retirer ce revenu à partir de l’échéance, au rendement du simulateur ({r}), avant prélèvements sociaux. Il change si vous modifiez le rendement.', { r: pct(data.simulation.annualRate, 1) })}</p>}
                   {p.overdue && <p className="t-caption" style={{ color: 'var(--warning-text)' }}>{t('L’échéance est passée : il manque {a}. Vous pouvez la repousser en modifiant l’objectif.', { a: eur(p.remaining, 0) })}</p>}
                 </section>
               );
@@ -105,7 +102,7 @@ export function GoalsScreen() {
             <div className="dspan-12"><button type="button" className="btn btn-secondary" onClick={() => setEdit('new')}><Icon name="plus" size={20} />{t('Ajouter un objectif')}</button></div>
           </>
         )}
-        <p className="t-legal c-moderate dspan-12">{t('Les objectifs sont enregistrés dans le classeur Excel (onglet « Objectifs ») : changer de classeur change d’objectifs. Rendement : celui du simulateur ; vous pouvez aussi voir ce que donnerait chaque phase de versement dans l’onglet Épargne.')}</p>
+        <div className="dspan-12"><InfoTip wide align="start" caption={t('Précisions')}><span>{t('Les objectifs sont enregistrés dans le classeur Excel (onglet « Objectifs ») : changer de classeur change d’objectifs. Rendement : celui du simulateur ; vous pouvez aussi voir ce que donnerait chaque phase de versement dans l’onglet Épargne.')}</span></InfoTip></div>
       </main>
       {edit && <GoalSheet goal={edit === 'new' ? null : edit} onClose={() => setEdit(null)} />}
     </div>
@@ -147,9 +144,9 @@ function GoalSheet({ goal, onClose }: { goal: Goal | null; onClose: () => void }
               <span className="lbl">{t('Pendant combien d’années ?')}</span>
               <input className="input num" type="number" min={1} max={60} value={incomeYears} onChange={(e) => setIncomeYears(Math.min(60, Math.max(0, Math.round(Number(e.target.value) || 0))))} />
             </label>
-            <div role="note" className="note"><Icon name="info" size={20} /><span>{needed > 0
+            <div className="between"><strong>{needed > 0 ? t('Capital nécessaire : {c}', { c: eur(needed, 0) }) : t('Capital nécessaire : à calculer')}</strong><InfoTip wide><span>{needed > 0
               ? t('Capital nécessaire à l’échéance : {c}. Calculé pour retirer {m} par mois pendant {n}, au rendement du simulateur ({r}), avant prélèvements sociaux.', { c: eur(needed, 0), m: eur(income, 0), n: tn(incomeYears, '{n} an', '{n} ans'), r: pct(data.simulation.annualRate, 1) })
-              : t('Indiquez le revenu mensuel et la durée : l’app calcule le capital nécessaire à l’échéance.')}</span></div>
+              : t('Indiquez le revenu mensuel et la durée : l’app calcule le capital nécessaire à l’échéance.')}</span></InfoTip></div>
           </>
         )}
         <DateField value={date} onChange={setDate} label={kind === 'income' ? t('Début du revenu') : t('Échéance')} />

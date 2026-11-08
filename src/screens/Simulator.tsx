@@ -1,6 +1,6 @@
 // Onglet Simulateur : T4-01 paramètres et résultat + T4-02 tableau année par année (section dépliable)
 import { useMemo, useState } from 'react';
-import { AppHeader, PriceErrorBanner, SubNav, Switch } from '../ui/kit';
+import { AppHeader, InfoTip, PriceErrorBanner, RangeField, SubNav, Switch } from '../ui/kit';
 import { SIM_NAV } from './PlanParts';
 import { StackedAreaChart } from '../ui/charts';
 import { Icon } from '../ui/icons';
@@ -46,12 +46,12 @@ export function SimulatorScreen() {
       <PriceErrorBanner />
       <SubNav items={SIM_NAV()} label={t('Sections du simulateur')} />
       <main className="content dgrid">
-        <details className="explain dspan-12" open={!data.transactions.length || undefined}>
-          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('À quoi sert le simulateur ?')}</summary>
+        <div className="dspan-12"><InfoTip wide align="start" caption={t('À quoi sert le simulateur ?')}>
           <span>{t('Il estime ce que pourrait devenir votre épargne si vous investissez régulièrement : choisissez un capital de départ, un rendement annuel moyen et vos versements mensuels. C’est une projection théorique, indépendante de votre portefeuille réel (sauf si vous activez « Comparer à ma progression réelle »).')}</span>
           <span>{t('La bourse ne monte pas de façon régulière : le résultat est une tendance, pas une promesse. Impôts non déduits ; frais déduits seulement si vous l’activez.')}</span>
+          <span>{t('Projection indicative : rendement constant, capitalisation mensuelle, versements en fin de mois, hors fiscalité ; les frais ne sont déduits que si vous activez « Déduire mes frais ».')}</span>
           <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=simulateur')}>{t('En savoir plus dans l’aide')}</button>
-        </details>
+        </InfoTip></div>
         <section aria-labelledby="t401-par" className="card g16 dspan-5">
           <h2 id="t401-par">{t('Paramètres')}</h2>
           <label className="field">
@@ -59,16 +59,8 @@ export function SimulatorScreen() {
             <input className="input num t-amount-m" style={{ font: 'var(--type-amount-m)' }} type="text" inputMode="decimal" value={capText}
               onChange={(e) => { setCapText(e.target.value); const v = parseNum(e.target.value); set({ initialCapital: isFinite(v) && v >= 0 ? v : 0 }); }} data-component="AmountField" />
           </label>
-          <label className="stack" style={{ gap: 'var(--space-2)' }}>
-            <span className="between"><span className="t-label">{t('Horizon de placement')}</span><span className="t-amount-m c-primary">{tn(ys, '{n} an', '{n} ans')}</span></span>
-            <input className="range" type="range" min={1} max={MAX_HORIZON} step={1} value={ys} onChange={(e) => set({ horizonYears: Number(e.target.value) })} data-component="Slider" />
-            <span className="between t-legal c-moderate"><span>{t('{n} an', { n: 1 })}</span><span>{t('{n} ans', { n: MAX_HORIZON })}</span></span>
-          </label>
-          <label className="stack" style={{ gap: 'var(--space-2)' }}>
-            <span className="between"><span className="t-label">{t("Taux d'intérêt annuel")}</span><span className="t-amount-m c-primary">{pct(sim.annualRate, Math.round(sim.annualRate * 1000) % 10 ? 1 : 0)}</span></span>
-            <input className="range" type="range" min={0} max={15} step={0.1} value={Math.round(sim.annualRate * 1000) / 10} onChange={(e) => set({ annualRate: Number(e.target.value) / 100 })} data-component="Slider" />
-            <span className="between t-legal c-moderate"><span>{pct(0, 0)}</span><span>{pct(0.15, 0)}</span></span>
-          </label>
+          <RangeField label={t('Horizon de placement')} value={ys} min={1} max={MAX_HORIZON} step={1} shown={tn(ys, '{n} an', '{n} ans')} lo={t('{n} an', { n: 1 })} hi={t('{n} ans', { n: MAX_HORIZON })} onChange={(v) => set({ horizonYears: v })} />
+          <RangeField label={t("Taux d'intérêt annuel")} value={Math.round(sim.annualRate * 1000) / 10} min={0} max={15} step={0.1} shown={pct(sim.annualRate, Math.round(sim.annualRate * 1000) % 10 ? 1 : 0)} lo={pct(0, 0)} hi={pct(0.15, 0)} onChange={(v) => set({ annualRate: v / 100 })} />
         </section>
 
         <section aria-labelledby="t401-dca" className="card g8 dspan-7">
@@ -166,7 +158,6 @@ export function SimulatorScreen() {
             </section>
           </div>
         )}
-        <p className="t-legal c-moderate">{t('Projection indicative : rendement constant, capitalisation mensuelle, versements en fin de mois, hors fiscalité ; les frais ne sont déduits que si vous activez « Déduire mes frais ».')}</p>
       </main>
     </div>
   );

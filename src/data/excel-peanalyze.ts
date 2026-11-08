@@ -1,9 +1,9 @@
 // Classeur Excel officiel de PEAnalyze (validé le 11/10/2026) : 9 onglets à la charte de l'application.
 // Les données saisies (virements, achats, ETF, cours, compositions, simulateur) sont des valeurs ;
 // tout le reste est en formules, pour que le fichier reste vivant dans Excel.
-import type { AppData, Etf, Transaction } from '../domain/types';
+import type { AppData, CalcPrefs, Etf, Transaction } from '../domain/types';
 import { goalTarget } from '../domain/goals';
-import { kindOf } from '../domain/withdraw';
+import { CALC_SRC_LABEL, CALC_UNK_LABEL, calcValue, kindOf } from '../domain/withdraw';
 import { computePositions, exposure, MAX_HORIZON, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
 import { etfHexes } from '../etfColors';
 import { BROKERS } from '../domain/brokers';
@@ -411,6 +411,21 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       si.put(18 + i, 11, v, { inp: true, b: true, bg: TINT, h: 'right', ...(fmt ? { fmt } : {}) });
     });
     si.put(25, 10, "Retraits : type « €/mois », « %/an » (du capital) ou « Unique » (somme versée une seule fois au début de l'année). Un retrait régulier s'applique jusqu'à la suivante.", { sz: 8, color: MODERATE, border: false });
+    // Calculatrice de retraits : saisies et affichage enregistrés (relus à l'import)
+    si.section(27, 10, 'Calculatrice de retraits (saisies enregistrées)');
+    const cv = <K extends keyof CalcPrefs>(k: K) => calcValue(sim, k);
+    const on = (b: boolean) => (b ? 'Oui' : 'Non');
+    const cset: [string, string | number, string?][] = [
+      ['Valeur cherchée', CALC_UNK_LABEL[cv('unk')]], ['Source du capital', CALC_SRC_LABEL[cv('src')]], ['Capital saisi (€)', cv('capFree'), EUR0], ['Rendement annuel', cv('rate') / 100, PCT1],
+      ['Retrait saisi en', cv('wMode') === 'pct' ? '% du capital' : '€/mois'], ['Retrait (€/mois)', cv('wEur'), EUR0], ['Retrait (% du capital par an)', cv('wPct') / 100, PCT1], ['Durée (ans)', cv('years'), '0.##'],
+      ['Capital à laisser (€)', cv('target'), EUR0], ['Retraits indexés sur l’inflation', on(cv('idx'))], ['Inflation', cv('infl') / 100, PCT1], ['Prélèvements sociaux déduits', on(cv('tax'))], ['Taux des prélèvements sociaux', cv('taxPct') / 100, PCT1],
+      ['Scénarios aléatoires affichés (Ma simulation)', on(!!sim.view?.mcSim)], ['Scénarios aléatoires affichés (Calculatrice)', on(!!sim.view?.mcCalc)], ['Euros constants (Ma simulation)', on(!!sim.view?.constant)],
+      ['Frais déduits (Ma simulation)', on(!!sim.view?.fees)], ['Onglet affiché', sim.view?.tab === 'calc' ? 'Calculatrice' : 'Ma simulation'],
+    ];
+    cset.forEach(([lab, v, fmt], i) => {
+      si.put(28 + i, 10, lab, { color: NEUTRAL });
+      si.put(28 + i, 11, v, { inp: true, b: true, bg: TINT, h: 'right', ...(fmt ? { fmt } : {}) });
+    });
     si.section(4, 7, "Résultat à l'horizon");
     const res: [string, string, string][] = [['Capital final', 'INDEX(D21:D71,MATCH(B6,A21:A71,0))', EUR0], ['Total versé', 'INDEX(C21:C71,MATCH(B6,A21:A71,0))', EUR0],
       ['Intérêts composés', 'H5-H6', EUR0], ['Capital final en euros constants', 'INDEX(F21:F71,MATCH(B6,A21:A71,0))', EUR0]];

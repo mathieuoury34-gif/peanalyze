@@ -1,6 +1,6 @@
 // Simulateur › Plans : liste des scénarios « et si… », modèles de départ et comparateur
 import { useMemo, useState } from 'react';
-import { AppHeader, Empty, SubNav, PriceErrorBanner } from '../ui/kit';
+import { InfoTip, AppHeader, Empty, SubNav, PriceErrorBanner } from '../ui/kit';
 import { Icon } from '../ui/icons';
 import { navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
@@ -40,12 +40,11 @@ export function PlansScreen() {
       <PriceErrorBanner />
       <SubNav items={SIM_NAV()} label={t('Sections du simulateur')} />
       <main className="content dgrid">
-        <details className="explain dspan-12" open={!plans.length || undefined}>
-          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('À quoi servent les plans ?')}</summary>
+        <div className="dspan-12"><InfoTip wide align="start" caption={t('À quoi servent les plans ?')}>
           <span>{t('Un plan est un « et si… » : et si je vendais cet ETF, combien cela me rapporterait-il, et que faudrait-il acheter pour me rapprocher de ma stratégie ? L’app calcule les ordres en parts entières, frais compris, et montre ce que ça change : écart à la cible, frais de gestion, répartition par secteur et par pays.')}</span>
           <span>{t('Rien n’est modifié dans votre portefeuille : vous passez les ordres chez votre courtier, puis vous enregistrez vos achats dans le journal.')}</span>
           <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=plans')}>{t('En savoir plus dans l’aide')}</button>
-        </details>
+        </InfoTip></div>
 
         <section aria-labelledby="t410-new" className="card g8 dspan-12">
           <h2 id="t410-new">{t('Créer un plan')}</h2>
@@ -86,7 +85,7 @@ export function PlansScreen() {
 
         {plans.length >= 1 && (
           <section aria-labelledby="t410-cmp" className="stack-8 dspan-12">
-            <h2 id="t410-cmp">{t('Comparer')}</h2>
+            <div className="between"><h2 id="t410-cmp">{t('Comparer')}</h2><InfoTip wide><span>{t('Écart à la cible : somme des écarts en points entre votre répartition et la cible, divisée par deux (0 = parfaitement dans la cible).')}</span></InfoTip></div>
             <div className="table-wrap" data-component="Table">
               <table>
                 <caption className="sr-only">{t('Comparaison des plans avec la situation actuelle')}</caption>
@@ -113,7 +112,6 @@ export function PlansScreen() {
                 </tbody>
               </table>
             </div>
-            <p className="t-legal c-moderate">{t('Écart à la cible : somme des écarts en points entre votre répartition et la cible, divisée par deux (0 = parfaitement dans la cible).')}</p>
           </section>
         )}
       </main>

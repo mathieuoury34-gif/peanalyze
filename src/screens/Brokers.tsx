@@ -1,6 +1,6 @@
 // Portefeuille › Courtiers : et si mon PEA était chez un autre courtier ? Mes ordres rejoués avec la grille de chaque courtier.
 import { useMemo, useState } from 'react';
-import { AppHeader, Fab, PriceErrorBanner, Segmented, SubNav, Switch } from '../ui/kit';
+import { AppHeader, Fab, InfoTip, PillLink, PriceErrorBanner, Segmented, SubNav, Switch } from '../ui/kit';
 import { Icon } from '../ui/icons';
 import { navigate, openSheet } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
@@ -119,8 +119,11 @@ function FeeAuditCard() {
   const apply = () => { if (!fit) return; update((d) => { d.settings.brokerId = undefined; d.settings.feePerOrder = fit.feePerOrder; d.settings.feePct = fit.feePct || undefined; }); };
   return (
     <section aria-labelledby="t305-aud" className="card g8 dspan-12" data-testid="fee-audit">
-      <h2 id="t305-aud">{t('Mes frais réels contre la grille')}</h2>
-      <p className="t-caption c-neutral">{t('Chaque ordre de votre journal est rejoué avec la grille de {b}. Les écarts viennent d’une erreur de saisie, de frais cachés, d’une offre non prévue ou d’une grille qui a changé.', { b: brokerName(b) })}</p>
+      <div className="between"><h2 id="t305-aud">{t('Mes frais réels contre la grille')}</h2><InfoTip wide>
+        <span>{t('Chaque ordre de votre journal est rejoué avec la grille de {b}. Les écarts viennent d’une erreur de saisie, de frais cachés, d’une offre non prévue ou d’une grille qui a changé.', { b: brokerName(b) })}</span>
+        {fit && <span>{t('La grille est recalculée sur les ordres qui ont payé des frais. Rien n’est modifié sans votre clic ; vos ordres déjà enregistrés gardent leurs frais.')}</span>}
+        {bad > 0 && !fit && <span>{t('Corrigez les ordres douteux dans l’Historique, ou choisissez la bonne grille dans les réglages.')}</span>}
+      </InfoTip></div>
       <p className="t-strong" data-testid="fee-audit-verdict">
         {bad === 0
           ? t('Vos {n} ordres collent à la grille : {a} de frais enregistrés.', { n, a: eur(audit.paidTotal) })
@@ -153,10 +156,8 @@ function FeeAuditCard() {
           <button type="button" className="btn btn-secondary wrap" style={{ alignSelf: 'flex-start', maxWidth: '100%' }} onClick={apply}>
             {b.id === CUSTOM_BROKER ? t('Ajuster ma grille sur mes frais réels') : t('Utiliser cette grille à la place de {b}', { b: brokerName(b) })}
           </button>
-          <span className="t-legal c-moderate">{t('La grille est recalculée sur les ordres qui ont payé des frais. Rien n’est modifié sans votre clic ; vos ordres déjà enregistrés gardent leurs frais.')}</span>
         </div>
       )}
-      {bad > 0 && !fit && <p className="t-caption c-moderate">{t('Corrigez les ordres douteux dans l’Historique, ou choisissez la bonne grille dans les réglages.')}</p>}
     </section>
   );
 }
@@ -181,11 +182,10 @@ export function BrokersScreen() {
       <PriceErrorBanner />
       <SubNav items={PF_NAV()} label={t('Sections du portefeuille')} />
       <main className="content with-fab dgrid">
-        <details className="explain dspan-12" open={!hasOrders || undefined}>
-          <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Et si mon PEA était ailleurs ?')}</summary>
+        <div className="dspan-12"><InfoTip wide align="start" caption={t('Et si mon PEA était ailleurs ?')}>
           <span>{t('Les frais de courtage dépendent du courtier, du montant de chaque ordre et du nombre d’ordres par an. Cet écran rejoue une année de vos ordres avec la grille de chaque courtier connu, ajoute les frais de tenue de compte, et montre ce que vous paieriez.')}</span>
           <span>{t('C’est une comparaison de frais, pas un conseil : le choix d’un courtier dépend aussi des ETF proposés, de la fiabilité, du service et des conditions de transfert.')}</span>
-        </details>
+        </InfoTip></div>
 
         <section aria-labelledby="t305-scn" className="card g16 dspan-12">
           <h2 id="t305-scn">{t('Sur quelle année comparer ?')}</h2>
@@ -205,31 +205,31 @@ export function BrokersScreen() {
 
         {sc.orders.length > 0 && cur && (
           <section aria-labelledby="t305-res" className="card dspan-12">
-            <h2 id="t305-res">{t('Ce que vous paieriez par an')}</h2>
+            <div className="between"><h2 id="t305-res">{t('Ce que vous paieriez par an')}</h2><InfoTip wide>
+              <span>{t('Ces chiffres ne comptent pas les frais courants des ETF : ils sont les mêmes quel que soit le courtier.')}</span>
+              {basis === 'real' && cost.brokerage12m > 0 && <span>{t('Pour comparaison : vos relevés montrent {a} de frais de courtage réellement payés sur 12 mois (remboursements déduits) ; la grille de votre courtier en donne {g}.', { a: eur(cost.brokerage12m), g: eur(cur.cost.brokerage) })}</span>}
+            </InfoTip></div>
             {best ? (
               <p className="t-strong" data-testid="broker-verdict">{t('Le moins cher sur cette base : {b}, avec {a} de moins par an que votre courtier actuel.', { b: brokerName(best.broker), a: eur(-best.diff, 0) })}</p>
             ) : (
               <p className="t-strong" data-testid="broker-verdict">{t('Sur cette base, aucun des courtiers connus ne coûte moins cher que le vôtre.')}</p>
             )}
             <ul>{rows.map((r) => <Row key={r.broker.id} r={r} max={max} years={data.simulation.horizonYears} scheduledOn={scheduled} etfName={etfName} isinOf={(id) => data.etfs.find((e) => e.id === id)?.isin} mine={data.settings.brokerEtf?.[r.broker.id] ?? {}} />)}</ul>
-            {basis === 'real' && cost.brokerage12m > 0 && (
-              <p className="t-caption c-neutral">{t('Pour comparaison : vos relevés montrent {a} de frais de courtage réellement payés sur 12 mois (remboursements déduits) ; la grille de votre courtier en donne {g}.', { a: eur(cost.brokerage12m), g: eur(cur.cost.brokerage) })}</p>
-            )}
-            <p className="t-caption c-neutral">{t('Ces chiffres ne comptent pas les frais courants des ETF : ils sont les mêmes quel que soit le courtier.')}</p>
           </section>
         )}
 
         <FeeAuditCard />
 
         <section aria-labelledby="t305-lim" className="card g8 dspan-12">
-          <h2 id="t305-lim">{t('Avant de changer de courtier')}</h2>
-          <ul className="stack-8 t-caption c-neutral" style={{ paddingLeft: 'var(--space-16)', listStyle: 'disc' }}>
+          <div className="between"><h2 id="t305-lim">{t('Avant de changer de courtier')}</h2><InfoTip wide>
+            <ul>
             <li>{t('Un PEA se transfère en entier, sans vente des titres (un seul PEA par personne) : le nouveau courtier reprend la date d’ouverture, donc l’ancienneté fiscale est conservée. Comptez plusieurs semaines.')}</li>
             <li>{t('L’ancien courtier facture le transfert (environ 15 € par ligne, 150 € au plus d’après les sources consultées) ; certains courtiers remboursent tout ou partie de ces frais : renseignez-vous.')}</li>
             <li>{t('Vérifiez que vos ETF sont proposés chez le nouveau courtier, les montants minimaux par ordre et les parts entières obligatoires sur le PEA.')}</li>
             <li>{t('Les tarifs changent souvent et diffèrent selon l’offre ou la Caisse régionale : contrôlez la brochure tarifaire avant toute décision.')}</li>
-          </ul>
-          <button type="button" className="link" style={{ alignSelf: 'flex-start' }} onClick={() => navigate('/parametres')}>{t('Régler mon courtier dans les paramètres')}</button>
+            </ul>
+          </InfoTip></div>
+          <PillLink icon="settings" onClick={() => navigate('/parametres')}>{t('Régler mon courtier dans les paramètres')}</PillLink>
         </section>
       </main>
       <Fab onClick={() => openSheet('ajouter')} />

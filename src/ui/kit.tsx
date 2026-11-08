@@ -301,6 +301,8 @@ export function InfoTip({ children, label, caption, align = 'end', wide }: { chi
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ up: boolean; h: 'start' | 'end' }>({ up: false, h: align });
   const ref = useRef<HTMLSpanElement>(null);
+  const noteRef = useRef<HTMLSpanElement>(null);
+  const [dx, setDx] = useState(0); // décalage horizontal pour que la bulle ne dépasse jamais de l'écran
   const width = wide ? 440 : 320;
   useLayoutEffect(() => {
     if (!open || !ref.current) return;
@@ -309,6 +311,16 @@ export function InfoTip({ children, label, caption, align = 'end', wide }: { chi
     const h: 'start' | 'end' = align === 'end' ? (r.right - w < 8 ? 'start' : 'end') : (r.left + w > window.innerWidth - 8 ? 'end' : 'start');
     setPos({ up: below < 240 && r.top > below, h });
   }, [open, align, width]);
+  useLayoutEffect(() => {
+    if (!open) { setDx(0); return; }
+    const n = noteRef.current;
+    if (!n) return;
+    const r = n.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+    let d = 0;
+    if (r.right > vw - 8) d = vw - 8 - r.right;
+    if (r.left + d < 8) d = 8 - r.left;
+    if (Math.abs(d) > 0.5) setDx((x) => x + d);
+  }, [open, pos.h, pos.up, dx]);
   useEffect(() => {
     if (!open) return;
     const away = (e: Event) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };
@@ -323,7 +335,7 @@ export function InfoTip({ children, label, caption, align = 'end', wide }: { chi
         ? <button type="button" aria-expanded={open} onClick={() => setOpen(!open)} style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-6)', minHeight: 32, padding: '0 var(--space-10) 0 var(--space-8)', border: '1px solid var(--divider-minimal)', borderRadius: 'var(--radius-full)', background: 'transparent', color: 'var(--text-neutral)', font: 'var(--type-caption-strong)', cursor: 'pointer' }}><Icon name="info" size={18} />{caption}</button>
         : <button type="button" className="icon-btn neutral" style={{ width: 32, height: 32 }} aria-label={text} aria-expanded={open} onClick={() => setOpen(!open)}><Icon name="info" size={18} /></button>}
       {open && (
-        <span role="note" style={{ position: 'absolute', [pos.up ? 'bottom' : 'top']: '100%', [pos.h === 'end' ? 'right' : 'left']: 0, zIndex: 40, width: `min(${width}px, calc(100vw - 48px))`, display: 'flex', flexDirection: 'column', gap: 'var(--space-8)', padding: 'var(--space-12)', borderRadius: 'var(--radius-12)', background: 'var(--bg-surface-minimal)', border: '1px solid var(--divider-minimal)', boxShadow: 'var(--shadow-m)', font: 'var(--type-caption)', color: 'var(--text-neutral)', textAlign: 'left', fontWeight: 400, whiteSpace: 'normal' }}>{children}</span>
+        <span role="note" ref={noteRef} style={{ transform: dx ? `translateX(${dx}px)` : undefined, position: 'absolute', [pos.up ? 'bottom' : 'top']: '100%', [pos.h === 'end' ? 'right' : 'left']: 0, zIndex: 40, width: `min(${width}px, calc(100vw - 48px))`, display: 'flex', flexDirection: 'column', gap: 'var(--space-8)', padding: 'var(--space-12)', borderRadius: 'var(--radius-12)', background: 'var(--bg-surface-minimal)', border: '1px solid var(--divider-minimal)', boxShadow: 'var(--shadow-m)', font: 'var(--type-caption)', color: 'var(--text-neutral)', textAlign: 'left', fontWeight: 400, whiteSpace: 'normal' }}>{children}</span>
       )}
     </span>
   );

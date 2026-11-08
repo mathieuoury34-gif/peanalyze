@@ -52,7 +52,6 @@ function Slider({ label, value, min, max, step, shown, onChange, lo, hi }: { lab
 const yearsText = (y: number) => { const m = Math.round(y * 12), a = Math.floor(m / 12), r = m % 12; return [a ? tn(a, '{n} an', '{n} ans') : '', r ? (lang === 'en' && r === 1 ? '1 month' : t('{n} mois', { n: r })) : ''].filter(Boolean).join(' ') || t('moins d’un mois'); };
 
 export function WithdrawalsScreen() {
-  const [tab, setTab] = useState<'sim' | 'calc'>('sim');
   return (
     <div className="screen" data-screen="T4-06">
       <AppHeader title={t('Simulateur')} />
@@ -61,12 +60,16 @@ export function WithdrawalsScreen() {
       <main className="content dgrid">
         <details className="explain dspan-12">
           <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment fonctionnent les retraits ?')}</summary>
-          <span>{t('Une fois votre capital constitué, vous pouvez en retirer chaque mois une somme fixe (ou une part du capital restant). « Ma simulation » trace l’évolution du capital avec vos phases de retrait ; « Calculette » trouve la valeur manquante parmi la durée, le retrait, le capital et le rendement.')}</span>
+          <span>{t('Une fois votre capital constitué, vous pouvez en retirer chaque mois une somme fixe (ou une part du capital restant). Ma simulation trace l’évolution du capital avec vos phases de retrait ; plus bas, la calculette trouve la valeur manquante parmi la durée, le retrait, le capital et le rendement.')}</span>
           <span>{t('Le rendement est supposé constant, sauf dans les scénarios aléatoires (Monte Carlo) qui testent aussi la mauvaise surprise : une baisse juste après le début des retraits. Projection indicative, pas une promesse.')}</span>
           <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=retraits')}>{t('En savoir plus dans l’aide')}</button>
         </details>
-        <div className="dspan-12"><Segmented label={t('Mode')} value={tab} onChange={setTab} options={[['sim', t('Ma simulation')], ['calc', t('Calculette')]]} /></div>
-        {tab === 'sim' ? <SimTab /> : <CalcTab />}
+        <SimTab />
+        <div className="dspan-12 stack-4" style={{ marginTop: 'var(--space-12)' }}>
+          <h2 id="t406-calc-title">{t('Calculette')}</h2>
+          <span className="t-caption c-moderate">{t('Connaissez trois valeurs parmi le capital, le rendement, le retrait et la durée : la calculette trouve la quatrième.')}</span>
+        </div>
+        <CalcTab />
       </main>
     </div>
   );

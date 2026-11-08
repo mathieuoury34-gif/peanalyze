@@ -3,6 +3,10 @@ import * as esbuild from 'esbuild';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
+import { execSync } from 'node:child_process';
+
+let build = new Date().toISOString().slice(0, 10);
+try { build = execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || build; } catch { /* hors dépôt : date du jour */ }
 
 const serve = process.argv.includes('--serve');
 rmSync('dist', { recursive: true, force: true });
@@ -21,7 +25,7 @@ const options = {
   minify: !serve,
   sourcemap: serve,
   loader: { '.json': 'json' },
-  define: { 'process.env.NODE_ENV': serve ? '"development"' : '"production"' },
+  define: { 'process.env.NODE_ENV': serve ? '"development"' : '"production"', __BUILD__: JSON.stringify(build) },
   jsx: 'automatic',
   legalComments: 'none',
   logLevel: 'info',

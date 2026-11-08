@@ -1,6 +1,7 @@
 // T0-01 Paramètres + T0-03 Connexion
 import { useRef, useState } from 'react';
 import { DateField, SubHeader, showToast } from '../ui/kit';
+import { BUILD, checkForUpdate, forceUpdate } from '../data/update';
 import { Icon, Logo } from '../ui/icons';
 import { navigate } from '../ui/router';
 import { useCalc } from '../ui/useCalc';
@@ -293,7 +294,8 @@ export function SettingsScreen() {
         <Section id="t001-about" title={t('À propos')}>
           <div className="card g8" style={{ borderRadius: 'var(--radius-12)' }}>
             <span data-component="AppLogo"><Logo size={18} /></span>
-            <span className="t-caption c-neutral">{t('Application personnelle de suivi de PEA en ETF. Les données restent les vôtres ; les cours viennent de la source que vous configurez. Version {v}.', { v: '1.3' })}</span>
+            <span className="t-caption c-neutral">{t('Application personnelle de suivi de PEA en ETF. Les données restent les vôtres ; les cours viennent de la source que vous configurez. Version {v}.', { v: '1.3 · ' + BUILD })}</span>
+            <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} onClick={() => { showToast(t('Recherche de mise à jour…')); void checkForUpdate().then(() => setTimeout(() => void forceUpdate(), 1200)); }}>{t('Mettre à jour l’application')}</button>
             {!reset
               ? <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start', color: 'var(--critical-text)', whiteSpace: 'normal', textAlign: 'left' }} onClick={() => setReset(true)}>{t('Effacer toutes mes données')}</button>
               : (

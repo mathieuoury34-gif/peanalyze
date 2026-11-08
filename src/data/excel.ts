@@ -4,6 +4,7 @@ import JSZip from 'jszip';
 import type { AppData, Deposit, Etf, Goal, Plan, PlanSell, Settings, Transaction } from '../domain/types';
 import { t } from '../i18n';
 import { BROKERS } from '../domain/brokers';
+import type { WithdrawPhase } from '../domain/types';
 
 // libellés « Indice » utilisés dans l'Excel d'origine pour les ETF suivis
 const EXCEL_LABEL: Record<string, string> = {
@@ -190,13 +191,19 @@ async function parsePeanalyze(L: Awaited<ReturnType<typeof loader>>, current: Ap
     if (isFinite(inf) && inf >= 0 && inf < 1) keep('inflation', inf, 0.02);
     if (typeof si.get('J18') === 'string') {
       const yes = (v: unknown) => /^(o|y|1|t)/i.test(String(v ?? '').trim());
-      const wph: { fromYear: number; amount: number }[] = [];
+      const legacyMode = /%/.test(String(si.get('K18') ?? '')) ? 'percent' : 'amount';
+      const wph: WithdrawPhase[] = [];
       for (let r = 6; r <= 15; r++) {
         const y = num(si.get('J' + r)), a = num(si.get('K' + r));
-        if (isFinite(y) && y >= 1 && isFinite(a) && a >= 0) wph.push({ fromYear: Math.round(y), amount: a });
+        if (!(isFinite(y) && y >= 1 && isFinite(a) && a >= 0)) continue;
+        const ty = String(si.get('L' + r) ?? '').toLowerCase();
+        const kind = /uniq|ponct|lump|once/.test(ty) ? 'lump' : /%/.test(ty) ? 'percent' : /€|mois|month/.test(ty) ? 'monthly' : undefined;
+        const phase: WithdrawPhase = { fromYear: Math.round(y), amount: a };
+        if (kind && kind !== (legacyMode === 'percent' ? 'percent' : 'monthly')) phase.kind = kind; // le type par défaut n'est pas stocké
+        wph.push(phase);
       }
       keep('withdrawals', wph, undefined);
-      keep('withdrawMode', /%/.test(String(si.get('K18') ?? '')) ? 'percent' : 'amount', 'amount');
+      keep('withdrawMode', legacyMode, 'amount');
       keep('withdrawIndexed', yes(si.get('K19')), false);
       keep('keepDca', yes(si.get('K20')), false);
       keep('withdrawTax', yes(si.get('K21')), false);

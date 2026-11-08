@@ -87,10 +87,16 @@ export interface DcaPhase {
   monthly: number;
 }
 
-/** Phase de retrait : à partir de l'année `fromYear` du simulateur, on retire `amount` (€ par mois, ou % du capital par an en mode « percent »). */
+/** Type d'une phase de retrait : € par mois, % du capital restant par an, ou somme ponctuelle (€, une seule fois). */
+export type WithdrawKind = 'monthly' | 'percent' | 'lump';
+
+/** Phase de retrait : à partir de l'année `fromYear` du simulateur, on retire `amount` selon `kind`
+ *  (€ par mois, % du capital par an, ou une somme unique versée au début de l'année `fromYear`).
+ *  Absent, `kind` suit l'ancien réglage global `withdrawMode` (montant fixe par défaut). */
 export interface WithdrawPhase {
   fromYear: number;
   amount: number;
+  kind?: WithdrawKind;
 }
 
 export interface Simulation {

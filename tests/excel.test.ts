@@ -176,6 +176,10 @@ test('classeur PEAnalyze : retraits, indexation et réglages font l’aller-reto
   d.simulation = { initialCapital: 10, horizonYears: 30, annualRate: 0.05, dcaPhases: [{ fromYear: 1, monthly: 100 }], withdrawMode: 'percent', withdrawals: [{ fromYear: 10, amount: 4 }] };
   const b2 = await roundtrip(d);
   assert.deepEqual(b2.simulation, d.simulation);
+  // phases mixtes : somme unique puis pourcentage, type par phase
+  d.simulation = { initialCapital: 10, horizonYears: 30, annualRate: 0.05, dcaPhases: [{ fromYear: 1, monthly: 100 }], keepDca: true, withdrawals: [{ fromYear: 8, amount: 100000, kind: 'lump' }, { fromYear: 12, amount: 3.5, kind: 'percent' }, { fromYear: 20, amount: 900 }] };
+  const b3 = await roundtrip(d);
+  assert.deepEqual(b3.simulation, d.simulation);
 });
 
 test('classeur PEAnalyze : objectif de revenu mensuel', async () => {

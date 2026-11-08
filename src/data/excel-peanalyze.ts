@@ -3,9 +3,11 @@
 // tout le reste est en formules, pour que le fichier reste vivant dans Excel.
 import type { AppData, Etf, Transaction } from '../domain/types';
 import { goalTarget } from '../domain/goals';
+import { kindOf } from '../domain/withdraw';
 import { computePositions, exposure, MAX_HORIZON, monthlySeries, normalizeLabel, valuationDate } from '../domain/calc';
 import { etfHexes } from '../etfColors';
 import { BROKERS } from '../domain/brokers';
+const KIND_LABEL = { monthly: '€/mois', percent: '%/an', lump: 'Unique' } as const;
 import { Workbook, colName as L, type Sheet, type Style, type Value } from './xlsx';
 
 // ------------------------------------------------------------------ charte (tokens.css)
@@ -392,12 +394,13 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
     si.put(16, 4, "Classez les phases par année croissante ; une phase s'applique jusqu'à la suivante.", { sz: 8, color: MODERATE, border: false });
     // retraits : phases (année, montant) et réglages — relus à l'import
     si.section(4, 10, 'Retraits par phase');
-    si.header(5, 10, ["À partir de l'année", 'Retrait (€/mois ou %/an)'], 28);
+    si.header(5, 10, ["À partir de l'année", 'Montant (€/mois, %/an ou € unique)', 'Type'], 28);
     const wph = (sim.withdrawals ?? []).slice().sort((a, b) => a.fromYear - b.fromYear);
     for (let i = 0; i < 10; i++) {
       const r = 6 + i;
       si.put(r, 10, wph[i] ? wph[i].fromYear : null, { fmt: '0', inp: true, h: 'center' });
       si.put(r, 11, wph[i] ? wph[i].amount : null, { fmt: '#,##0.##', inp: true });
+      si.put(r, 12, wph[i] ? KIND_LABEL[kindOf(wph[i], sim.withdrawMode ?? 'amount')] : null, { inp: true, h: 'center' });
     }
     si.section(17, 10, 'Réglages des retraits');
     const yn = (b?: boolean) => (b ? 'Oui' : 'Non');
@@ -407,7 +410,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       si.put(18 + i, 10, lab, { color: NEUTRAL });
       si.put(18 + i, 11, v, { inp: true, b: true, bg: TINT, h: 'right', ...(fmt ? { fmt } : {}) });
     });
-    si.put(25, 10, "Retraits : montant en €/mois, ou en % du capital par an si le type est « % du capital ». Une phase s'applique jusqu'à la suivante.", { sz: 8, color: MODERATE, border: false });
+    si.put(25, 10, "Retraits : type « €/mois », « %/an » (du capital) ou « Unique » (somme versée une seule fois au début de l'année). Un retrait régulier s'applique jusqu'à la suivante.", { sz: 8, color: MODERATE, border: false });
     si.section(4, 7, "Résultat à l'horizon");
     const res: [string, string, string][] = [['Capital final', 'INDEX(D21:D71,MATCH(B6,A21:A71,0))', EUR0], ['Total versé', 'INDEX(C21:C71,MATCH(B6,A21:A71,0))', EUR0],
       ['Intérêts composés', 'H5-H6', EUR0], ['Capital final en euros constants', 'INDEX(F21:F71,MATCH(B6,A21:A71,0))', EUR0]];
@@ -434,7 +437,7 @@ export function buildPeanalyzeWorkbook(data: AppData, catalogDate = ''): Workboo
       si.put(r, 6, f(`IF(D${r}="","",D${r}/(1+$B$8)^A${r})`), { fmt: EUR0, color: NEUTRAL });
     }
     ws.cf('A21:A71', { type: 'expression', formula: 'A21>$B$6', dxf: { font: { color: DIVIDER } } });
-    si.widths({ A: 28, B: 14, C: 13, D: 16, E: 16, F: 16, G: 30, H: 14, I: 3, J: 28, K: 22 });
+    si.widths({ A: 28, B: 14, C: 13, D: 16, E: 16, F: 16, G: 30, H: 14, I: 3, J: 28, K: 22, L: 14 });
     const hz = Math.min(MAX_HORIZON, Math.max(1, Math.round(sim.horizonYears)));
     const rr = (c: string) => `Simulateur!$${c}$21:$${c}$${21 + hz}`;
     ws.chart({

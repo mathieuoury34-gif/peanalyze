@@ -125,3 +125,47 @@ test('Monte Carlo : plus de volatilité = taux de réussite plus faible quand le
   assert.equal(monteCarlo({ ...cfg, withdrawals: [{ fromYear: 1, amount: 100 }] }, 0.15, 300, 2).successRate, 1);
   assert.ok(monteCarlo({ ...cfg, withdrawals: [{ fromYear: 1, amount: 6000 }] }, 0.15, 300, 2).successRate < 0.01);
 });
+
+// ---------------------------------------------------------------- phases mixtes : somme unique + retraits réguliers
+const mixed = (o: object) => configFromSim({ initialCapital: 200000, horizonYears: 5, annualRate: 0, dcaPhases: [{ fromYear: 1, monthly: 100 }], ...o } as never);
+
+test('somme unique : retirée une seule fois, au début de son année, sans arrêter les versements', () => {
+  const r = run(mixed({ withdrawals: [{ fromYear: 3, amount: 100000, kind: 'lump' }] }));
+  near(r.totalWithdrawn, 100000);
+  near(r.years[2].value, 200000 + 100 * 24); // fin d'année 2 : rien n'est encore sorti
+  near(r.years[3].value, 200000 + 100 * 36 - 100000); // la somme sort au mois 25, les versements continuent
+  near(r.finalValue, 200000 + 100 * 60 - 100000);
+  assert.equal(r.startYear, 3);
+  assert.equal(r.depletedMonth, null);
+});
+
+test('somme unique puis retrait en % : versements arrêtés au retrait régulier seulement', () => {
+  const r = run(mixed({ withdrawals: [{ fromYear: 2, amount: 50000, kind: 'lump' }, { fromYear: 4, amount: 12, kind: 'percent' }] }));
+  // année 1-3 : versements ; dès l'année 4 : plus de versement (retrait régulier) ; 12 %/an à rendement nul = 1 % du capital par mois
+  near(r.totalDeposited, 200000 + 100 * 36);
+  assert.ok(r.totalWithdrawn > 50000 && r.finalValue > 0);
+  const keep = run(mixed({ keepDca: true, withdrawals: [{ fromYear: 2, amount: 50000, kind: 'lump' }, { fromYear: 4, amount: 12, kind: 'percent' }] }));
+  near(keep.totalDeposited, 200000 + 100 * 60);
+});
+
+test('somme unique supérieure au capital : tout est vendu, le manque est signalé', () => {
+  const r = run(mixed({ initialCapital: 10000, dcaPhases: [], withdrawals: [{ fromYear: 2, amount: 30000, kind: 'lump' }] }));
+  near(r.totalWithdrawn, 10000);
+  near(r.unpaid, 20000);
+  assert.equal(r.depletedMonth, 13);
+});
+
+test('phase sans type : suit encore le réglage global (anciennes données)', () => {
+  const legacy = run(mixed({ dcaPhases: [], withdrawMode: 'percent', withdrawals: [{ fromYear: 1, amount: 12 }] }));
+  const explicit = run(mixed({ dcaPhases: [], withdrawals: [{ fromYear: 1, amount: 12, kind: 'percent' }] }));
+  near(legacy.finalValue, explicit.finalValue, 1e-6);
+});
+
+test('calculette : durée vide ou nulle → pas de résultat (et non un nombre démesuré)', () => {
+  for (const u of ['monthly', 'capital', 'rate'] as const) {
+    const s = solve(u, base({ years: 0 }));
+    assert.equal(s.status, 'incomplete');
+    assert.ok(Number.isNaN(s.value));
+  }
+  assert.equal(solve('years', base({ years: 0 })).status, 'ok');
+});

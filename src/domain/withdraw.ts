@@ -3,7 +3,7 @@
 //
 // Conventions (les mêmes que `simulate` dans calc.ts) : rendement annuel composé converti en taux mensuel équivalent,
 // versements ET retraits en fin de mois, après le rendement du mois. Année 1 = les 12 premiers mois.
-import type { DcaPhase, Simulation, WithdrawPhase } from './types';
+import type { DcaPhase, Simulation, WithdrawKind, WithdrawPhase } from './types';
 
 export const DEFAULT_INFLATION = 0.02;
 export const DEFAULT_VOLATILITY = 0.15;
@@ -57,6 +57,9 @@ export function configFromSim(sim: Simulation): WithdrawConfig {
   };
 }
 
+/** Type effectif d'une phase (les anciennes phases sans type suivent le réglage global). */
+export const kindOf = (p: WithdrawPhase, mode: 'amount' | 'percent'): WithdrawKind => p.kind ?? (mode === 'percent' ? 'percent' : 'monthly');
+
 /** Phase en vigueur pendant l'année `year` (la dernière dont le début est passé), comme les phases de versement. */
 function phaseIndexByYear<T extends { fromYear: number }>(phases: T[], years: number): number[] {
   const sorted = phases.map((p, i) => ({ p, i })).sort((a, b) => a.p.fromYear - b.p.fromYear);
@@ -75,8 +78,12 @@ export function run(cfg: WithdrawConfig, growth?: (k: number) => number, onYear?
   const nYears = Math.ceil(n / 12);
   const rm = Math.pow(1 + cfg.annualRate, 1 / 12) - 1;
   const dcaIdx = phaseIndexByYear(cfg.dca, nYears);
-  const wdIdx = phaseIndexByYear(cfg.withdrawals, nYears);
+  // retraits réguliers (mensuel ou %) : la phase en vigueur est la dernière commencée ; sommes ponctuelles : une fois, au début de leur année
+  const recur = cfg.withdrawals.filter((p) => kindOf(p, cfg.mode) !== 'lump');
+  const lumps = cfg.withdrawals.filter((p) => kindOf(p, cfg.mode) === 'lump').map((p) => ({ ...p, month: (Math.max(1, Math.round(p.fromYear)) - 1) * 12 + 1 }));
+  const wdIdx = phaseIndexByYear(recur, nYears);
   const startYear = cfg.withdrawals.length ? Math.min(...cfg.withdrawals.map((p) => p.fromYear)) : null;
+  const dcaStopYear = recur.length ? Math.min(...recur.map((p) => p.fromYear)) : null; // une somme ponctuelle n'arrête pas les versements
   const floor = cfg.floor ?? 0;
   let v = cfg.initialCapital, basis = cfg.basis ?? cfg.initialCapital;
   let dep = cfg.initialCapital, wd = 0, tax = 0, unpaid = 0;
@@ -88,15 +95,12 @@ export function run(cfg: WithdrawConfig, growth?: (k: number) => number, onYear?
     v *= growth ? growth(mo - 1) : 1 + rm;
     // versements : arrêtés dès le début des retraits, sauf si on choisit de les garder
     const d = dcaIdx[year - 1] >= 0 ? cfg.dca[dcaIdx[year - 1]].monthly : 0;
-    if (d > 0 && (startYear === null || year < startYear || cfg.keepDca)) { v += d; basis += d; dep += d; }
-    const wi = wdIdx[year - 1];
-    if (wi >= 0) {
-      const ph = cfg.withdrawals[wi];
-      // revalorisation : le montant de la phase vaut à son année de début, puis suit l'inflation chaque année
-      const idx = cfg.indexed && cfg.mode === 'amount' ? Math.pow(1 + cfg.inflation, year - Math.max(1, ph.fromYear)) : 1;
+    if (d > 0 && (dcaStopYear === null || year < dcaStopYear || cfg.keepDca)) { v += d; basis += d; dep += d; }
+    // une demande de retrait (net) : on vend ce qu'il faut, prélèvements sociaux compris, dans la limite du capital
+    const pay = (kind: WithdrawKind, amount: number, idx: number) => {
       const gainShare = v > 0 ? Math.max(0, (v - basis) / v) : 0;
       const k = cfg.tax ? cfg.taxRate * gainShare : 0;
-      let gross = cfg.mode === 'percent' ? Math.max(0, v) * (ph.amount / 100) / 12 : (ph.amount * idx) / (1 - k);
+      let gross = kind === 'percent' ? Math.max(0, v) * (amount / 100) / 12 : (amount * idx) / (1 - k);
       let net = gross * (1 - k);
       if (!cfg.allowNegative && gross > v) { // capital insuffisant : on vend tout ce qui reste
         gross = Math.max(0, v); const paid = gross * (1 - k); unpaid += net - paid; net = paid;
@@ -105,6 +109,15 @@ export function run(cfg: WithdrawConfig, growth?: (k: number) => number, onYear?
       v -= gross; wd += net; tax += gross - net;
       if (depleted === null && (cfg.allowNegative ? v < floor - 1e-9 : unpaid > 1e-9 || v <= 1e-9)) depleted = mo;
       if (!cfg.allowNegative && v < 1e-9) { v = 0; basis = 0; }
+    };
+    for (const l of lumps) if (l.month === mo && l.amount > 0) pay('lump', l.amount, 1);
+    const wi = wdIdx[year - 1];
+    if (wi >= 0) {
+      const ph = recur[wi];
+      const kind = kindOf(ph, cfg.mode);
+      // revalorisation : le montant de la phase vaut à son année de début, puis suit l'inflation chaque année
+      const idx = cfg.indexed && kind === 'monthly' ? Math.pow(1 + cfg.inflation, year - Math.max(1, ph.fromYear)) : 1;
+      pay(kind, ph.amount, idx);
     }
     if (mo % 12 === 0 || mo === n) {
       const yr = mo / 12;
@@ -131,7 +144,8 @@ export interface CalcInput {
   basis?: number; // prix de revient du capital (défaut : le capital, donc sans gain)
 }
 
-export type SolveStatus = 'ok' | 'durable' | 'zero' | 'impossible';
+/** `incomplete` : une valeur connue manque (durée vide ou nulle) ; la valeur renvoyée est alors NaN. */
+export type SolveStatus = 'ok' | 'durable' | 'zero' | 'impossible' | 'incomplete';
 export interface Solution { value: number; status: SolveStatus }
 
 export function calcConfig(i: CalcInput, years = i.years): WithdrawConfig {
@@ -164,6 +178,8 @@ export function monthsLasting(i: CalcInput): number {
 
 /** Calcule la variable inconnue à partir des autres. */
 export function solve(unknown: Unknown, i: CalcInput): Solution {
+  // sans durée (champ vide ou 0), retrait, capital et rendement n'ont pas de sens : pas de résultat plutôt qu'un nombre démesuré
+  if (unknown !== 'years' && !(i.years * 12 >= 1)) return { value: NaN, status: 'incomplete' };
   const fin = (x: Partial<CalcInput>) => balanceAfter({ ...i, ...x }) - i.target;
   switch (unknown) {
     case 'years': {

@@ -10,8 +10,8 @@ import { MAX_HORIZON } from '../domain/calc';
 import { adjustForCosts, holdingCost } from '../domain/analysis';
 import { eur, num, parseNum, pct, toInput } from '../domain/format';
 import { update } from '../data/store';
-import { calcConfig, configFromSim, DEFAULT_INFLATION, DEFAULT_TAX_RATE, DEFAULT_VOLATILITY, MAX_CALC_YEARS, monteCarlo, run, solve, type CalcInput, type Unknown } from '../domain/withdraw';
-import type { Simulation, WithdrawPhase } from '../domain/types';
+import { calcConfig, configFromSim, DEFAULT_INFLATION, DEFAULT_TAX_RATE, DEFAULT_VOLATILITY, kindOf, MAX_CALC_YEARS, monteCarlo, run, solve, type CalcInput, type Unknown } from '../domain/withdraw';
+import type { Simulation, WithdrawKind, WithdrawPhase } from '../domain/types';
 import { lang, t, tn } from '../i18n';
 
 /** Champ numérique : garde le texte tapé, se resynchronise quand la valeur change de l'extérieur (résultat de la calculette). */
@@ -52,6 +52,7 @@ function Slider({ label, value, min, max, step, shown, onChange, lo, hi }: { lab
 const yearsText = (y: number) => { const m = Math.round(y * 12), a = Math.floor(m / 12), r = m % 12; return [a ? tn(a, '{n} an', '{n} ans') : '', r ? (lang === 'en' && r === 1 ? '1 month' : t('{n} mois', { n: r })) : ''].filter(Boolean).join(' ') || t('moins d’un mois'); };
 
 export function WithdrawalsScreen() {
+  const [tab, setTab] = useState<'sim' | 'calc'>('sim');
   return (
     <div className="screen" data-screen="T4-06">
       <AppHeader title={t('Simulateur')} />
@@ -60,16 +61,12 @@ export function WithdrawalsScreen() {
       <main className="content dgrid">
         <details className="explain dspan-12">
           <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment fonctionnent les retraits ?')}</summary>
-          <span>{t('Une fois votre capital constitué, vous pouvez en retirer chaque mois une somme fixe (ou une part du capital restant). Ma simulation trace l’évolution du capital avec vos phases de retrait ; plus bas, la calculette trouve la valeur manquante parmi la durée, le retrait, le capital et le rendement.')}</span>
+          <span>{t('Une fois votre capital constitué, vous pouvez en retirer chaque mois une somme fixe (ou une part du capital restant). « Ma simulation » trace l’évolution du capital avec vos phases de retrait ; « Calculette » trouve la valeur manquante parmi la durée, le retrait, le capital et le rendement.')}</span>
           <span>{t('Le rendement est supposé constant, sauf dans les scénarios aléatoires (Monte Carlo) qui testent aussi la mauvaise surprise : une baisse juste après le début des retraits. Projection indicative, pas une promesse.')}</span>
           <button type="button" className="link" onClick={() => navigate('/parametres/aide?q=retraits')}>{t('En savoir plus dans l’aide')}</button>
         </details>
-        <SimTab />
-        <div className="dspan-12 stack-4" style={{ marginTop: 'var(--space-12)' }}>
-          <h2 id="t406-calc-title">{t('Calculette')}</h2>
-          <span className="t-caption c-moderate">{t('Connaissez trois valeurs parmi le capital, le rendement, le retrait et la durée : la calculette trouve la quatrième.')}</span>
-        </div>
-        <CalcTab />
+        <div className="dspan-12"><Segmented label={t('Mode')} value={tab} onChange={setTab} options={[['sim', t('Ma simulation')], ['calc', t('Calculette')]]} /></div>
+        {tab === 'sim' ? <SimTab /> : <CalcTab />}
       </main>
     </div>
   );
@@ -91,10 +88,13 @@ function SimTab() {
   const [fees, setFees] = useState(false);
   const [showMc, setShowMc] = useState(true);
   const [table, setTable] = useState(false);
+  const [adv, setAdv] = useState(false);
   const cost = useMemo(() => holdingCost(data, positions), [data, positions]);
   const set = (patch: Partial<Simulation>) => update((d) => { d.simulation = { ...d.simulation, ...patch }; });
   const phases = sim.withdrawals ?? [];
-  const mode = sim.withdrawMode ?? 'amount';
+  const legacy = sim.withdrawMode ?? 'amount';
+  const kinds = phases.map((p) => kindOf(p, legacy));
+  const hasMonthly = kinds.includes('monthly'), hasFixed = hasMonthly || kinds.includes('lump');
   const infl = sim.inflation ?? DEFAULT_INFLATION;
   const taxRate = sim.withdrawTaxRate ?? DEFAULT_TAX_RATE;
   const vol = sim.volatility ?? DEFAULT_VOLATILITY;
@@ -109,58 +109,71 @@ function SimTab() {
   const band = mc && showMc && mc.p50.length === points.length ? { p10: mc.p10.map((v, i) => v * f(i)), p50: mc.p50.map((v, i) => v * f(i)), p90: mc.p90.map((v, i) => v * f(i)) } : undefined;
   const last = points[points.length - 1];
   const depletedYear = res.depletedMonth !== null ? res.depletedMonth / 12 : null;
-  const addPhase = () => {
-    const lastP = phases.length ? phases.reduce((a, b) => (b.fromYear > a.fromYear ? b : a)) : null;
-    // première phase : à mi-horizon, avec un retrait de 4 % du capital accumulé par an (arrondi à 50 € près)
-    const from = Math.max(1, Math.round(sim.horizonYears / 2));
-    const capAt = run({ ...configFromSim(sim), withdrawals: [] }).years[Math.min(from - 1, sim.horizonYears)]?.value ?? 0;
-    const first = { fromYear: from, amount: mode === 'percent' ? 4 : Math.max(50, Math.round((capAt * 0.04) / 12 / 50) * 50) };
-    set({ withdrawals: [...phases, lastP ? { fromYear: Math.min(MAX_HORIZON, lastP.fromYear + 5), amount: lastP.amount } : first] });
+  // montant proposé pour un nouveau retrait : 4 % du capital accumulé à l'année de début, par an (arrondi à 50 € près par mois)
+  const defaultAmount = (kind: WithdrawKind, from: number) => {
+    if (kind === 'percent') return 4;
+    if (kind === 'lump') return 20000;
+    const capAt = run({ ...configFromSim(sim), withdrawals: [] }).years[Math.min(Math.max(0, from - 1), sim.horizonYears)]?.value ?? 0;
+    return Math.max(50, Math.round((capAt * 0.04) / 12 / 50) * 50);
   };
+  const addPhase = () => {
+    const lastIdx = phases.length ? phases.reduce((a, b, i) => (b.fromYear > phases[a].fromYear ? i : a), 0) : -1;
+    // première phase : à mi-horizon ; suivantes : 5 ans après la dernière, avec le même type (une somme unique est suivie d'un retrait mensuel)
+    const from = lastIdx >= 0 ? Math.min(MAX_HORIZON, phases[lastIdx].fromYear + 5) : Math.max(1, Math.round(sim.horizonYears / 2));
+    const kind: WithdrawKind = lastIdx >= 0 && kinds[lastIdx] !== 'lump' ? kinds[lastIdx] : 'monthly';
+    set({ withdrawals: [...phases, { fromYear: from, kind, amount: lastIdx >= 0 && kinds[lastIdx] === kind ? phases[lastIdx].amount : defaultAmount(kind, from) }] });
+  };
+  const setKind = (i: number, kind: WithdrawKind) => setPhase(i, { kind, amount: defaultAmount(kind, phases[i].fromYear) });
   const ys = sim.horizonYears;
-  const ok = mc && mode === 'amount';
+  const ok = mc && hasFixed;
   return (
     <>
-      <section aria-labelledby="t406-par" className="card g16 dspan-5 dstart">
-        <h2 id="t406-par">{t('Paramètres')}</h2>
-        <p className="t-caption c-neutral">{t('Capital de départ {c} et versements : voir l’onglet Épargne.', { c: eur(sim.initialCapital, 0) })}</p>
-        <Slider label={t('Horizon de placement')} value={ys} min={1} max={MAX_HORIZON} step={1} shown={tn(ys, '{n} an', '{n} ans')} lo={t('{n} an', { n: 1 })} hi={t('{n} ans', { n: MAX_HORIZON })} onChange={(v) => set({ horizonYears: v })} />
-        <Slider label={t("Taux d'intérêt annuel")} value={Math.round(sim.annualRate * 1000) / 10} min={0} max={15} step={0.1} shown={pct(sim.annualRate, Math.round(sim.annualRate * 1000) % 10 ? 1 : 0)} lo={pct(0, 0)} hi={pct(0.15, 0)} onChange={(v) => set({ annualRate: v / 100 })} />
-      </section>
-
-      <section aria-labelledby="t406-ph" className="card g8 dspan-7 dstart">
+      <section aria-labelledby="t406-ph" className="card g8 dspan-5 dstart">
         <h2 id="t406-ph" style={{ marginBottom: 'var(--space-4)' }}>{t('Phases de retrait')}</h2>
-        <Segmented label={t('Type de retrait')} value={mode} onChange={(m) => set({ withdrawMode: m, withdrawals: phases.map((p) => ({ ...p, amount: m === 'percent' ? 4 : 1000 })) })} options={[['amount', t('Montant fixe (€/mois)')], ['percent', t('% du capital par an')]]} />
+        <p className="t-caption c-neutral">{t('Capital de départ {c}, versements, horizon et rendement : voir l’onglet Épargne.', { c: eur(sim.initialCapital, 0) })}</p>
         {phases.length === 0 && <p className="t-caption c-neutral">{t('Aucun retrait pour l’instant : ajoutez une phase pour voir la courbe.')}</p>}
         <ul>
-          {phases.map((p, i) => (
-            <li key={i} className="row" style={{ gap: 'var(--space-6)', padding: 'var(--space-6) 0', borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
-              <span className="t-caption c-neutral">{t("À partir de l'année")}</span>
-              <input type="number" min={1} max={MAX_HORIZON} value={p.fromYear} aria-label={t('Année de début de la phase de retrait {n}', { n: i + 1 })}
-                onChange={(e) => setPhase(i, { fromYear: Math.max(1, Number(e.target.value) || 1) })}
-                className="input" style={{ width: 52, height: 'var(--touch-min)', padding: '0 var(--space-6)', font: 'var(--type-body-strong)', textAlign: 'center' }} />
-              <span className="t-caption c-neutral">·</span>
-              <input type="number" min={0} step={mode === 'percent' ? 0.1 : 50} value={p.amount} aria-label={mode === 'percent' ? t('Retrait de la phase {n} en pourcentage du capital par an', { n: i + 1 }) : t('Retrait mensuel de la phase {n} en euros', { n: i + 1 })}
-                onChange={(e) => setPhase(i, { amount: Math.max(0, Number(e.target.value) || 0) })}
-                className="input" style={{ width: 76, height: 'var(--touch-min)', padding: '0 var(--space-6)', font: 'var(--type-body-strong)', textAlign: 'right' }} />
-              <span className="t-caption c-neutral grow">{mode === 'percent' ? t('% / an') : t('€/mois')}</span>
-              <button type="button" className="icon-btn" style={{ color: 'var(--critical-text)', marginRight: 'calc(-1 * var(--space-10))' }} aria-label={t('Supprimer la phase de retrait {n}', { n: i + 1 })}
-                onClick={() => set({ withdrawals: phases.filter((_, j) => j !== i) })}><Icon name="trash" size={20} /></button>
-            </li>
-          ))}
+          {phases.map((p, i) => {
+            const kd = kinds[i];
+            return (
+              <li key={i} className="stack-8" style={{ padding: 'var(--space-8) 0', borderTop: i ? '1px solid var(--divider-minimal)' : undefined }}>
+                <div className="row" style={{ gap: 'var(--space-6)' }}>
+                  <span className="t-caption c-neutral">{kd === 'lump' ? t('En l’année') : t("À partir de l'année")}</span>
+                  <input type="number" min={1} max={MAX_HORIZON} value={p.fromYear} aria-label={t('Année de début de la phase de retrait {n}', { n: i + 1 })}
+                    onChange={(e) => setPhase(i, { fromYear: Math.max(1, Number(e.target.value) || 1) })}
+                    className="input" style={{ width: 52, height: 'var(--touch-min)', padding: '0 var(--space-6)', font: 'var(--type-body-strong)', textAlign: 'center' }} />
+                  <span className="t-caption c-neutral">·</span>
+                  <input type="number" min={0} step={kd === 'percent' ? 0.1 : kd === 'lump' ? 1000 : 50} value={p.amount} aria-label={kd === 'percent' ? t('Retrait de la phase {n} en pourcentage du capital par an', { n: i + 1 }) : kd === 'lump' ? t('Somme retirée en une fois à la phase {n} en euros', { n: i + 1 }) : t('Retrait mensuel de la phase {n} en euros', { n: i + 1 })}
+                    onChange={(e) => setPhase(i, { amount: Math.max(0, Number(e.target.value) || 0) })}
+                    className="input" style={{ width: kd === 'lump' ? 96 : 76, height: 'var(--touch-min)', padding: '0 var(--space-6)', font: 'var(--type-body-strong)', textAlign: 'right' }} />
+                  <span className="t-caption c-neutral grow">{kd === 'percent' ? t('% / an') : kd === 'lump' ? t('€ en une fois') : t('€/mois')}</span>
+                  <button type="button" className="icon-btn" style={{ color: 'var(--critical-text)', marginRight: 'calc(-1 * var(--space-10))' }} aria-label={t('Supprimer la phase de retrait {n}', { n: i + 1 })}
+                    onClick={() => set({ withdrawals: phases.filter((_, j) => j !== i) })}><Icon name="trash" size={20} /></button>
+                </div>
+                <div role="group" aria-label={t('Type de la phase de retrait {n}', { n: i + 1 })} className="chips g6" style={{ flexWrap: 'wrap', overflow: 'visible' }}>
+                  {([['monthly', t('€ par mois')], ['percent', t('% du capital par an')], ['lump', t('Somme unique')]] as [WithdrawKind, string][]).map(([k, l]) => (
+                    <button key={k} type="button" className="chip" aria-pressed={kd === k} onClick={() => kd !== k && setKind(i, k)}>{l}</button>
+                  ))}
+                </div>
+              </li>
+            );
+          })}
         </ul>
         <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} onClick={addPhase}><Icon name="plus" size={20} />{t('Ajouter une phase de retrait')}</button>
-        <div className="stack" style={{ borderTop: '1px solid var(--divider-minimal)', paddingTop: 'var(--space-4)' }}>
-          <SwitchRow id="t406-idx" label={t('Indexer mes retraits sur l’inflation ({p})', { p: pct(infl, 0) })} checked={!!sim.withdrawIndexed && mode === 'amount'} disabled={mode !== 'amount'} onChange={(v) => set({ withdrawIndexed: v })} />
-          <SwitchRow id="t406-dca" label={t('Continuer mes versements pendant les retraits')} checked={!!sim.keepDca} onChange={(v) => set({ keepDca: v })} />
-          <SwitchRow id="t406-tax" label={t('Déduire les prélèvements sociaux ({p})', { p: pct(taxRate, 1) })} checked={!!sim.withdrawTax} onChange={(v) => set({ withdrawTax: v })} />
-        </div>
-        <p className="t-legal c-moderate">{t('Le montant de chaque phase vaut à son année de début, puis suit l’inflation chaque année si l’indexation est activée. Prélèvements sociaux : appliqués à la part de gains de chaque retrait, pour un PEA de plus de 5 ans (18,6 % depuis janvier 2026) ; les retraits avant 5 ans ferment le PEA et ne sont pas simulés ici.')}</p>
+        <button type="button" className="btn btn-tertiary" style={{ alignSelf: 'flex-start' }} aria-expanded={adv} onClick={() => setAdv(!adv)}>{t('Options avancées')}<Icon name={adv ? 'up' : 'down'} size={20} /></button>
+        {adv && (
+          <div className="stack" style={{ gap: 'var(--space-12)' }}>
+            <SwitchRow id="t406-idx" label={t('Indexer mes retraits mensuels sur l’inflation ({p})', { p: pct(infl, 0) })} checked={!!sim.withdrawIndexed && hasMonthly} disabled={!hasMonthly} onChange={(v) => set({ withdrawIndexed: v })} />
+            <SwitchRow id="t406-dca" label={t('Continuer mes versements pendant les retraits')} checked={!!sim.keepDca} onChange={(v) => set({ keepDca: v })} />
+            <SwitchRow id="t406-tax" label={t('Déduire les prélèvements sociaux ({p})', { p: pct(taxRate, 1) })} checked={!!sim.withdrawTax} onChange={(v) => set({ withdrawTax: v })} />
+            <p className="t-legal c-moderate">{t('Les versements s’arrêtent au début du premier retrait régulier (mensuel ou en %) ; une somme unique ne les arrête pas. Le montant de chaque phase vaut à son année de début, puis suit l’inflation chaque année si l’indexation est activée. Prélèvements sociaux : appliqués à la part de gains de chaque retrait, pour un PEA de plus de 5 ans (18,6 % depuis janvier 2026) ; les retraits avant 5 ans ferment le PEA et ne sont pas simulés ici.')}</p>
+          </div>
+        )}
       </section>
 
       {phases.length > 0 && (
         <>
-          <section aria-label={t('Résultats')} className="stack-8 dspan-12 drow">
+          <section aria-label={t('Résultats')} className="stack-8 dspan-7 dstart">
             <div className="hero" style={{ gap: 'var(--space-4)' }} data-component="Card.hero">
               {depletedYear !== null ? (
                 <>
@@ -214,10 +227,10 @@ function SimTab() {
             <VolatilitySlider />
             {mc && (
               <p className="t-body">
-                {mode === 'amount'
+                {hasFixed
                   ? t('Sur {n} scénarios de marché, {p} tiennent jusqu’à l’horizon sans épuiser le capital.', { n: num(mc.paths, 0), p: pct(mc.successRate, 0) })
                   : t('Sur {n} scénarios de marché, le capital final se situe entre {a} (mauvais cas) et {b} (bon cas).', { n: num(mc.paths, 0), a: eur(mc.p10[mc.p10.length - 1] * f(ys), 0), b: eur(mc.p90[mc.p90.length - 1] * f(ys), 0) })}
-                {mc.medianDepletionYear !== null && mode === 'amount' ? ' ' + t('Quand le capital s’épuise, c’est en général vers l’année {y}.', { y: mc.medianDepletionYear }) : ''}
+                {mc.medianDepletionYear !== null && hasFixed ? ' ' + t('Quand le capital s’épuise, c’est en général vers l’année {y}.', { y: mc.medianDepletionYear }) : ''}
               </p>
             )}
             <p className="t-legal c-moderate">{t('Chaque scénario tire des rendements mensuels au hasard autour de votre rendement annuel (médiane) avec la volatilité choisie ; 15 % correspond à peu près à un ETF actions mondial. Les rendements sont supposés indépendants d’un mois à l’autre : les vraies crises durent plus longtemps. Les résultats sont les mêmes à chaque affichage.')}</p>
@@ -274,18 +287,20 @@ function CalcTab() {
   const monthly = pctMode ? (capital * wPct) / 100 / 12 : wEur;
   const input: CalcInput = { capital, rate: rate / 100, monthly, years, target, indexed: idx, inflation: infl / 100, tax, taxRate: taxPct / 100, basis };
   const sol = useMemo(() => solve(unk, input), [unk, capital, rate, monthly, years, target, idx, infl, tax, taxPct, basis]); // eslint-disable-line react-hooks/exhaustive-deps
-  const resolved: CalcInput = { ...input, [unk]: sol.value };
+  const ready = sol.status !== 'incomplete';
+  const resolved: CalcInput = { ...input, [unk]: ready ? sol.value : 0 };
   const horizon = unk === 'years' ? (sol.status === 'durable' ? 40 : Math.min(MAX_CALC_YEARS, Math.ceil(sol.value) + 2)) : Math.max(1, Math.min(MAX_CALC_YEARS, years));
   const cfg = useMemo(() => ({ ...calcConfig(resolved, horizon), allowNegative: false }), [unk, sol.value, capital, rate, monthly, years, target, idx, infl, tax, taxPct, basis, horizon]); // eslint-disable-line react-hooks/exhaustive-deps
   const res = useMemo(() => run(cfg), [cfg]);
   const dCfg = useDeferredValue(cfg), dVol = useDeferredValue(vol);
-  const mc = useMemo(() => (resolved.monthly > 0 ? monteCarlo(dCfg, dVol) : null), [dCfg, dVol]); // eslint-disable-line react-hooks/exhaustive-deps
+  const mc = useMemo(() => (ready && resolved.monthly > 0 ? monteCarlo(dCfg, dVol) : null), [dCfg, dVol, ready]); // eslint-disable-line react-hooks/exhaustive-deps
   const band = mc && showMc && mc.p50.length === res.years.length ? { p10: mc.p10, p50: mc.p50, p90: mc.p90 } : undefined;
   const depletedYear = res.depletedMonth !== null ? res.depletedMonth / 12 : null;
   const outCap = resolved.capital, outMonthly = resolved.monthly;
 
   let headline = '', sub = '';
-  switch (unk) {
+  if (!ready) headline = t('Renseignez la durée pour obtenir le résultat.');
+  else switch (unk) {
     case 'monthly':
       headline = sol.status === 'zero' ? t('Aucun retrait possible : le capital visé n’est déjà pas atteint.') : t('Vous pouvez retirer {v} par mois', { v: eur(sol.value, 0) });
       if (sol.status === 'ok' && capital > 0) sub = t('Soit {p} du capital par an (règle des 4 % : {r}).', { p: pct((sol.value * 12) / capital, 2), r: eur((capital * 0.04) / 12, 0) });
@@ -361,7 +376,7 @@ function CalcTab() {
 
       <section aria-labelledby="t406-cchart" className="card">
         <h2 id="t406-cchart">{t('Évolution du capital')}</h2>
-        {outCap > 0 && outMonthly > 0 ? (
+        {ready && outCap > 0 && outMonthly > 0 ? (
           <WithdrawChart points={res.years} band={band} startYear={null} depletedYear={depletedYear} label={t('Capital de {c} avec {m} retirés par mois pendant {n} ans', { c: eur(outCap, 0), m: eur(outMonthly, 0), n: horizon })} />
         ) : <p className="t-caption c-moderate">{t('Renseignez un capital et un retrait pour tracer la courbe.')}</p>}
         <div className="legend">

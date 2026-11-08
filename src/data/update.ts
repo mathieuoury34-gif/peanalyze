@@ -14,6 +14,7 @@ export async function forceUpdate(): Promise<void> {
     const keys = await caches.keys();
     await Promise.all(keys.filter((k) => k.startsWith('pea-shell-')).map((k) => caches.delete(k)));
   } catch { /* on recharge quand même */ }
+  try { await fetch('./', { cache: 'reload' }); } catch { /* hors ligne */ } // rafraîchit aussi le cache HTTP du navigateur
   location.reload();
 }
 

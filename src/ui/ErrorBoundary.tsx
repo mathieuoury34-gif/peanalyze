@@ -33,7 +33,7 @@ export class ErrorBoundary extends Component<Props, State> {
           action={(
             <div className="stack-8" style={{ width: '100%', maxWidth: 320 }}>
               <button type="button" className="btn btn-primary block" onClick={() => this.setState({ failed: false })}>{t('Réessayer')}</button>
-              <button type="button" className="btn btn-secondary block" onClick={() => location.reload()}>{t('Recharger l’application')}</button>
+              <button type="button" className="btn btn-secondary block" onClick={() => { const h = (window as unknown as { __peaHeal?: (manual: boolean) => void }).__peaHeal; if (h) h(true); else location.reload(); }}>{t('Recharger l’application')}</button>
             </div>
           )}
         />

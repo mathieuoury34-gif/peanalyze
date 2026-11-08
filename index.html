@@ -40,6 +40,29 @@
   <div id="root"></div>
   <div id="splash" class="splash" role="status" aria-label="PEAnalyze"><div class="mark"><svg width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></svg></div></div>
   <noscript>PEAnalyze a besoin de JavaScript.</noscript>
+  <script>
+    /* réparation automatique : si l'application ne démarre pas (fichiers de deux versions mélangés dans le cache), on vide le cache de l'application et on recharge, une seule fois */
+    (function(){
+      var K='pea:heal';
+      function fix(manual){
+        try{ if(!manual){ if(sessionStorage.getItem(K)) return ask(); sessionStorage.setItem(K,'1'); } }catch(e){}
+        var jobs=[];
+        if(navigator.serviceWorker) jobs.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister();}));}));
+        if(window.caches) jobs.push(caches.keys().then(function(k){return Promise.all(k.filter(function(n){return n.indexOf('pea-shell-')===0;}).map(function(n){return caches.delete(n);}));}));
+        Promise.all(jobs).catch(function(){}).then(function(){return fetch('./',{cache:'reload'}).catch(function(){});}).then(function(){location.reload();});
+      }
+      function ask(){
+        var s=document.getElementById('splash'); if(!s||document.getElementById('heal-btn')) return;
+        var d=document.createElement('div'); d.style.cssText='position:absolute;left:0;right:0;bottom:15%;text-align:center;color:#fff;font:14px system-ui,sans-serif;padding:0 24px';
+        d.innerHTML='L\u2019application n\u2019a pas pu d\u00e9marrer.<br><button id="heal-btn" style="margin-top:12px;padding:12px 20px;border:0;border-radius:999px;background:#00806A;color:#fff;font:600 14px system-ui,sans-serif">R\u00e9parer et recharger</button>';
+        s.appendChild(d); document.getElementById('heal-btn').onclick=function(){fix(true);};
+      }
+      window.__peaHeal=fix;
+      window.addEventListener('error',function(e){ if(e.target&&e.target.tagName==='SCRIPT') fix(); },true);
+      window.addEventListener('unhandledrejection',function(e){ var m=String(e.reason&&(e.reason.message||e.reason)); if(/dynamically imported module|Importing a module script|ChunkLoad/i.test(m)) fix(); });
+      setTimeout(function(){ if(document.getElementById('splash')) fix(); },12000);
+    })();
+  </script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

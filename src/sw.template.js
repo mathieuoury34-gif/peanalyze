@@ -5,10 +5,20 @@ const RUNTIME = 'pea-runtime';
 const FILES = __FILES__;
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(SHELL).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
+  // cache: 'reload' : on ne reprend JAMAIS un fichier du cache HTTP du navigateur (GitHub Pages en garde dix minutes),
+  // sinon une ancienne app.js se retrouve rangée avec les nouveaux modules et l'application ne démarre plus
+  e.waitUntil(caches.open(SHELL).then((c) => c.addAll(FILES.map((f) => new Request(f, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
-  e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('pea-shell-') && k !== SHELL).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    const old = keys.filter((k) => k.startsWith('pea-shell-') && k !== SHELL);
+    await Promise.all(old.map((k) => caches.delete(k)));
+    await self.clients.claim();
+    // mise à jour : les pages déjà ouvertes (même cassées) repartent sur la nouvelle version.
+    // Surtout ne pas attendre la fin de la navigation ici : elle attend la fin de l'activation (blocage assuré).
+    if (old.length) for (const c of await self.clients.matchAll({ type: 'window' })) c.navigate(c.url).catch(() => undefined);
+  })());
 });
 self.addEventListener('fetch', (e) => {
   const req = e.request;
@@ -27,7 +37,7 @@ self.addEventListener('fetch', (e) => {
   if (req.mode === 'navigate') {
     // la page est servie tout de suite depuis le cache (démarrage instantané) et mise à jour en arrière-plan
     e.respondWith(caches.match('./').then((hit) => {
-      const net = fetch(req).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(SHELL).then((c) => c.put('./', copy)); } return r; });
+      const net = fetch(req, { cache: 'no-cache' }).then((r) => { if (r.ok) { const copy = r.clone(); caches.open(SHELL).then((c) => c.put('./', copy)); } return r; });
       if (hit) { e.waitUntil(net.catch(() => undefined)); return hit; }
       return net;
     }));

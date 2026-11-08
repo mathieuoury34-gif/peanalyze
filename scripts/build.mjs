@@ -43,9 +43,13 @@ function writeServiceWorker() {
   const hash = createHash('sha256');
   for (const f of files) hash.update(readFileSync(join('dist', f)));
   const version = hash.digest('hex').slice(0, 10);
+  // app.js et app.css portent la version dans leur adresse : un fichier resté dans le cache HTTP ne peut jamais être pris pour le nouveau
+  const html = readFileSync('dist/index.html', 'utf8').replace('href="app.css"', `href="app.css?v=${version}"`).replace('src="app.js"', `src="app.js?v=${version}"`);
+  writeFileSync('dist/index.html', html);
+  const shell = files.filter((f) => f !== 'index.html').map((f) => (f === 'app.js' || f === 'app.css' ? `${f}?v=${version}` : f));
   const sw = readFileSync('src/sw.template.js', 'utf8')
     .replace('__VERSION__', version)
-    .replace('__FILES__', JSON.stringify(['./', ...files.filter((f) => f !== 'index.html')]));
+    .replace('__FILES__', JSON.stringify(['./', ...shell]));
   writeFileSync('dist/sw.js', sw);
   console.log('service worker', version, files.length, 'fichiers');
 }

@@ -58,7 +58,7 @@ export function WithdrawalsScreen() {
       <AppHeader title={t('Simulateur')} />
       <PriceErrorBanner />
       <SubNav items={SIM_NAV()} label={t('Sections du simulateur')} />
-      <main className="content dgrid">
+      <main className="content dgrid dtop">
         <details className="explain dspan-12">
           <summary style={{ cursor: 'pointer', font: 'var(--type-caption-strong)', minHeight: 32, display: 'flex', alignItems: 'center', gap: 'var(--space-6)' }}><Icon name="info" size={18} />{t('Comment fonctionnent les retraits ?')}</summary>
           <span>{t('Une fois votre capital constitué, vous pouvez en retirer chaque mois une somme fixe (ou une part du capital restant). « Ma simulation » trace l’évolution du capital avec vos phases de retrait ; « Calculette » trouve la valeur manquante parmi la durée, le retrait, le capital et le rendement.')}</span>
@@ -171,6 +171,18 @@ function SimTab() {
         )}
       </section>
 
+      {phases.length === 0 && (
+        <section aria-labelledby="t406-empty" className="card g12 dspan-7 dstart">
+          <h2 id="t406-empty">{t('Ce que vous pouvez simuler')}</h2>
+          <p className="t-body">{t('Chaque phase de retrait commence à l’année de votre choix et peut être de trois types :')}</p>
+          <ul className="stack-8">
+            <li className="t-body"><strong>{t('€ par mois')}</strong> — {t('par exemple 1 500 € par mois à partir de l’année 20.')}</li>
+            <li className="t-body"><strong>{t('% du capital par an')}</strong> — {t('par exemple 4 % : le retrait suit la valeur du capital.')}</li>
+            <li className="t-body"><strong>{t('Somme unique')}</strong> — {t('par exemple 100 000 € l’année 10 pour un apport immobilier.')}</li>
+          </ul>
+          <p className="t-caption c-neutral">{t('Vous pouvez les enchaîner : une somme unique, puis un pourcentage ensuite, en gardant ou non vos versements mensuels. La courbe, le taux de réussite et les scénarios aléatoires apparaissent dès la première phase.')}</p>
+        </section>
+      )}
       {phases.length > 0 && (
         <>
           <section aria-label={t('Résultats')} className="stack-8 dspan-7 dstart">

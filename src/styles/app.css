@@ -374,6 +374,7 @@ select.input { appearance: auto; }
   .month-header { padding-left: 0; padding-right: 0; top: 44px; }
   .dgrid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-16); align-items: stretch; }
   .dgrid > * { grid-column: span 12; }
+  .dgrid.dtop { align-content: start; } /* lignes à hauteur naturelle : pas d'espace ajouté quand l'écran a peu de contenu */
   .dgrid > .btn, .dgrid > .dstart { align-self: start; }
   .dgrid > .stack-8 > .hero:first-child { flex: 1; }
   .dgrid > .drow { flex-direction: row; gap: var(--space-16); }
